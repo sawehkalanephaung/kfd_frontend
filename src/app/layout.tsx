@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "KFD Frontend",
-  description: "Frontend for KFD Application",
+  title: "KFD",
+  description: "Karen Forest Department Application",
 };
 
 export default function RootLayout({
