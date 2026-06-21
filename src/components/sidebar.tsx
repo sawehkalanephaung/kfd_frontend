@@ -74,6 +74,7 @@ const menuItems: MenuItem[] = [
     href: '/dashboard/team',
     subItems: [
       { label: 'Members', href: '/dashboard/team' },
+      { label: 'System Users', href: '/dashboard/team/users' },
       { label: 'Roles & Access', href: '/dashboard/team/roles' },
     ],
   },
