@@ -2,9 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Loader2, Save, ArrowLeft, User, AlignLeft, Settings, Image as ImageIcon, Building2 } from 'lucide-react';
+import { Loader2, Save, ArrowLeft, User, AlignLeft, Settings, Image as ImageIcon, Building2, UploadCloud, X } from 'lucide-react';
 import Link from 'next/link';
-import api from '@/lib/api';
+import api, { getMediaUrl } from '@/lib/api';
 
 interface TeamMemberFormProps {
   initialData?: any;
@@ -51,6 +51,26 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
     isActive: initialData?.isActive ?? true,
   });
 
+  const [headshotFile, setHeadshotFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (headshotFile) {
+      const url = URL.createObjectURL(headshotFile);
+      setPreviewUrl(url);
+      return () => URL.revokeObjectURL(url);
+    } else {
+      setPreviewUrl(null);
+    }
+  }, [headshotFile]);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setHeadshotFile(e.target.files[0]);
+    }
+  };
+
   useEffect(() => {
     fetchDepartments();
   }, []);
@@ -72,14 +92,31 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
     setError('');
     setLoading(true);
 
-    const payload = {
-      ...formData,
-      title: JSON.stringify({ text: formData.title }),
-      bio: JSON.stringify({ richText: formData.bio }),
-      departmentId: formData.departmentId || null,
-    };
-
     try {
+      let finalHeadshotUrl = formData.headshotUrl;
+
+      // 1. Upload new image if selected
+      if (headshotFile) {
+        const mediaFormData = new FormData();
+        mediaFormData.append('file', headshotFile);
+        mediaFormData.append('category', 'headshots');
+        
+        const uploadRes = await api.post('/api/v1/admin/media/upload', mediaFormData, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
+        
+        finalHeadshotUrl = uploadRes.data?.data?.fileUrl || uploadRes.data?.fileUrl || '';
+      }
+
+      // 2. Save team member
+      const payload = {
+        ...formData,
+        headshotUrl: finalHeadshotUrl,
+        title: JSON.stringify({ text: formData.title }),
+        bio: JSON.stringify({ richText: formData.bio }),
+        departmentId: formData.departmentId || null,
+      };
+
       if (isEdit) {
         await api.put(`/api/v1/admin/team-members/${memberId}`, payload);
       } else {
@@ -253,21 +290,76 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
               Headshot Image
             </h2>
             <div className="space-y-4">
-              {formData.headshotUrl && (
-                <div className="w-full aspect-square bg-gray-100 rounded-xl overflow-hidden">
-                  <img src={formData.headshotUrl} alt="Headshot Preview" className="w-full h-full object-cover" />
+              <div className="w-full aspect-square bg-gray-100 rounded-xl overflow-hidden relative group flex items-center justify-center">
+                {(previewUrl || formData.headshotUrl) ? (
+                  <img 
+                    src={previewUrl || getMediaUrl(formData.headshotUrl)} 
+                    alt="Headshot Preview" 
+                    className="w-full h-full object-cover" 
+                  />
+                ) : (
+                  <User className="w-16 h-16 text-gray-300" />
+                )}
+                
+                {/* Overlay for change/upload */}
+                <div 
+                  className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center cursor-pointer"
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  <UploadCloud className="w-8 h-8 text-white mb-2" />
+                  <span className="text-white text-sm font-medium">Upload Image</span>
                 </div>
-              )}
-              <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">Headshot URL</label>
-                <input
-                  type="text"
-                  value={formData.headshotUrl}
-                  onChange={(e) => setFormData({...formData, headshotUrl: e.target.value})}
-                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
-                  placeholder="https://example.com/headshot.jpg"
-                />
               </div>
+
+              <input 
+                type="file" 
+                ref={fileInputRef} 
+                onChange={handleFileChange} 
+                accept="image/*"
+                className="hidden" 
+              />
+
+              {headshotFile ? (
+                <div className="bg-emerald-50 p-3 rounded-xl relative pr-10 border border-emerald-100">
+                  <h3 className="font-semibold text-emerald-900 text-sm truncate">{headshotFile.name}</h3>
+                  <p className="text-emerald-700 text-xs mt-1">{(headshotFile.size / 1024 / 1024).toFixed(2)} MB</p>
+                  <button 
+                    type="button" 
+                    onClick={() => {
+                      setHeadshotFile(null);
+                      if (fileInputRef.current) fileInputRef.current.value = '';
+                    }}
+                    className="absolute top-3 right-3 text-emerald-500 hover:text-emerald-700"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              ) : formData.headshotUrl ? (
+                <div className="flex gap-2">
+                  <button 
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="flex-1 text-center px-4 py-2 border border-gray-200 hover:bg-gray-50 text-gray-700 text-sm font-medium rounded-lg transition-colors"
+                  >
+                    Change
+                  </button>
+                  <button 
+                    type="button"
+                    onClick={() => setFormData({...formData, headshotUrl: ''})}
+                    className="flex-none px-4 py-2 border border-red-200 hover:bg-red-50 text-red-600 text-sm font-medium rounded-lg transition-colors"
+                  >
+                    Remove
+                  </button>
+                </div>
+              ) : (
+                <button 
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="w-full text-center px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-lg transition-colors"
+                >
+                  Select File
+                </button>
+              )}
             </div>
           </div>
 

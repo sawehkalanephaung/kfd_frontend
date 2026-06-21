@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Users, Plus, Edit, Trash2, Loader2, CheckCircle2, XCircle } from 'lucide-react';
-import api from '@/lib/api';
+import api, { getMediaUrl } from '@/lib/api';
 import DeleteModal from '@/components/delete-modal';
 
 export default function TeamDirectoryPage() {
@@ -131,7 +131,7 @@ export default function TeamDirectoryPage() {
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0 overflow-hidden border border-emerald-200">
                           {member.headshotUrl ? (
-                            <img src={member.headshotUrl} alt={`${member.firstName} ${member.lastName}`} className="w-full h-full object-cover" />
+                            <img src={getMediaUrl(member.headshotUrl)} alt={`${member.firstName} ${member.lastName}`} className="w-full h-full object-cover" />
                           ) : (
                             <span className="font-bold text-sm">
                               {member.firstName?.charAt(0)}{member.lastName?.charAt(0)}
