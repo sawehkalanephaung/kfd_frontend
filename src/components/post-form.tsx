@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Loader2, Save, ArrowLeft, FileText, AlignLeft, Settings, ImageIcon, Tag as TagIcon, FolderTree } from 'lucide-react';
+import { Loader2, Save, ArrowLeft, FileText, AlignLeft, Settings, ImageIcon, Tag as TagIcon, FolderTree, ChevronDown, X } from 'lucide-react';
 import Link from 'next/link';
 import api from '@/lib/api';
 
@@ -20,6 +20,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
   // Lookups
   const [categories, setCategories] = useState<any[]>([]);
   const [tags, setTags] = useState<any[]>([]);
+  const [isTagDropdownOpen, setIsTagDropdownOpen] = useState(false);
 
   // Form State matching PostRequestDto
   const [formData, setFormData] = useState({
@@ -243,26 +244,56 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                   <TagIcon className="w-4 h-4 text-gray-400" />
                   Tags
                 </label>
-                {tags.length > 0 ? (
-                  <div className="flex flex-wrap gap-2 mt-3">
-                    {tags.map((tag: any) => (
-                      <button
-                        key={tag.id}
-                        type="button"
-                        onClick={() => toggleTag(tag.id)}
-                        className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors border ${
-                          formData.tagIds.includes(tag.id)
-                            ? 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100'
-                            : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50 hover:border-gray-300'
-                        }`}
-                      >
-                        {tag.name}
-                      </button>
-                    ))}
+                <div className="relative">
+                  <div 
+                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all flex flex-wrap gap-2 items-center cursor-pointer min-h-[50px]"
+                    onClick={() => setIsTagDropdownOpen(!isTagDropdownOpen)}
+                  >
+                    {formData.tagIds.length === 0 && <span className="text-gray-400">Select Tags...</span>}
+                    {formData.tagIds.map(id => {
+                      const tag = tags.find(t => t.id === id);
+                      if (!tag) return null;
+                      return (
+                        <span key={id} className="inline-flex items-center gap-1 px-2.5 py-1 bg-emerald-50 text-emerald-700 rounded-lg text-sm font-medium border border-emerald-200">
+                          {tag.name}
+                          <button type="button" onClick={(e) => { e.stopPropagation(); toggleTag(id); }} className="text-emerald-500 hover:text-emerald-700">
+                            <X className="w-3 h-3" />
+                          </button>
+                        </span>
+                      );
+                    })}
+                    <div className="ml-auto">
+                      <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${isTagDropdownOpen ? 'rotate-180' : ''}`} />
+                    </div>
                   </div>
-                ) : (
-                  <p className="text-xs text-gray-400">No tags available.</p>
-                )}
+                  
+                  {isTagDropdownOpen && (
+                    <>
+                      <div 
+                        className="fixed inset-0 z-10" 
+                        onClick={() => setIsTagDropdownOpen(false)}
+                      ></div>
+                      <div className="absolute z-20 w-full mt-1 bg-white border border-gray-200 rounded-xl shadow-lg max-h-60 overflow-auto py-2">
+                        {tags.length === 0 ? (
+                          <div className="px-4 py-3 text-sm text-gray-500 text-center">No tags found</div>
+                        ) : (
+                          tags.map(tag => (
+                            <div 
+                              key={tag.id}
+                              className="px-4 py-2.5 hover:bg-emerald-50 cursor-pointer flex items-center gap-3 transition-colors"
+                              onClick={() => toggleTag(tag.id)}
+                            >
+                              <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${formData.tagIds.includes(tag.id) ? 'bg-emerald-500 border-emerald-500' : 'border-gray-300'}`}>
+                                {formData.tagIds.includes(tag.id) && <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
+                              </div>
+                              <span className="text-sm text-gray-700 font-medium">{tag.name}</span>
+                            </div>
+                          ))
+                        )}
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           </div>
