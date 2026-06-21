@@ -5,6 +5,10 @@ import { useRouter } from 'next/navigation';
 import { Loader2, Save, ArrowLeft, Building2, Contact, AlignLeft, Settings } from 'lucide-react';
 import Link from 'next/link';
 import api from '@/lib/api';
+import dynamic from 'next/dynamic';
+import 'react-quill-new/dist/quill.snow.css';
+
+const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
 
 interface DepartmentFormProps {
   initialData?: any;
@@ -261,16 +265,35 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
               <AlignLeft className="w-5 h-5 text-gray-400" />
               Description (Rich Text)
             </h2>
-            <textarea
-              rows={8}
-              value={richText}
-              onChange={(e) => setRichText(e.target.value)}
-              className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
-              placeholder="Enter department description. HTML tags are supported for now."
-            ></textarea>
-            <p className="text-xs text-gray-400 mt-2">
-              * Note: A fully featured Rich Text Editor (like TipTap or Quill) can be integrated here later.
-            </p>
+            <div className="bg-white rounded-xl overflow-hidden border border-gray-200">
+              <style dangerouslySetInnerHTML={{__html: `
+                .ql-editor {
+                  color: #000000 !important;
+                }
+                .ql-editor::before {
+                  color: #9ca3af !important;
+                }
+              `}} />
+              <ReactQuill
+                theme="snow"
+                value={richText}
+                onChange={(content) => setRichText(content)}
+                className="h-[400px] border-none"
+                placeholder="Enter department description..."
+                modules={{
+                  toolbar: [
+                    [{ 'header': [1, 2, 3, false] }],
+                    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                    [{ 'color': [] }, { 'background': [] }],
+                    [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
+                    ['link', 'image', 'video'],
+                    ['clean']
+                  ],
+                }}
+              />
+            </div>
+            {/* Spacer for React Quill overlap */}
+            <div className="h-12"></div>
           </div>
 
         </div>
