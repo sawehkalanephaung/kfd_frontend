@@ -2,13 +2,9 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Loader2, Save, ArrowLeft, FileText, AlignLeft, Settings, Image as ImageIcon, Upload, X } from 'lucide-react';
+import { Loader2, Save, ArrowLeft, FileText, AlignLeft, Settings, Image as ImageIcon } from 'lucide-react';
 import Link from 'next/link';
 import api from '@/lib/api';
-import dynamic from 'next/dynamic';
-import 'react-quill-new/dist/quill.snow.css';
-
-const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
 
 interface PageFormProps {
   initialData?: any;
@@ -29,12 +25,6 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
     heroImageId: initialData?.heroImageId || '',
     status: initialData?.status || 'DRAFT',
   });
-
-  const [uploadingImage, setUploadingImage] = useState(false);
-  const [heroImagePreview, setHeroImagePreview] = useState<string | null>(null);
-
-  // If initialData has a hero image URL, we could set it here if the backend returns it.
-  // For now, we only have heroImageId in the form.
 
   const generateSlug = (title: string) => {
     return title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
@@ -71,39 +61,6 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
       setError(err.response?.data?.message || 'Failed to save page.');
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    setUploadingImage(true);
-    setError('');
-
-    const uploadData = new FormData();
-    uploadData.append('file', file);
-    uploadData.append('title', file.name);
-
-    try {
-      // Upload directly to the media endpoint
-      const res = await api.post('/api/v1/admin/media/upload', uploadData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-      const mediaData = res.data?.data || res.data;
-      
-      setFormData((prev) => ({ ...prev, heroImageId: mediaData.id }));
-      
-      // Setup preview
-      const previewUrl = mediaData.fileUrl.startsWith('http') 
-        ? mediaData.fileUrl 
-        : `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'}${mediaData.fileUrl}`;
-      setHeroImagePreview(previewUrl);
-    } catch (err: any) {
-      console.error(err);
-      setError(err.response?.data?.message || 'Failed to upload image.');
-    } finally {
-      setUploadingImage(false);
     }
   };
 
@@ -177,35 +134,16 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
               <AlignLeft className="w-5 h-5 text-gray-400" />
               Page Content
             </h2>
-            <div className="bg-white rounded-xl overflow-hidden border border-gray-200">
-              <style dangerouslySetInnerHTML={{__html: `
-                .ql-editor {
-                  color: #000000 !important;
-                }
-                .ql-editor::before {
-                  color: #9ca3af !important;
-                }
-              `}} />
-              <ReactQuill
-                theme="snow"
-                value={formData.content}
-                onChange={(content) => setFormData({ ...formData, content })}
-                className="h-[400px] border-none"
-                placeholder="Write your page content here..."
-                modules={{
-                  toolbar: [
-                    [{ 'header': [1, 2, 3, false] }],
-                    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-                    [{ 'color': [] }, { 'background': [] }],
-                    [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
-                    ['link', 'image', 'video'],
-                    ['clean']
-                  ],
-                }}
-              />
-            </div>
-            {/* Added spacer to account for React Quill height overlap */}
-            <div className="h-12"></div>
+            <textarea
+              rows={15}
+              value={formData.content}
+              onChange={(e) => setFormData({...formData, content: e.target.value})}
+              className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+              placeholder="Enter page content. HTML tags are supported."
+            ></textarea>
+            <p className="text-xs text-gray-400 mt-2">
+              * Note: A fully featured Rich Text Editor can be integrated here later.
+            </p>
           </div>
 
         </div>
@@ -243,54 +181,15 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
             </h2>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">Hero Image</label>
-                {formData.heroImageId || heroImagePreview ? (
-                  <div className="relative rounded-xl overflow-hidden border border-gray-200 bg-gray-50 aspect-video group">
-                    {heroImagePreview ? (
-                      <img src={heroImagePreview} alt="Hero Preview" className="w-full h-full object-cover" />
-                    ) : (
-                      <div className="flex flex-col items-center justify-center h-full text-gray-400">
-                        <ImageIcon className="w-8 h-8 mb-2" />
-                        <span className="text-xs">Image Assigned (ID: {formData.heroImageId.slice(0, 8)}...)</span>
-                      </div>
-                    )}
-                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setFormData({ ...formData, heroImageId: '' });
-                          setHeroImagePreview(null);
-                        }}
-                        className="p-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-colors"
-                        title="Remove Image"
-                      >
-                        <X className="w-5 h-5" />
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="relative border-2 border-dashed border-gray-200 rounded-xl bg-gray-50 hover:bg-emerald-50 hover:border-emerald-200 transition-colors p-6 text-center">
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageUpload}
-                      disabled={uploadingImage}
-                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer disabled:cursor-not-allowed"
-                    />
-                    <div className="flex flex-col items-center justify-center gap-2">
-                      {uploadingImage ? (
-                        <Loader2 className="w-8 h-8 text-emerald-500 animate-spin" />
-                      ) : (
-                        <Upload className="w-8 h-8 text-gray-400" />
-                      )}
-                      <div className="text-sm">
-                        <span className="font-semibold text-emerald-600">Click to upload</span>
-                        <span className="text-gray-500"> or drag and drop</span>
-                      </div>
-                      <p className="text-xs text-gray-400">PNG, JPG, WEBP up to 5MB</p>
-                    </div>
-                  </div>
-                )}
+                <label className="block text-sm font-semibold text-gray-900 mb-2">Hero Image ID</label>
+                <input
+                  type="text"
+                  value={formData.heroImageId}
+                  onChange={(e) => setFormData({...formData, heroImageId: e.target.value})}
+                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                  placeholder="e.g. 123e4567-e89b..."
+                />
+                <p className="text-xs text-gray-400 mt-2">UUID from the Media Library</p>
               </div>
             </div>
           </div>

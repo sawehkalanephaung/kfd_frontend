@@ -45,4 +45,11 @@ api.interceptors.response.use(
   }
 );
 
+export const getMediaUrl = (url: string | null | undefined) => {
+  if (!url) return '';
+  if (url.startsWith('http://') || url.startsWith('https://')) return url;
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+  return `${baseUrl}${url.startsWith('/') ? '' : '/'}${url}`;
+};
+
 export default api;
