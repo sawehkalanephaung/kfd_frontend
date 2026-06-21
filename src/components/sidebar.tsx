@@ -5,9 +5,10 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
   LayoutDashboard,
+  Building2,
   FileText,
   PenLine,
-  MessageSquare,
+  FolderOpen,
   Users,
   Settings,
   ChevronUp,
@@ -29,16 +30,26 @@ const menuItems: MenuItem[] = [
     href: '/dashboard',
   },
   {
+    label: 'KFD Organization',
+    icon: <Building2 className="w-5 h-5" />,
+    href: '/dashboard/organization',
+    subItems: [
+      { label: 'Departments', href: '/dashboard/organization/departments' },
+      { label: 'Global Metrics', href: '/dashboard/organization/metrics' },
+    ],
+  },
+  {
     label: 'Pages',
     icon: <FileText className="w-5 h-5" />,
     href: '/dashboard/pages',
     subItems: [
       { label: 'All Pages', href: '/dashboard/pages' },
       { label: 'Create Page', href: '/dashboard/pages/create' },
+      { label: 'FAQs', href: '/dashboard/pages/faqs' },
     ],
   },
   {
-    label: 'Posts',
+    label: 'Posts & News',
     icon: <PenLine className="w-5 h-5" />,
     href: '/dashboard/posts',
     subItems: [
@@ -48,8 +59,8 @@ const menuItems: MenuItem[] = [
     ],
   },
   {
-    label: 'Media',
-    icon: <MessageSquare className="w-5 h-5" />,
+    label: 'Media & Resources',
+    icon: <FolderOpen className="w-5 h-5" />,
     href: '/dashboard/media',
     subItems: [
       { label: 'Library', href: '/dashboard/media' },
@@ -62,7 +73,7 @@ const menuItems: MenuItem[] = [
     href: '/dashboard/team',
     subItems: [
       { label: 'Members', href: '/dashboard/team' },
-      { label: 'Roles', href: '/dashboard/team/roles' },
+      { label: 'Roles & Access', href: '/dashboard/team/roles' },
     ],
   },
   {
@@ -72,7 +83,6 @@ const menuItems: MenuItem[] = [
     subItems: [
       { label: 'General', href: '/dashboard/settings' },
       { label: 'Security', href: '/dashboard/settings/security' },
-      { label: 'API Keys', href: '/dashboard/settings/api-keys' },
     ],
   },
 ];
