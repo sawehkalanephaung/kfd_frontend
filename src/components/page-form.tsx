@@ -46,7 +46,7 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
 
     const payload = {
       ...formData,
-      heroImageId: formData.heroImageId || null,
+      heroImageId: formData.heroImageId?.trim() || null,
     };
 
     try {
