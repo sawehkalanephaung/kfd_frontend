@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Plus, Edit, Trash2, Building2, MoreVertical, Loader2 } from 'lucide-react';
 import api from '@/lib/api';
+import DeleteModal from '@/components/delete-modal';
 
 interface Department {
   id: string;
@@ -24,6 +25,10 @@ export default function DepartmentsPage() {
   const [departments, setDepartments] = useState<Department[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  
+  // Delete Modal State
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [departmentToDelete, setDepartmentToDelete] = useState<Department | null>(null);
 
   useEffect(() => {
     fetchDepartments();
@@ -45,14 +50,20 @@ export default function DepartmentsPage() {
     }
   };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this department?')) return;
+  const openDeleteModal = (dept: Department) => {
+    setDepartmentToDelete(dept);
+    setDeleteModalOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    if (!departmentToDelete) return;
     try {
-      await api.delete(`/api/v1/admin/departments/${id}`);
-      setDepartments((prev) => prev.filter((d) => d.id !== id));
+      await api.delete(`/api/v1/admin/departments/${departmentToDelete.id}`);
+      setDepartments((prev) => prev.filter((d) => d.id !== departmentToDelete.id));
     } catch (err) {
       console.error(err);
       alert('Failed to delete department');
+      throw err;
     }
   };
 
@@ -166,7 +177,7 @@ export default function DepartmentsPage() {
                           <Edit className="w-4 h-4" />
                         </Link>
                         <button
-                          onClick={() => handleDelete(dept.id)}
+                          onClick={() => openDeleteModal(dept)}
                           className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                           title="Delete"
                         >
@@ -181,6 +192,14 @@ export default function DepartmentsPage() {
           </table>
         </div>
       </div>
+
+      <DeleteModal
+        isOpen={deleteModalOpen}
+        onClose={() => setDeleteModalOpen(false)}
+        onConfirm={confirmDelete}
+        title="Remove Department?"
+        itemName={`the '${departmentToDelete?.name}' department`}
+      />
     </div>
   );
 }
