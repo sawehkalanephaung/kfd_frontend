@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
@@ -96,6 +96,22 @@ export default function Sidebar() {
   const pathname = usePathname();
   const [expandedMenus, setExpandedMenus] = useState<string[]>([]);
 
+  // Auto-expand the section that contains the current route.
+  // Runs only on the client to avoid SSR/hydration mismatch.
+  useEffect(() => {
+    const active = menuItems
+      .filter(
+        (item) =>
+          item.subItems?.some((sub) =>
+            sub.href === '/dashboard'
+              ? pathname === '/dashboard'
+              : pathname.startsWith(sub.href)
+          )
+      )
+      .map((item) => item.label);
+    setExpandedMenus(active);
+  }, [pathname]);
+
   const toggleMenu = (label: string) => {
     setExpandedMenus((prev) =>
       prev.includes(label)
@@ -177,7 +193,7 @@ export default function Sidebar() {
               {hasSubItems && (
                 <div
                   className={`overflow-hidden transition-all duration-200 ease-in-out ${
-                    expanded ? 'max-h-48 opacity-100 mt-1' : 'max-h-0 opacity-0'
+                    expanded ? 'max-h-80 opacity-100 mt-1' : 'max-h-0 opacity-0'
                   }`}
                 >
                   <div className="ml-6 pl-4 border-l-2 border-gray-100 space-y-0.5">
