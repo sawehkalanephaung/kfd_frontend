@@ -4,6 +4,8 @@ import StatsSection from './_components/landing/StatsSection';
 import MissionSection from './_components/landing/MissionSection';
 import DepartmentsSection from './_components/landing/DepartmentsSection';
 import NewsSection from './_components/landing/NewsSection';
+import TestimonialSection from './_components/landing/TestimonialSection';
+import FAQSection from './_components/landing/FAQSection';
 
 export default function PublicHome() {
   return (
@@ -13,6 +15,8 @@ export default function PublicHome() {
       <MissionSection />
       <DepartmentsSection />
       <NewsSection />
+      <TestimonialSection />
+      <FAQSection />
     </>
   );
 }
