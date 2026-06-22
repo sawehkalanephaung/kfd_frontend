@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Loader2, Save, MapPin, Mail, Phone, ListChecks, Plus, Trash2, Globe } from 'lucide-react';
 import api from '@/lib/api';
+import DeleteModal from '@/components/delete-modal';
 
 interface ContactSettingsFormProps {
   initialData?: any;
@@ -24,6 +25,9 @@ export default function ContactSettingsForm({ initialData }: ContactSettingsForm
   // Dynamic Lists State
   const [inquiryTypes, setInquiryTypes] = useState<string[]>(initialData?.inquiryTypes || ['General Inquiry']);
   const [phoneNumbers, setPhoneNumbers] = useState<string[]>(initialData?.phoneNumbers || []);
+
+  const [deletePhoneIndex, setDeletePhoneIndex] = useState<number | null>(null);
+  const [deleteInquiryIndex, setDeleteInquiryIndex] = useState<number | null>(null);
 
   const handleAddField = (setter: React.Dispatch<React.SetStateAction<string[]>>) => {
     setter((prev) => [...prev, '']);
@@ -108,6 +112,30 @@ export default function ContactSettingsForm({ initialData }: ContactSettingsForm
         </div>
       )}
 
+      <DeleteModal
+        isOpen={deletePhoneIndex !== null}
+        onClose={() => setDeletePhoneIndex(null)}
+        onConfirm={() => {
+          if (deletePhoneIndex !== null) {
+            handleRemoveField(deletePhoneIndex, setPhoneNumbers);
+            setDeletePhoneIndex(null);
+          }
+        }}
+        itemName="this phone number"
+      />
+
+      <DeleteModal
+        isOpen={deleteInquiryIndex !== null}
+        onClose={() => setDeleteInquiryIndex(null)}
+        onConfirm={() => {
+          if (deleteInquiryIndex !== null) {
+            handleRemoveField(deleteInquiryIndex, setInquiryTypes);
+            setDeleteInquiryIndex(null);
+          }
+        }}
+        itemName="this inquiry type"
+      />
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         
         {/* Left Column: General Contact Info */}
@@ -182,7 +210,7 @@ export default function ContactSettingsForm({ initialData }: ContactSettingsForm
                   />
                   <button
                     type="button"
-                    onClick={() => handleRemoveField(idx, setPhoneNumbers)}
+                    onClick={() => setDeletePhoneIndex(idx)}
                     className="p-2.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-colors"
                   >
                     <Trash2 className="w-4 h-4" />
@@ -230,7 +258,7 @@ export default function ContactSettingsForm({ initialData }: ContactSettingsForm
                   {inquiryTypes.length > 1 && (
                     <button
                       type="button"
-                      onClick={() => handleRemoveField(idx, setInquiryTypes)}
+                      onClick={() => setDeleteInquiryIndex(idx)}
                       className="p-2.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-colors"
                     >
                       <Trash2 className="w-4 h-4" />

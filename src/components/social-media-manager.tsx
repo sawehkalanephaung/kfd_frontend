@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Loader2, Plus, Edit2, Trash2, Check, X, Globe, Link as LinkIcon } from 'lucide-react';
 import api from '@/lib/api';
+import DeleteModal from '@/components/delete-modal';
 
 const PLATFORMS = ['FACEBOOK', 'TWITTER', 'INSTAGRAM', 'YOUTUBE', 'LINKEDIN', 'TIKTOK', 'OTHER'];
 
@@ -19,6 +20,7 @@ export default function SocialMediaManager() {
     isActive: true
   });
   const [saving, setSaving] = useState(false);
+  const [deleteLinkId, setDeleteLinkId] = useState<string | null>(null);
 
   useEffect(() => {
     fetchLinks();
@@ -52,10 +54,10 @@ export default function SocialMediaManager() {
     setIsEditing(true);
   };
 
-  const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this link?')) return;
+  const confirmDelete = async () => {
+    if (!deleteLinkId) return;
     try {
-      await api.delete(`/api/v1/admin/social-media/${id}`);
+      await api.delete(`/api/v1/admin/social-media/${deleteLinkId}`);
       fetchLinks();
     } catch (err) {
       console.error(err);
@@ -88,6 +90,12 @@ export default function SocialMediaManager() {
 
   return (
     <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50 mt-8">
+      <DeleteModal
+        isOpen={deleteLinkId !== null}
+        onClose={() => setDeleteLinkId(null)}
+        onConfirm={confirmDelete}
+        itemName="this social media link"
+      />
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2">
           <Globe className="w-5 h-5 text-emerald-500" />
@@ -219,7 +227,7 @@ export default function SocialMediaManager() {
                       <button onClick={() => handleEdit(link)} className="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors mr-1">
                         <Edit2 className="w-4 h-4" />
                       </button>
-                      <button onClick={() => handleDelete(link.id)} className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors">
+                      <button onClick={() => setDeleteLinkId(link.id)} className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors">
                         <Trash2 className="w-4 h-4" />
                       </button>
                     </td>
