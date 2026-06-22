@@ -22,8 +22,8 @@ export default async function Navbar() {
 
   const navLinks = [
     { name: "Home", href: "/" },
-    { 
-      name: "About", 
+    {
+      name: "About",
       href: "/about",
       dropdown: [
         { name: "History", href: "/about#history" },
@@ -33,12 +33,11 @@ export default async function Navbar() {
         { name: "Chairman", href: "/about#chairman" },
       ]
     },
-    { 
-      name: "Departments", 
+    {
+      name: "Departments",
       href: "/departments",
       dropdown: departments.length > 0 ? departments : undefined
     },
-    { name: "Projects", href: "/projects" },
     { name: "News", href: "/news" },
     { name: "Resources", href: "/resources" },
     { name: "Contact", href: "/contact" },
@@ -69,7 +68,7 @@ export default async function Navbar() {
                 {link.name}
                 {link.dropdown && <ChevronDown size={14} className="text-gray-400 group-hover:text-[#1a3626] transition-colors" />}
               </Link>
-              
+
               {link.dropdown && (
                 <div className="absolute top-full left-0 w-48 bg-white border border-gray-100 shadow-lg rounded-md overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 transform origin-top-left -translate-y-2 group-hover:translate-y-0">
                   <div className="py-2">
@@ -94,7 +93,7 @@ export default async function Navbar() {
           <button className="text-gray-600 hover:text-[#1a3626] transition-colors" aria-label="Search">
             <Search size={20} />
           </button>
-          
+
           <div className="flex items-center gap-1">
             <span className="text-sm font-semibold text-[#1a3626] bg-green-50 px-2 py-1 rounded">EN</span>
           </div>
