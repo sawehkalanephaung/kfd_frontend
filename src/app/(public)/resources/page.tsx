@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Search, FileText, Download, ChevronRight, ChevronLeft, Map as MapIcon, ChevronDown } from "lucide-react";
 import { PaginatedMedia, MediaCategoryCount } from "./types";
 import { redirect } from "next/navigation";
+import SearchForm from "./SearchForm";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
@@ -17,11 +18,12 @@ interface PageProps {
 
 // ── Data Fetchers ──────────────────────────────────────────────
 
-async function getMedia(page: number, search?: string, category?: string): Promise<PaginatedMedia | null> {
+async function getMedia(page: number, search?: string, category?: string, sort?: string): Promise<PaginatedMedia | null> {
   try {
     const params = new URLSearchParams({ page: String(page), size: "10" });
     if (search) params.set("search", search);
     if (category) params.set("category", category);
+    if (sort) params.set("sort", sort);
 
     const res = await fetch(`${API}/api/v1/public/media?${params}`, { cache: "no-store" });
     if (!res.ok) return null;
@@ -73,22 +75,7 @@ function formatSize(kb: number) {
 
 // ── Components ─────────────────────────────────────────────────
 
-// Client Component for the Search Form to handle submission via URL
-function SearchForm({ initialQuery }: { initialQuery: string }) {
-  // We use a simple action to submit the form which natively updates the URL
-  return (
-    <form action="/resources" method="GET" className="w-full max-w-2xl mx-auto relative">
-      <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40" size={20} />
-      <input
-        type="text"
-        name="search"
-        defaultValue={initialQuery}
-        placeholder="Search policies, reports, or keywords..."
-        className="w-full bg-[#0a1f14] border border-[#132d1f] rounded-lg py-4 pl-12 pr-4 text-white placeholder-white/40 focus:outline-none focus:border-green-500/50 focus:ring-1 focus:ring-green-500/50 transition-all"
-      />
-    </form>
-  );
-}
+// (SearchForm imported from ./SearchForm)
 
 // ── Page ───────────────────────────────────────────────────────
 
@@ -98,9 +85,10 @@ export default async function ResourcesPage({ searchParams }: PageProps) {
   const currentPage = pageStr ? parseInt(pageStr, 10) : 0;
   const activeCategory = (resolvedSearchParams.category as string) || "";
   const searchQuery = (resolvedSearchParams.search as string) || "";
+  const sortQuery = (resolvedSearchParams.sort as string) || "newest";
 
   const [paginatedData, categoriesData] = await Promise.all([
-    getMedia(currentPage, searchQuery, activeCategory),
+    getMedia(currentPage, searchQuery, activeCategory, sortQuery),
     getCategories(),
   ]);
 
@@ -113,11 +101,12 @@ export default async function ResourcesPage({ searchParams }: PageProps) {
   const sortedCategories = [...categoriesData].sort((a, b) => b.count - a.count);
 
   // Helper to build URL
-  const buildUrl = (page: number, cat: string, search: string) => {
+  const buildUrl = (page: number, cat: string, search: string, sortParam: string = sortQuery) => {
     const params = new URLSearchParams();
     if (page > 0) params.set("page", String(page));
     if (cat) params.set("category", cat);
     if (search) params.set("search", search);
+    if (sortParam && sortParam !== "newest") params.set("sort", sortParam);
     return `/resources${params.toString() ? `?${params.toString()}` : ""}`;
   };
 
@@ -183,11 +172,19 @@ export default async function ResourcesPage({ searchParams }: PageProps) {
           <div>
             Showing {showingStart}-{showingEnd} of {totalElements} results
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 group relative">
             <span>SORT BY:</span>
-            <button className="flex items-center gap-1 text-white/70 hover:text-white transition-colors">
-              Date Added (Newest) <ChevronDown size={14} />
+            <button className="flex items-center gap-1 text-white/70 hover:text-white transition-colors uppercase tracking-wider">
+              {sortQuery === 'oldest' ? 'Date Added (Oldest)' : sortQuery === 'name_asc' ? 'Name (A-Z)' : sortQuery === 'name_desc' ? 'Name (Z-A)' : 'Date Added (Newest)'} <ChevronDown size={14} />
             </button>
+            
+            {/* Dropdown Menu */}
+            <div className="absolute right-0 top-full mt-2 w-48 py-2 bg-[#091810] border border-[#132d1f] rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-10">
+              <Link href={buildUrl(0, activeCategory, searchQuery, "newest")} className="block px-4 py-2 text-white/70 hover:text-white hover:bg-white/5">Date Added (Newest)</Link>
+              <Link href={buildUrl(0, activeCategory, searchQuery, "oldest")} className="block px-4 py-2 text-white/70 hover:text-white hover:bg-white/5">Date Added (Oldest)</Link>
+              <Link href={buildUrl(0, activeCategory, searchQuery, "name_asc")} className="block px-4 py-2 text-white/70 hover:text-white hover:bg-white/5">Name (A-Z)</Link>
+              <Link href={buildUrl(0, activeCategory, searchQuery, "name_desc")} className="block px-4 py-2 text-white/70 hover:text-white hover:bg-white/5">Name (Z-A)</Link>
+            </div>
           </div>
         </div>
       </section>
