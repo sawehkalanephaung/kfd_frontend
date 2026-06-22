@@ -86,6 +86,7 @@ const menuItems: MenuItem[] = [
       { label: 'General', href: '/dashboard/settings' },
       { label: 'Global Contact Info', href: '/dashboard/settings/contact' },
       { label: 'Footer Links', href: '/dashboard/settings/footer' },
+      { label: 'Site Identity', href: '/dashboard/settings/identity' },
     ],
   },
 ];
