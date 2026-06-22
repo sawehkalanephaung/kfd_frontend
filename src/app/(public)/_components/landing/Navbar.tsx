@@ -1,10 +1,20 @@
 import Link from "next/link";
-import { Search, Trees } from "lucide-react";
+import { Search, Trees, ChevronDown } from "lucide-react";
 
 export default function Navbar() {
   const navLinks = [
     { name: "Home", href: "/" },
-    { name: "About", href: "/about" },
+    { 
+      name: "About", 
+      href: "/about",
+      dropdown: [
+        { name: "History", href: "/about#history" },
+        { name: "Mission", href: "/about#mission" },
+        { name: "Vision", href: "/about#vision" },
+        { name: "Objective", href: "/about#objective" },
+        { name: "Chairman", href: "/about#chairman" },
+      ]
+    },
     { name: "Departments", href: "/departments" },
     { name: "Projects", href: "/projects" },
     { name: "News", href: "/news" },
@@ -29,13 +39,31 @@ export default function Navbar() {
         {/* Navigation Links */}
         <nav className="hidden lg:flex items-center gap-8">
           {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              href={link.href}
-              className="text-sm font-medium text-gray-700 hover:text-[#1a3626] transition-colors"
-            >
-              {link.name}
-            </Link>
+            <div key={link.name} className="relative group">
+              <Link
+                href={link.href}
+                className="text-sm font-medium text-gray-700 hover:text-[#1a3626] transition-colors flex items-center gap-1 py-4"
+              >
+                {link.name}
+                {link.dropdown && <ChevronDown size={14} className="text-gray-400 group-hover:text-[#1a3626] transition-colors" />}
+              </Link>
+              
+              {link.dropdown && (
+                <div className="absolute top-full left-0 w-48 bg-white border border-gray-100 shadow-lg rounded-md overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 transform origin-top-left -translate-y-2 group-hover:translate-y-0">
+                  <div className="py-2">
+                    {link.dropdown.map((subLink) => (
+                      <Link
+                        key={subLink.name}
+                        href={subLink.href}
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-[#1a3626] transition-colors"
+                      >
+                        {subLink.name}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           ))}
         </nav>
 
