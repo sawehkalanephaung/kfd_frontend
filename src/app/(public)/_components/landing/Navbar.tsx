@@ -5,7 +5,7 @@ export default async function Navbar() {
   let departments = [];
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"}/api/v1/public/departments`, {
-      next: { revalidate: 3600 } // Cache for 1 hour
+      cache: "no-store"
     });
     if (res.ok) {
       const data = await res.json();

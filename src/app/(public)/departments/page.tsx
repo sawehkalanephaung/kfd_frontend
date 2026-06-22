@@ -20,14 +20,14 @@ export const metadata: Metadata = {
     "Explore the specialized units and departments of the Kawthoolei Forestry Department, each dedicated to protecting and restoring our forests.",
 };
 
-// Revalidate every hour
-export const revalidate = 3600;
+// Always fetch fresh data (no cache)
+export const dynamic = "force-dynamic";
 
 async function getDepartments(): Promise<DepartmentData[]> {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"}/api/v1/public/departments`,
-      { next: { revalidate: 3600 } }
+      { cache: "no-store" }
     );
     if (!res.ok) return [];
     const json = await res.json();
