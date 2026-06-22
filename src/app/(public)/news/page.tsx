@@ -28,7 +28,8 @@ async function getCategories(): Promise<PostCategory[]> {
 
 async function getPosts(page: number, categorySlug?: string): Promise<PaginatedPosts | null> {
   try {
-    const params = new URLSearchParams({ page: String(page), size: "9" });
+    // Set size to 3 so we can see pagination working with the 4 test posts
+    const params = new URLSearchParams({ page: String(page), size: "3" });
     if (categorySlug) params.set("categorySlug", categorySlug);
     const res = await fetch(`${API}/api/v1/public/posts?${params}`, { cache: "no-store" });
     if (!res.ok) return null;
@@ -245,11 +246,10 @@ export default async function NewsPage({ searchParams }: PageProps) {
         )}
 
         {/* ── Pagination ────────────────────────────────────── */}
-        {totalPages > 1 && (
-          <div className="flex items-center justify-center gap-2">
-            {/* Prev */}
-            <Link
-              href={currentPage > 0 ? `/news?page=${currentPage - 1}${activeCategory ? `&category=${activeCategory}` : ""}` : "#"}
+        <div className="flex items-center justify-center gap-2 mt-8">
+          {/* Prev */}
+          <Link
+            href={currentPage > 0 ? `/news?page=${currentPage - 1}${activeCategory ? `&category=${activeCategory}` : ""}` : "#"}
               aria-disabled={currentPage === 0}
               className={`w-9 h-9 rounded-full flex items-center justify-center border transition-all ${
                 currentPage === 0
@@ -289,10 +289,9 @@ export default async function NewsPage({ searchParams }: PageProps) {
                   : "border-white/20 text-white/60 hover:border-white/40 hover:text-white"
               }`}
             >
-              <ChevronRight size={16} />
-            </Link>
-          </div>
-        )}
+            <ChevronRight size={16} />
+          </Link>
+        </div>
       </div>
     </main>
   );
