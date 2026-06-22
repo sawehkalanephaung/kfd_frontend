@@ -482,6 +482,56 @@ function SectionCard({
   );
 }
 
+// ─── Footer Preview ──────────────────────────────────────────────────────────
+
+function FooterPreview({ sections }: { sections: FooterLinkSection[] }) {
+  const activeSections = sections.filter((s) => s.isActive);
+
+  return (
+    <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50">
+      <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wide mb-4">
+        Footer Preview
+      </h3>
+      <div className="bg-gray-900 rounded-xl p-6">
+        {activeSections.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-8 text-center">
+            <LayoutList className="w-6 h-6 text-gray-600 mb-2" />
+            <p className="text-sm text-gray-500">No active sections to preview yet.</p>
+            <p className="text-xs text-gray-600 mt-1">Add sections and links above to see them here.</p>
+          </div>
+        ) : (
+          <div
+            className="grid gap-8"
+            style={{ gridTemplateColumns: `repeat(${Math.min(activeSections.length, 4)}, minmax(0, 1fr))` }}
+          >
+            {activeSections.map((section) => {
+              const activeLinks = section.links.filter((l) => l.isActive);
+              return (
+                <div key={section.id}>
+                  <p className="text-sm font-bold text-white mb-3">{section.title}</p>
+                  <ul className="space-y-2">
+                    {activeLinks.length === 0 ? (
+                      <li className="text-xs text-gray-600 italic">No active links</li>
+                    ) : (
+                      activeLinks.map((link) => (
+                        <li key={link.id}>
+                          <span className="text-sm text-gray-400 hover:text-gray-200 transition-colors cursor-default">
+                            {link.label}
+                          </span>
+                        </li>
+                      ))
+                    )}
+                  </ul>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 // ─── Main Component ────────────────────────────────────────────────────────────
 
 export default function FooterLinkManager() {
@@ -570,6 +620,11 @@ export default function FooterLinkManager() {
             <SectionCard key={section.id} section={section} onRefresh={fetchSections} />
           ))}
         </div>
+      )}
+
+      {/* Live footer preview — always visible once sections exist */}
+      {!loading && sections.length > 0 && (
+        <FooterPreview sections={sections} />
       )}
     </div>
   );
