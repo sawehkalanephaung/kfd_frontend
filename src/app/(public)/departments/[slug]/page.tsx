@@ -4,15 +4,16 @@ import DepartmentHero from "../../_components/departments/DepartmentHero";
 import DepartmentTabs from "../../_components/departments/DepartmentTabs";
 
 interface PageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 // Revalidate every 1 hour
 export const revalidate = 3600;
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"}/api/v1/public/departments/${params.slug}`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"}/api/v1/public/departments/${slug}`);
     if (res.ok) {
       const data = await res.json();
       if (data && data.data) {
@@ -33,10 +34,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function DepartmentPage({ params }: PageProps) {
+  const { slug } = await params;
   let departmentData = null;
   
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"}/api/v1/public/departments/${params.slug}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"}/api/v1/public/departments/${slug}`, {
       next: { revalidate: 3600 }
     });
     

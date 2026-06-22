@@ -3,8 +3,12 @@
 import { useState } from "react";
 import { DepartmentData } from "../../../departments/types";
 import { Search, Calendar, ChevronRight, Presentation, Users, CalendarDays, ChevronLeft } from "lucide-react";
-import dayjs from "dayjs";
 import Link from "next/link";
+
+function formatDate(dateStr: string) {
+  if (!dateStr) return "";
+  return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(new Date(dateStr));
+}
 
 export default function DepartmentActivity({ data }: { data: DepartmentData }) {
   const [searchTerm, setSearchTerm] = useState("");
@@ -98,7 +102,7 @@ export default function DepartmentActivity({ data }: { data: DepartmentData }) {
                 <div className="flex items-center gap-6 shrink-0 mt-4 sm:mt-0 w-full sm:w-auto justify-between sm:justify-end border-t border-gray-100 sm:border-0 pt-4 sm:pt-0">
                   <div className="flex items-center gap-2 text-sm text-gray-600 font-medium">
                     <Calendar size={16} className="text-gray-400" />
-                    {dayjs(post.publishedAt).format("MMM D, YYYY")}
+                    {formatDate(post.publishedAt)}
                   </div>
                   <Link href={`/news/${post.slug}`} className="text-green-500 hover:text-green-700 transition-colors bg-green-50 hover:bg-green-100 p-1.5 rounded-full">
                     <ChevronRight size={18} />

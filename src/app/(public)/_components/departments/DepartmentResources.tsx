@@ -3,7 +3,11 @@
 import { useState } from "react";
 import { DepartmentData } from "../../../departments/types";
 import { Search, Download, ChevronLeft, ChevronRight, FileText } from "lucide-react";
-import dayjs from "dayjs";
+
+function formatDate(dateStr: string) {
+  if (!dateStr) return "";
+  return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(new Date(dateStr));
+}
 
 export default function DepartmentResources({ data }: { data: DepartmentData }) {
   const [searchTerm, setSearchTerm] = useState("");
@@ -116,7 +120,7 @@ export default function DepartmentResources({ data }: { data: DepartmentData }) 
                   <td className="px-4 py-4">
                     <div className="flex items-center gap-1.5 text-xs text-gray-600">
                       <FileText size={14} className="text-gray-400" />
-                      {dayjs(res.createdAt).format("MMM D, YYYY")}
+                      {formatDate(res.createdAt)}
                     </div>
                   </td>
                   <td className="px-4 py-4 text-center text-xs text-gray-600">

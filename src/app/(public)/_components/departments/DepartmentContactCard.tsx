@@ -1,6 +1,7 @@
+import { Trees } from "lucide-react";
 import { DepartmentData } from "../../../departments/types";
-import { Building2, User, MapPin, Phone, Mail, Clock, Globe, Facebook, Twitter, Linkedin } from "lucide-react";
-import Image from "next/image";
+import { Building2, User, MapPin, Phone, Mail, Clock, Globe } from "lucide-react";
+
 
 export default function DepartmentContactCard({ data }: { data: DepartmentData }) {
   const contact = data.contacts && data.contacts.length > 0 ? data.contacts[0] : null;
@@ -129,21 +130,24 @@ export default function DepartmentContactCard({ data }: { data: DepartmentData }
             </p>
 
             <div className="flex items-center justify-around relative z-10 border-b border-green-200 pb-8">
-              <a href={socialLinks.facebook} className="flex flex-col items-center gap-2 group">
+              <a href={socialLinks.facebook} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-2 group">
                 <div className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center transform transition-transform group-hover:scale-110 shadow-sm">
-                  <Facebook size={18} fill="currentColor" />
+                  {/* Facebook */}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
                 </div>
                 <span className="text-[10px] text-gray-600 font-medium">Facebook</span>
               </a>
-              <a href={socialLinks.twitter} className="flex flex-col items-center gap-2 group">
+              <a href={socialLinks.twitter} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-2 group">
                 <div className="w-10 h-10 rounded-full bg-sky-500 text-white flex items-center justify-center transform transition-transform group-hover:scale-110 shadow-sm">
-                  <Twitter size={18} fill="currentColor" />
+                  {/* Twitter / X */}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
                 </div>
                 <span className="text-[10px] text-gray-600 font-medium">Twitter</span>
               </a>
-              <a href={socialLinks.linkedin} className="flex flex-col items-center gap-2 group">
+              <a href={socialLinks.linkedin} target="_blank" rel="noopener noreferrer" className="flex flex-col items-center gap-2 group">
                 <div className="w-10 h-10 rounded-full bg-blue-700 text-white flex items-center justify-center transform transition-transform group-hover:scale-110 shadow-sm">
-                  <Linkedin size={18} fill="currentColor" />
+                  {/* LinkedIn */}
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
                 </div>
                 <span className="text-[10px] text-gray-600 font-medium">LinkedIn</span>
               </a>
