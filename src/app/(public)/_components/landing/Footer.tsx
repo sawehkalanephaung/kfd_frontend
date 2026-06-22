@@ -1,0 +1,111 @@
+import Link from "next/link";
+import { Trees, Facebook, Twitter, Instagram, Linkedin, Youtube, ArrowRight } from "lucide-react";
+
+export default function Footer() {
+  return (
+    <footer className="bg-[#1a3626] text-white pt-16 pb-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-16">
+          
+          {/* Brand & Description */}
+          <div className="space-y-6">
+            <Link href="/" className="flex items-center gap-3">
+              <div className="bg-white text-[#1a3626] p-2 rounded-md">
+                <Trees size={24} />
+              </div>
+              <div className="flex flex-col">
+                <span className="font-bold text-lg leading-none tracking-tight">Kawthoolei Forestry Department</span>
+                <span className="text-xs text-green-100 font-medium">Protect. Cultivate. Sustain.</span>
+              </div>
+            </Link>
+            <p className="text-sm text-green-100 leading-relaxed max-w-xs">
+              Dedicated to the protection, sustainable management, and flourishing of Kawthoolei's forests and biodiversity.
+            </p>
+            <div className="flex items-center gap-4">
+              <a href="#" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
+                <Facebook size={16} />
+              </a>
+              <a href="#" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
+                <Twitter size={16} />
+              </a>
+              <a href="#" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
+                <Instagram size={16} />
+              </a>
+              <a href="#" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
+                <Linkedin size={16} />
+              </a>
+              <a href="#" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
+                <Youtube size={16} />
+              </a>
+            </div>
+            <div className="text-sm text-green-100 space-y-2 pt-2">
+              <p>📍 KNU Headquarters</p>
+              <p>📞 +66 123 456 789</p>
+              <p>✉️ info@kfd-kawthoolei.org</p>
+            </div>
+          </div>
+
+          {/* Quick Links */}
+          <div>
+            <h3 className="font-bold text-lg mb-6">QUICK LINKS</h3>
+            <ul className="space-y-4">
+              <li><Link href="/about" className="text-sm text-green-100 hover:text-white transition-colors">About KFD</Link></li>
+              <li><Link href="/projects" className="text-sm text-green-100 hover:text-white transition-colors">Projects & Work</Link></li>
+              <li><Link href="/permits" className="text-sm text-green-100 hover:text-white transition-colors">Forest Permits</Link></li>
+              <li><Link href="/policies" className="text-sm text-green-100 hover:text-white transition-colors">Policies</Link></li>
+              <li><Link href="/publications" className="text-sm text-green-100 hover:text-white transition-colors">Publications</Link></li>
+            </ul>
+          </div>
+
+          {/* Resources */}
+          <div>
+            <h3 className="font-bold text-lg mb-6">RESOURCES</h3>
+            <ul className="space-y-4">
+              <li><Link href="/map" className="text-sm text-green-100 hover:text-white transition-colors">Forest Map</Link></li>
+              <li><Link href="/species" className="text-sm text-green-100 hover:text-white transition-colors">Species Directory</Link></li>
+              <li><Link href="/community" className="text-sm text-green-100 hover:text-white transition-colors">Community Forestry</Link></li>
+              <li><Link href="/news" className="text-sm text-green-100 hover:text-white transition-colors">News & Articles</Link></li>
+              <li><Link href="/contact" className="text-sm text-green-100 hover:text-white transition-colors">Contact Us</Link></li>
+            </ul>
+          </div>
+
+          {/* Newsletter */}
+          <div>
+            <h3 className="font-bold text-lg mb-6">NEWSLETTER</h3>
+            <p className="text-sm text-green-100 mb-4">
+              Stay updated with the latest news, conservation efforts, and reports from KFD.
+            </p>
+            <form className="flex flex-col gap-3">
+              <input 
+                type="email" 
+                placeholder="Your email address" 
+                className="w-full bg-white/10 border border-white/20 rounded-md px-4 py-2.5 text-sm text-white placeholder:text-green-200 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all"
+                required
+              />
+              <button 
+                type="submit" 
+                className="w-full bg-[#2a563c] hover:bg-[#326949] text-white font-medium py-2.5 rounded-md flex items-center justify-center gap-2 transition-colors"
+              >
+                Subscribe <ArrowRight size={16} />
+              </button>
+            </form>
+          </div>
+
+        </div>
+
+        {/* Bottom Bar */}
+        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-sm text-green-200">
+            © {new Date().getFullYear()} Kawthoolei Forestry Department. All rights reserved.
+          </p>
+          <div className="flex items-center gap-6">
+            <Link href="/privacy" className="text-sm text-green-200 hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="/terms" className="text-sm text-green-200 hover:text-white transition-colors">Terms of Use</Link>
+            <Link href="/accessibility" className="text-sm text-green-200 hover:text-white transition-colors">Accessibility</Link>
+            <Link href="/contact" className="text-sm text-green-200 hover:text-white transition-colors">Contact</Link>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
