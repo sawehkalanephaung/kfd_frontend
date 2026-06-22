@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Trees, Facebook, Twitter, Instagram, Linkedin, Youtube, ArrowRight } from "lucide-react";
+import { Trees, ArrowRight } from "lucide-react";
+import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
 
 export default function Footer() {
   return (
@@ -23,19 +24,19 @@ export default function Footer() {
             </p>
             <div className="flex items-center gap-4">
               <a href="#" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
-                <Facebook size={16} />
+                <FaFacebook size={16} />
               </a>
               <a href="#" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
-                <Twitter size={16} />
+                <FaTwitter size={16} />
               </a>
               <a href="#" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
-                <Instagram size={16} />
+                <FaInstagram size={16} />
               </a>
               <a href="#" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
-                <Linkedin size={16} />
+                <FaLinkedin size={16} />
               </a>
               <a href="#" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
-                <Youtube size={16} />
+                <FaYoutube size={16} />
               </a>
             </div>
             <div className="text-sm text-green-100 space-y-2 pt-2">
