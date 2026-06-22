@@ -1,0 +1,64 @@
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
+import DepartmentHero from "../../_components/departments/DepartmentHero";
+import DepartmentTabs from "../../_components/departments/DepartmentTabs";
+
+interface PageProps {
+  params: { slug: string };
+}
+
+// Revalidate every 1 hour
+export const revalidate = 3600;
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"}/api/v1/public/departments/${params.slug}`);
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.data) {
+        return {
+          title: `${data.data.name} - KFD`,
+          description: `Learn more about the ${data.data.name} at the Kawthoolei Forestry Department.`,
+        };
+      }
+    }
+  } catch (error) {
+    console.error("Failed to fetch department metadata", error);
+  }
+  
+  return {
+    title: "Department - KFD",
+    description: "Kawthoolei Forestry Department",
+  };
+}
+
+export default async function DepartmentPage({ params }: PageProps) {
+  let departmentData = null;
+  
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"}/api/v1/public/departments/${params.slug}`, {
+      next: { revalidate: 3600 }
+    });
+    
+    if (!res.ok) {
+      notFound();
+    }
+    
+    const json = await res.json();
+    departmentData = json.data;
+  } catch (error) {
+    console.error("Failed to fetch department", error);
+    notFound();
+  }
+
+  if (!departmentData) {
+    notFound();
+  }
+
+  return (
+    <main className="min-h-screen bg-gray-50 flex flex-col">
+      <DepartmentHero data={departmentData} />
+      <DepartmentTabs data={departmentData} />
+    </main>
+  );
+}

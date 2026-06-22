@@ -1,7 +1,25 @@
 import Link from "next/link";
 import { Search, Trees, ChevronDown } from "lucide-react";
 
-export default function Navbar() {
+export default async function Navbar() {
+  let departments = [];
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"}/api/v1/public/departments`, {
+      next: { revalidate: 3600 } // Cache for 1 hour
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.data) {
+        departments = data.data.map((dept: any) => ({
+          name: dept.name,
+          href: `/departments/${dept.slug}`
+        }));
+      }
+    }
+  } catch (error) {
+    console.error("Failed to fetch departments for navbar", error);
+  }
+
   const navLinks = [
     { name: "Home", href: "/" },
     { 
@@ -15,7 +33,11 @@ export default function Navbar() {
         { name: "Chairman", href: "/about#chairman" },
       ]
     },
-    { name: "Departments", href: "/departments" },
+    { 
+      name: "Departments", 
+      href: "/departments",
+      dropdown: departments.length > 0 ? departments : undefined
+    },
     { name: "Projects", href: "/projects" },
     { name: "News", href: "/news" },
     { name: "Resources", href: "/resources" },
