@@ -50,23 +50,22 @@ export default function Footer() {
           <div>
             <h3 className="font-bold text-lg mb-6">QUICK LINKS</h3>
             <ul className="space-y-4">
-              <li><Link href="/about" className="text-sm text-green-100 hover:text-white transition-colors">About KFD</Link></li>
-              <li><Link href="/projects" className="text-sm text-green-100 hover:text-white transition-colors">Projects & Work</Link></li>
-              <li><Link href="/permits" className="text-sm text-green-100 hover:text-white transition-colors">Forest Permits</Link></li>
-              <li><Link href="/policies" className="text-sm text-green-100 hover:text-white transition-colors">Policies</Link></li>
-              <li><Link href="/publications" className="text-sm text-green-100 hover:text-white transition-colors">Publications</Link></li>
+              <li><Link href="/" className="text-sm text-green-100 hover:text-white transition-colors">Home</Link></li>
+              <li><Link href="/about" className="text-sm text-green-100 hover:text-white transition-colors">About Us</Link></li>
+              <li><Link href="/news" className="text-sm text-green-100 hover:text-white transition-colors">News & Announcements</Link></li>
+              <li><Link href="/resources" className="text-sm text-green-100 hover:text-white transition-colors">Resources</Link></li>
+              <li><Link href="/contact" className="text-sm text-green-100 hover:text-white transition-colors">Contact Us</Link></li>
             </ul>
           </div>
 
-          {/* Resources */}
+          {/* Departments */}
           <div>
-            <h3 className="font-bold text-lg mb-6">RESOURCES</h3>
+            <h3 className="font-bold text-lg mb-6">DEPARTMENTS</h3>
             <ul className="space-y-4">
-              <li><Link href="/map" className="text-sm text-green-100 hover:text-white transition-colors">Forest Map</Link></li>
-              <li><Link href="/species" className="text-sm text-green-100 hover:text-white transition-colors">Species Directory</Link></li>
-              <li><Link href="/community" className="text-sm text-green-100 hover:text-white transition-colors">Community Forestry</Link></li>
-              <li><Link href="/news" className="text-sm text-green-100 hover:text-white transition-colors">News & Articles</Link></li>
-              <li><Link href="/contact" className="text-sm text-green-100 hover:text-white transition-colors">Contact Us</Link></li>
+              <li><Link href="/departments/protection" className="text-sm text-green-100 hover:text-white transition-colors">Forest Protection</Link></li>
+              <li><Link href="/departments/conservation" className="text-sm text-green-100 hover:text-white transition-colors">Conservation & Biodiversity</Link></li>
+              <li><Link href="/departments/reforestation" className="text-sm text-green-100 hover:text-white transition-colors">Reforestation & Nurseries</Link></li>
+              <li><Link href="/departments/community" className="text-sm text-green-100 hover:text-white transition-colors">Community Forestry</Link></li>
             </ul>
           </div>
 
