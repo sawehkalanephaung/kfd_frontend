@@ -11,10 +11,10 @@ export default async function Footer() {
   try {
     const [contactRes, socialRes] = await Promise.all([
       fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"}/api/v1/public/contact-settings`, {
-        next: { revalidate: 3600 }
+        cache: "no-store"
       }),
       fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"}/api/v1/public/social-media`, {
-        next: { revalidate: 3600 }
+        cache: "no-store"
       })
     ]);
 
