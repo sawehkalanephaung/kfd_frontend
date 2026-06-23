@@ -6,7 +6,7 @@ export default function Footer() {
   return (
     <footer className="bg-[#1a3626] text-white pt-16 pb-8">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-8 mb-16">
           
           {/* Brand & Description */}
           <div className="space-y-6">
@@ -52,20 +52,10 @@ export default function Footer() {
             <ul className="space-y-4">
               <li><Link href="/" className="text-sm text-green-100 hover:text-white transition-colors">Home</Link></li>
               <li><Link href="/about" className="text-sm text-green-100 hover:text-white transition-colors">About Us</Link></li>
+              <li><Link href="/departments" className="text-sm text-green-100 hover:text-white transition-colors">Departments</Link></li>
               <li><Link href="/news" className="text-sm text-green-100 hover:text-white transition-colors">News & Announcements</Link></li>
               <li><Link href="/resources" className="text-sm text-green-100 hover:text-white transition-colors">Resources</Link></li>
               <li><Link href="/contact" className="text-sm text-green-100 hover:text-white transition-colors">Contact Us</Link></li>
-            </ul>
-          </div>
-
-          {/* Departments */}
-          <div>
-            <h3 className="font-bold text-lg mb-6">DEPARTMENTS</h3>
-            <ul className="space-y-4">
-              <li><Link href="/departments/protection" className="text-sm text-green-100 hover:text-white transition-colors">Forest Protection</Link></li>
-              <li><Link href="/departments/conservation" className="text-sm text-green-100 hover:text-white transition-colors">Conservation & Biodiversity</Link></li>
-              <li><Link href="/departments/reforestation" className="text-sm text-green-100 hover:text-white transition-colors">Reforestation & Nurseries</Link></li>
-              <li><Link href="/departments/community" className="text-sm text-green-100 hover:text-white transition-colors">Community Forestry</Link></li>
             </ul>
           </div>
 
