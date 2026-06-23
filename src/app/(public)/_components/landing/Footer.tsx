@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, MapPin, Phone, Mail, Clock } from "lucide-react";
 import logoImg from "@/assets/logo-2.png";
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
 
@@ -72,12 +72,26 @@ export default async function Footer() {
                 </a>
               )}
             </div>
-            <div className="text-sm text-green-100 space-y-2 pt-2">
-              <p>📍 {contactSettings?.physicalAddress || "KNU Headquarters"}</p>
-              <p>📞 {contactSettings?.phoneNumbers?.[0] || "+66 123 456 789"}</p>
-              <p>✉️ {contactSettings?.contactEmail || "info@kfd-kawthoolei.org"}</p>
+            <div className="flex flex-col gap-5 text-sm text-green-100 pt-2">
+              <div className="flex items-start gap-3">
+                <Phone className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                <span>{contactSettings?.phoneNumbers?.[0] || "+66 123 456 789"}</span>
+              </div>
+              <div className="flex items-start gap-3">
+                <Mail className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                <span>{contactSettings?.contactEmail || "info@kfd-kawthoolei.org"}</span>
+              </div>
+              <div className="flex items-start gap-3">
+                <MapPin className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                <span className="leading-relaxed">{contactSettings?.physicalAddress || "KNU Headquarters"}</span>
+              </div>
+              <div className="flex items-start gap-3">
+                <Clock className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                <span className="leading-relaxed whitespace-pre-line">{contactSettings?.officeHours || "Monday - Friday:\n8:00 am - 5:00 pm"}</span>
+              </div>
             </div>
-          </div>
+
+            </div>
 
           {/* Quick Links */}
           <div>
