@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Loader2, Save, MapPin, Mail, Phone, ListChecks, Plus, Trash2, Globe } from 'lucide-react';
+import { Loader2, Save, MapPin, Mail, Phone, ListChecks, Plus, Trash2, Globe, Clock } from 'lucide-react';
 import api from '@/lib/api';
 import DeleteModal from '@/components/delete-modal';
 
@@ -20,6 +20,7 @@ export default function ContactSettingsForm({ initialData }: ContactSettingsForm
   const [formData, setFormData] = useState({
     physicalAddress: initialData?.physicalAddress || '',
     contactEmail: initialData?.contactEmail || '',
+    officeHours: initialData?.officeHours || '',
   });
 
   // Dynamic Lists State
@@ -172,6 +173,22 @@ export default function ContactSettingsForm({ initialData }: ContactSettingsForm
                   className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
                   placeholder="123 Organization Street, City, Country"
                 ></textarea>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-900 mb-2">Office Hours</label>
+                <div className="relative">
+                  <div className="absolute top-3.5 left-0 pl-3 flex items-start pointer-events-none">
+                    <Clock className="h-5 w-5 text-gray-400" />
+                  </div>
+                  <textarea
+                    rows={2}
+                    value={formData.officeHours}
+                    onChange={(e) => setFormData({...formData, officeHours: e.target.value})}
+                    className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                    placeholder="Monday - Friday:&#10;8:00 am - 5:00 pm"
+                  ></textarea>
+                </div>
               </div>
             </div>
           </div>
