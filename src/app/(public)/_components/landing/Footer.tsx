@@ -4,52 +4,78 @@ import { ArrowRight } from "lucide-react";
 import logoImg from "@/assets/logo-2.png";
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
 
-export default function Footer() {
+export default async function Footer() {
+  let contactSettings: any = null;
+  let socialMediaLinks: any[] = [];
+
+  try {
+    const [contactRes, socialRes] = await Promise.all([
+      fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"}/api/v1/public/contact-settings`, {
+        next: { revalidate: 3600 }
+      }),
+      fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"}/api/v1/public/social-media`, {
+        next: { revalidate: 3600 }
+      })
+    ]);
+
+    if (contactRes.ok) contactSettings = await contactRes.json();
+    if (socialRes.ok) socialMediaLinks = await socialRes.json();
+  } catch (error) {
+    console.error("Failed to fetch footer data", error);
+  }
+
+  const renderSocialIcon = (platform: string, size = 16) => {
+    const p = platform.toLowerCase();
+    if (p.includes('facebook')) return <FaFacebook size={size} />;
+    if (p.includes('twitter') || p.includes('x')) return <FaTwitter size={size} />;
+    if (p.includes('instagram')) return <FaInstagram size={size} />;
+    if (p.includes('linkedin')) return <FaLinkedin size={size} />;
+    if (p.includes('youtube')) return <FaYoutube size={size} />;
+    return <FaFacebook size={size} />;
+  };
+
   return (
     <footer className="bg-[#1a3626] text-white pt-16 pb-8">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-8 mb-16">
-          
+
           {/* Brand & Description */}
           <div className="space-y-6">
             <Link href="/" className="flex items-center gap-3">
-              <div className="relative w-12 h-12 bg-white rounded-md p-1 flex-shrink-0">
-                <Image 
-                  src={logoImg} 
-                  alt="KFD Logo" 
-                  fill 
-                  className="object-contain" 
+              <div className="relative w-12 h-12  p-1 flex-shrink-0">
+                <Image
+                  src={logoImg}
+                  alt="KFD Logo"
+                  fill
+                  className="object-contain"
                 />
               </div>
               <div className="flex flex-col">
                 <span className="font-bold text-lg leading-none tracking-tight">Kawthoolei Forestry Department</span>
-                <span className="text-xs text-green-100 font-medium">Protecting Nature, Empowering Communities</span>
               </div>
             </Link>
-            <p className="text-sm text-green-100 leading-relaxed max-w-xs">
-              Dedicated to the protection, sustainable management, and flourishing of Kawthoolei's forests and biodiversity.
-            </p>
-            <div className="flex items-center gap-4">
-              <a href="#" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
-                <FaFacebook size={16} />
-              </a>
-              <a href="#" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
-                <FaTwitter size={16} />
-              </a>
-              <a href="#" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
-                <FaInstagram size={16} />
-              </a>
-              <a href="#" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
-                <FaLinkedin size={16} />
-              </a>
-              <a href="#" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
-                <FaYoutube size={16} />
-              </a>
+            <div className="flex flex-wrap items-center gap-4">
+              {socialMediaLinks && socialMediaLinks.map((link) => (
+                <a 
+                  key={link.id} 
+                  href={link.url} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
+                >
+                  {renderSocialIcon(link.platformName)}
+                </a>
+              ))}
+              {(!socialMediaLinks || socialMediaLinks.length === 0) && (
+                <a href="#" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
+                  <FaFacebook size={16} />
+                </a>
+              )}
             </div>
             <div className="text-sm text-green-100 space-y-2 pt-2">
-              <p>📍 KNU Headquarters</p>
-              <p>📞 +66 123 456 789</p>
-              <p>✉️ info@kfd-kawthoolei.org</p>
+              <p>📍 {contactSettings?.physicalAddress || "KNU Headquarters"}</p>
+              <p>📞 {contactSettings?.phoneNumbers?.[0] || "+66 123 456 789"}</p>
+              <p>✉️ {contactSettings?.contactEmail || "info@kfd-kawthoolei.org"}</p>
             </div>
           </div>
 
@@ -73,14 +99,14 @@ export default function Footer() {
               Stay updated with the latest news, conservation efforts, and reports from KFD.
             </p>
             <form className="flex flex-col gap-3">
-              <input 
-                type="email" 
-                placeholder="Your email address" 
+              <input
+                type="email"
+                placeholder="Your email address"
                 className="w-full bg-white/10 border border-white/20 rounded-md px-4 py-2.5 text-sm text-white placeholder:text-green-200 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all"
                 required
               />
-              <button 
-                type="submit" 
+              <button
+                type="submit"
                 className="w-full bg-[#2a563c] hover:bg-[#326949] text-white font-medium py-2.5 rounded-md flex items-center justify-center gap-2 transition-colors"
               >
                 Subscribe <ArrowRight size={16} />
