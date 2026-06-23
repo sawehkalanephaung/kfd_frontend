@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ArrowRight, MapPin, Phone, Mail, Clock } from "lucide-react";
 import logoImg from "@/assets/logo-2.png";
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
+import NewsletterForm from "./NewsletterForm";
 
 export default async function Footer() {
   let contactSettings: any = null;
@@ -112,20 +113,7 @@ export default async function Footer() {
             <p className="text-sm text-green-100 mb-4">
               Stay updated with the latest news, conservation efforts, and reports from KFD.
             </p>
-            <form className="flex flex-col gap-3">
-              <input
-                type="email"
-                placeholder="Your email address"
-                className="w-full bg-white/10 border border-white/20 rounded-md px-4 py-2.5 text-sm text-white placeholder:text-green-200 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all"
-                required
-              />
-              <button
-                type="submit"
-                className="w-full bg-[#2a563c] hover:bg-[#326949] text-white font-medium py-2.5 rounded-md flex items-center justify-center gap-2 transition-colors"
-              >
-                Subscribe <ArrowRight size={16} />
-              </button>
-            </form>
+            <NewsletterForm />
           </div>
 
         </div>
