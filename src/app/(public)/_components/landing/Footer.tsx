@@ -1,5 +1,7 @@
+import Image from "next/image";
 import Link from "next/link";
-import { Trees, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import logoImg from "@/assets/logo-2.png";
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
 
 export default function Footer() {
@@ -11,8 +13,13 @@ export default function Footer() {
           {/* Brand & Description */}
           <div className="space-y-6">
             <Link href="/" className="flex items-center gap-3">
-              <div className="bg-white text-[#1a3626] p-2 rounded-md">
-                <Trees size={24} />
+              <div className="relative w-12 h-12 bg-white rounded-md p-1 flex-shrink-0">
+                <Image 
+                  src={logoImg} 
+                  alt="KFD Logo" 
+                  fill 
+                  className="object-contain" 
+                />
               </div>
               <div className="flex flex-col">
                 <span className="font-bold text-lg leading-none tracking-tight">Kawthoolei Forestry Department</span>

@@ -1,5 +1,7 @@
+import Image from "next/image";
 import Link from "next/link";
-import { Search, Trees, ChevronDown } from "lucide-react";
+import { Search, ChevronDown } from "lucide-react";
+import logoImg from "@/assets/logo-2.png";
 
 export default async function Navbar() {
   let departments = [];
@@ -50,8 +52,13 @@ export default async function Navbar() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3">
-          <div className="bg-[#1a3626] text-white p-2 rounded-md">
-            <Trees size={24} />
+          <div className="relative w-12 h-12 flex-shrink-0">
+            <Image 
+              src={logoImg} 
+              alt="KFD Logo" 
+              fill 
+              className="object-contain" 
+            />
           </div>
           <div className="flex flex-col">
             <span className="font-bold text-lg leading-none text-[#1a3626] tracking-tight">Kawthoolei Forestry Department</span>
