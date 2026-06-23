@@ -1,5 +1,5 @@
 import { Trees } from "lucide-react";
-import { DepartmentData } from "../../../departments/types";
+import { DepartmentData } from "../../departments/types";
 import { Building2, User, MapPin, Phone, Mail, Clock, Globe } from "lucide-react";
 
 

@@ -1,22 +1,79 @@
 import React from 'react';
 import HeroSection from './_components/landing/HeroSection';
 import StatsSection from './_components/landing/StatsSection';
-import MissionSection from './_components/landing/MissionSection';
 import DepartmentsSection from './_components/landing/DepartmentsSection';
 import NewsSection from './_components/landing/NewsSection';
-import TestimonialSection from './_components/landing/TestimonialSection';
 import FAQSection from './_components/landing/FAQSection';
 
-export default function PublicHome() {
+const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
+
+async function fetchSiteIdentity() {
+  try {
+    const res = await fetch(`${API}/api/v1/public/site-identity`, { next: { revalidate: 60 } });
+    if (!res.ok) return null;
+    return (await res.json())?.data || null;
+  } catch {
+    return null;
+  }
+}
+
+async function fetchMetrics() {
+  try {
+    const res = await fetch(`${API}/api/v1/public/global-metrics`, { next: { revalidate: 60 } });
+    if (!res.ok) return [];
+    return (await res.json())?.data || [];
+  } catch {
+    return [];
+  }
+}
+
+async function fetchDepartments() {
+  try {
+    const res = await fetch(`${API}/api/v1/public/departments?page=0&size=4`, { next: { revalidate: 60 } });
+    if (!res.ok) return [];
+    return (await res.json())?.data?.content || [];
+  } catch {
+    return [];
+  }
+}
+
+async function fetchNews() {
+  try {
+    const res = await fetch(`${API}/api/v1/public/posts?page=0&size=3`, { next: { revalidate: 60 } });
+    if (!res.ok) return [];
+    return (await res.json())?.data?.content || [];
+  } catch {
+    return [];
+  }
+}
+
+async function fetchFaqs() {
+  try {
+    const res = await fetch(`${API}/api/faqs`, { next: { revalidate: 60 } });
+    if (!res.ok) return [];
+    const json = await res.json();
+    return Array.isArray(json) ? json : (json.data || []);
+  } catch {
+    return [];
+  }
+}
+
+export default async function PublicHome() {
+  const [siteIdentity, metrics, departments, news, faqs] = await Promise.all([
+    fetchSiteIdentity(),
+    fetchMetrics(),
+    fetchDepartments(),
+    fetchNews(),
+    fetchFaqs(),
+  ]);
+
   return (
     <>
-      <HeroSection />
-      <StatsSection />
-      <MissionSection />
-      <DepartmentsSection />
-      <NewsSection />
-      <TestimonialSection />
-      <FAQSection />
+      <HeroSection siteIdentity={siteIdentity} />
+      <StatsSection metrics={metrics} />
+      <DepartmentsSection departments={departments} />
+      <NewsSection news={news} />
+      <FAQSection faqs={faqs} />
     </>
   );
 }

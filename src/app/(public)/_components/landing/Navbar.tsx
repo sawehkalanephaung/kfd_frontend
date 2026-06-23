@@ -72,7 +72,7 @@ export default async function Navbar() {
               {link.dropdown && (
                 <div className="absolute top-full left-0 w-48 bg-white border border-gray-100 shadow-lg rounded-md overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 transform origin-top-left -translate-y-2 group-hover:translate-y-0">
                   <div className="py-2">
-                    {link.dropdown.map((subLink) => (
+                    {link.dropdown.map((subLink: any) => (
                       <Link
                         key={subLink.name}
                         href={subLink.href}

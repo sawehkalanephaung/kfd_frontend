@@ -4,8 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { Plus, Minus, ArrowRight } from "lucide-react";
 
-export default function FAQSection() {
-  const faqs = [
+export default function FAQSection({ faqs }: { faqs: any[] }) {
+  const defaultFaqs = [
     {
       question: "How do I apply for a community forest protection permit?",
       answer: "You can apply for a permit by contacting your local KFD district office or submitting an initial request through our online portal. Our officers will guide you through the required documentation and assessment process."
@@ -27,6 +27,8 @@ export default function FAQSection() {
       answer: "Yes, we publish annual reports and certain datasets related to forest cover and biodiversity. Detailed mapping data may require a formal request for academic or conservation research purposes."
     }
   ];
+
+  const displayFaqs = faqs && faqs.length > 0 ? faqs : defaultFaqs;
 
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
@@ -67,8 +69,8 @@ export default function FAQSection() {
           {/* Right Column: Accordion */}
           <div className="lg:col-span-7">
             <div className="bg-white border border-gray-100 shadow-sm rounded-xl overflow-hidden divide-y divide-gray-100">
-              {faqs.map((faq, index) => (
-                <div key={index} className="w-full">
+              {displayFaqs.map((faq, index) => (
+                <div key={faq.id || index} className="w-full">
                   <button
                     onClick={() => toggleFAQ(index)}
                     className="w-full text-left px-8 py-6 flex items-center justify-between hover:bg-gray-50 transition-colors focus:outline-none"

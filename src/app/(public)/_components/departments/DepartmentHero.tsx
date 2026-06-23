@@ -1,6 +1,6 @@
 import { MapPin, Clock, User } from "lucide-react";
 import Image from "next/image";
-import { DepartmentData } from "../../../departments/types";
+import { DepartmentData } from "../../departments/types";
 
 export default function DepartmentHero({ data }: { data: DepartmentData }) {
   // Try to find the primary contact to get address and office hours

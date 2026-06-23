@@ -1,4 +1,4 @@
-import { DepartmentData } from "../../../departments/types";
+import { DepartmentData } from "../../departments/types";
 
 export default function DepartmentInfo({ data }: { data: DepartmentData }) {
   // Parse bodyContent assuming it's a JSON string with an "en" key, as seen in the DB

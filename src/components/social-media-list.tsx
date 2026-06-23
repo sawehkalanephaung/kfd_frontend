@@ -1,7 +1,8 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Facebook, Twitter, Instagram, Youtube, Linkedin, Link as LinkIcon } from 'lucide-react';
+import { Link as LinkIcon } from 'lucide-react';
+import { FaFacebook, FaTwitter, FaInstagram, FaYoutube, FaLinkedin } from 'react-icons/fa';
 import api from '@/lib/api';
 
 interface SocialMediaListProps {
@@ -29,11 +30,11 @@ export default function SocialMediaList({ variant, className = '' }: SocialMedia
 
   const getIcon = (platformName: string, sizeClass: string) => {
     switch (platformName.toUpperCase()) {
-      case 'FACEBOOK': return <Facebook className={sizeClass} />;
-      case 'TWITTER': return <Twitter className={sizeClass} />;
-      case 'INSTAGRAM': return <Instagram className={sizeClass} />;
-      case 'YOUTUBE': return <Youtube className={sizeClass} />;
-      case 'LINKEDIN': return <Linkedin className={sizeClass} />;
+      case 'FACEBOOK': return <FaFacebook className={sizeClass} />;
+      case 'TWITTER': return <FaTwitter className={sizeClass} />;
+      case 'INSTAGRAM': return <FaInstagram className={sizeClass} />;
+      case 'YOUTUBE': return <FaYoutube className={sizeClass} />;
+      case 'LINKEDIN': return <FaLinkedin className={sizeClass} />;
       case 'TIKTOK': return <svg className={sizeClass} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" /></svg>;
       default: return <LinkIcon className={sizeClass} />;
     }

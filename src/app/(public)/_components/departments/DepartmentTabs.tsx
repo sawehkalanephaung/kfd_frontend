@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Building2, Folder, Clock, MapPin } from "lucide-react";
-import { DepartmentData } from "../../../departments/types";
+import { DepartmentData } from "../../departments/types";
 import DepartmentInfo from "./DepartmentInfo";
 import DepartmentResources from "./DepartmentResources";
 import DepartmentActivity from "./DepartmentActivity";

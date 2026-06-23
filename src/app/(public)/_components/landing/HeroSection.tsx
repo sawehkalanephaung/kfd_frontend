@@ -1,6 +1,9 @@
 import Link from "next/link";
 
-export default function HeroSection() {
+export default function HeroSection({ siteIdentity }: { siteIdentity: any }) {
+  const title = siteIdentity?.organizationName || "Protecting Kawthoolei's Forests for Future Generations";
+  const description = siteIdentity?.tagline || "The Kawthoolei Forest Department safeguards the interconnected webs of biodiversity and communities through conservation, enforcement, and community partnership.";
+
   return (
     <section className="relative w-full h-[600px] flex items-center">
       {/* Background with placeholder image and gradient overlay */}
@@ -16,14 +19,11 @@ export default function HeroSection() {
       <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
-            Protecting<br />
-            Kawthoolei's Forests<br />
-            for Future<br />
-            Generations
+            {title}
           </h1>
           
           <p className="text-lg text-green-50 mb-10 max-w-xl leading-relaxed">
-            The Kawthoolei Forest Department safeguards the interconnected webs of biodiversity and communities through conservation, enforcement, and community partnership.
+            {description}
           </p>
           
           <div className="flex flex-wrap items-center gap-4">

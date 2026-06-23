@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { DepartmentData } from "../../../departments/types";
+import { DepartmentData } from "../../departments/types";
 import { Search, Calendar, ChevronRight, Presentation, Users, CalendarDays, ChevronLeft } from "lucide-react";
 import Link from "next/link";
 

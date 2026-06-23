@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { DepartmentData } from "../../../departments/types";
+import { DepartmentData } from "../../departments/types";
 import { Search, Download, ChevronLeft, ChevronRight, FileText } from "lucide-react";
 
 function formatDate(dateStr: string) {

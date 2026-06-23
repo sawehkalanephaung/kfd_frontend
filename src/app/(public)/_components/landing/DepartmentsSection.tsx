@@ -1,29 +1,17 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
-export default function DepartmentsSection() {
-  const departments = [
-    {
-      title: "Forest Protection",
-      description: "Combating illegal logging, preventing forest fires, and enforcing forestry regulations across Kawthoolei.",
-      link: "/departments/protection"
-    },
-    {
-      title: "Conservation & Biodiversity",
-      description: "Specialized initiatives for wildlife monitoring, habitat restoration, and ecological research programs.",
-      link: "/departments/conservation"
-    },
-    {
-      title: "Reforestation & Nurseries",
-      description: "Managing tree nurseries and organizing large-scale planting campaigns in degraded areas.",
-      link: "/departments/reforestation"
-    },
-    {
-      title: "Community Forestry",
-      description: "Working alongside local villages to establish and support community-managed forest reserves.",
-      link: "/departments/community"
-    }
+export default function DepartmentsSection({ departments }: { departments: any[] }) {
+  const defaultDepartments = [
+    { title: "Forest Protection", description: "Combating illegal logging, preventing forest fires, and enforcing forestry regulations across Kawthoolei.", slug: "protection" },
+    { title: "Conservation & Biodiversity", description: "Specialized initiatives for wildlife monitoring, habitat restoration, and ecological research programs.", slug: "conservation" },
+    { title: "Reforestation & Nurseries", description: "Managing tree nurseries and organizing large-scale planting campaigns in degraded areas.", slug: "reforestation" },
+    { title: "Community Forestry", description: "Working alongside local villages to establish and support community-managed forest reserves.", slug: "community" }
   ];
+
+  const displayDepartments = departments && departments.length > 0
+    ? departments
+    : defaultDepartments;
 
   return (
     <section className="py-20 bg-gray-50/50">
@@ -43,17 +31,17 @@ export default function DepartmentsSection() {
 
         {/* Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {departments.map((dept, index) => (
+          {displayDepartments.slice(0, 4).map((dept, index) => (
             <div 
-              key={index} 
+              key={dept.id || index} 
               className="bg-white border border-gray-100 p-8 rounded-lg shadow-sm hover:shadow-md transition-all flex flex-col h-full"
             >
-              <h3 className="text-lg font-bold text-[#1a3626] mb-4">{dept.title}</h3>
-              <p className="text-sm text-gray-600 leading-relaxed flex-grow mb-8">
-                {dept.description}
+              <h3 className="text-lg font-bold text-[#1a3626] mb-4">{dept.title || dept.name}</h3>
+              <p className="text-sm text-gray-600 leading-relaxed flex-grow mb-8 line-clamp-4">
+                {dept.description || dept.shortDescription}
               </p>
               <Link 
-                href={dept.link} 
+                href={`/departments/${dept.slug}`} 
                 className="text-sm font-semibold text-gray-900 hover:text-[#2a563c] inline-flex items-center gap-1 group w-fit transition-colors"
               >
                 Explore

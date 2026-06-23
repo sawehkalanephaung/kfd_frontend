@@ -250,7 +250,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                     onClick={() => setIsTagDropdownOpen(!isTagDropdownOpen)}
                   >
                     {formData.tagIds.length === 0 && <span className="text-gray-400">Select Tags...</span>}
-                    {formData.tagIds.map(id => {
+                    {formData.tagIds.map((id: any) => {
                       const tag = tags.find(t => t.id === id);
                       if (!tag) return null;
                       return (
