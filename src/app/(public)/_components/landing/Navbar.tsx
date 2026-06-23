@@ -3,12 +3,20 @@ import { Search, Trees, ChevronDown } from "lucide-react";
 
 export default async function Navbar() {
   let departments = [];
+  let siteIdentity: any = null;
+
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"}/api/v1/public/departments`, {
-      cache: "no-store"
-    });
-    if (res.ok) {
-      const data = await res.json();
+    const [deptRes, siteRes] = await Promise.all([
+      fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"}/api/v1/public/departments`, {
+        next: { revalidate: 3600 }
+      }),
+      fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"}/api/v1/public/site-identity`, {
+        next: { revalidate: 3600 }
+      })
+    ]);
+
+    if (deptRes.ok) {
+      const data = await deptRes.json();
       if (data && data.data) {
         departments = data.data.map((dept: any) => ({
           name: dept.name,
@@ -16,8 +24,15 @@ export default async function Navbar() {
         }));
       }
     }
+
+    if (siteRes.ok) {
+      const data = await siteRes.json();
+      if (data && data.data) {
+        siteIdentity = data.data;
+      }
+    }
   } catch (error) {
-    console.error("Failed to fetch departments for navbar", error);
+    console.error("Failed to fetch data for navbar", error);
   }
 
   const navLinks = [
@@ -52,8 +67,8 @@ export default async function Navbar() {
             <Trees size={24} />
           </div>
           <div className="flex flex-col">
-            <span className="font-bold text-lg leading-none text-[#1a3626] tracking-tight">KFD</span>
-            <span className="text-xs text-gray-500 font-medium">Kawthoolei Forestry Department</span>
+            <span className="font-bold text-lg leading-none text-[#1a3626] tracking-tight">{siteIdentity?.organizationName || "KFD"}</span>
+            <span className="text-xs text-gray-500 font-medium">{siteIdentity?.tagline || "Kawthoolei Forestry Department"}</span>
           </div>
         </Link>
 

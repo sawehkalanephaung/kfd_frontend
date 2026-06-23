@@ -2,7 +2,24 @@ import Link from "next/link";
 import { Trees, ArrowRight } from "lucide-react";
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
 
-export default function Footer() {
+export default async function Footer() {
+  let siteIdentity: any = null;
+
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"}/api/v1/public/site-identity`, {
+      next: { revalidate: 3600 }
+    });
+    
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.data) {
+        siteIdentity = data.data;
+      }
+    }
+  } catch (error) {
+    console.error("Failed to fetch site identity for footer", error);
+  }
+
   return (
     <footer className="bg-[#1a3626] text-white pt-16 pb-8">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -15,8 +32,8 @@ export default function Footer() {
                 <Trees size={24} />
               </div>
               <div className="flex flex-col">
-                <span className="font-bold text-lg leading-none tracking-tight">Kawthoolei Forestry Department</span>
-                <span className="text-xs text-green-100 font-medium">Protect. Cultivate. Sustain.</span>
+                <span className="font-bold text-lg leading-none tracking-tight">{siteIdentity?.organizationName || "Kawthoolei Forestry Department"}</span>
+                <span className="text-xs text-green-100 font-medium">{siteIdentity?.tagline || "Protect. Cultivate. Sustain."}</span>
               </div>
             </Link>
             <p className="text-sm text-green-100 leading-relaxed max-w-xs">
@@ -86,7 +103,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-green-200">
-            © {new Date().getFullYear()} Kawthoolei Forestry Department. All rights reserved.
+            {siteIdentity?.footerCopyright || `© ${new Date().getFullYear()} Kawthoolei Forestry Department. All rights reserved.`}
           </p>
           <div className="flex items-center gap-6">
             <Link href="/privacy" className="text-sm text-green-200 hover:text-white transition-colors">Privacy Policy</Link>
