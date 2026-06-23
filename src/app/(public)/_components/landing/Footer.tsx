@@ -7,7 +7,7 @@ export default async function Footer() {
 
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"}/api/v1/public/site-identity`, {
-      next: { revalidate: 3600 }
+      cache: "no-store"
     });
     
     if (res.ok) {

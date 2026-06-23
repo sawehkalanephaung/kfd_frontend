@@ -8,10 +8,10 @@ export default async function Navbar() {
   try {
     const [deptRes, siteRes] = await Promise.all([
       fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"}/api/v1/public/departments`, {
-        next: { revalidate: 3600 }
+        cache: "no-store"
       }),
       fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"}/api/v1/public/site-identity`, {
-        next: { revalidate: 3600 }
+        cache: "no-store"
       })
     ]);
 
