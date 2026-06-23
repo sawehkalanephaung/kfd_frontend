@@ -19,7 +19,7 @@ async function fetchSiteIdentity() {
 
 async function fetchMetrics() {
   try {
-    const res = await fetch(`${API}/api/v1/public/global-metrics`, { next: { revalidate: 60 } });
+    const res = await fetch(`${API}/api/v1/public/metrics`, { next: { revalidate: 60 } });
     if (!res.ok) return [];
     return (await res.json())?.data || [];
   } catch {

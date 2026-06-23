@@ -7,7 +7,7 @@ export default function StatsSection({ metrics }: { metrics: any[] }) {
   ];
 
   const displayStats = metrics && metrics.length > 0 
-    ? metrics.map(m => ({ value: m.value, label: m.label, subLabel: m.description }))
+    ? metrics.map(m => ({ value: m.metricValue, label: m.title, subLabel: "" }))
     : defaultStats;
 
   return (
@@ -18,7 +18,7 @@ export default function StatsSection({ metrics }: { metrics: any[] }) {
             <div key={index} className="flex flex-col px-4 lg:px-8 first:pl-0 last:pr-0">
               <span className="text-3xl lg:text-4xl font-bold text-green-50 mb-2">{stat.value}</span>
               <span className="text-sm font-bold tracking-wider text-green-400 mb-1">{stat.label}</span>
-              <span className="text-xs text-green-200/70">{stat.subLabel}</span>
+              {stat.subLabel && <span className="text-xs text-green-200/70">{stat.subLabel}</span>}
             </div>
           ))}
         </div>
