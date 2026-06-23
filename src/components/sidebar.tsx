@@ -84,7 +84,6 @@ const menuItems: MenuItem[] = [
     href: '/dashboard/settings',
     subItems: [
       { label: 'Global Contact Info', href: '/dashboard/settings/contact' },
-      { label: 'Site Identity', href: '/dashboard/settings/identity' },
       { label: 'Newsletter', href: '/dashboard/settings/newsletter' },
     ],
   },

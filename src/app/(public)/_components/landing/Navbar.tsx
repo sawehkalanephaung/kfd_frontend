@@ -3,17 +3,11 @@ import { Search, Trees, ChevronDown } from "lucide-react";
 
 export default async function Navbar() {
   let departments = [];
-  let siteIdentity: any = null;
 
   try {
-    const [deptRes, siteRes] = await Promise.all([
-      fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"}/api/v1/public/departments`, {
-        cache: "no-store"
-      }),
-      fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"}/api/v1/public/site-identity`, {
-        cache: "no-store"
-      })
-    ]);
+    const deptRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"}/api/v1/public/departments`, {
+      next: { revalidate: 3600 }
+    });
 
     if (deptRes.ok) {
       const data = await deptRes.json();
@@ -22,13 +16,6 @@ export default async function Navbar() {
           name: dept.name,
           href: `/departments/${dept.slug}`
         }));
-      }
-    }
-
-    if (siteRes.ok) {
-      const data = await siteRes.json();
-      if (data && data.data) {
-        siteIdentity = data.data;
       }
     }
   } catch (error) {
@@ -67,8 +54,8 @@ export default async function Navbar() {
             <Trees size={24} />
           </div>
           <div className="flex flex-col">
-            <span className="font-bold text-lg leading-none text-[#1a3626] tracking-tight">{siteIdentity?.organizationName || "KFD"}</span>
-            <span className="text-xs text-gray-500 font-medium">{siteIdentity?.tagline || "Kawthoolei Forestry Department"}</span>
+            <span className="font-bold text-lg leading-none text-[#1a3626] tracking-tight">Kawthoolei Forestry Department</span>
+            <span className="text-xs text-gray-500 font-medium pt-1">Protecting Nature, Empowering Communities</span>
           </div>
         </Link>
 
