@@ -1,16 +1,8 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Bell, CalendarDays } from "lucide-react";
 
 export default function NewsSection({ news }: { news: any[] }) {
   const defaultNews = [
-    {
-      category: "Announcement",
-      date: "Aug 15, 2024",
-      title: "KFD Launches New Community Forest Monitoring System Across 5 Districts",
-      excerpt: "In a collaborative effort with local leaders, we have deployed a new mobile-based reporting tool to empower communities in safeguarding their forests.",
-      image: "https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&q=80",
-      link: "/news/1"
-    },
     {
       category: "Report",
       date: "Aug 02, 2024",
@@ -31,71 +23,133 @@ export default function NewsSection({ news }: { news: any[] }) {
 
   const displayNews = news && news.length > 0 ? news : defaultNews;
 
+  // Placeholder data for Announcements & Events (since we just created the pages)
+  const noticeBoardItems = [
+    {
+      id: 1,
+      type: "Announcement",
+      title: "New Policy on Forest Access during Dry Season",
+      date: "Sep 01, 2024",
+      link: "/news/announcements"
+    },
+    {
+      id: 2,
+      type: "Event",
+      title: "Annual Community Tree Planting Day",
+      date: "Sep 15, 2024",
+      link: "/news/events"
+    },
+    {
+      id: 3,
+      type: "Announcement",
+      title: "Deadline for Regional Forestry Permits Extended",
+      date: "Aug 28, 2024",
+      link: "/news/announcements"
+    }
+  ];
+
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-white border-t border-gray-100">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
-          <h2 className="text-3xl font-bold text-gray-900">News & Announcements</h2>
-          <Link 
-            href="/news" 
-            className="text-sm font-semibold text-gray-600 hover:text-gray-900 flex items-center gap-1 transition-colors group"
-          >
-            View All News 
-            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-          </Link>
-        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+          
+          {/* Left Column: Latest News */}
+          <div className="lg:col-span-2">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
+              <h2 className="text-3xl font-bold text-gray-900">Latest News</h2>
+              <Link 
+                href="/news" 
+                className="text-sm font-semibold text-gray-600 hover:text-[#1a3626] flex items-center gap-1 transition-colors group"
+              >
+                View All News 
+                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </div>
 
-        {/* Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {displayNews.slice(0, 3).map((item, index) => {
-            const dateStr = item.publishedAt ? new Date(item.publishedAt).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }) : item.date;
-            const catName = item.category?.name || item.category;
-            const imgUrl = item.featuredImage || item.image || "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&q=80";
-            const itemLink = item.slug ? `/news/${item.slug}` : item.link;
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+              {displayNews.slice(0, 2).map((item, index) => {
+                const dateStr = item.publishedAt ? new Date(item.publishedAt).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }) : item.date;
+                const catName = item.category?.name || item.category;
+                const imgUrl = item.featuredImage || item.image || "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&q=80";
+                const itemLink = item.slug ? `/news/${item.slug}` : item.link;
 
-            return (
-              <div key={item.id || index} className="flex flex-col group h-full">
-                {/* Image */}
-                <div className="relative w-full h-56 rounded-xl overflow-hidden mb-5 shrink-0 bg-gray-100">
-                  <div 
-                    className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-                    style={{ backgroundImage: `url('${imgUrl}')` }}
-                  />
-                </div>
+                return (
+                  <div key={item.id || index} className="flex flex-col group h-full">
+                    {/* Image */}
+                    <div className="relative w-full h-52 rounded-xl overflow-hidden mb-5 shrink-0 bg-gray-100">
+                      <div 
+                        className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
+                        style={{ backgroundImage: `url('${imgUrl}')` }}
+                      />
+                    </div>
 
-                {/* Meta */}
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-semibold uppercase tracking-wider text-[#2a563c] bg-green-50 px-2.5 py-1 rounded-sm">
-                    {catName}
-                  </span>
-                  <span className="text-sm text-gray-500 font-medium">
-                    {dateStr}
-                  </span>
-                </div>
+                    {/* Meta */}
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-[#2a563c] bg-green-50 px-2.5 py-1 rounded-sm">
+                        {catName}
+                      </span>
+                      <span className="text-sm text-gray-500 font-medium">
+                        {dateStr}
+                      </span>
+                    </div>
 
-                {/* Content */}
-                <h3 className="text-xl font-bold text-gray-900 mb-3 leading-tight group-hover:text-[#2a563c] transition-colors line-clamp-2">
-                  {item.title}
-                </h3>
-                <p className="text-sm text-gray-600 leading-relaxed mb-4 flex-grow line-clamp-3">
-                  {item.excerpt}
-                </p>
+                    {/* Content */}
+                    <h3 className="text-lg font-bold text-gray-900 mb-3 leading-tight group-hover:text-[#2a563c] transition-colors line-clamp-2">
+                      {item.title}
+                    </h3>
+                    <p className="text-sm text-gray-600 leading-relaxed flex-grow line-clamp-3 mb-4">
+                      {item.excerpt}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
 
-                {/* Link */}
+          {/* Right Column: Announcements & Events */}
+          <div className="lg:col-span-1 flex flex-col">
+            <h2 className="text-2xl font-bold text-gray-900 mb-8">Announcements & Events</h2>
+            
+            <div className="bg-gray-50 border border-gray-100 rounded-2xl p-6 flex flex-col gap-6 flex-grow">
+              {noticeBoardItems.map((notice) => (
                 <Link 
-                  href={itemLink}
-                  className="text-sm font-semibold text-[#1a3626] hover:text-green-700 flex items-center gap-1 mt-auto w-fit transition-colors"
+                  key={notice.id} 
+                  href={notice.link}
+                  className="group flex gap-4 p-4 -mx-4 rounded-xl hover:bg-white hover:shadow-sm transition-all"
                 >
-                  Read More
-                  <ArrowRight size={14} />
+                  <div className="w-10 h-10 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center shrink-0 group-hover:bg-green-50 group-hover:border-green-100 group-hover:text-[#2a563c] transition-colors text-gray-400">
+                    {notice.type === "Event" ? <CalendarDays size={18} /> : <Bell size={18} />}
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-sm ${
+                        notice.type === "Event" ? "bg-amber-100 text-amber-700" : "bg-blue-100 text-blue-700"
+                      }`}>
+                        {notice.type}
+                      </span>
+                      <span className="text-xs text-gray-500 font-medium">{notice.date}</span>
+                    </div>
+                    <h4 className="text-sm font-bold text-gray-900 leading-snug group-hover:text-[#2a563c] transition-colors">
+                      {notice.title}
+                    </h4>
+                  </div>
+                </Link>
+              ))}
+
+              <div className="mt-auto pt-4 border-t border-gray-200/60 flex justify-between">
+                <Link href="/news/announcements" className="text-xs font-semibold text-[#2a563c] hover:underline">
+                  All Announcements
+                </Link>
+                <Link href="/news/events" className="text-xs font-semibold text-[#2a563c] hover:underline">
+                  All Events
                 </Link>
               </div>
-            );
-          })}
-        </div>
+            </div>
 
+          </div>
+
+        </div>
       </div>
     </section>
   );

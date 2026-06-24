@@ -1,10 +1,11 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { Loader2, Save, ArrowLeft, FileText, AlignLeft, Settings, ImageIcon, Tag as TagIcon, FolderTree, ChevronDown, X } from 'lucide-react';
+import { Loader2, Save, ArrowLeft, FileText, AlignLeft, Settings, ImageIcon, Tag as TagIcon, FolderTree, ChevronDown, X, UploadCloud, FolderOpen, Trash2 } from 'lucide-react';
 import Link from 'next/link';
 import api from '@/lib/api';
+import MediaSelector from '@/components/media-selector';
 
 interface PostFormProps {
   initialData?: any;
@@ -21,6 +22,11 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
   const [categories, setCategories] = useState<any[]>([]);
   const [tags, setTags] = useState<any[]>([]);
   const [isTagDropdownOpen, setIsTagDropdownOpen] = useState(false);
+
+  // Media Widget State
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isMediaSelectorOpen, setIsMediaSelectorOpen] = useState(false);
+  const [uploadingImage, setUploadingImage] = useState(false);
 
   // Form State matching PostRequestDto
   const [formData, setFormData] = useState({
@@ -73,6 +79,38 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
         return { ...prev, tagIds: [...prev.tagIds, tagId] };
       }
     });
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setUploadingImage(true);
+      const mediaFormData = new FormData();
+      mediaFormData.append('file', file);
+
+      const uploadRes = await api.post('/api/v1/admin/media/upload', mediaFormData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+
+      const url = uploadRes.data?.data?.fileUrl || uploadRes.data?.fileUrl;
+      if (url) {
+        setFormData(prev => ({ ...prev, featuredImageUrl: url }));
+      }
+    } catch (err: any) {
+      console.error(err);
+      alert(err.response?.data?.message || 'Failed to upload image.');
+    } finally {
+      setUploadingImage(false);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    }
+  };
+
+  const handleMediaSelect = (selectedAssets: any[]) => {
+    if (selectedAssets.length > 0) {
+      setFormData(prev => ({ ...prev, featuredImageUrl: selectedAssets[0].fileUrl }));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -305,22 +343,85 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
               Featured Media
             </h2>
             <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">Featured Image URL</label>
-                <input
-                  type="text"
-                  value={formData.featuredImageUrl}
-                  onChange={(e) => setFormData({...formData, featuredImageUrl: e.target.value})}
-                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
-                  placeholder="https://example.com/image.jpg"
-                />
-                <p className="text-xs text-gray-400 mt-2">Optional external or library image URL</p>
-              </div>
+              <input 
+                type="file" 
+                ref={fileInputRef}
+                onChange={handleImageUpload}
+                accept="image/*"
+                className="hidden"
+              />
+              
+              {formData.featuredImageUrl ? (
+                <div className="group relative rounded-xl overflow-hidden border border-gray-200 aspect-[4/3] bg-gray-50 flex flex-col">
+                  <img 
+                    src={formData.featuredImageUrl} 
+                    alt="Featured preview" 
+                    className="w-full h-full object-cover"
+                    onError={(e) => { (e.target as HTMLImageElement).src = 'https://via.placeholder.com/400x300?text=Invalid+Image+URL'; }}
+                  />
+                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setIsMediaSelectorOpen(true)}
+                      className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg backdrop-blur-sm text-sm font-medium transition-colors flex items-center gap-2"
+                    >
+                      <ImageIcon className="w-4 h-4" />
+                      Change Image
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setFormData({...formData, featuredImageUrl: ''})}
+                      className="px-4 py-2 bg-red-500/80 hover:bg-red-600 text-white rounded-lg backdrop-blur-sm text-sm font-medium transition-colors flex items-center gap-2"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="border-2 border-dashed border-gray-200 rounded-xl p-8 flex flex-col items-center justify-center text-center gap-4 bg-gray-50/50">
+                  <div className="w-12 h-12 bg-white rounded-full shadow-sm flex items-center justify-center border border-gray-100">
+                    {uploadingImage ? <Loader2 className="w-6 h-6 text-emerald-500 animate-spin" /> : <ImageIcon className="w-6 h-6 text-gray-400" />}
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-gray-900 mb-1">No featured image selected</p>
+                    <p className="text-xs text-gray-500 max-w-[200px] mx-auto">Upload an image or choose one from your library.</p>
+                  </div>
+                  <div className="flex flex-col w-full gap-2 mt-2">
+                    <button
+                      type="button"
+                      onClick={() => fileInputRef.current?.click()}
+                      disabled={uploadingImage}
+                      className="w-full py-2.5 bg-white border border-gray-200 hover:border-emerald-500 hover:text-emerald-600 text-gray-700 text-sm font-medium rounded-xl transition-colors flex items-center justify-center gap-2 shadow-sm"
+                    >
+                      {uploadingImage ? <Loader2 className="w-4 h-4 animate-spin" /> : <UploadCloud className="w-4 h-4" />}
+                      {uploadingImage ? 'Uploading...' : 'Upload Image'}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setIsMediaSelectorOpen(true)}
+                      disabled={uploadingImage}
+                      className="w-full py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-xl transition-colors flex items-center justify-center gap-2"
+                    >
+                      <FolderOpen className="w-4 h-4" />
+                      Choose from Library
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
         </div>
       </div>
+
+      <MediaSelector
+        isOpen={isMediaSelectorOpen}
+        onClose={() => setIsMediaSelectorOpen(false)}
+        onSelect={handleMediaSelect}
+        multiple={false}
+        title="Select Featured Image"
+      />
     </form>
   );
 }
