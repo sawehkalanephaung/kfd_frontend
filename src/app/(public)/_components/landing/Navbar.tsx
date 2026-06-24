@@ -43,7 +43,15 @@ export default async function Navbar() {
       href: "/departments",
       dropdown: departments.length > 0 ? departments : undefined
     },
-    { name: "News", href: "/news" },
+    { 
+      name: "News", 
+      href: "/news",
+      dropdown: [
+        { name: "Latest News", href: "/news" },
+        { name: "Official Announcements", href: "/news/announcements" },
+        { name: "Upcoming Events", href: "/news/events" },
+      ]
+    },
     { name: "Resources", href: "/resources" },
     { name: "Contact", href: "/contact" },
   ];
