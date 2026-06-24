@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { UploadCloud, Trash2, Edit, FileText, Image as ImageIcon, Loader2, Video, Search, Copy, Check } from 'lucide-react';
+import { UploadCloud, Trash2, Edit, FileText, Image as ImageIcon, Loader2, Video, Search, Copy, Check, Filter, ChevronLeft, ChevronRight } from 'lucide-react';
 import api, { getMediaUrl } from '@/lib/api';
 import DeleteModal from '@/components/delete-modal';
 
@@ -22,21 +22,55 @@ export default function MediaLibraryPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   
+  const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalElements, setTotalElements] = useState(0);
+  const itemsPerPage = 10;
+  
+  // Media categories (hardcoded or fetched)
+  const categories = ['general', 'News', 'Hero', 'Documents'];
+  
   // Delete Modal State
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [mediaToDelete, setMediaToDelete] = useState<MediaAsset | null>(null);
 
+  // Debounce search query
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(searchQuery);
+    }, 400);
+    return () => clearTimeout(handler);
+  }, [searchQuery]);
+
+  // Reset to page 1 when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [debouncedSearch, selectedCategory]);
+
   useEffect(() => {
     fetchMedia();
-  }, []);
+  }, [debouncedSearch, selectedCategory, currentPage]);
 
   const fetchMedia = async () => {
     try {
       setLoading(true);
-      const response = await api.get('/api/v1/admin/media?size=100');
+      const params = new URLSearchParams({
+        page: String(currentPage - 1),
+        size: String(itemsPerPage),
+        sort: 'createdAt,desc'
+      });
+      if (debouncedSearch) params.append('search', debouncedSearch);
+      if (selectedCategory) params.append('category', selectedCategory);
+
+      const response = await api.get(`/api/v1/admin/media?${params.toString()}`);
       
-      const data = response.data?.content || response.data?.data?.content || response.data?.data || [];
-      setMedia(Array.isArray(data) ? data : []);
+      const content = response.data?.content || response.data?.data?.content || response.data?.data || [];
+      setMedia(Array.isArray(content) ? content : []);
+      setTotalPages(response.data?.totalPages || 1);
+      setTotalElements(response.data?.totalElements || content.length);
     } catch (err: any) {
       console.error(err);
       setError('Failed to load media library.');
@@ -126,6 +160,38 @@ export default function MediaLibraryPage() {
           {error}
         </div>
       )}
+
+      {/* Controls Bar */}
+      <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-50 flex flex-col md:flex-row items-center gap-4 mb-6">
+        <div className="relative w-full md:w-1/3">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <Search className="w-4 h-4 text-gray-400" />
+          </div>
+          <input
+            type="text"
+            placeholder="Search media files..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-black focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+          />
+        </div>
+        
+        <div className="relative w-full md:w-1/4">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <Filter className="w-4 h-4 text-gray-400" />
+          </div>
+          <select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-black focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all appearance-none"
+          >
+            <option value="">All Categories</option>
+            {categories.map((cat) => (
+              <option key={cat} value={cat}>{cat}</option>
+            ))}
+          </select>
+        </div>
+      </div>
 
       {/* Table Section */}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-50 overflow-hidden">
@@ -218,6 +284,34 @@ export default function MediaLibraryPage() {
             </tbody>
           </table>
         </div>
+        
+        {/* Pagination Footer */}
+        {totalElements > 0 && (
+          <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-between bg-gray-50/30">
+            <div className="text-sm text-gray-500">
+              Showing <span className="font-medium">{(currentPage - 1) * itemsPerPage + 1}</span> to <span className="font-medium">{Math.min(currentPage * itemsPerPage, totalElements)}</span> of <span className="font-medium">{totalElements}</span> results
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                disabled={currentPage === 1}
+                className="p-2 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+              <div className="text-sm font-medium text-gray-700 px-2">
+                Page {currentPage} of {totalPages}
+              </div>
+              <button
+                onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                disabled={currentPage === totalPages}
+                className="p-2 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
       <DeleteModal
