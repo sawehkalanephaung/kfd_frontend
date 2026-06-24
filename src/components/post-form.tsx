@@ -4,8 +4,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { Loader2, Save, ArrowLeft, FileText, AlignLeft, Settings, ImageIcon, Tag as TagIcon, FolderTree, ChevronDown, X, UploadCloud, FolderOpen, Trash2 } from 'lucide-react';
 import Link from 'next/link';
-import api from '@/lib/api';
+import dynamic from 'next/dynamic';
+import api, { getMediaUrl } from '@/lib/api';
 import MediaSelector from '@/components/media-selector';
+import 'react-quill-new/dist/quill.snow.css';
+
+const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
 
 interface PostFormProps {
   initialData?: any;
@@ -220,13 +224,15 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
               <AlignLeft className="w-5 h-5 text-gray-400" />
               Post Content
             </h2>
-            <textarea
-              rows={15}
-              value={formData.content}
-              onChange={(e) => setFormData({...formData, content: e.target.value})}
-              className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
-              placeholder="Enter full post content..."
-            ></textarea>
+            <div className="bg-white rounded-xl overflow-hidden border border-gray-200 focus-within:border-emerald-500 focus-within:ring-1 focus-within:ring-emerald-500 transition-all text-black">
+              <ReactQuill
+                theme="snow"
+                value={formData.content}
+                onChange={(val) => setFormData({...formData, content: val})}
+                className="h-[350px] mb-10 text-black"
+                placeholder="Enter full post content..."
+              />
+            </div>
           </div>
 
         </div>
@@ -354,7 +360,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
               {formData.featuredImageUrl ? (
                 <div className="group relative rounded-xl overflow-hidden border border-gray-200 aspect-[4/3] bg-gray-50 flex flex-col">
                   <img 
-                    src={formData.featuredImageUrl} 
+                    src={getMediaUrl(formData.featuredImageUrl)} 
                     alt="Featured preview" 
                     className="w-full h-full object-cover"
                     onError={(e) => { (e.target as HTMLImageElement).src = 'https://via.placeholder.com/400x300?text=Invalid+Image+URL'; }}

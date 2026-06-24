@@ -28,9 +28,16 @@ async function getCategories(): Promise<PostCategory[]> {
 
 async function getPosts(page: number, categorySlug?: string): Promise<PaginatedPosts | null> {
   try {
-    // Set size to 3 so we can see pagination working with the 4 test posts
-    const params = new URLSearchParams({ page: String(page), size: "3" });
-    if (categorySlug) params.set("categorySlug", categorySlug);
+    const params = new URLSearchParams({ page: String(page), size: "9" });
+    if (categorySlug) {
+      params.set("categorySlug", categorySlug);
+    } else {
+      // By default, exclude announcements and events from the general news feed
+      // If the backend doesn't support multiple exclude parameters natively,
+      // we'll filter them client/server side below, but we can try adding exclude params if supported.
+      // For safety, we will just fetch more and filter below if category is not specified.
+      params.set("size", "20"); // Fetch more to ensure we have enough after filtering
+    }
     const res = await fetch(`${API}/api/v1/public/posts?${params}`, { cache: "no-store" });
     if (!res.ok) return null;
     const json = await res.json();
@@ -77,8 +84,14 @@ const FALLBACK_IMAGES = [
   "https://images.unsplash.com/photo-1501854140801-50d01698950b?q=80&w=800&auto=format&fit=crop",
 ];
 
+function getMediaUrl(url?: string | null): string {
+  if (!url) return '';
+  if (url.startsWith('http://') || url.startsWith('https://')) return url;
+  return `${API}${url.startsWith('/') ? '' : '/'}${url}`;
+}
+
 function getImage(post: NewsPost, idx: number): string {
-  return post.featuredImageUrl || FALLBACK_IMAGES[idx % FALLBACK_IMAGES.length];
+  return post.featuredImageUrl ? getMediaUrl(post.featuredImageUrl) : FALLBACK_IMAGES[idx % FALLBACK_IMAGES.length];
 }
 
 // ── Page ───────────────────────────────────────────────────────
@@ -97,7 +110,15 @@ export default async function NewsPage({ searchParams }: PageProps) {
     getPosts(currentPage, activeCategory || undefined),
   ]);
 
-  const posts = paginatedData?.content ?? [];
+  // Filter out announcements and events from the main feed if no specific category is selected
+  let posts = paginatedData?.content ?? [];
+  if (!activeCategory) {
+    posts = posts.filter(post => {
+      const slug = post.category?.slug?.toLowerCase();
+      return slug !== 'announcement' && slug !== 'event';
+    });
+  }
+
   const featured = posts[0] ?? null;
   const gridPosts = posts.slice(1);
   const totalPages = paginatedData?.totalPages ?? 1;

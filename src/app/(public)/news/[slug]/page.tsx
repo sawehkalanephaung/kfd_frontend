@@ -67,10 +67,16 @@ const FALLBACK_IMAGES = [
   "https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?q=80&w=1200&auto=format&fit=crop",
 ];
 
+function getMediaUrl(url?: string | null): string {
+  if (!url) return '';
+  if (url.startsWith('http://') || url.startsWith('https://')) return url;
+  return `${API}${url.startsWith('/') ? '' : '/'}${url}`;
+}
+
 // ── Related Post Card ──────────────────────────────────────────
 
 function RelatedCard({ post, idx }: { post: NewsPost; idx: number }) {
-  const img = post.featuredImageUrl || FALLBACK_IMAGES[idx % FALLBACK_IMAGES.length];
+  const img = post.featuredImageUrl ? getMediaUrl(post.featuredImageUrl) : FALLBACK_IMAGES[idx % FALLBACK_IMAGES.length];
   return (
     <Link
       href={`/news/${post.slug}`}
@@ -117,7 +123,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
 
   if (!post) notFound();
 
-  const heroImage = post.featuredImageUrl || FALLBACK_IMAGES[0];
+  const heroImage = post.featuredImageUrl ? getMediaUrl(post.featuredImageUrl) : FALLBACK_IMAGES[0];
 
   return (
     <main className="min-h-screen bg-[#0b1a10]">
