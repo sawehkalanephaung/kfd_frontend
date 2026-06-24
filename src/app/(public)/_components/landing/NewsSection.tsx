@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ArrowRight, Bell, CalendarDays } from "lucide-react";
+import { ArrowRight, Bell, CalendarDays, ImageIcon } from "lucide-react";
+import { getMediaUrl } from "@/lib/api";
 
 export default function NewsSection({ news, notices }: { news: any[], notices?: any[] }) {
   const defaultNews = [
@@ -8,7 +9,6 @@ export default function NewsSection({ news, notices }: { news: any[], notices?: 
       date: "Aug 02, 2024",
       title: "Annual Deforestation Rates Drop by 14% in Protected Zones",
       excerpt: "This year's forest cover analysis indicates a substantial reduction in illegal logging activities within our most vulnerable zones.",
-      image: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&q=80",
       link: "/news/2"
     },
     {
@@ -16,7 +16,6 @@ export default function NewsSection({ news, notices }: { news: any[], notices?: 
       date: "Jul 28, 2024",
       title: "2024 Biodiversity Assessment Confirms Increase in Tiger Population",
       excerpt: "Recent camera trap surveys conducted by KFD conservationists reveal a promising rise in the region's tiger numbers.",
-      image: "https://images.unsplash.com/photo-1549480017-d5636ef4456f?auto=format&fit=crop&q=80",
       link: "/news/3"
     }
   ];
@@ -72,17 +71,21 @@ export default function NewsSection({ news, notices }: { news: any[], notices?: 
               {displayNews.slice(0, 2).map((item, index) => {
                 const dateStr = item.publishedAt ? new Date(item.publishedAt).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }) : item.date;
                 const catName = item.category?.name || item.category;
-                const imgUrl = item.featuredImage || item.image || "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&q=80";
+                const imgUrl = item.featuredImageUrl ? getMediaUrl(item.featuredImageUrl) : item.featuredImage || item.image;
                 const itemLink = item.slug ? `/news/${item.slug}` : item.link;
 
                 return (
                   <div key={item.id || index} className="flex flex-col group h-full">
                     {/* Image */}
-                    <div className="relative w-full h-52 rounded-xl overflow-hidden mb-5 shrink-0 bg-gray-100">
-                      <div 
-                        className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-                        style={{ backgroundImage: `url('${imgUrl}')` }}
-                      />
+                    <div className="relative w-full h-52 rounded-xl overflow-hidden mb-5 shrink-0 bg-gray-100 flex items-center justify-center">
+                      {imgUrl ? (
+                        <div 
+                          className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
+                          style={{ backgroundImage: `url('${imgUrl}')` }}
+                        />
+                      ) : (
+                        <ImageIcon className="w-10 h-10 text-gray-300" />
+                      )}
                     </div>
 
                     {/* Meta */}

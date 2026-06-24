@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowRight, User, Calendar, Share2, Bookmark } from "lucide-react";
+import { ArrowRight, User, Calendar, Share2, Bookmark, ImageIcon } from "lucide-react";
 import { NewsPostDetail, NewsPost } from "../types";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
@@ -61,12 +61,6 @@ function getCategoryColor(name?: string): string {
   return CATEGORY_COLORS[name.toLowerCase()] ?? "bg-emerald-500/20 text-emerald-300 border-emerald-500/40";
 }
 
-const FALLBACK_IMAGES = [
-  "https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=1200&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1511497584788-876760111969?q=80&w=1200&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?q=80&w=1200&auto=format&fit=crop",
-];
-
 function getMediaUrl(url?: string | null): string {
   if (!url) return '';
   if (url.startsWith('http://') || url.startsWith('https://')) return url;
@@ -75,19 +69,24 @@ function getMediaUrl(url?: string | null): string {
 
 // ── Related Post Card ──────────────────────────────────────────
 
-function RelatedCard({ post, idx }: { post: NewsPost; idx: number }) {
-  const img = post.featuredImageUrl ? getMediaUrl(post.featuredImageUrl) : FALLBACK_IMAGES[idx % FALLBACK_IMAGES.length];
+function RelatedCard({ post }: { post: NewsPost }) {
   return (
     <Link
       href={`/news/${post.slug}`}
       className="group flex flex-col rounded-xl overflow-hidden bg-[#0f2318] border border-white/5 hover:border-green-700/40 transition-all hover:-translate-y-1"
     >
-      <div className="relative h-40 overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-          style={{ backgroundImage: `url('${img}')` }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+      <div className="relative h-40 overflow-hidden bg-[#153020] flex items-center justify-center">
+        {post.featuredImageUrl ? (
+          <>
+            <div
+              className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
+              style={{ backgroundImage: `url('${getMediaUrl(post.featuredImageUrl)}')` }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+          </>
+        ) : (
+          <ImageIcon className="w-10 h-10 text-white/10" />
+        )}
         {post.category && (
           <div className="absolute top-3 left-3">
             <span className={`text-[9px] font-bold uppercase tracking-widest border px-2 py-0.5 rounded-full ${getCategoryColor(post.category.name)}`}>
@@ -123,7 +122,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
 
   if (!post) notFound();
 
-  const heroImage = post.featuredImageUrl ? getMediaUrl(post.featuredImageUrl) : FALLBACK_IMAGES[0];
+  const hasHeroImage = !!post.featuredImageUrl;
   const categorySlug = post.category?.slug?.toLowerCase();
   const metadata: any = post.metadata || {};
 
@@ -169,10 +168,16 @@ export default async function NewsDetailPage({ params }: PageProps) {
 
               {/* Event Content */}
               <div className="w-full md:w-2/3">
-                <div
-                  className="w-full h-64 rounded-2xl bg-cover bg-center shadow-2xl mb-8 border border-white/10"
-                  style={{ backgroundImage: `url('${heroImage}')` }}
-                />
+                {hasHeroImage ? (
+                  <div
+                    className="w-full h-64 rounded-2xl bg-cover bg-center shadow-2xl mb-8 border border-white/10"
+                    style={{ backgroundImage: `url('${getMediaUrl(post.featuredImageUrl)}')` }}
+                  />
+                ) : (
+                  <div className="w-full h-64 rounded-2xl bg-[#153020]/50 flex items-center justify-center shadow-2xl mb-8 border border-white/10">
+                    <ImageIcon className="w-12 h-12 text-white/20" />
+                  </div>
+                )}
                 <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight mb-8">
                   {post.title}
                 </h1>
@@ -304,10 +309,16 @@ export default async function NewsDetailPage({ params }: PageProps) {
       {/* ── Featured Image ───────────────────────────────────── */}
       <section className="px-4 sm:px-6 lg:px-8 mb-12">
         <div className="container mx-auto max-w-4xl">
-          <div
-            className="w-full h-72 md:h-[420px] rounded-2xl bg-cover bg-center shadow-2xl"
-            style={{ backgroundImage: `url('${heroImage}')` }}
-          />
+          {hasHeroImage ? (
+            <div
+              className="w-full h-72 md:h-[420px] rounded-2xl bg-cover bg-center shadow-2xl"
+              style={{ backgroundImage: `url('${getMediaUrl(post.featuredImageUrl)}')` }}
+            />
+          ) : (
+            <div className="w-full h-72 md:h-[420px] rounded-2xl bg-[#153020]/50 flex items-center justify-center shadow-2xl">
+              <ImageIcon className="w-16 h-16 text-white/10" />
+            </div>
+          )}
         </div>
       </section>
 

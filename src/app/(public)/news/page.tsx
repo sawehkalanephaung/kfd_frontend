@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, ChevronLeft, ChevronRight, Calendar, Tag } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight, Calendar, Tag, ImageIcon } from "lucide-react";
 import { NewsPost, PostCategory, PaginatedPosts } from "./types";
 
 export const metadata: Metadata = {
@@ -32,10 +32,6 @@ async function getPosts(page: number, categorySlug?: string): Promise<PaginatedP
     if (categorySlug) {
       params.set("categorySlug", categorySlug);
     } else {
-      // By default, exclude announcements and events from the general news feed
-      // If the backend doesn't support multiple exclude parameters natively,
-      // we'll filter them client/server side below, but we can try adding exclude params if supported.
-      // For safety, we will just fetch more and filter below if category is not specified.
       params.set("size", "20"); // Fetch more to ensure we have enough after filtering
     }
     const res = await fetch(`${API}/api/v1/public/posts?${params}`, { cache: "no-store" });
@@ -74,24 +70,10 @@ function getCategoryColor(name?: string): string {
   return CATEGORY_COLORS[name.toLowerCase()] ?? "bg-emerald-500/20 text-emerald-300 border-emerald-500/30";
 }
 
-// Fallback forest image when no featuredImageUrl set
-const FALLBACK_IMAGES = [
-  "https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=800&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1511497584788-876760111969?q=80&w=800&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?q=80&w=800&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1518173946687-a4c8892bbd9f?q=80&w=800&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1536514072410-5019a3c69182?q=80&w=800&auto=format&fit=crop",
-  "https://images.unsplash.com/photo-1501854140801-50d01698950b?q=80&w=800&auto=format&fit=crop",
-];
-
 function getMediaUrl(url?: string | null): string {
   if (!url) return '';
   if (url.startsWith('http://') || url.startsWith('https://')) return url;
   return `${API}${url.startsWith('/') ? '' : '/'}${url}`;
-}
-
-function getImage(post: NewsPost, idx: number): string {
-  return post.featuredImageUrl ? getMediaUrl(post.featuredImageUrl) : FALLBACK_IMAGES[idx % FALLBACK_IMAGES.length];
 }
 
 // ── Page ───────────────────────────────────────────────────────
@@ -110,7 +92,6 @@ export default async function NewsPage({ searchParams }: PageProps) {
     getPosts(currentPage, activeCategory || undefined),
   ]);
 
-  // Filter out announcements and events from the main feed if no specific category is selected
   let posts = paginatedData?.content ?? [];
   if (!activeCategory) {
     posts = posts.filter(post => {
@@ -176,12 +157,18 @@ export default async function NewsPage({ searchParams }: PageProps) {
         {featured && currentPage === 0 && !activeCategory && (
           <Link
             href={`/news/${featured.slug}`}
-            className="group relative block w-full h-[420px] rounded-2xl overflow-hidden mb-12 shadow-2xl"
+            className="group relative block w-full h-[420px] rounded-2xl overflow-hidden mb-12 shadow-2xl bg-[#0f2318]"
           >
-            <div
-              className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-              style={{ backgroundImage: `url('${getImage(featured, 0)}')` }}
-            />
+            {featured.featuredImageUrl ? (
+              <div
+                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+                style={{ backgroundImage: `url('${getMediaUrl(featured.featuredImageUrl)}')` }}
+              />
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center">
+                <ImageIcon size={64} className="text-white/10" />
+              </div>
+            )}
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
 
             <div className="absolute bottom-0 left-0 right-0 p-8">
@@ -215,11 +202,15 @@ export default async function NewsPage({ searchParams }: PageProps) {
                 className="group flex flex-col rounded-xl overflow-hidden bg-[#0f2318] border border-white/5 hover:border-green-700/40 transition-all hover:-translate-y-1 hover:shadow-xl hover:shadow-green-900/20"
               >
                 {/* Image */}
-                <div className="relative h-44 overflow-hidden">
-                  <div
-                    className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-                    style={{ backgroundImage: `url('${getImage(post, idx + 1)}')` }}
-                  />
+                <div className="relative h-44 overflow-hidden bg-[#1a3024] flex items-center justify-center">
+                  {post.featuredImageUrl ? (
+                    <div
+                      className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
+                      style={{ backgroundImage: `url('${getMediaUrl(post.featuredImageUrl)}')` }}
+                    />
+                  ) : (
+                    <ImageIcon size={32} className="text-white/10" />
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0f2318]/60 to-transparent" />
                   {post.category && (
                     <div className="absolute top-3 left-3">
