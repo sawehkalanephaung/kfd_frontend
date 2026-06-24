@@ -11,6 +11,7 @@ import {
   FileText,
   Activity,
   ChevronRight,
+  ImageIcon,
 } from "lucide-react";
 import { DepartmentData } from "./types";
 
@@ -43,7 +44,6 @@ function getDeptMeta(slug: string): {
   color: string;
   bg: string;
   accent: string;
-  image: string;
   description: string;
 } {
   if (slug.includes("survey") || slug.includes("documentation")) {
@@ -52,8 +52,6 @@ function getDeptMeta(slug: string): {
       color: "text-sky-700",
       bg: "bg-sky-50",
       accent: "bg-sky-500",
-      image:
-        "https://images.unsplash.com/photo-1560707303-4e980ce876ad?q=80&w=800&auto=format&fit=crop",
       description:
         "Conducting comprehensive land surveys and documentation to map and preserve forest territories across Kawthoolei.",
     };
@@ -64,8 +62,6 @@ function getDeptMeta(slug: string): {
       color: "text-amber-700",
       bg: "bg-amber-50",
       accent: "bg-amber-500",
-      image:
-        "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=800&auto=format&fit=crop",
       description:
         "Building forest stewardship through community education, public awareness campaigns, and capacity-building training programs.",
     };
@@ -76,8 +72,6 @@ function getDeptMeta(slug: string): {
       color: "text-red-700",
       bg: "bg-red-50",
       accent: "bg-red-500",
-      image:
-        "https://images.unsplash.com/photo-1518173946687-a4c8892bbd9f?q=80&w=800&auto=format&fit=crop",
       description:
         "Safeguarding forest boundaries and land rights through active patrol, enforcement, and legal documentation efforts.",
     };
@@ -88,8 +82,6 @@ function getDeptMeta(slug: string): {
       color: "text-green-700",
       bg: "bg-green-50",
       accent: "bg-green-500",
-      image:
-        "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?q=80&w=800&auto=format&fit=crop",
       description:
         "Growing native seedlings and leading large-scale reforestation programs to restore degraded forest ecosystems.",
     };
@@ -100,8 +92,6 @@ function getDeptMeta(slug: string): {
       color: "text-purple-700",
       bg: "bg-purple-50",
       accent: "bg-purple-500",
-      image:
-        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop",
       description:
         "Coordinating multi-stakeholder conservation projects, grants, and partnerships for sustainable forest management.",
     };
@@ -111,8 +101,6 @@ function getDeptMeta(slug: string): {
     color: "text-emerald-700",
     bg: "bg-emerald-50",
     accent: "bg-emerald-500",
-    image:
-      "https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?q=80&w=800&auto=format&fit=crop",
     description: "A specialized unit within the Kawthoolei Forestry Department.",
   };
 }
@@ -126,13 +114,10 @@ export default async function DepartmentsPage() {
       <section className="relative overflow-hidden bg-[#0f2318] py-20 md:py-28">
         {/* Background pattern */}
         <div
-          className="absolute inset-0 opacity-10"
-          style={{
-            backgroundImage: `url("https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=2000&auto=format&fit=crop")`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        />
+          className="absolute inset-0 opacity-10 flex items-center justify-center overflow-hidden pointer-events-none"
+        >
+          <TreePine size={400} className="text-white/10" />
+        </div>
         <div className="absolute inset-0 bg-gradient-to-b from-[#0f2318]/80 to-[#0f2318]/95" />
 
         {/* Decorative blobs */}
@@ -204,11 +189,8 @@ export default async function DepartmentsPage() {
                   className="group relative flex flex-col rounded-2xl overflow-hidden bg-white border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300"
                 >
                   {/* Card Image */}
-                  <div className="relative h-48 overflow-hidden">
-                    <div
-                      className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-                      style={{ backgroundImage: `url('${meta.image}')` }}
-                    />
+                  <div className={`relative h-48 overflow-hidden flex items-center justify-center ${meta.bg}`}>
+                    <Icon size={80} className={`${meta.color} opacity-20`} />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
 
                     {/* Order badge */}

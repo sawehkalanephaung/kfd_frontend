@@ -5,6 +5,10 @@ import { useRouter } from 'next/navigation';
 import { Loader2, Save, ArrowLeft, User, AlignLeft, Settings, Image as ImageIcon, Building2, UploadCloud, X } from 'lucide-react';
 import Link from 'next/link';
 import api, { getMediaUrl } from '@/lib/api';
+import dynamic from 'next/dynamic';
+import 'react-quill-new/dist/quill.snow.css';
+
+const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
 
 interface TeamMemberFormProps {
   initialData?: any;
@@ -238,13 +242,13 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
               <AlignLeft className="w-5 h-5 text-gray-400" />
               Biography (Rich Text)
             </h2>
-            <textarea
-              rows={6}
+            <ReactQuill
+              theme="snow"
               value={formData.bio}
-              onChange={(e) => setFormData({...formData, bio: e.target.value})}
-              className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+              onChange={(val) => setFormData({...formData, bio: val})}
+              className="h-[250px] mb-12 text-black"
               placeholder="Enter member's biography..."
-            ></textarea>
+            />
           </div>
 
         </div>

@@ -25,7 +25,7 @@ async function getTeamMembers() {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
     const res = await fetch(`${baseUrl}/api/v1/public/team-members`, { 
-      next: { revalidate: 3600 } 
+      cache: 'no-store'
     });
     
     if (!res.ok) {
@@ -37,6 +37,28 @@ async function getTeamMembers() {
     console.error("Error fetching team members:", error);
     return null;
   }
+}
+
+function parseI18nField(val: any): string {
+  if (!val) return "";
+  if (typeof val === "object") return val.text || val.en || Object.values(val)[0] || "";
+  if (typeof val === "string") {
+    try {
+      const parsed = JSON.parse(val);
+      if (parsed.richText) {
+        try {
+          const inner = JSON.parse(parsed.richText);
+          return inner.en || inner.text || Object.values(inner)[0] || parsed.richText;
+        } catch(e) {
+          return parsed.richText;
+        }
+      }
+      return parsed.text || parsed.en || Object.values(parsed)[0] || val;
+    } catch (e) {
+      return val;
+    }
+  }
+  return String(val);
 }
 
 export default async function AboutUsPage() {
@@ -64,18 +86,23 @@ export default async function AboutUsPage() {
   // Looking for someone with role/title Chairman or Director General
   let chairman = null;
   if (teamMembers && teamMembers.length > 0) {
-    chairman = teamMembers.find((m: any) => 
-      m.role?.toLowerCase().includes("chairman") || 
-      m.role?.toLowerCase().includes("director general")
-    ) || teamMembers[0]; // fallback to first member
+    chairman = teamMembers.find((m: any) => {
+      const titleStr = parseI18nField(m.title);
+      const roleStr = (titleStr || m.role || m.position || "").toLowerCase();
+      return roleStr.includes("chairman") || roleStr.includes("director general");
+    });
   }
 
-  // Formatting backend chairman data to match component props if it exists
+  let finalTitle = 'Chairman';
+  if (chairman) {
+    finalTitle = parseI18nField(chairman.title) || chairman.role || chairman.position || 'Chairman';
+  }
+
   const formattedChairman = chairman ? {
-    name: `${chairman.firstName} ${chairman.lastName}`,
-    title: chairman.role || chairman.position,
-    bio: chairman.bio || chairman.description,
-    image: chairman.imageUrl || chairman.avatarUrl || "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80"
+    name: `${chairman.firstName || chairman.first_name || chairman.name || ''} ${chairman.lastName || chairman.last_name || ''}`.trim() || 'Chairman',
+    title: finalTitle,
+    bio: parseI18nField(chairman.bio || chairman.description),
+    image: chairman.headshot_url || chairman.headshotUrl || chairman.imageUrl || chairman.avatarUrl || null
   } : undefined;
 
   return (

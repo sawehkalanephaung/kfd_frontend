@@ -66,6 +66,7 @@ export default async function Navbar() {
               src={logoImg}
               alt="KFD Logo"
               fill
+              sizes="48px"
               className="object-contain"
             />
           </div>

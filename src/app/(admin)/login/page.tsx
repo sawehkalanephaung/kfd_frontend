@@ -52,6 +52,7 @@ export default function AdminLogin() {
           alt="Mountains Background"
           fill
           priority
+          sizes="100vw"
           className="object-cover object-center opacity-90"
           onError={(e) => {
             // Fallback gradient if the image isn't placed in public folder yet

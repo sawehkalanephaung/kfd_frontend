@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import { getMediaUrl } from '@/lib/api';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { ChevronDown, ChevronUp, ImageIcon } from 'lucide-react';
 
 interface AboutContentSectionProps {
   title: string;
@@ -38,9 +38,7 @@ export default function AboutContentSection({
   }
 
   // Fallback image if none provided
-  const displayImage = imageUrl 
-    ? getMediaUrl(imageUrl) 
-    : "https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&q=80";
+  const displayImage = imageUrl ? getMediaUrl(imageUrl) : null;
 
   const isLongContent = content.length > 500;
   const showSeeMoreButton = enableSeeMore && isLongContent;
@@ -52,9 +50,10 @@ export default function AboutContentSection({
       </h2>
       
       <div className="prose prose-lg max-w-none relative">
-        <p className={`text-lg md:text-xl leading-relaxed whitespace-pre-wrap transition-all duration-500 ease-in-out ${contentClass} ${showSeeMoreButton && !isExpanded ? 'line-clamp-[8]' : ''}`}>
-          {content}
-        </p>
+        <div 
+          className={`text-lg md:text-xl leading-relaxed transition-all duration-500 ease-in-out prose-p:mb-4 ${contentClass} ${showSeeMoreButton && !isExpanded ? 'line-clamp-[8]' : ''}`}
+          dangerouslySetInnerHTML={{ __html: content }}
+        />
         
         {/* Gradient fade when collapsed */}
         {showSeeMoreButton && !isExpanded && (
@@ -84,13 +83,19 @@ export default function AboutContentSection({
   );
 
   const imageBlock = (
-    <div className="relative h-[400px] lg:h-[600px] w-full rounded-3xl overflow-hidden shadow-2xl group">
-      <div 
-        className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-        style={{ backgroundImage: `url('${displayImage}')` }}
-      />
-      {/* Subtle overlay to ensure the image looks premium and fits the brand */}
-      <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-700" />
+    <div className="relative h-[400px] lg:h-[600px] w-full rounded-3xl overflow-hidden shadow-2xl group bg-gray-100 flex items-center justify-center">
+      {displayImage ? (
+        <>
+          <div 
+            className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+            style={{ backgroundImage: `url('${displayImage}')` }}
+          />
+          {/* Subtle overlay to ensure the image looks premium and fits the brand */}
+          <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-700" />
+        </>
+      ) : (
+        <ImageIcon size={64} className="text-gray-300" />
+      )}
     </div>
   );
 

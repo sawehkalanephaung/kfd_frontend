@@ -1,5 +1,4 @@
-import { MapPin, Clock, User } from "lucide-react";
-import Image from "next/image";
+import { MapPin, Clock, User, ImageIcon } from "lucide-react";
 import { DepartmentData } from "../../departments/types";
 
 export default function DepartmentHero({ data }: { data: DepartmentData }) {
@@ -19,15 +18,14 @@ export default function DepartmentHero({ data }: { data: DepartmentData }) {
     <div className="relative w-full bg-white overflow-hidden border-b border-gray-100">
       {/* Background Image/Gradient overlay */}
       <div 
-        className="absolute right-0 top-0 w-2/3 h-full opacity-60 pointer-events-none"
+        className="absolute right-0 top-0 w-2/3 h-full opacity-60 pointer-events-none bg-gray-100 flex items-center justify-center"
         style={{
-          background: `linear-gradient(to right, white 0%, transparent 100%), url('https://images.unsplash.com/photo-1511497584788-876760111969?q=80&w=2000&auto=format&fit=crop')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
           WebkitMaskImage: 'linear-gradient(to left, black 50%, transparent 100%)',
           maskImage: 'linear-gradient(to left, black 50%, transparent 100%)',
         }}
-      />
+      >
+        <ImageIcon size={64} className="text-gray-300 ml-32" />
+      </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10 flex items-center gap-8">
         {/* Logo */}

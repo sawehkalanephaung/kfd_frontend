@@ -23,9 +23,10 @@ export default function DepartmentInfo({ data }: { data: DepartmentData }) {
       {overview && (
         <div className="mb-12">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Overview</h3>
-          <p className="text-gray-700 leading-relaxed text-sm">
-            {overview}
-          </p>
+          <div 
+            className="text-gray-700 leading-relaxed text-sm prose prose-sm max-w-none prose-green"
+            dangerouslySetInnerHTML={{ __html: overview }}
+          />
         </div>
       )}
 

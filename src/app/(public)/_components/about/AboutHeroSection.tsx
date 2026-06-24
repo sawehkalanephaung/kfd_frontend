@@ -1,16 +1,23 @@
 import { getMediaUrl } from "@/lib/api";
+import { ImageIcon } from "lucide-react";
 
 export default function AboutHeroSection({ tagline, bgImage }: { tagline?: string, bgImage?: string }) {
-  const defaultBg = "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&q=80";
   
   return (
-    <section className="relative w-full h-[600px] flex items-center justify-center text-center">
-      <div 
-        className="absolute inset-0 z-0 bg-cover bg-center"
-        style={{ backgroundImage: `url('${bgImage ? getMediaUrl(bgImage) : defaultBg}')` }}
-      >
-        <div className="absolute inset-0 bg-black/50"></div>
-      </div>
+    <section className="relative w-full h-[600px] flex items-center justify-center text-center bg-[#0f2318]">
+      {bgImage ? (
+        <div 
+          className="absolute inset-0 z-0 bg-cover bg-center"
+          style={{ backgroundImage: `url('${getMediaUrl(bgImage)}')` }}
+        >
+          <div className="absolute inset-0 bg-black/50"></div>
+        </div>
+      ) : (
+        <div className="absolute inset-0 z-0 flex items-center justify-center">
+          <ImageIcon size={64} className="text-white/5" />
+          <div className="absolute inset-0 bg-black/20"></div>
+        </div>
+      )}
 
       <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
         <h1 className="text-5xl md:text-6xl font-serif text-white tracking-widest mb-6 drop-shadow-lg">
