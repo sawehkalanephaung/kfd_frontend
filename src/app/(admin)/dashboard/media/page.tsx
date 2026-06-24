@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { UploadCloud, Trash2, Edit, FileText, Image as ImageIcon, Loader2, Video, Search } from 'lucide-react';
+import { UploadCloud, Trash2, Edit, FileText, Image as ImageIcon, Loader2, Video, Search, Copy, Check } from 'lucide-react';
 import api, { getMediaUrl } from '@/lib/api';
 import DeleteModal from '@/components/delete-modal';
 
@@ -73,6 +73,20 @@ export default function MediaLibraryPage() {
     if (!kb) return '0 KB';
     if (kb > 1024) return (kb / 1024).toFixed(2) + ' MB';
     return kb + ' KB';
+  };
+
+  const CopyButton = ({ text }: { text: string }) => {
+    const [copied, setCopied] = useState(false);
+    const handleCopy = () => {
+      navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    };
+    return (
+      <button onClick={handleCopy} className="text-gray-400 hover:text-emerald-600 transition-colors ml-1" title="Copy UUID">
+        {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
+      </button>
+    );
   };
 
   return (
@@ -158,7 +172,14 @@ export default function MediaLibraryPage() {
                               {asset.fileName}
                             </a>
                           </p>
-                          <p className="text-xs text-gray-400">{asset.fileType || 'Unknown format'}</p>
+                          <div className="flex items-center gap-2 mt-0.5">
+                            <p className="text-xs text-gray-400">{asset.fileType || 'Unknown format'}</p>
+                            <span className="text-gray-300 text-xs">•</span>
+                            <p className="text-xs font-mono text-gray-500 flex items-center">
+                              {asset.id.substring(0, 8)}...
+                              <CopyButton text={asset.id} />
+                            </p>
+                          </div>
                         </div>
                       </div>
                     </td>

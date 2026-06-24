@@ -1,20 +1,46 @@
-import Link from "next/link";
+'use client';
 
-export default function HeroSection({ siteIdentity }: { siteIdentity: any }) {
-  const title = siteIdentity?.organizationName || "Protecting Kawthoolei's Forests for Future Generations";
-  const description = siteIdentity?.tagline || "The Kawthoolei Forest Department safeguards the interconnected webs of biodiversity and communities through conservation, enforcement, and community partnership.";
+import Link from "next/link";
+import { useState, useEffect } from "react";
+import { getMediaUrl } from "@/lib/api";
+
+export default function HeroSection({ siteIdentity, homeContent }: { siteIdentity: any; homeContent?: any }) {
+  const title = homeContent?.title || siteIdentity?.organizationName || "Protecting Kawthoolei's Forests for Future Generations";
+  const description = homeContent?.content || siteIdentity?.tagline || "The Kawthoolei Forest Department safeguards the interconnected webs of biodiversity and communities through conservation, enforcement, and community partnership.";
+
+  const defaultImage = "https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&q=80";
+  
+  let images: string[] = [];
+  if (homeContent?.sliderImageUrls && homeContent.sliderImageUrls.length > 0) {
+    images = homeContent.sliderImageUrls;
+  } else if (homeContent?.heroImageUrl) {
+    images = [homeContent.heroImageUrl];
+  } else {
+    images = [defaultImage];
+  }
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    if (images.length <= 1) return;
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % images.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [images.length]);
 
   return (
-    <section className="relative w-full h-[600px] flex items-center">
-      {/* Background with placeholder image and gradient overlay */}
-      <div 
-        className="absolute inset-0 z-0 bg-cover bg-center"
-        style={{ 
-          backgroundImage: "url('https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&q=80')",
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-r from-[#1a2e1d]/90 via-[#1a2e1d]/70 to-transparent"></div>
-      </div>
+    <section className="relative w-full h-[600px] flex items-center overflow-hidden">
+      {/* Background images slider */}
+      {images.map((img, idx) => (
+        <div 
+          key={idx}
+          className={`absolute inset-0 z-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out ${idx === currentIndex ? 'opacity-100' : 'opacity-0'}`}
+          style={{ backgroundImage: `url('${getMediaUrl(img)}')` }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-[#1a2e1d]/90 via-[#1a2e1d]/70 to-transparent"></div>
+        </div>
+      ))}
 
       <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl">
@@ -22,13 +48,13 @@ export default function HeroSection({ siteIdentity }: { siteIdentity: any }) {
             {title}
           </h1>
           
-          <p className="text-lg text-green-50 mb-10 max-w-xl leading-relaxed">
+          <p className="text-lg text-green-50 mb-10 max-w-xl leading-relaxed whitespace-pre-wrap">
             {description}
           </p>
           
           <div className="flex flex-wrap items-center gap-4">
             <Link 
-              href="/projects" 
+              href="/news" 
               className="bg-[#2a563c] hover:bg-[#326949] text-white font-medium px-8 py-3.5 rounded-md transition-colors"
             >
               Explore Our Work
@@ -43,12 +69,19 @@ export default function HeroSection({ siteIdentity }: { siteIdentity: any }) {
         </div>
       </div>
 
-      {/* Carousel dots placeholder */}
-      <div className="absolute bottom-8 right-8 z-10 flex gap-2">
-        <div className="w-2.5 h-2.5 rounded-full bg-white"></div>
-        <div className="w-2.5 h-2.5 rounded-full bg-white/40"></div>
-        <div className="w-2.5 h-2.5 rounded-full bg-white/40"></div>
-      </div>
+      {/* Carousel dots */}
+      {images.length > 0 && (
+        <div className="absolute bottom-8 right-8 z-10 flex gap-2">
+          {images.map((_, idx) => (
+            <button 
+              key={idx}
+              onClick={() => setCurrentIndex(idx)}
+              className={`w-2.5 h-2.5 rounded-full transition-colors ${idx === currentIndex ? 'bg-white' : 'bg-white/40 hover:bg-white/60'}`}
+              aria-label={`Go to slide ${idx + 1}`}
+            />
+          ))}
+        </div>
+      )}
     </section>
   );
 }

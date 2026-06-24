@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Loader2, Save, ArrowLeft, FileText, AlignLeft, Settings, Image as ImageIcon } from 'lucide-react';
 import Link from 'next/link';
 import api from '@/lib/api';
+import MediaSelector from './media-selector';
 
 interface PageFormProps {
   initialData?: any;
@@ -16,6 +17,7 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [selectorMode, setSelectorMode] = useState<'none' | 'hero' | 'slider'>('none');
 
   // Form State matching the Page entity
   const [formData, setFormData] = useState({
@@ -23,6 +25,7 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
     slug: initialData?.slug || '',
     content: initialData?.content || '',
     heroImageId: initialData?.heroImageId || '',
+    sliderImageIds: initialData?.sliderImageIds?.join(', ') || '',
     status: initialData?.status || 'DRAFT',
   });
 
@@ -47,6 +50,7 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
     const payload = {
       ...formData,
       heroImageId: formData.heroImageId?.trim() || null,
+      sliderImageIds: formData.sliderImageIds.split(',').map((s: string) => s.trim()).filter((s: string) => s.length > 0),
     };
 
     try {
@@ -179,20 +183,74 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
               <ImageIcon className="w-5 h-5 text-gray-400" />
               Media
             </h2>
-            <div className="space-y-4">
+            <div className="space-y-6">
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">Hero Image ID</label>
-                <input
-                  type="text"
-                  value={formData.heroImageId}
-                  onChange={(e) => setFormData({...formData, heroImageId: e.target.value})}
-                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
-                  placeholder="e.g. 123e4567-e89b..."
-                />
-                <p className="text-xs text-gray-400 mt-2">UUID from the Media Library</p>
+                <label className="block text-sm font-semibold text-gray-900 mb-2 flex items-center justify-between">
+                  Hero Image
+                  {formData.heroImageId && (
+                    <button type="button" onClick={() => setFormData({...formData, heroImageId: ''})} className="text-xs text-red-500 hover:text-red-700">Clear</button>
+                  )}
+                </label>
+                <div className="flex items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setSelectorMode('hero')}
+                    className="flex-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-700 hover:bg-gray-100 transition-colors text-left flex items-center justify-between"
+                  >
+                    <span className="truncate">
+                      {formData.heroImageId ? '1 Image Selected' : 'Select Hero Image...'}
+                    </span>
+                    <ImageIcon className="w-4 h-4 text-gray-400" />
+                  </button>
+                </div>
+                {formData.heroImageId && (
+                  <p className="text-xs text-gray-500 mt-2 font-mono truncate bg-gray-50 p-2 rounded-lg border border-gray-100">{formData.heroImageId}</p>
+                )}
+              </div>
+
+              <div className="pt-2">
+                <label className="block text-sm font-semibold text-gray-900 mb-2 flex items-center justify-between">
+                  Slider Images (Hero Section)
+                  {formData.sliderImageIds && (
+                    <button type="button" onClick={() => setFormData({...formData, sliderImageIds: ''})} className="text-xs text-red-500 hover:text-red-700">Clear</button>
+                  )}
+                </label>
+                <div className="flex items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setSelectorMode('slider')}
+                    className="flex-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-700 hover:bg-gray-100 transition-colors text-left flex items-center justify-between"
+                  >
+                    <span className="truncate">
+                      {formData.sliderImageIds ? `${formData.sliderImageIds.split(',').filter((s: string) => s.trim().length > 0).length} Images Selected` : 'Select Slider Images...'}
+                    </span>
+                    <ImageIcon className="w-4 h-4 text-gray-400" />
+                  </button>
+                </div>
+                {formData.sliderImageIds && (
+                  <div className="mt-2 flex flex-col gap-1">
+                    {formData.sliderImageIds.split(',').filter((s: string) => s.trim().length > 0).map((id: string, i: number) => (
+                      <p key={i} className="text-xs text-gray-500 font-mono truncate bg-gray-50 p-2 rounded-lg border border-gray-100">{id.trim()}</p>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </div>
+
+          <MediaSelector 
+            isOpen={selectorMode !== 'none'} 
+            onClose={() => setSelectorMode('none')}
+            multiple={selectorMode === 'slider'}
+            title={selectorMode === 'slider' ? "Select Slider Images" : "Select Hero Image"}
+            onSelect={(assets) => {
+              if (selectorMode === 'hero') {
+                setFormData({...formData, heroImageId: assets[0]?.id || ''});
+              } else if (selectorMode === 'slider') {
+                setFormData({...formData, sliderImageIds: assets.map(a => a.id).join(', ')});
+              }
+            }}
+          />
 
         </div>
       </div>

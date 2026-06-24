@@ -58,18 +58,29 @@ async function fetchFaqs() {
   }
 }
 
+async function fetchHomeContent() {
+  try {
+    const res = await fetch(`${API}/api/v1/public/pages/home`, { next: { revalidate: 60 } });
+    if (!res.ok) return null;
+    return (await res.json())?.data || null;
+  } catch {
+    return null;
+  }
+}
+
 export default async function PublicHome() {
-  const [siteIdentity, metrics, departments, news, faqs] = await Promise.all([
+  const [siteIdentity, metrics, departments, news, faqs, homeContent] = await Promise.all([
     fetchSiteIdentity(),
     fetchMetrics(),
     fetchDepartments(),
     fetchNews(),
     fetchFaqs(),
+    fetchHomeContent(),
   ]);
 
   return (
     <>
-      <HeroSection siteIdentity={siteIdentity} />
+      <HeroSection siteIdentity={siteIdentity} homeContent={homeContent} />
       <StatsSection metrics={metrics} />
       <DepartmentsSection departments={departments} />
       <NewsSection news={news} />

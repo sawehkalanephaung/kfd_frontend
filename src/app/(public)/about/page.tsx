@@ -1,8 +1,4 @@
-import AboutHeroSection from "../_components/about/AboutHeroSection";
-import AboutHistorySection from "../_components/about/AboutHistorySection";
-import AboutMissionSection from "../_components/about/AboutMissionSection";
-import AboutVisionSection from "../_components/about/AboutVisionSection";
-import AboutObjectiveSection from "../_components/about/AboutObjectiveSection";
+import AboutContentSection from "../_components/about/AboutContentSection";
 import AboutChairmanSection from "../_components/about/AboutChairmanSection";
 
 // Helper function to fetch page data from backend
@@ -61,17 +57,8 @@ export default async function AboutUsPage() {
     getTeamMembers()
   ]);
 
-  // Parse JSON content if available
-  const parseContent = (pageData: any) => {
-    if (!pageData?.content) return null;
-    try {
-      // Assuming content might be stored as JSON string in CMS
-      return JSON.parse(pageData.content);
-    } catch {
-      // Fallback to returning plain text
-      return { text: pageData.content };
-    }
-  };
+  // Removed parseContent as we now expect plain text
+
 
   // Extract Chairman from Team Members
   // Looking for someone with role/title Chairman or Director General
@@ -92,26 +79,46 @@ export default async function AboutUsPage() {
   } : undefined;
 
   return (
-    <main className="flex flex-col min-h-screen">
-      <AboutHeroSection 
-        tagline={heroData?.content} 
-        bgImage={heroData?.heroImageUrl} 
+    <main className="flex flex-col min-h-screen pt-20">
+      <AboutContentSection 
+        title={heroData?.title || "About KFD"} 
+        content={heroData?.content || "Information about KFD will be updated soon."} 
+        imageUrl={heroData?.heroImageUrl || heroData?.sliderImageUrls?.[0]}
+        bgVariant="white"
+        imageAlignment="right"
       />
       
-      <AboutHistorySection 
-        historyData={parseContent(historyData)} 
+      <AboutContentSection 
+        title={historyData?.title || "History"} 
+        content={historyData?.content || "Information about our history will be updated soon."} 
+        imageUrl={historyData?.heroImageUrl || historyData?.sliderImageUrls?.[0]}
+        bgVariant="dark"
+        imageAlignment="left"
+        enableSeeMore={true}
       />
       
-      <AboutMissionSection 
-        missionData={parseContent(missionData)} 
+      <AboutContentSection 
+        title={missionData?.title || "Our Mission"} 
+        content={missionData?.content || "Information about our mission will be updated soon."} 
+        imageUrl={missionData?.heroImageUrl || missionData?.sliderImageUrls?.[0]}
+        bgVariant="light"
+        imageAlignment="right"
       />
       
-      <AboutVisionSection 
-        visionData={parseContent(visionData)} 
+      <AboutContentSection 
+        title={visionData?.title || "Our Vision"} 
+        content={visionData?.content || "Information about our vision will be updated soon."} 
+        imageUrl={visionData?.heroImageUrl || visionData?.sliderImageUrls?.[0]}
+        bgVariant="white"
+        imageAlignment="left"
       />
       
-      <AboutObjectiveSection 
-        objectiveData={parseContent(objectiveData)} 
+      <AboutContentSection 
+        title={objectiveData?.title || "Our Objective"} 
+        content={objectiveData?.content || "Information about our objective will be updated soon."} 
+        imageUrl={objectiveData?.heroImageUrl || objectiveData?.sliderImageUrls?.[0]}
+        bgVariant="dark"
+        imageAlignment="right"
       />
       
       <AboutChairmanSection 

@@ -1,3 +1,5 @@
+import { getMediaUrl } from "@/lib/api";
+
 export default function AboutHeroSection({ tagline, bgImage }: { tagline?: string, bgImage?: string }) {
   const defaultBg = "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&q=80";
   
@@ -5,7 +7,7 @@ export default function AboutHeroSection({ tagline, bgImage }: { tagline?: strin
     <section className="relative w-full h-[600px] flex items-center justify-center text-center">
       <div 
         className="absolute inset-0 z-0 bg-cover bg-center"
-        style={{ backgroundImage: `url('${bgImage || defaultBg}')` }}
+        style={{ backgroundImage: `url('${bgImage ? getMediaUrl(bgImage) : defaultBg}')` }}
       >
         <div className="absolute inset-0 bg-black/50"></div>
       </div>
