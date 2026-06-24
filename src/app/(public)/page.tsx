@@ -69,14 +69,38 @@ async function fetchHomeContent() {
   }
 }
 
+async function fetchNotices() {
+  try {
+    const [eventsRes, announcementsRes] = await Promise.all([
+      fetch(`${API}/api/v1/public/posts?page=0&size=2&categorySlug=event`, { next: { revalidate: 60 } }),
+      fetch(`${API}/api/v1/public/posts?page=0&size=2&categorySlug=announcement`, { next: { revalidate: 60 } })
+    ]);
+    
+    const events = eventsRes.ok ? (await eventsRes.json())?.data?.content || [] : [];
+    const announcements = announcementsRes.ok ? (await announcementsRes.json())?.data?.content || [] : [];
+    
+    // Combine and sort by publishedAt descending
+    const combined = [...events, ...announcements].sort((a, b) => {
+      const dateA = new Date(a.publishedAt || a.createdAt).getTime();
+      const dateB = new Date(b.publishedAt || b.createdAt).getTime();
+      return dateB - dateA;
+    });
+    
+    return combined.slice(0, 3); // Take top 3
+  } catch {
+    return [];
+  }
+}
+
 export default async function PublicHome() {
-  const [siteIdentity, metrics, departments, news, faqs, homeContent] = await Promise.all([
+  const [siteIdentity, metrics, departments, news, faqs, homeContent, notices] = await Promise.all([
     fetchSiteIdentity(),
     fetchMetrics(),
     fetchDepartments(),
     fetchNews(),
     fetchFaqs(),
     fetchHomeContent(),
+    fetchNotices(),
   ]);
 
   return (
@@ -84,7 +108,7 @@ export default async function PublicHome() {
       <HeroSection siteIdentity={siteIdentity} homeContent={homeContent} />
       <StatsSection metrics={metrics} />
       <DepartmentsSection departments={departments} />
-      <NewsSection news={news} />
+      <NewsSection news={news} notices={notices} />
       <FAQSection faqs={faqs} />
     </>
   );

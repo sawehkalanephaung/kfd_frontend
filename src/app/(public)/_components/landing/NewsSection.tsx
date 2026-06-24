@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, Bell, CalendarDays } from "lucide-react";
 
-export default function NewsSection({ news }: { news: any[] }) {
+export default function NewsSection({ news, notices }: { news: any[], notices?: any[] }) {
   const defaultNews = [
     {
       category: "Report",
@@ -23,8 +23,7 @@ export default function NewsSection({ news }: { news: any[] }) {
 
   const displayNews = news && news.length > 0 ? news : defaultNews;
 
-  // Placeholder data for Announcements & Events (since we just created the pages)
-  const noticeBoardItems = [
+  const defaultNoticeBoardItems = [
     {
       id: 1,
       type: "Announcement",
@@ -47,6 +46,8 @@ export default function NewsSection({ news }: { news: any[] }) {
       link: "/news/announcements"
     }
   ];
+
+  const displayNotices = notices && notices.length > 0 ? notices : defaultNoticeBoardItems;
 
   return (
     <section className="py-20 bg-white border-t border-gray-100">
@@ -112,30 +113,47 @@ export default function NewsSection({ news }: { news: any[] }) {
             <h2 className="text-2xl font-bold text-gray-900 mb-8">Announcements & Events</h2>
             
             <div className="bg-gray-50 border border-gray-100 rounded-2xl p-6 flex flex-col gap-6 flex-grow">
-              {noticeBoardItems.map((notice) => (
-                <Link 
-                  key={notice.id} 
-                  href={notice.link}
-                  className="group flex gap-4 p-4 -mx-4 rounded-xl hover:bg-white hover:shadow-sm transition-all"
-                >
-                  <div className="w-10 h-10 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center shrink-0 group-hover:bg-green-50 group-hover:border-green-100 group-hover:text-[#2a563c] transition-colors text-gray-400">
-                    {notice.type === "Event" ? <CalendarDays size={18} /> : <Bell size={18} />}
-                  </div>
-                  <div>
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-sm ${
-                        notice.type === "Event" ? "bg-amber-100 text-amber-700" : "bg-blue-100 text-blue-700"
-                      }`}>
-                        {notice.type}
-                      </span>
-                      <span className="text-xs text-gray-500 font-medium">{notice.date}</span>
+              {displayNotices.map((notice) => {
+                const isReal = !!notice.category;
+                const type = isReal ? notice.category.name : notice.type;
+                const title = isReal ? notice.title : notice.title;
+                const link = isReal ? `/news/${notice.slug}` : notice.link;
+                
+                // Use eventDate if it's an event, else publishedAt
+                let dateStr = notice.date;
+                if (isReal) {
+                  const isEvent = notice.category?.slug?.toLowerCase() === 'event';
+                  const dateObj = isEvent && notice.metadata?.eventDate 
+                    ? new Date(notice.metadata.eventDate) 
+                    : new Date(notice.publishedAt || notice.createdAt);
+                  dateStr = dateObj.toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" });
+                }
+
+                return (
+                  <Link 
+                    key={notice.id} 
+                    href={link}
+                    className="group flex gap-4 p-4 -mx-4 rounded-xl hover:bg-white hover:shadow-sm transition-all"
+                  >
+                    <div className="w-10 h-10 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center shrink-0 group-hover:bg-green-50 group-hover:border-green-100 group-hover:text-[#2a563c] transition-colors text-gray-400">
+                      {(type === "Event" || type?.toLowerCase() === "event") ? <CalendarDays size={18} /> : <Bell size={18} />}
                     </div>
-                    <h4 className="text-sm font-bold text-gray-900 leading-snug group-hover:text-[#2a563c] transition-colors">
-                      {notice.title}
-                    </h4>
-                  </div>
-                </Link>
-              ))}
+                    <div>
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-sm ${
+                          (type === "Event" || type?.toLowerCase() === "event") ? "bg-amber-100 text-amber-700" : "bg-blue-100 text-blue-700"
+                        }`}>
+                          {type}
+                        </span>
+                        <span className="text-xs text-gray-500 font-medium">{dateStr}</span>
+                      </div>
+                      <h4 className="text-sm font-bold text-gray-900 leading-snug group-hover:text-[#2a563c] transition-colors line-clamp-2">
+                        {title}
+                      </h4>
+                    </div>
+                  </Link>
+                );
+              })}
 
               <div className="mt-auto pt-4 border-t border-gray-200/60 flex justify-between">
                 <Link href="/news/announcements" className="text-xs font-semibold text-[#2a563c] hover:underline">
