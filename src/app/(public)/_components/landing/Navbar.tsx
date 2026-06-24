@@ -8,17 +8,18 @@ export default async function Navbar() {
 
   try {
     const deptRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"}/api/v1/public/departments`, {
-      next: { revalidate: 3600 }
+      cache: 'no-store' // Use no-store to ensure the dropdown updates immediately when admin adds/deletes departments
     });
 
     if (deptRes.ok) {
-      const data = await deptRes.json();
-      if (data && data.data) {
-        departments = data.data.map((dept: any) => ({
-          name: dept.name,
-          href: `/departments/${dept.slug}`
-        }));
-      }
+      const responseData = await deptRes.json();
+      // Handle different possible backend response structures (Spring Data Page, wrapped in data, or direct array)
+      const dataList = responseData.content || responseData.data || (Array.isArray(responseData) ? responseData : []);
+      
+      departments = dataList.map((dept: any) => ({
+        name: dept.name,
+        href: `/departments/${dept.slug}`
+      }));
     }
   } catch (error) {
     console.error("Failed to fetch data for navbar", error);
