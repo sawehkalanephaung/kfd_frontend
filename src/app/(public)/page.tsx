@@ -29,9 +29,10 @@ async function fetchMetrics() {
 
 async function fetchDepartments() {
   try {
-    const res = await fetch(`${API}/api/v1/public/departments?page=0&size=4`, { next: { revalidate: 60 } });
+    const res = await fetch(`${API}/api/v1/public/departments?page=0&size=4`, { cache: 'no-store' });
     if (!res.ok) return [];
-    return (await res.json())?.data?.content || [];
+    const responseData = await res.json();
+    return responseData.content || responseData.data || (Array.isArray(responseData) ? responseData : []);
   } catch {
     return [];
   }
