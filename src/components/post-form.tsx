@@ -21,7 +21,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  
+
   // Lookups
   const [categories, setCategories] = useState<any[]>([]);
   const [tags, setTags] = useState<any[]>([]);
@@ -42,6 +42,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
     categoryId: initialData?.category?.id || '',
     tagIds: initialData?.tags?.map((t: any) => t.id) || [],
     status: initialData?.status || 'DRAFT',
+    metadata: initialData?.metadata || {},
   });
 
   useEffect(() => {
@@ -143,6 +144,19 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
     }
   };
 
+  const handleMetadataChange = (key: string, value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      metadata: {
+        ...prev.metadata,
+        [key]: value
+      }
+    }));
+  };
+
+  const selectedCategory = categories.find(c => c.id === formData.categoryId);
+  const categorySlug = selectedCategory?.slug?.toLowerCase();
+
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Top Bar with Actions */}
@@ -173,7 +187,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Main Content Column */}
         <div className="lg:col-span-2 space-y-6">
-          
+
           {/* Basic Info Card */}
           <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50">
             <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
@@ -199,7 +213,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                   type="text"
                   required
                   value={formData.slug}
-                  onChange={(e) => setFormData({...formData, slug: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
                   className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
                   placeholder="new-forest-conservation"
                 />
@@ -210,7 +224,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                 <textarea
                   rows={3}
                   value={formData.excerpt}
-                  onChange={(e) => setFormData({...formData, excerpt: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
                   className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
                   placeholder="A short summary of the post..."
                 ></textarea>
@@ -228,18 +242,78 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
               <ReactQuill
                 theme="snow"
                 value={formData.content}
-                onChange={(val) => setFormData({...formData, content: val})}
+                onChange={(val) => setFormData({ ...formData, content: val })}
                 className="h-[350px] mb-10 text-black"
                 placeholder="Enter full post content..."
               />
             </div>
           </div>
 
+          {/* Conditional Metadata Fields */}
+          {(categorySlug === 'event' /* || categorySlug === 'announcement' */) && (
+            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50">
+              <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <Settings className="w-5 h-5 text-gray-400" />
+                {categorySlug === 'event' ? 'Event Details' : 'Announcement Details'}
+              </h2>
+              <div className="space-y-5">
+                {categorySlug === 'event' && (
+                  <>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-900 mb-2">Event Date</label>
+                        <input
+                          type="date"
+                          value={formData.metadata.eventDate || ''}
+                          onChange={(e) => handleMetadataChange('eventDate', e.target.value)}
+                          className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-semibold text-gray-900 mb-2">Event Time</label>
+                        <input
+                          type="time"
+                          value={formData.metadata.eventTime || ''}
+                          onChange={(e) => handleMetadataChange('eventTime', e.target.value)}
+                          className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-900 mb-2">Event Location</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. Main Conference Hall"
+                        value={formData.metadata.eventLocation || ''}
+                        onChange={(e) => handleMetadataChange('eventLocation', e.target.value)}
+                        className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                      />
+                    </div>
+                  </>
+                )}
+                {/* 
+                {categorySlug === 'announcement' && (
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-900 mb-2">Reference Number</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. KFD-2024-001"
+                      value={formData.metadata.referenceNumber || ''}
+                      onChange={(e) => handleMetadataChange('referenceNumber', e.target.value)}
+                      className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                    />
+                  </div>
+                )} 
+                */}
+              </div>
+            </div>
+          )}
+
         </div>
 
         {/* Sidebar Column */}
         <div className="space-y-6">
-          
+
           {/* Settings Card */}
           <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50">
             <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
@@ -251,7 +325,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                 <label className="block text-sm font-semibold text-gray-900 mb-2">Status</label>
                 <select
                   value={formData.status}
-                  onChange={(e) => setFormData({...formData, status: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, status: e.target.value })}
                   className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
                 >
                   <option value="PUBLISHED">Published</option>
@@ -273,7 +347,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                 <label className="block text-sm font-semibold text-gray-900 mb-2">Category</label>
                 <select
                   value={formData.categoryId}
-                  onChange={(e) => setFormData({...formData, categoryId: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })}
                   className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
                 >
                   <option value="">Select a Category</option>
@@ -289,7 +363,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                   Tags
                 </label>
                 <div className="relative">
-                  <div 
+                  <div
                     className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all flex flex-wrap gap-2 items-center cursor-pointer min-h-[50px]"
                     onClick={() => setIsTagDropdownOpen(!isTagDropdownOpen)}
                   >
@@ -310,11 +384,11 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                       <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${isTagDropdownOpen ? 'rotate-180' : ''}`} />
                     </div>
                   </div>
-                  
+
                   {isTagDropdownOpen && (
                     <>
-                      <div 
-                        className="fixed inset-0 z-10" 
+                      <div
+                        className="fixed inset-0 z-10"
                         onClick={() => setIsTagDropdownOpen(false)}
                       ></div>
                       <div className="absolute z-20 w-full mt-1 bg-white border border-gray-200 rounded-xl shadow-lg max-h-60 overflow-auto py-2">
@@ -322,7 +396,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                           <div className="px-4 py-3 text-sm text-gray-500 text-center">No tags found</div>
                         ) : (
                           tags.map(tag => (
-                            <div 
+                            <div
                               key={tag.id}
                               className="px-4 py-2.5 hover:bg-emerald-50 cursor-pointer flex items-center gap-3 transition-colors"
                               onClick={() => toggleTag(tag.id)}
@@ -349,19 +423,19 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
               Featured Media
             </h2>
             <div className="space-y-4">
-              <input 
-                type="file" 
+              <input
+                type="file"
                 ref={fileInputRef}
                 onChange={handleImageUpload}
                 accept="image/*"
                 className="hidden"
               />
-              
+
               {formData.featuredImageUrl ? (
                 <div className="group relative rounded-xl overflow-hidden border border-gray-200 aspect-[4/3] bg-gray-50 flex flex-col">
-                  <img 
-                    src={getMediaUrl(formData.featuredImageUrl)} 
-                    alt="Featured preview" 
+                  <img
+                    src={getMediaUrl(formData.featuredImageUrl)}
+                    alt="Featured preview"
                     className="w-full h-full object-cover"
                     onError={(e) => { (e.target as HTMLImageElement).src = 'https://via.placeholder.com/400x300?text=Invalid+Image+URL'; }}
                   />
@@ -376,7 +450,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                     </button>
                     <button
                       type="button"
-                      onClick={() => setFormData({...formData, featuredImageUrl: ''})}
+                      onClick={() => setFormData({ ...formData, featuredImageUrl: '' })}
                       className="px-4 py-2 bg-red-500/80 hover:bg-red-600 text-white rounded-lg backdrop-blur-sm text-sm font-medium transition-colors flex items-center gap-2"
                     >
                       <Trash2 className="w-4 h-4" />

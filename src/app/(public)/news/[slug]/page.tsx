@@ -124,7 +124,140 @@ export default async function NewsDetailPage({ params }: PageProps) {
   if (!post) notFound();
 
   const heroImage = post.featuredImageUrl ? getMediaUrl(post.featuredImageUrl) : FALLBACK_IMAGES[0];
+  const categorySlug = post.category?.slug?.toLowerCase();
+  const metadata: any = post.metadata || {};
 
+  // ── Event Layout ───────────────────────────────────────────────
+  if (categorySlug === 'event') {
+    const eventDate = metadata.eventDate ? new Date(metadata.eventDate) : new Date(post.publishedAt || post.createdAt);
+    const month = eventDate.toLocaleString('default', { month: 'short' }).toUpperCase();
+    const day = eventDate.getDate();
+
+    return (
+      <main className="min-h-screen bg-[#0b1a10]">
+        <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#0f2318] to-[#0b1a10]">
+          <div className="container mx-auto max-w-5xl">
+            <div className="flex flex-col md:flex-row gap-10 items-start">
+              {/* Massive Calendar Badge & Meta */}
+              <div className="w-full md:w-1/3 flex flex-col gap-6">
+                <div className="bg-[#153020] rounded-3xl border border-white/10 overflow-hidden shadow-2xl flex flex-col">
+                  <div className="bg-red-500/20 text-red-400 py-3 text-center font-bold tracking-widest uppercase text-sm border-b border-red-500/20">
+                    {month}
+                  </div>
+                  <div className="py-8 text-center text-6xl font-black text-white">
+                    {day}
+                  </div>
+                </div>
+
+                <div className="bg-[#153020]/50 rounded-2xl border border-white/5 p-6 space-y-5">
+                  <div>
+                    <h3 className="text-xs uppercase tracking-wider text-white/40 mb-1 font-bold">Time</h3>
+                    <p className="text-white text-lg font-medium">{metadata.eventTime || 'TBA'}</p>
+                  </div>
+                  <div>
+                    <h3 className="text-xs uppercase tracking-wider text-white/40 mb-1 font-bold">Location</h3>
+                    <p className="text-white text-lg font-medium">{metadata.eventLocation || 'TBA'}</p>
+                  </div>
+                  <div>
+                    <h3 className="text-xs uppercase tracking-wider text-white/40 mb-1 font-bold">Category</h3>
+                    <span className={`inline-block text-[10px] font-bold uppercase tracking-widest border px-3 py-1 rounded-full mt-1 ${getCategoryColor(post.category?.name)}`}>
+                      {post.category?.name}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Event Content */}
+              <div className="w-full md:w-2/3">
+                <div
+                  className="w-full h-64 rounded-2xl bg-cover bg-center shadow-2xl mb-8 border border-white/10"
+                  style={{ backgroundImage: `url('${heroImage}')` }}
+                />
+                <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight mb-8">
+                  {post.title}
+                </h1>
+
+                {post.content ? (
+                  <div
+                    className="prose prose-invert max-w-none prose-p:text-white/70 prose-headings:text-white prose-a:text-green-400"
+                    dangerouslySetInnerHTML={{ __html: post.content }}
+                  />
+                ) : (
+                  <p className="text-white/70 leading-relaxed">{post.excerpt}</p>
+                )}
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    );
+  }
+
+  // ── Announcement Layout ─────────────────────────────────────────
+  if (categorySlug === 'announcement') {
+    return (
+      <main className="min-h-screen bg-gray-100 py-16 px-4 sm:px-6 lg:px-8">
+        <div className="container mx-auto max-w-3xl">
+          <div className="bg-white rounded-sm shadow-2xl border border-gray-300 p-10 md:p-16 relative overflow-hidden">
+            {/* Memo Header */}
+            <div className="border-b-4 border-black pb-8 mb-8 text-center relative">
+              <div className="absolute left-0 top-0 text-black">
+                <Bookmark size={32} />
+              </div>
+              <h1 className="text-3xl md:text-4xl font-black text-black tracking-widest uppercase font-serif">
+                Official Memorandum
+              </h1>
+              <p className="text-gray-500 font-serif mt-2 italic">Kawthoolei Forestry Department</p>
+            </div>
+
+            {/* Memo Meta Table */}
+            <div className="mb-10 font-sans text-sm border-b border-gray-200 pb-8">
+              <div className="grid grid-cols-12 gap-y-4">
+                <div className="col-span-3 font-bold text-black uppercase tracking-wider">To:</div>
+                <div className="col-span-9 text-gray-800">Public Record</div>
+
+                <div className="col-span-3 font-bold text-black uppercase tracking-wider">From:</div>
+                <div className="col-span-9 text-gray-800">KFD Administration</div>
+
+                <div className="col-span-3 font-bold text-black uppercase tracking-wider">Date:</div>
+                <div className="col-span-9 text-gray-800">{formatDate(post.publishedAt || post.createdAt)}</div>
+
+                <div className="col-span-3 font-bold text-black uppercase tracking-wider">Subject:</div>
+                <div className="col-span-9 text-gray-900 font-bold">{post.title}</div>
+
+                {/* {metadata.referenceNumber && (
+                  <>
+                    <div className="col-span-3 font-bold text-black uppercase tracking-wider mt-2 pt-2 border-t border-gray-100">Ref No:</div>
+                    <div className="col-span-9 text-gray-800 mt-2 pt-2 border-t border-gray-100 font-mono">{metadata.referenceNumber}</div>
+                  </>
+                )} */}
+              </div>
+            </div>
+
+            {/* Memo Content */}
+            <div className="font-serif text-black/80 leading-relaxed text-lg">
+              {post.content ? (
+                <div
+                  className="prose prose-lg max-w-none prose-p:text-gray-800 prose-headings:text-black prose-a:text-blue-600"
+                  dangerouslySetInnerHTML={{ __html: post.content }}
+                />
+              ) : (
+                <p>{post.excerpt}</p>
+              )}
+            </div>
+
+            {/* Signature Area */}
+            {/* <div className="mt-16 pt-8 border-t border-gray-200 text-right font-serif">
+              <p className="text-gray-500 italic mb-4">Authorized by</p>
+              <h4 className="font-bold text-black text-xl">KFD Directorate</h4>
+            </div> */}
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  // ── General Layout ──────────────────────────────────────────────
   return (
     <main className="min-h-screen bg-[#0b1a10]">
       {/* ── Hero Header ─────────────────────────────────────── */}
@@ -154,7 +287,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
             )}
             <div className="flex items-center gap-1.5">
               <Calendar size={14} className="text-white/30" />
-              <span>{formatDate(post.publishedAt)}</span>
+              <span>{formatDate(post.publishedAt || post.createdAt)}</span>
             </div>
             <div className="flex items-center gap-3 ml-2">
               <button className="text-white/30 hover:text-white/60 transition-colors" title="Share">
@@ -192,13 +325,8 @@ export default async function NewsDetailPage({ params }: PageProps) {
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
           ) : (
-            /* Fallback: show excerpt repeated if no HTML content */
             <div className="space-y-4">
-              {[...Array(5)].map((_, i) => (
-                <p key={i} className="text-white/70 text-sm leading-relaxed">
-                  {post.excerpt}
-                </p>
-              ))}
+              <p className="text-white/70 text-sm leading-relaxed">{post.excerpt}</p>
             </div>
           )}
 
