@@ -39,7 +39,7 @@ export default async function Navbar() {
       ]
     },
     {
-      name: "Departments",
+      name: "Department Branches",
       href: "/departments",
       dropdown: departments.length > 0 ? departments : undefined
     },

@@ -10,12 +10,12 @@ export default function DepartmentsSection({ departments }: { departments: any[]
 
         {/* Section Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
-          <h2 className="text-3xl font-bold text-white">Our Departments</h2>
+          <h2 className="text-3xl font-bold text-white">Our Department Branches</h2>
           <Link
             href="/departments"
             className="text-sm font-semibold text-white-600 hover:text-white flex items-center gap-1 transition-colors group"
           >
-            View All Departments
+            View All Department Branches
             <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
