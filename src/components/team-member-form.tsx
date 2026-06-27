@@ -71,7 +71,13 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      setHeadshotFile(e.target.files[0]);
+      const selectedFile = e.target.files[0];
+      if (selectedFile.size > 15 * 1024 * 1024) {
+        setError('File size must be less than 15MB');
+        return;
+      }
+      setError('');
+      setHeadshotFile(selectedFile);
     }
   };
 

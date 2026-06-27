@@ -35,16 +35,31 @@ export default function UploadMediaPage() {
     }
   };
 
+  const validateFile = (file: File) => {
+    if (file.size > 15 * 1024 * 1024) {
+      setError('File size must be less than 15MB');
+      return false;
+    }
+    setError('');
+    return true;
+  };
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      setFile(e.target.files[0]);
+      const selectedFile = e.target.files[0];
+      if (validateFile(selectedFile)) {
+        setFile(selectedFile);
+      }
     }
   };
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-      setFile(e.dataTransfer.files[0]);
+      const droppedFile = e.dataTransfer.files[0];
+      if (validateFile(droppedFile)) {
+        setFile(droppedFile);
+      }
     }
   };
 
@@ -154,7 +169,7 @@ export default function UploadMediaPage() {
                       <UploadCloud className="w-8 h-8" />
                     </div>
                     <p className="text-gray-700 font-medium text-lg">Click to select or drag and drop</p>
-                    <p className="text-gray-500 text-sm mt-1">SVG, PNG, JPG, PDF or MP4 (max. 10MB)</p>
+                    <p className="text-gray-500 text-sm mt-1">SVG, PNG, JPG, PDF or MP4 (max. 15MB)</p>
                   </div>
                 )}
               </div>

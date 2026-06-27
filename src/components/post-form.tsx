@@ -90,6 +90,11 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
     const file = e.target.files?.[0];
     if (!file) return;
 
+    if (file.size > 15 * 1024 * 1024) {
+      alert('File size must be less than 15MB');
+      return;
+    }
+
     try {
       setUploadingImage(true);
       const mediaFormData = new FormData();
