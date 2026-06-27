@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Loader2, Save, MapPin, Mail, Phone, ListChecks, Plus, Trash2, Globe, Clock } from 'lucide-react';
 import api from '@/lib/api';
+import toast from 'react-hot-toast';
 import DeleteModal from '@/components/delete-modal';
 
 interface ContactSettingsFormProps {
@@ -71,14 +72,18 @@ export default function ContactSettingsForm({ initialData }: ContactSettingsForm
     try {
       if (initialData?.id) {
         await api.put(`/api/v1/admin/contact-settings/${initialData.id}`, payload);
+        toast.success('Successfully updated contact settings!');
       } else {
         await api.post('/api/v1/admin/contact-settings', payload);
+        toast.success('Successfully saved contact settings!');
       }
       setSuccessMsg('Contact settings updated successfully!');
       router.refresh();
     } catch (err: any) {
       console.error(err);
-      setError(err.response?.data?.message || 'Failed to save settings.');
+      const msg = err.response?.data?.message || 'Failed to save settings.';
+      setError(msg);
+      toast.error(msg);
     } finally {
       setLoading(false);
       // Auto dismiss success message

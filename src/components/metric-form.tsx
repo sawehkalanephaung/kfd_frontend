@@ -5,14 +5,16 @@ import { useRouter } from 'next/navigation';
 import { Loader2, Save, ArrowLeft, BarChart2, Settings } from 'lucide-react';
 import Link from 'next/link';
 import api from '@/lib/api';
+import toast from 'react-hot-toast';
 
 interface MetricFormProps {
   initialData?: any;
   isEdit?: boolean;
   metricId?: string;
+  onSave?: () => void;
 }
 
-export default function MetricForm({ initialData, isEdit, metricId }: MetricFormProps) {
+export default function MetricForm({ initialData, isEdit, metricId, onSave }: MetricFormProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -34,13 +36,21 @@ export default function MetricForm({ initialData, isEdit, metricId }: MetricForm
     try {
       if (isEdit) {
         await api.put(`/api/v1/admin/metrics/${metricId}`, formData);
+        toast.success('Successfully updated metric!');
       } else {
         await api.post('/api/v1/admin/metrics', formData);
+        toast.success('Successfully created metric!');
       }
-      router.push('/dashboard/organization/metrics');
+      if (onSave) {
+        onSave();
+      } else {
+        router.push('/dashboard/organization/metrics');
+      }
     } catch (err: any) {
       console.error(err);
-      setError(err.response?.data?.message || 'Failed to save metric.');
+      const msg = err.response?.data?.message || 'Failed to save metric.';
+      setError(msg);
+      toast.error(msg);
     } finally {
       setLoading(false);
     }

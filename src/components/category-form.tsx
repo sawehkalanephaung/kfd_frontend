@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Loader2, Save, ArrowLeft, FolderTree } from 'lucide-react';
 import Link from 'next/link';
 import api from '@/lib/api';
+import toast from 'react-hot-toast';
 
 interface CategoryFormProps {
   initialData?: any;
@@ -48,8 +49,10 @@ export default function CategoryForm({ initialData, isEdit, categoryId, isSlideO
     try {
       if (isEdit) {
         await api.put(`/api/v1/admin/cms/categories/${categoryId}`, formData);
+        toast.success('Successfully updated category!');
       } else {
         await api.post('/api/v1/admin/cms/categories', formData);
+        toast.success('Successfully created category!');
       }
       if (onSuccess) {
         onSuccess();
@@ -58,7 +61,9 @@ export default function CategoryForm({ initialData, isEdit, categoryId, isSlideO
       }
     } catch (err: any) {
       console.error(err);
-      setError(err.response?.data?.message || 'Failed to save category.');
+      const msg = err.response?.data?.message || 'Failed to save category.';
+      setError(msg);
+      toast.error(msg);
     } finally {
       setLoading(false);
     }

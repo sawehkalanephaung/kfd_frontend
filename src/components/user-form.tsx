@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Loader2, Save, ArrowLeft, UserCircle, Settings } from 'lucide-react';
 import Link from 'next/link';
 import api from '@/lib/api';
+import toast from 'react-hot-toast';
 
 interface UserFormProps {
   initialData?: any;
@@ -72,9 +73,12 @@ export default function UserForm({ initialData, isEdit, userId, isSlideOver, onS
     try {
       if (isEdit) {
         await api.put(`/api/v1/admin/users/${userId}`, payload);
+        toast.success('Successfully updated user!');
       } else {
         await api.post('/api/v1/admin/users', payload);
+        toast.success('Successfully created user!');
       }
+      
       if (onSuccess) {
         onSuccess();
       } else {
@@ -82,7 +86,9 @@ export default function UserForm({ initialData, isEdit, userId, isSlideOver, onS
       }
     } catch (err: any) {
       console.error(err);
-      setError(err.response?.data?.message || 'Failed to save user.');
+      const msg = err.response?.data?.message || 'Failed to save user.';
+      setError(msg);
+      toast.error(msg);
     } finally {
       setLoading(false);
     }

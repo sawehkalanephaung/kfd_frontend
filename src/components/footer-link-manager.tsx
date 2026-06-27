@@ -18,6 +18,7 @@ import {
   EyeOff,
 } from 'lucide-react';
 import api from '@/lib/api';
+import toast from 'react-hot-toast';
 import DeleteModal from '@/components/delete-modal';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -103,12 +104,15 @@ function LinkForm({
       const payload = { label: label.trim(), url: url.trim(), displayOrder, isActive };
       if (initialData?.id) {
         await api.put(`/api/v1/admin/footer-links/links/${initialData.id}`, payload);
+        toast.success('Successfully updated footer link!');
       } else {
         await api.post(`/api/v1/admin/footer-links/sections/${sectionId}/links`, payload);
+        toast.success('Successfully added footer link!');
       }
       onSuccess();
     } catch (err: any) {
       setError(err.response?.data?.message || 'Failed to save link.');
+      toast.error(err.response?.data?.message || 'Failed to save link.');
     } finally {
       setLoading(false);
     }
@@ -208,12 +212,15 @@ function SectionForm({
       const payload = { title: title.trim(), displayOrder, isActive };
       if (initialData?.id) {
         await api.put(`/api/v1/admin/footer-links/sections/${initialData.id}`, payload);
+        toast.success('Successfully updated footer section!');
       } else {
         await api.post('/api/v1/admin/footer-links/sections', payload);
+        toast.success('Successfully created footer section!');
       }
       onSuccess();
     } catch (err: any) {
       setError(err.response?.data?.message || 'Failed to save section.');
+      toast.error(err.response?.data?.message || 'Failed to save section.');
     } finally {
       setLoading(false);
     }

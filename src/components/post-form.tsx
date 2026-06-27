@@ -8,6 +8,7 @@ import dynamic from 'next/dynamic';
 import api, { getMediaUrl } from '@/lib/api';
 import MediaSelector from '@/components/media-selector';
 import 'react-quill-new/dist/quill.snow.css';
+import toast from 'react-hot-toast';
 
 const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
 
@@ -144,13 +145,17 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
     try {
       if (isEdit) {
         await api.put(`/api/v1/admin/cms/posts/${postId}`, payload);
+        toast.success('Successfully updated post!');
       } else {
         await api.post('/api/v1/admin/cms/posts', payload);
+        toast.success('Successfully created post!');
       }
       router.push('/dashboard/posts');
     } catch (err: any) {
       console.error(err);
-      setError(err.response?.data?.message || 'Failed to save post.');
+      const msg = err.response?.data?.message || 'Failed to save post.';
+      setError(msg);
+      toast.error(msg);
     } finally {
       setLoading(false);
     }

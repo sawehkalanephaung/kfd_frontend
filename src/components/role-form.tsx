@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Loader2, Save, ArrowLeft, Shield, AlignLeft } from 'lucide-react';
 import Link from 'next/link';
 import api from '@/lib/api';
+import toast from 'react-hot-toast';
 
 interface RoleFormProps {
   initialData?: any;
@@ -69,9 +70,12 @@ export default function RoleForm({ initialData, isEdit, roleId, isSlideOver, onS
     try {
       if (isEdit) {
         await api.put(`/api/v1/admin/roles/${roleId}`, payload);
+        toast.success('Successfully updated role!');
       } else {
         await api.post('/api/v1/admin/roles', payload);
+        toast.success('Successfully created role!');
       }
+
       if (onSuccess) {
         onSuccess();
       } else {
@@ -79,7 +83,9 @@ export default function RoleForm({ initialData, isEdit, roleId, isSlideOver, onS
       }
     } catch (err: any) {
       console.error(err);
-      setError(err.response?.data?.message || 'Failed to save role.');
+      const msg = err.response?.data?.message || 'Failed to save role.';
+      setError(msg);
+      toast.error(msg);
     } finally {
       setLoading(false);
     }

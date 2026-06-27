@@ -4,8 +4,9 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Loader2, Save, ArrowLeft, FileText, AlignLeft, Settings, Image as ImageIcon } from 'lucide-react';
 import Link from 'next/link';
-import api from '@/lib/api';
-import MediaSelector from './media-selector';
+import api, { getMediaUrl } from '@/lib/api';
+import MediaSelector from '@/components/media-selector';
+import toast from 'react-hot-toast';
 import dynamic from 'next/dynamic';
 import 'react-quill-new/dist/quill.snow.css';
 
@@ -60,13 +61,17 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
     try {
       if (isEdit) {
         await api.put(`/api/v1/admin/pages/${pageId}`, payload);
+        toast.success('Successfully updated page!');
       } else {
         await api.post('/api/v1/admin/pages', payload);
+        toast.success('Successfully created page!');
       }
       router.push('/dashboard/pages');
     } catch (err: any) {
       console.error(err);
-      setError(err.response?.data?.message || 'Failed to save page.');
+      const msg = err.response?.data?.message || 'Failed to save page.';
+      setError(msg);
+      toast.error(msg);
     } finally {
       setLoading(false);
     }

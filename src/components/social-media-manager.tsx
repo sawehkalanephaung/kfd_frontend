@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Loader2, Plus, Edit2, Trash2, Check, X, Globe, Link as LinkIcon } from 'lucide-react';
 import api from '@/lib/api';
+import toast from 'react-hot-toast';
 import DeleteModal from '@/components/delete-modal';
 
 const PLATFORMS = ['FACEBOOK', 'TWITTER', 'INSTAGRAM', 'YOUTUBE', 'LINKEDIN', 'TIKTOK', 'OTHER'];
@@ -59,9 +60,11 @@ export default function SocialMediaManager() {
     try {
       await api.delete(`/api/v1/admin/social-media/${deleteLinkId}`);
       fetchLinks();
+      toast.success('Successfully deleted link');
+      setDeleteLinkId(null);
     } catch (err) {
       console.error(err);
-      alert('Failed to delete link.');
+      toast.error('Failed to delete link.');
     }
   };
 
@@ -71,14 +74,17 @@ export default function SocialMediaManager() {
       setSaving(true);
       if (currentLink.id) {
         await api.put(`/api/v1/admin/social-media/${currentLink.id}`, currentLink);
+        toast.success('Successfully updated social media link!');
       } else {
         await api.post('/api/v1/admin/social-media', currentLink);
+        toast.success('Successfully added social media link!');
       }
       setIsEditing(false);
       fetchLinks();
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
-      alert('Failed to save social media link.');
+      const msg = err.response?.data?.message || 'Failed to save social media link.';
+      toast.error(msg);
     } finally {
       setSaving(false);
     }

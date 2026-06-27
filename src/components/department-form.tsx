@@ -4,7 +4,9 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Loader2, Save, ArrowLeft, Building2, Contact, AlignLeft, Settings } from 'lucide-react';
 import Link from 'next/link';
-import api from '@/lib/api';
+import api, { getMediaUrl } from '@/lib/api';
+import MediaSelector from '@/components/media-selector';
+import toast from 'react-hot-toast';
 import dynamic from 'next/dynamic';
 import 'react-quill-new/dist/quill.snow.css';
 
@@ -136,13 +138,17 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
     try {
       if (isEdit) {
         await api.put(`/api/v1/admin/departments/${departmentId}`, payload);
+        toast.success('Successfully updated department!');
       } else {
         await api.post('/api/v1/admin/departments', payload);
+        toast.success('Successfully created department!');
       }
       router.push('/dashboard/organization/departments');
     } catch (err: any) {
       console.error(err);
-      setError(err.response?.data?.message || 'Failed to save department.');
+      const msg = err.response?.data?.message || 'Failed to save department.';
+      setError(msg);
+      toast.error(msg);
     } finally {
       setLoading(false);
     }

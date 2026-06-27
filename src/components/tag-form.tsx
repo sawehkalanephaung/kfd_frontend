@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Loader2, Save, ArrowLeft, Tag as TagIcon } from 'lucide-react';
 import Link from 'next/link';
 import api from '@/lib/api';
+import toast from 'react-hot-toast';
 
 interface TagFormProps {
   initialData?: any;
@@ -47,8 +48,10 @@ export default function TagForm({ initialData, isEdit, tagId, isSlideOver, onSuc
     try {
       if (isEdit) {
         await api.put(`/api/v1/admin/cms/tags/${tagId}`, formData);
+        toast.success('Successfully updated tag!');
       } else {
         await api.post('/api/v1/admin/cms/tags', formData);
+        toast.success('Successfully created tag!');
       }
       if (onSuccess) {
         onSuccess();
@@ -57,7 +60,9 @@ export default function TagForm({ initialData, isEdit, tagId, isSlideOver, onSuc
       }
     } catch (err: any) {
       console.error(err);
-      setError(err.response?.data?.message || 'Failed to save tag.');
+      const msg = err.response?.data?.message || 'Failed to save tag.';
+      setError(msg);
+      toast.error(msg);
     } finally {
       setLoading(false);
     }

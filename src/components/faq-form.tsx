@@ -5,14 +5,16 @@ import { useRouter } from 'next/navigation';
 import { Loader2, Save, ArrowLeft, MessageCircleQuestion, AlignLeft, Settings } from 'lucide-react';
 import Link from 'next/link';
 import api from '@/lib/api';
+import toast from 'react-hot-toast';
 
 interface FaqFormProps {
   initialData?: any;
   isEdit?: boolean;
   faqId?: string;
+  onSave?: () => void;
 }
 
-export default function FaqForm({ initialData, isEdit, faqId }: FaqFormProps) {
+export default function FaqForm({ initialData, isEdit, faqId, onSave }: FaqFormProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -33,13 +35,21 @@ export default function FaqForm({ initialData, isEdit, faqId }: FaqFormProps) {
     try {
       if (isEdit) {
         await api.put(`/api/faqs/${faqId}`, formData);
+        toast.success('Successfully updated FAQ!');
       } else {
         await api.post('/api/faqs', formData);
+        toast.success('Successfully created FAQ!');
       }
-      router.push('/dashboard/pages/faqs');
+      if (onSave) {
+        onSave();
+      } else {
+        router.push('/dashboard/pages/faqs');
+      }
     } catch (err: any) {
       console.error(err);
-      setError(err.response?.data?.message || 'Failed to save FAQ.');
+      const msg = err.response?.data?.message || 'Failed to save FAQ.';
+      setError(msg);
+      toast.error(msg);
     } finally {
       setLoading(false);
     }

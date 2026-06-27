@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Loader2, UploadCloud, ArrowLeft, Building2, Tag } from 'lucide-react';
 import Link from 'next/link';
 import api from '@/lib/api';
+import toast from 'react-hot-toast';
 
 export default function UploadMediaPage() {
   const router = useRouter();
@@ -88,10 +89,13 @@ export default function UploadMediaPage() {
           'Content-Type': 'multipart/form-data',
         },
       });
+      toast.success('Successfully uploaded file!');
       router.push('/dashboard/media');
     } catch (err: any) {
       console.error(err);
-      setError(err.response?.data?.message || 'Failed to upload file.');
+      const msg = err.response?.data?.message || 'Failed to upload file.';
+      setError(msg);
+      toast.error(msg);
     } finally {
       setLoading(false);
     }

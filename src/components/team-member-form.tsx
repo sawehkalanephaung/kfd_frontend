@@ -6,6 +6,8 @@ import { Loader2, Save, ArrowLeft, User, AlignLeft, Settings, Image as ImageIcon
 import Link from 'next/link';
 import api, { getMediaUrl } from '@/lib/api';
 import dynamic from 'next/dynamic';
+import MediaSelector from '@/components/media-selector';
+import toast from 'react-hot-toast';
 import 'react-quill-new/dist/quill.snow.css';
 
 const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
@@ -129,13 +131,17 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
 
       if (isEdit) {
         await api.put(`/api/v1/admin/team-members/${memberId}`, payload);
+        toast.success('Successfully updated team member!');
       } else {
         await api.post('/api/v1/admin/team-members', payload);
+        toast.success('Successfully created team member!');
       }
       router.push('/dashboard/team');
     } catch (err: any) {
       console.error(err);
-      setError(err.response?.data?.message || 'Failed to save team member.');
+      const msg = err.response?.data?.message || 'Failed to save team member.';
+      setError(msg);
+      toast.error(msg);
     } finally {
       setLoading(false);
     }
