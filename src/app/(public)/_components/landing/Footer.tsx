@@ -123,7 +123,7 @@ export default async function Footer() {
         {/* Bottom Bar */}
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-green-200">
-            © {new Date().getFullYear()} KFD. All rights reserved.
+            Copyright © {new Date().getFullYear()} Kawthoolei Forestry Department, All rights reserved.
           </p>
           <div className="flex items-center gap-6">
             <Link href="/privacy-policy" className="text-sm text-green-200 hover:text-white transition-colors">Privacy Policy</Link>
