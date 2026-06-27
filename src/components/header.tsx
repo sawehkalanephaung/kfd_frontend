@@ -1,10 +1,24 @@
+'use client';
+
 import React from 'react';
-import { Search, Bell } from 'lucide-react';
+import { Search, Bell, Menu } from 'lucide-react';
+import { useSidebar } from '@/components/sidebar-context';
 
 export default function Header() {
+  const { setIsOpen } = useSidebar();
+
   return (
-    <header className="flex items-center justify-end gap-3 mb-8">
-      {/* Search Button */}
+    <header className="flex items-center justify-between md:justify-end gap-3 mb-6 md:mb-8">
+      {/* Mobile Menu Button */}
+      <button 
+        onClick={() => setIsOpen(true)}
+        className="md:hidden w-11 h-11 bg-white rounded-xl flex items-center justify-center shadow-[0_2px_10px_rgba(0,0,0,0.02)] border border-gray-100 text-gray-700 hover:text-emerald-600 transition-colors"
+      >
+        <Menu className="w-5 h-5" />
+      </button>
+
+      <div className="flex items-center gap-3">
+        {/* Search Button */}
       <button className="w-11 h-11 bg-white rounded-full flex items-center justify-center shadow-[0_2px_10px_rgba(0,0,0,0.02)] border border-gray-100 text-gray-500 hover:text-gray-900 transition-colors">
         <Search className="w-5 h-5" />
       </button>
@@ -25,11 +39,12 @@ export default function Header() {
             className="w-full h-full object-cover"
           />
         </div>
-        <div className="flex flex-col items-start">
-          <span className="text-[14px] font-semibold text-gray-900 leading-tight">Saw Eh Soe</span>
-          <span className="text-[12px] font-medium text-gray-500 leading-tight mt-0.5">Profile</span>
-        </div>
-      </button>
+          <div className="flex flex-col items-start hidden sm:flex">
+            <span className="text-[14px] font-semibold text-gray-900 leading-tight">Saw Eh Soe</span>
+            <span className="text-[12px] font-medium text-gray-500 leading-tight mt-0.5">Profile</span>
+          </div>
+        </button>
+      </div>
     </header>
   );
 }

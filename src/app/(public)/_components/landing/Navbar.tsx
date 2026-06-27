@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Search, ChevronDown, Globe } from "lucide-react";
 import logoImg from "@/assets/logo-2.png";
+import MobileMenu from "./MobileMenu";
 
 export default async function Navbar() {
   let departments = [];
@@ -141,6 +142,9 @@ export default async function Navbar() {
               </div>
             </div>
           </div>
+          
+          {/* Mobile Menu */}
+          <MobileMenu navLinks={navLinks} />
         </div>
       </div>
     </header>

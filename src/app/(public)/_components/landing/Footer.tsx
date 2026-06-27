@@ -121,15 +121,15 @@ export default async function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
           <p className="text-sm text-green-200">
             Copyright © {new Date().getFullYear()} Kawthoolei Forestry Department, All rights reserved.
           </p>
-          <div className="flex items-center gap-6">
-            <Link href="/privacy-policy" className="text-sm text-green-200 hover:text-white transition-colors">Privacy Policy</Link>
-            <Link href="/terms-of-use" className="text-sm text-green-200 hover:text-white transition-colors">Terms of Use</Link>
-            <Link href="/accessibility" className="text-sm text-green-200 hover:text-white transition-colors">Accessibility</Link>
-            <Link href="/contact" className="text-sm text-green-200 hover:text-white transition-colors">Contact</Link>
+          <div className="flex flex-wrap items-center justify-center md:justify-end gap-x-6 gap-y-3">
+            <Link href="/privacy-policy" className="text-sm text-green-200 hover:text-white transition-colors py-2 md:py-0">Privacy Policy</Link>
+            <Link href="/terms-of-use" className="text-sm text-green-200 hover:text-white transition-colors py-2 md:py-0">Terms of Use</Link>
+            <Link href="/accessibility" className="text-sm text-green-200 hover:text-white transition-colors py-2 md:py-0">Accessibility</Link>
+            <Link href="/contact" className="text-sm text-green-200 hover:text-white transition-colors py-2 md:py-0">Contact</Link>
           </div>
         </div>
       </div>
