@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { UploadCloud, Trash2, Edit, FileText, Image as ImageIcon, Loader2, Video, Search, Copy, Check, Filter, ChevronLeft, ChevronRight } from 'lucide-react';
+import { UploadCloud, Trash2, Edit, FileText, Image as ImageIcon, Loader2, Video, Search, Filter, ChevronLeft, ChevronRight } from 'lucide-react';
 import api, { getMediaUrl } from '@/lib/api';
 import DeleteModal from '@/components/delete-modal';
 
@@ -104,19 +104,7 @@ export default function MediaLibraryPage() {
     return kb + ' KB';
   };
 
-  const CopyButton = ({ text }: { text: string }) => {
-    const [copied, setCopied] = useState(false);
-    const handleCopy = () => {
-      navigator.clipboard.writeText(text);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    };
-    return (
-      <button onClick={handleCopy} className="text-gray-400 hover:text-emerald-600 transition-colors ml-1" title="Copy UUID">
-        {copied ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
-      </button>
-    );
-  };
+
 
   return (
     <div>
@@ -190,8 +178,8 @@ export default function MediaLibraryPage() {
 
       {/* Table Section */}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-50 overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm text-gray-600">
+        <div className="overflow-x-auto w-full">
+          <table className="w-full min-w-[800px] text-left text-sm text-gray-600">
             <thead className="bg-gray-50/50 text-gray-500 font-medium border-b border-gray-100">
               <tr>
                 <th className="px-6 py-4">File Name</th>
@@ -235,11 +223,6 @@ export default function MediaLibraryPage() {
                           </p>
                           <div className="flex items-center gap-2 mt-0.5">
                             <p className="text-xs text-gray-400">{asset.fileType || 'Unknown format'}</p>
-                            <span className="text-gray-300 text-xs">•</span>
-                            <p className="text-xs font-mono text-gray-500 flex items-center">
-                              {asset.id.substring(0, 8)}...
-                              <CopyButton text={asset.id} />
-                            </p>
                           </div>
                         </div>
                       </div>
@@ -282,8 +265,8 @@ export default function MediaLibraryPage() {
         
         {/* Pagination Footer */}
         {totalElements > 0 && (
-          <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-between bg-gray-50/30">
-            <div className="text-sm text-gray-500">
+          <div className="px-4 sm:px-6 py-4 border-t border-gray-100 flex flex-col md:flex-row items-center justify-between gap-4 bg-gray-50/30">
+            <div className="text-sm text-gray-500 text-center md:text-left">
               Showing <span className="font-medium">{(currentPage - 1) * itemsPerPage + 1}</span> to <span className="font-medium">{Math.min(currentPage * itemsPerPage, totalElements)}</span> of <span className="font-medium">{totalElements}</span> results
             </div>
             <div className="flex items-center gap-2">
