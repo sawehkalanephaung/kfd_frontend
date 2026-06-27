@@ -21,11 +21,13 @@ export default function DeleteModal({
   description = "This will permanently delete and this action cannot be undone.",
 }: DeleteModalProps) {
   const [isDeleting, setIsDeleting] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   // Prevent scrolling when modal is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
+      setErrorMsg(null);
     } else {
       document.body.style.overflow = 'unset';
     }
@@ -38,11 +40,15 @@ export default function DeleteModal({
 
   const handleConfirm = async () => {
     setIsDeleting(true);
+    setErrorMsg(null);
     try {
       await onConfirm();
+      onClose(); // Automatically close after confirm
+    } catch (err: any) {
+      console.error(err);
+      setErrorMsg(err?.response?.data?.message || err?.message || "Failed to delete item. It may be in use by other records.");
     } finally {
       setIsDeleting(false);
-      onClose(); // Automatically close after confirm if parent doesn't unmount it
     }
   };
 
@@ -71,9 +77,45 @@ export default function DeleteModal({
         <p className="text-gray-500 text-sm mb-1">
           Are you sure you want to remove {itemName}?
         </p>
-        <p className="text-gray-500 text-sm mb-8">
+        <p className="text-gray-500 text-sm mb-6">
           {description}
         </p>
+
+        {errorMsg && (
+          <div className="w-full bg-red-50 border border-red-200 text-red-600 text-sm p-3 rounded-xl mb-6 text-left">
+            {(() => {
+              // Parse markdown-style links: [Text](url)
+              const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+              if (!errorMsg.match(linkRegex)) return errorMsg;
+              
+              const parts = [];
+              let lastIndex = 0;
+              let match;
+              
+              while ((match = linkRegex.exec(errorMsg)) !== null) {
+                if (match.index > lastIndex) {
+                  parts.push(errorMsg.substring(lastIndex, match.index));
+                }
+                parts.push(
+                  <a 
+                    key={match.index} 
+                    href={match[2]} 
+                    className="underline font-semibold hover:text-red-800"
+                  >
+                    {match[1]}
+                  </a>
+                );
+                lastIndex = linkRegex.lastIndex;
+              }
+              
+              if (lastIndex < errorMsg.length) {
+                parts.push(errorMsg.substring(lastIndex));
+              }
+              
+              return <>{parts}</>;
+            })()}
+          </div>
+        )}
 
         {/* Action Buttons */}
         <div className="flex items-center gap-4 w-full">

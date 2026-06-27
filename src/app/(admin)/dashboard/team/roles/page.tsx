@@ -48,15 +48,11 @@ export default function RolesDirectoryPage() {
 
   const confirmDelete = async () => {
     if (!roleToDelete) return;
-    try {
+
       await api.delete(`/api/v1/admin/roles/${roleToDelete.id}`);
       setRoles((prev) => prev.filter((r) => r.id !== roleToDelete.id));
       setDeleteModalOpen(false);
-    } catch (err: any) {
-      console.error(err);
-      alert(err.response?.data?.message || 'Failed to delete role. It may still be assigned to users.');
-    }
-  };
+    };
 
   const openCreateDrawer = () => {
     setIsEditMode(false);

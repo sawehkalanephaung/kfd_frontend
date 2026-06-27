@@ -49,15 +49,10 @@ export default function PagesListPage() {
 
   const confirmDelete = async () => {
     if (!pageToDelete) return;
-    try {
+
       await api.delete(`/api/v1/admin/pages/${pageToDelete.id}`);
       setPages((prev) => prev.filter((p) => p.id !== pageToDelete.id));
-    } catch (err) {
-      console.error(err);
-      alert('Failed to delete page');
-      throw err;
-    }
-  };
+    };
 
   return (
     <div>

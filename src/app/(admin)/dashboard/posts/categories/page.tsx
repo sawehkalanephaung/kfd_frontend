@@ -58,15 +58,10 @@ export default function CategoriesListPage() {
 
   const confirmDelete = async () => {
     if (!categoryToDelete) return;
-    try {
+
       await api.delete(`/api/v1/admin/cms/categories/${categoryToDelete.id}`);
       setCategories((prev) => prev.filter((c) => c.id !== categoryToDelete.id));
-    } catch (err) {
-      console.error(err);
-      alert('Failed to delete category');
-      throw err;
-    }
-  };
+    };
 
   const openCreateDrawer = () => {
     setIsEditMode(false);

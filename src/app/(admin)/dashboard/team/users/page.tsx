@@ -50,15 +50,11 @@ export default function UsersDirectoryPage() {
 
   const confirmDelete = async () => {
     if (!userToDelete) return;
-    try {
+
       await api.delete(`/api/v1/admin/users/${userToDelete.id}`);
       setUsers((prev) => prev.filter((u) => u.id !== userToDelete.id));
       setDeleteModalOpen(false);
-    } catch (err: any) {
-      console.error(err);
-      alert(err.response?.data?.message || 'Failed to delete user');
-    }
-  };
+    };
 
   const openCreateDrawer = () => {
     setIsEditMode(false);

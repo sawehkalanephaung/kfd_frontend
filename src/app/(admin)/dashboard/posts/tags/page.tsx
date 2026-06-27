@@ -56,15 +56,10 @@ export default function TagsListPage() {
 
   const confirmDelete = async () => {
     if (!tagToDelete) return;
-    try {
+
       await api.delete(`/api/v1/admin/cms/tags/${tagToDelete.id}`);
       setTags((prev) => prev.filter((t) => t.id !== tagToDelete.id));
-    } catch (err) {
-      console.error(err);
-      alert('Failed to delete tag');
-      throw err;
-    }
-  };
+    };
 
   const openCreateDrawer = () => {
     setIsEditMode(false);

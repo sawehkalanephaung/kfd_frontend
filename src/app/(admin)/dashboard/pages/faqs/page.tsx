@@ -51,15 +51,10 @@ export default function FaqsListPage() {
 
   const confirmDelete = async () => {
     if (!faqToDelete) return;
-    try {
+
       await api.delete(`/api/faqs/${faqToDelete.id}`);
       setFaqs((prev) => prev.filter((f) => f.id !== faqToDelete.id));
-    } catch (err) {
-      console.error(err);
-      alert('Failed to delete FAQ');
-      throw err;
-    }
-  };
+    };
 
   return (
     <div>

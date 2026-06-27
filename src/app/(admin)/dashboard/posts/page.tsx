@@ -83,16 +83,10 @@ export default function PostsListPage() {
 
   const confirmDelete = async () => {
     if (!postToDelete) return;
-    try {
+
       await api.delete(`/api/v1/admin/cms/posts/${postToDelete.id}`);
       fetchPosts();
-    } catch (err) {
-      console.error(err);
-      alert('Failed to delete post');
-    } finally {
-      setDeleteModalOpen(false);
-    }
-  };
+    };
 
   useEffect(() => {
     fetchCategories();

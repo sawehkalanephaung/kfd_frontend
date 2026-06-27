@@ -50,15 +50,10 @@ export default function TeamDirectoryPage() {
 
   const confirmDelete = async () => {
     if (!memberToDelete) return;
-    try {
+
       await api.delete(`/api/v1/admin/team-members/${memberToDelete.id}`);
       setMembers((prev) => prev.filter((m) => m.id !== memberToDelete.id));
-    } catch (err) {
-      console.error(err);
-      alert('Failed to delete member');
-      throw err;
-    }
-  };
+    };
 
   return (
     <div>

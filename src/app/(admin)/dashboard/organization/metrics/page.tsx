@@ -51,15 +51,10 @@ export default function GlobalMetricsPage() {
 
   const confirmDelete = async () => {
     if (!metricToDelete) return;
-    try {
+
       await api.delete(`/api/v1/admin/metrics/${metricToDelete.id}`);
       setMetrics((prev) => prev.filter((m) => m.id !== metricToDelete.id));
-    } catch (err) {
-      console.error(err);
-      alert('Failed to delete metric');
-      throw err;
-    }
-  };
+    };
 
   return (
     <div>

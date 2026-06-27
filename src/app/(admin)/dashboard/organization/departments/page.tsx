@@ -57,20 +57,10 @@ export default function DepartmentsPage() {
 
   const confirmDelete = async () => {
     if (!departmentToDelete) return;
-    try {
+
       await api.delete(`/api/v1/admin/departments/${departmentToDelete.id}`);
       setDepartments((prev) => prev.filter((d) => d.id !== departmentToDelete.id));
-    } catch (err: any) {
-      console.error(err);
-      
-      // Handle 409 Conflict error specifically
-      if (err.response?.status === 409) {
-        alert(err.response?.data?.message || 'Cannot delete this department because it has associated records (e.g., members, roles, or sub-departments). Please remove them first.');
-      } else {
-        alert(err.response?.data?.message || 'Failed to delete department');
-      }
-    }
-  };
+    };
 
   return (
     <div>

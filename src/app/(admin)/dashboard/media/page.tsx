@@ -86,15 +86,10 @@ export default function MediaLibraryPage() {
 
   const confirmDelete = async () => {
     if (!mediaToDelete) return;
-    try {
+
       await api.delete(`/api/v1/admin/media/${mediaToDelete.id}`);
       setMedia((prev) => prev.filter((m) => m.id !== mediaToDelete.id));
-    } catch (err) {
-      console.error(err);
-      alert('Failed to delete media');
-      throw err;
-    }
-  };
+    };
 
   const getFileIcon = (fileType: string) => {
     if (!fileType) return <FileText className="w-5 h-5 text-gray-400" />;
