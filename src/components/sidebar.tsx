@@ -46,7 +46,6 @@ const menuItems: MenuItem[] = [
     href: '/dashboard/pages',
     subItems: [
       { label: 'All Pages', href: '/dashboard/pages' },
-      { label: 'Create Page', href: '/dashboard/pages/create' },
       { label: 'FAQs', href: '/dashboard/pages/faqs' },
     ],
   },
@@ -56,7 +55,6 @@ const menuItems: MenuItem[] = [
     href: '/dashboard/posts',
     subItems: [
       { label: 'All Posts', href: '/dashboard/posts' },
-      { label: 'Create Post', href: '/dashboard/posts/create' },
       { label: 'Categories', href: '/dashboard/posts/categories' },
       { label: 'Tags', href: '/dashboard/posts/tags' },
     ],
@@ -65,10 +63,6 @@ const menuItems: MenuItem[] = [
     label: 'Media & Resources',
     icon: <FolderOpen className="w-5 h-5" />,
     href: '/dashboard/media',
-    subItems: [
-      { label: 'Library', href: '/dashboard/media' },
-      { label: 'Upload', href: '/dashboard/media/upload' },
-    ],
   },
   {
     label: 'Team Directory',
