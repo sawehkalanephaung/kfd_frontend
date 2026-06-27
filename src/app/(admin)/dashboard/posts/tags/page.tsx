@@ -130,7 +130,7 @@ export default function TagsListPage() {
       {/* Table Section */}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-50 overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm text-gray-600">
+          <table className="w-full min-w-[800px] text-left text-sm text-gray-600">
             <thead className="bg-gray-50/50 text-gray-500 font-medium border-b border-gray-100">
               <tr>
                 <th className="px-6 py-4">Tag Name</th>

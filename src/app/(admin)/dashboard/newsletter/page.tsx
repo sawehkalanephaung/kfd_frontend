@@ -14,7 +14,7 @@ export default function NewsletterSettingsPage() {
           Home
         </Link>
         <span>&gt;</span>
-        <span className="text-gray-500">System Settings</span>
+        <span className="text-gray-500">Content Management</span>
         <span>&gt;</span>
         <span className="text-gray-900 font-medium">Newsletter</span>
       </div>

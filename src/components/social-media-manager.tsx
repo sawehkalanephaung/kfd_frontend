@@ -188,7 +188,7 @@ export default function SocialMediaManager() {
         </form>
       ) : (
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm text-gray-600">
+          <table className="w-full min-w-[800px] text-left text-sm text-gray-600">
             <thead className="bg-gray-50 text-gray-900 font-semibold border-b border-gray-100">
               <tr>
                 <th className="px-4 py-3 rounded-tl-xl">Platform</th>

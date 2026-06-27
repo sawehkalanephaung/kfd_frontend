@@ -39,7 +39,7 @@ export default function ContactSettingsPage() {
       <div className="flex items-center gap-2 text-sm text-gray-400 mb-6">
         <Link href="/dashboard" className="text-gray-500 hover:text-gray-900 transition-colors">Home</Link>
         <span>&gt;</span>
-        <span className="text-gray-500">System Settings</span>
+        <span className="text-gray-500">Organization Management</span>
         <span>&gt;</span>
         <span className="text-gray-900 font-medium">Global Contact Info</span>
       </div>

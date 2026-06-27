@@ -14,7 +14,9 @@ import {
   ChevronUp,
   LogOut,
   Leaf,
-  X
+  X,
+  Shield,
+  Layers
 } from 'lucide-react';
 import { useSidebar } from '@/components/sidebar-context';
 
@@ -32,57 +34,40 @@ const menuItems: MenuItem[] = [
     href: '/dashboard',
   },
   {
-    label: 'KFD Organization',
+    label: 'Content Management',
+    icon: <Layers className="w-5 h-5" />,
+    href: '/dashboard/content-management', // This acts as a grouping identifier for active state
+    subItems: [
+      { label: 'All Pages', href: '/dashboard/pages' },
+      { label: 'FAQs', href: '/dashboard/pages/faqs' },
+      { label: 'All Posts', href: '/dashboard/posts' },
+      { label: 'Categories', href: '/dashboard/posts/categories' },
+      { label: 'Tags', href: '/dashboard/posts/tags' },
+      { label: 'Resources (Library)', href: '/dashboard/media' },
+      { label: 'Newsletter', href: '/dashboard/newsletter' },
+    ],
+  },
+  {
+    label: 'Organization Management',
     icon: <Building2 className="w-5 h-5" />,
-    href: '/dashboard/organization',
+    href: '/dashboard/org-management', // Grouping identifier
     subItems: [
       { label: 'Departments', href: '/dashboard/organization/departments' },
+      { label: 'Team Members', href: '/dashboard/team' },
+      { label: 'Global Contact Info', href: '/dashboard/contact' },
       { label: 'Global Metrics', href: '/dashboard/organization/metrics' },
     ],
   },
   {
-    label: 'Pages',
-    icon: <FileText className="w-5 h-5" />,
-    href: '/dashboard/pages',
+    label: 'Administration & Access',
+    icon: <Shield className="w-5 h-5" />,
+    href: '/dashboard/admin-access', // Grouping identifier
     subItems: [
-      { label: 'All Pages', href: '/dashboard/pages' },
-      { label: 'FAQs', href: '/dashboard/pages/faqs' },
-    ],
-  },
-  {
-    label: 'Posts & News',
-    icon: <PenLine className="w-5 h-5" />,
-    href: '/dashboard/posts',
-    subItems: [
-      { label: 'All Posts', href: '/dashboard/posts' },
-      { label: 'Categories', href: '/dashboard/posts/categories' },
-      { label: 'Tags', href: '/dashboard/posts/tags' },
-    ],
-  },
-  {
-    label: 'Media & Resources',
-    icon: <FolderOpen className="w-5 h-5" />,
-    href: '/dashboard/media',
-  },
-  {
-    label: 'Team Directory',
-    icon: <Users className="w-5 h-5" />,
-    href: '/dashboard/team',
-    subItems: [
-      { label: 'Members', href: '/dashboard/team' },
       { label: 'System Users', href: '/dashboard/team/users' },
       { label: 'Roles & Access', href: '/dashboard/team/roles' },
+      { label: 'System Settings', href: '/dashboard/settings' },
     ],
-  },
-  {
-    label: 'System Settings',
-    icon: <Settings className="w-5 h-5" />,
-    href: '/dashboard/settings',
-    subItems: [
-      { label: 'Global Contact Info', href: '/dashboard/settings/contact' },
-      { label: 'Newsletter', href: '/dashboard/settings/newsletter' },
-    ],
-  },
+  }
 ];
 
 export default function Sidebar() {
@@ -114,9 +99,26 @@ export default function Sidebar() {
     );
   };
 
-  const isActive = (href: string) => {
-    if (href === '/dashboard') return pathname === '/dashboard';
-    return pathname.startsWith(href);
+  const isActive = (item: MenuItem) => {
+    if (item.href === '/dashboard') return pathname === '/dashboard';
+    
+    const checkPath = (href: string) => {
+      // Special case for Team Members to prevent it from highlighting when on Users or Roles
+      if (href === '/dashboard/team') {
+        return pathname === '/dashboard/team' || 
+               (pathname.startsWith('/dashboard/team/') && 
+                !pathname.startsWith('/dashboard/team/users') && 
+                !pathname.startsWith('/dashboard/team/roles'));
+      }
+      return pathname === href || pathname.startsWith(href + '/');
+    };
+
+    // If it has subitems, it's active if the current pathname matches any subitem's href
+    if (item.subItems) {
+      return item.subItems.some(sub => checkPath(sub.href));
+    }
+    
+    return checkPath(item.href);
   };
 
   return (
@@ -160,7 +162,7 @@ export default function Sidebar() {
       {/* Navigation */}
       <nav className="flex-1 overflow-y-auto px-3 pb-4 space-y-1">
         {menuItems.map((item) => {
-          const active = isActive(item.href);
+          const active = isActive(item);
           const expanded = expandedMenus.includes(item.label);
           const hasSubItems = item.subItems && item.subItems.length > 0;
 

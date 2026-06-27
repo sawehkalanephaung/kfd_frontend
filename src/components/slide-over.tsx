@@ -46,7 +46,7 @@ export default function SlideOver({ isOpen, onClose, title, children }: SlideOve
       />
 
       {/* Slide-over panel */}
-      <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
+      <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-0 sm:pl-10">
         <div 
           className="pointer-events-auto w-screen max-w-2xl transform transition-transform duration-300 ease-in-out sm:duration-500 translate-x-0"
         >
@@ -59,7 +59,7 @@ export default function SlideOver({ isOpen, onClose, title, children }: SlideOve
               <div className="ml-3 flex h-7 items-center">
                 <button
                   type="button"
-                  className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition-colors p-1"
+                  className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition-colors p-2"
                   onClick={onClose}
                 >
                   <span className="sr-only">Close panel</span>
