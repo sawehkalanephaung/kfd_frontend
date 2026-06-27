@@ -6,7 +6,9 @@ import { DepartmentData } from "../../departments/types";
 import DepartmentInfo from "./DepartmentInfo";
 import DepartmentResources from "./DepartmentResources";
 import DepartmentActivity from "./DepartmentActivity";
+import DepartmentAnnouncements from "./DepartmentAnnouncements";
 import DepartmentContactCard from "./DepartmentContactCard";
+import { Megaphone } from "lucide-react";
 
 export default function DepartmentTabs({ data }: { data: DepartmentData }) {
   const [activeTab, setActiveTab] = useState("info");
@@ -15,6 +17,7 @@ export default function DepartmentTabs({ data }: { data: DepartmentData }) {
     { id: "info", label: "Department Info", icon: Building2 },
     { id: "resources", label: "Resources", icon: Folder },
     { id: "activity", label: "Activity", icon: Clock },
+    { id: "announcements", label: "Announcements", icon: Megaphone },
     { id: "contact", label: "Contact", icon: MapPin },
   ];
 
@@ -31,13 +34,13 @@ export default function DepartmentTabs({ data }: { data: DepartmentData }) {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 pb-4 px-2 text-sm font-semibold transition-all border-b-2 ${
+                className={`flex items-center gap-2 pb-4 px-2 text-[15px] font-semibold transition-all border-b-2 ${
                   isActive 
-                    ? "border-green-600 text-gray-900" 
-                    : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"
+                    ? "border-blue-500 text-blue-600" 
+                    : "border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300"
                 }`}
               >
-                <Icon size={18} className={isActive ? "text-gray-900" : "text-gray-400"} />
+                <Icon size={18} className={isActive ? "text-blue-500" : "text-gray-500"} />
                 {tab.label}
               </button>
             );
@@ -49,6 +52,7 @@ export default function DepartmentTabs({ data }: { data: DepartmentData }) {
           {activeTab === "info" && <DepartmentInfo data={data} />}
           {activeTab === "resources" && <DepartmentResources data={data} />}
           {activeTab === "activity" && <DepartmentActivity data={data} />}
+          {activeTab === "announcements" && <DepartmentAnnouncements data={data} />}
           {activeTab === "contact" && <DepartmentContactCard data={data} />}
         </div>
       </div>

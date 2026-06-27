@@ -6,11 +6,24 @@ import Link from "next/link";
 
 function formatDate(dateStr: string) {
   if (!dateStr) return "";
-  return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", year: "numeric" }).format(new Date(dateStr));
+  return new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric" }).format(new Date(dateStr));
 }
 
-export default function DepartmentActivity({ data }: { data: DepartmentData }) {
-  const posts = data.posts?.filter(p => !p.excerpt?.toLowerCase().includes('announcement') && !p.slug.includes('announcement')) || [];
+export default function DepartmentAnnouncements({ data }: { data: DepartmentData }) {
+  // Use posts but show them as announcements
+  // In a real app, this would filter by category="announcement"
+  // For the UI mockup, we'll just show the same posts or filter by a keyword
+  let posts = data.posts || [];
+  
+  // Try to find posts with 'announcement' or 'recruitment' to match the screenshot
+  const announcementPosts = posts.filter(p => 
+    p.excerpt?.toLowerCase().includes('announcement') || 
+    p.title.toLowerCase().includes('recruitment')
+  );
+  
+  if (announcementPosts.length > 0) {
+    posts = announcementPosts;
+  }
 
   return (
     <div className="py-8 max-w-4xl">
@@ -24,7 +37,7 @@ export default function DepartmentActivity({ data }: { data: DepartmentData }) {
               <div className="flex items-center gap-2 text-[13px] text-gray-500">
                 <span className="flex items-center gap-1.5">
                   <Tag size={14} className="text-gray-400 rotate-90" />
-                  {post.excerpt || 'Activity'}
+                  {post.excerpt || 'Announcement'}
                 </span>
               </div>
             </div>
@@ -38,7 +51,7 @@ export default function DepartmentActivity({ data }: { data: DepartmentData }) {
         
         {posts.length === 0 && (
           <div className="py-12 text-gray-500 text-sm">
-            No activities found.
+            No announcements found.
           </div>
         )}
       </div>
