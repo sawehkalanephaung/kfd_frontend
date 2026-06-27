@@ -5,15 +5,15 @@ export default function DepartmentsSection({ departments }: { departments: any[]
   const displayDepartments = departments || [];
 
   return (
-    <section className="py-20 bg-gray-900">
+    <section className="py-20 bg-gray-100">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Section Header */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
-          <h2 className="text-3xl font-bold text-white">Our Department Branches</h2>
+          <h2 className="text-3xl font-bold text-black">Our Department Branches</h2>
           <Link
             href="/departments"
-            className="text-sm font-semibold text-white-600 hover:text-white flex items-center gap-1 transition-colors group"
+            className="text-sm font-semibold text-black hover:text-black flex items-center gap-1 transition-colors group"
           >
             View All Department Branches
             <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />

@@ -54,7 +54,7 @@ export default async function Footer() {
               </div>
               <div className="flex flex-col gap-1">
                 <span className="font-bold text-lg leading-tight tracking-tight text-white">Kawthoolei Forestry Department</span>
-                <span className="font-medium mt-1 text-sm text-white">သ့ၣ်ပှၢ်ဝဲၤကျိၤ</span>
+                <span className="font-medium mt-1 mb-1 text-sm text-white">သ့ၣ်ပှၢ်ဝဲၤကျိၤ</span>
               </div>
             </Link>
             <div className="flex flex-wrap items-center gap-4">
