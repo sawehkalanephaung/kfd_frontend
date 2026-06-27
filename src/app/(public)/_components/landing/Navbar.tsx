@@ -15,7 +15,7 @@ export default async function Navbar() {
       const responseData = await deptRes.json();
       // Handle different possible backend response structures (Spring Data Page, wrapped in data, or direct array)
       const dataList = responseData.content || responseData.data || (Array.isArray(responseData) ? responseData : []);
-      
+
       departments = dataList.map((dept: any) => ({
         name: dept.name,
         href: `/departments/${dept.slug}`
@@ -43,8 +43,8 @@ export default async function Navbar() {
       href: "/departments",
       dropdown: departments.length > 0 ? departments : undefined
     },
-    { 
-      name: "News", 
+    {
+      name: "News",
       href: "/news",
       dropdown: [
         { name: "Latest News", href: "/news" },
@@ -72,6 +72,7 @@ export default async function Navbar() {
           </div>
           <div className="flex flex-col">
             <span className="font-bold text-lg leading-none text-[#1a3626] tracking-tight">Kawthoolei Forestry Department</span>
+            <span className="font-medium text-sm mt-1 text-[#1a3626]">သ့ၣ်ပှၢ်ဝဲၤကျိၤ</span>
           </div>
         </Link>
 

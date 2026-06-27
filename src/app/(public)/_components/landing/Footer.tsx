@@ -52,16 +52,17 @@ export default async function Footer() {
                   className="object-contain"
                 />
               </div>
-              <div className="flex flex-col">
-                <span className="font-bold text-lg leading-none tracking-tight">Kawthoolei Forestry Department</span>
+              <div className="flex flex-col gap-1">
+                <span className="font-bold text-lg leading-tight tracking-tight text-white">Kawthoolei Forestry Department</span>
+                <span className="font-medium mt-1 text-sm text-white">သ့ၣ်ပှၢ်ဝဲၤကျိၤ</span>
               </div>
             </Link>
             <div className="flex flex-wrap items-center gap-4">
               {socialMediaLinks && socialMediaLinks.map((link) => (
-                <a 
-                  key={link.id} 
-                  href={link.url} 
-                  target="_blank" 
+                <a
+                  key={link.id}
+                  href={link.url}
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
                 >
@@ -93,7 +94,7 @@ export default async function Footer() {
               </div>
             </div>
 
-            </div>
+          </div>
 
           {/* Quick Links */}
           <div>
