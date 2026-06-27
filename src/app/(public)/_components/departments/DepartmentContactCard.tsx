@@ -4,20 +4,35 @@ import { Building2, User, MapPin, Phone, Mail, Clock, Globe } from "lucide-react
 
 
 export default function DepartmentContactCard({ data }: { data: DepartmentData }) {
-  const contact = data.contacts && data.contacts.length > 0 ? data.contacts[0] : null;
+  let parsedContact: any = null;
+  try {
+    if (data.bodyContent) {
+      const parsedBody = JSON.parse(data.bodyContent);
+      if (parsedBody.contact) {
+        parsedContact = parsedBody.contact;
+      }
+    }
+  } catch (e) {
+    // Ignore parse error
+  }
 
-  const address = contact?.address || "Headquarters office, Klo Yaw Lay, Hpa An District, Kawthoolei";
-  const phone = contact?.phone || "-";
-  const email = contact?.email || "ktl1949@gmail.com";
-  const officeHours = contact?.officeHours || "Monday to Friday, 9:00 AM - 5:00 PM";
-  const websiteUrl = contact?.websiteUrl || "https://www.knuhq.org/departments/forestry";
+  const dbContact = data.contacts && data.contacts.length > 0 ? data.contacts[0] : null;
+
+  const address = parsedContact?.address || dbContact?.address || "Headquarters office, Klo Yaw Lay, Hpa An District, Kawthoolei";
+  const phone = parsedContact?.phone || dbContact?.phone || "-";
+  const email = parsedContact?.email || dbContact?.email || "ktl1949@gmail.com";
+  const officeHours = parsedContact?.officeHours || dbContact?.officeHours || "Monday to Friday, 9:00 AM - 5:00 PM";
+  const websiteUrl = parsedContact?.website || dbContact?.websiteUrl || "https://www.knuhq.org/departments/forestry";
   
-  const headName = data.headMember ? `${data.headMember.firstName} ${data.headMember.lastName}` : (contact?.name || "P'doh Mahn Ba Tun");
+  const headName = data.headMember ? `${data.headMember.firstName} ${data.headMember.lastName}` : (dbContact?.name || "P'doh Mahn Ba Tun");
 
   let socialLinks = { facebook: "https://facebook.com", twitter: "https://twitter.com", linkedin: "https://linkedin.com" };
-  if (contact?.socialLinks && typeof contact.socialLinks === 'string') {
+  
+  if (parsedContact?.socialMedia) {
+    socialLinks = { ...socialLinks, ...parsedContact.socialMedia };
+  } else if (dbContact?.socialLinks && typeof dbContact.socialLinks === 'string') {
     try {
-      socialLinks = { ...socialLinks, ...JSON.parse(contact.socialLinks) };
+      socialLinks = { ...socialLinks, ...JSON.parse(dbContact.socialLinks) };
     } catch (e) {
       // Ignore parse error
     }

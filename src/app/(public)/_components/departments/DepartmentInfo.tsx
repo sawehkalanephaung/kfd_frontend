@@ -6,7 +6,7 @@ export default function DepartmentInfo({ data }: { data: DepartmentData }) {
   try {
     if (data.bodyContent) {
       const parsed = JSON.parse(data.bodyContent);
-      overview = parsed.en || data.bodyContent;
+      overview = parsed.richText || parsed.en || data.bodyContent;
     }
   } catch {
     overview = data.bodyContent || "";

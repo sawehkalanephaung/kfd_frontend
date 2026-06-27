@@ -35,7 +35,6 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
     bodyContent: '',
   });
 
-  // Contact Info State (Stored in body_content as JSON)
   const [contactInfo, setContactInfo] = useState({
     address: '',
     phone: '',
@@ -44,6 +43,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
     website: '',
     facebook: '',
     twitter: '',
+    linkedin: '',
   });
 
   // Rich Text Content State
@@ -64,6 +64,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
             website: parsed.contact.website || '',
             facebook: parsed.contact.socialMedia?.facebook || '',
             twitter: parsed.contact.socialMedia?.twitter || '',
+            linkedin: parsed.contact.socialMedia?.linkedin || '',
           });
         }
       } catch (e) {
@@ -119,6 +120,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
         socialMedia: {
           facebook: contactInfo.facebook,
           twitter: contactInfo.twitter,
+          linkedin: contactInfo.linkedin,
         }
       }
     });
@@ -405,6 +407,13 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                     onChange={(e) => setContactInfo({...contactInfo, twitter: e.target.value})}
                     className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
                     placeholder="Twitter / X URL"
+                  />
+                  <input
+                    type="url"
+                    value={contactInfo.linkedin}
+                    onChange={(e) => setContactInfo({...contactInfo, linkedin: e.target.value})}
+                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                    placeholder="LinkedIn URL"
                   />
                 </div>
               </div>

@@ -25,6 +25,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
   // Lookups
   const [categories, setCategories] = useState<any[]>([]);
   const [tags, setTags] = useState<any[]>([]);
+  const [departments, setDepartments] = useState<any[]>([]);
   const [isTagDropdownOpen, setIsTagDropdownOpen] = useState(false);
 
   // Media Widget State
@@ -40,6 +41,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
     content: initialData?.content || '',
     featuredImageUrl: initialData?.featuredImageUrl || '',
     categoryId: initialData?.category?.id || '',
+    departmentId: initialData?.department?.id || initialData?.departmentId || '',
     tagIds: initialData?.tags?.map((t: any) => t.id) || [],
     status: initialData?.status || 'DRAFT',
     metadata: initialData?.metadata || {},
@@ -51,14 +53,18 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
 
   const fetchCategoriesAndTags = async () => {
     try {
-      const [catRes, tagRes] = await Promise.all([
+      const [catRes, tagRes, deptRes] = await Promise.all([
         api.get('/api/v1/admin/cms/categories').catch(() => ({ data: [] })),
-        api.get('/api/v1/admin/cms/tags').catch(() => ({ data: [] }))
+        api.get('/api/v1/admin/cms/tags').catch(() => ({ data: [] })),
+        api.get('/api/v1/admin/departments').catch(() => ({ data: [] }))
       ]);
       setCategories(catRes.data?.data || catRes.data || []);
       setTags(tagRes.data?.data || tagRes.data || []);
+      
+      const deptData = deptRes.data?.content || deptRes.data?.data || deptRes.data;
+      setDepartments(Array.isArray(deptData) ? deptData : []);
     } catch (err) {
-      console.error('Failed to load categories or tags', err);
+      console.error('Failed to load categories, tags, or departments', err);
     }
   };
 
@@ -131,6 +137,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
     const payload = {
       ...formData,
       categoryId: formData.categoryId || null,
+      departmentId: formData.departmentId || null,
       featuredImageUrl: formData.featuredImageUrl?.trim() || null,
     };
 
@@ -358,6 +365,20 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                   <option value="">Select a Category</option>
                   {categories.map((cat: any) => (
                     <option key={cat.id} value={cat.id}>{cat.name}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-900 mb-2">Department (Optional)</label>
+                <select
+                  value={formData.departmentId}
+                  onChange={(e) => setFormData({ ...formData, departmentId: e.target.value })}
+                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                >
+                  <option value="">Select a Department</option>
+                  {departments.map((dept: any) => (
+                    <option key={dept.id} value={dept.id}>{dept.name}</option>
                   ))}
                 </select>
               </div>
