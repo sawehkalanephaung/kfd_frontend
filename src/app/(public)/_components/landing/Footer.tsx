@@ -126,8 +126,8 @@ export default async function Footer() {
             © {new Date().getFullYear()} KFD. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
-            <Link href="/privacy" className="text-sm text-green-200 hover:text-white transition-colors">Privacy Policy</Link>
-            <Link href="/terms" className="text-sm text-green-200 hover:text-white transition-colors">Terms of Use</Link>
+            <Link href="/privacy-policy" className="text-sm text-green-200 hover:text-white transition-colors">Privacy Policy</Link>
+            <Link href="/terms-of-use" className="text-sm text-green-200 hover:text-white transition-colors">Terms of Use</Link>
             <Link href="/accessibility" className="text-sm text-green-200 hover:text-white transition-colors">Accessibility</Link>
             <Link href="/contact" className="text-sm text-green-200 hover:text-white transition-colors">Contact</Link>
           </div>
