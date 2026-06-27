@@ -10,9 +10,12 @@ interface CategoryFormProps {
   initialData?: any;
   isEdit?: boolean;
   categoryId?: string;
+  isSlideOver?: boolean;
+  onSuccess?: () => void;
+  onCancel?: () => void;
 }
 
-export default function CategoryForm({ initialData, isEdit, categoryId }: CategoryFormProps) {
+export default function CategoryForm({ initialData, isEdit, categoryId, isSlideOver, onSuccess, onCancel }: CategoryFormProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -48,7 +51,11 @@ export default function CategoryForm({ initialData, isEdit, categoryId }: Catego
       } else {
         await api.post('/api/v1/admin/cms/categories', formData);
       }
-      router.push('/dashboard/posts/categories');
+      if (onSuccess) {
+        onSuccess();
+      } else {
+        router.push('/dashboard/posts/categories');
+      }
     } catch (err: any) {
       console.error(err);
       setError(err.response?.data?.message || 'Failed to save category.');
@@ -61,13 +68,23 @@ export default function CategoryForm({ initialData, isEdit, categoryId }: Catego
     <form onSubmit={handleSubmit} className="space-y-6 max-w-4xl">
       {/* Top Bar with Actions */}
       <div className="flex items-center justify-between">
-        <Link
-          href="/dashboard/posts/categories"
-          className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Back to Categories
-        </Link>
+        {!isSlideOver ? (
+          <Link
+            href="/dashboard/posts/categories"
+            className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Categories
+          </Link>
+        ) : (
+          <button
+            type="button"
+            onClick={onCancel}
+            className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
+          >
+            Cancel
+          </button>
+        )}
         <button
           type="submit"
           disabled={loading}

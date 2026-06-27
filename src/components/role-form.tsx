@@ -10,9 +10,12 @@ interface RoleFormProps {
   initialData?: any;
   isEdit?: boolean;
   roleId?: string;
+  isSlideOver?: boolean;
+  onSuccess?: () => void;
+  onCancel?: () => void;
 }
 
-export default function RoleForm({ initialData, isEdit, roleId }: RoleFormProps) {
+export default function RoleForm({ initialData, isEdit, roleId, isSlideOver, onSuccess, onCancel }: RoleFormProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -69,7 +72,11 @@ export default function RoleForm({ initialData, isEdit, roleId }: RoleFormProps)
       } else {
         await api.post('/api/v1/admin/roles', payload);
       }
-      router.push('/dashboard/team/roles');
+      if (onSuccess) {
+        onSuccess();
+      } else {
+        router.push('/dashboard/team/roles');
+      }
     } catch (err: any) {
       console.error(err);
       setError(err.response?.data?.message || 'Failed to save role.');
@@ -81,13 +88,23 @@ export default function RoleForm({ initialData, isEdit, roleId }: RoleFormProps)
   return (
     <form onSubmit={handleSubmit} className="space-y-6 max-w-4xl">
       <div className="flex items-center justify-between">
-        <Link
-          href="/dashboard/team/roles"
-          className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Back to Roles
-        </Link>
+        {!isSlideOver ? (
+          <Link
+            href="/dashboard/team/roles"
+            className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Roles
+          </Link>
+        ) : (
+          <button
+            type="button"
+            onClick={onCancel}
+            className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
+          >
+            Cancel
+          </button>
+        )}
         <button
           type="submit"
           disabled={loading}

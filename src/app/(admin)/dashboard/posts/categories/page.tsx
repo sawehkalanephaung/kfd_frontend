@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { Plus, Edit, Trash2, FolderTree, Loader2 } from 'lucide-react';
 import api from '@/lib/api';
 import DeleteModal from '@/components/delete-modal';
+import SlideOver from '@/components/slide-over';
+import CategoryForm from '@/components/category-form';
 
 interface Category {
   id: string;
@@ -22,6 +24,12 @@ export default function CategoriesListPage() {
   // Delete Modal State
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [categoryToDelete, setCategoryToDelete] = useState<Category | null>(null);
+
+  // Drawer State
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [editingCategory, setEditingCategory] = useState<any | null>(null);
+  const [fetchingDetails, setFetchingDetails] = useState(false);
 
   useEffect(() => {
     fetchCategories();
@@ -60,6 +68,34 @@ export default function CategoriesListPage() {
     }
   };
 
+  const openCreateDrawer = () => {
+    setIsEditMode(false);
+    setEditingCategory(null);
+    setDrawerOpen(true);
+  };
+
+  const openEditDrawer = async (category: Category) => {
+    setIsEditMode(true);
+    setEditingCategory(null);
+    setDrawerOpen(true);
+    setFetchingDetails(true);
+    try {
+      const res = await api.get(`/api/v1/admin/cms/categories/${category.id}`);
+      setEditingCategory(res.data?.data || res.data);
+    } catch (err) {
+      console.error(err);
+      alert('Failed to load category details');
+      setDrawerOpen(false);
+    } finally {
+      setFetchingDetails(false);
+    }
+  };
+
+  const handleDrawerSuccess = () => {
+    setDrawerOpen(false);
+    fetchCategories();
+  };
+
   return (
     <div>
       {/* Breadcrumb */}
@@ -82,13 +118,13 @@ export default function CategoriesListPage() {
             Organize your posts and news articles into structured topics.
           </p>
         </div>
-        <Link
-          href="/dashboard/posts/categories/create"
+        <button
+          onClick={openCreateDrawer}
           className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-medium rounded-xl transition-all shadow-sm shadow-emerald-500/20 active:scale-95"
         >
           <Plus className="w-5 h-5" />
           Create Category
-        </Link>
+        </button>
       </div>
 
       {/* Error State */}
@@ -139,13 +175,13 @@ export default function CategoriesListPage() {
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
-                        <Link
-                          href={`/dashboard/posts/categories/${category.id}/edit`}
+                        <button
+                          onClick={() => openEditDrawer(category)}
                           className="p-2 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
                           title="Edit"
                         >
                           <Edit className="w-4 h-4" />
-                        </Link>
+                        </button>
                         <button
                           onClick={() => openDeleteModal(category)}
                           className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
@@ -171,6 +207,28 @@ export default function CategoriesListPage() {
         description="This will permanently delete the category. Note: If posts are attached to this category, it may fail depending on database constraints."
         itemName={`the '${categoryToDelete?.name}' category`}
       />
+
+      <SlideOver
+        isOpen={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        title={isEditMode ? 'Edit Category' : 'Create New Category'}
+      >
+        {fetchingDetails ? (
+          <div className="flex flex-col items-center justify-center py-20 text-gray-500">
+            <Loader2 className="w-8 h-8 animate-spin mb-4 text-emerald-500" />
+            Loading details...
+          </div>
+        ) : (
+          <CategoryForm
+            isEdit={isEditMode}
+            initialData={editingCategory}
+            categoryId={editingCategory?.id}
+            isSlideOver={true}
+            onSuccess={handleDrawerSuccess}
+            onCancel={() => setDrawerOpen(false)}
+          />
+        )}
+      </SlideOver>
     </div>
   );
 }

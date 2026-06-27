@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { Users, Plus, Edit, Trash2, Loader2, CheckCircle2, XCircle, Shield } from 'lucide-react';
 import api from '@/lib/api';
 import DeleteModal from '@/components/delete-modal';
+import SlideOver from '@/components/slide-over';
+import UserForm from '@/components/user-form';
 
 export default function UsersDirectoryPage() {
   const [users, setUsers] = useState<any[]>([]);
@@ -15,6 +17,12 @@ export default function UsersDirectoryPage() {
   // Delete Modal State
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [userToDelete, setUserToDelete] = useState<any | null>(null);
+
+  // Drawer State
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [editingUser, setEditingUser] = useState<any | null>(null);
+  const [fetchingDetails, setFetchingDetails] = useState(false);
 
   useEffect(() => {
     fetchUsers();
@@ -51,6 +59,35 @@ export default function UsersDirectoryPage() {
       alert(err.response?.data?.message || 'Failed to delete user');
     }
   };
+
+  const openCreateDrawer = () => {
+    setIsEditMode(false);
+    setEditingUser(null);
+    setDrawerOpen(true);
+  };
+
+  const openEditDrawer = async (user: any) => {
+    setIsEditMode(true);
+    setEditingUser(null);
+    setDrawerOpen(true);
+    setFetchingDetails(true);
+    try {
+      const res = await api.get(`/api/v1/admin/users/${user.id}`);
+      setEditingUser(res.data?.data || res.data);
+    } catch (err) {
+      console.error(err);
+      alert('Failed to load user details');
+      setDrawerOpen(false);
+    } finally {
+      setFetchingDetails(false);
+    }
+  };
+
+  const handleDrawerSuccess = () => {
+    setDrawerOpen(false);
+    fetchUsers();
+  };
+
   const formatForDisplay = (name: string) => {
     if (!name) return '';
     return name.replace('ROLE_', '').split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
@@ -94,13 +131,13 @@ export default function UsersDirectoryPage() {
             <option value="active">Active Only</option>
             <option value="inactive">Inactive / Suspended</option>
           </select>
-          <Link
-            href="/dashboard/team/users/create"
+          <button
+            onClick={openCreateDrawer}
             className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-medium rounded-xl transition-all shadow-sm shadow-emerald-500/20 active:scale-95"
           >
             <Plus className="w-5 h-5" />
             Add System User
-          </Link>
+          </button>
         </div>
       </div>
 
@@ -177,13 +214,13 @@ export default function UsersDirectoryPage() {
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
-                        <Link
-                          href={`/dashboard/team/users/${user.id}/edit`}
+                        <button
+                          onClick={() => openEditDrawer(user)}
                           className="p-2 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
                           title="Edit User"
                         >
                           <Edit className="w-4 h-4" />
-                        </Link>
+                        </button>
                         <button
                           onClick={() => openDeleteModal(user)}
                           className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
@@ -209,6 +246,28 @@ export default function UsersDirectoryPage() {
         description="This will permanently delete their account and revoke their dashboard access."
         itemName={`${userToDelete?.firstName} ${userToDelete?.lastName}`}
       />
+
+      <SlideOver
+        isOpen={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        title={isEditMode ? 'Edit User' : 'Create New User'}
+      >
+        {fetchingDetails ? (
+          <div className="flex flex-col items-center justify-center py-20 text-gray-500">
+            <Loader2 className="w-8 h-8 animate-spin mb-4 text-emerald-500" />
+            Loading details...
+          </div>
+        ) : (
+          <UserForm
+            isEdit={isEditMode}
+            initialData={editingUser}
+            userId={editingUser?.id}
+            isSlideOver={true}
+            onSuccess={handleDrawerSuccess}
+            onCancel={() => setDrawerOpen(false)}
+          />
+        )}
+      </SlideOver>
     </div>
   );
 }

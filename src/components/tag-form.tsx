@@ -10,9 +10,12 @@ interface TagFormProps {
   initialData?: any;
   isEdit?: boolean;
   tagId?: string;
+  isSlideOver?: boolean;
+  onSuccess?: () => void;
+  onCancel?: () => void;
 }
 
-export default function TagForm({ initialData, isEdit, tagId }: TagFormProps) {
+export default function TagForm({ initialData, isEdit, tagId, isSlideOver, onSuccess, onCancel }: TagFormProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -47,7 +50,11 @@ export default function TagForm({ initialData, isEdit, tagId }: TagFormProps) {
       } else {
         await api.post('/api/v1/admin/cms/tags', formData);
       }
-      router.push('/dashboard/posts/tags');
+      if (onSuccess) {
+        onSuccess();
+      } else {
+        router.push('/dashboard/posts/tags');
+      }
     } catch (err: any) {
       console.error(err);
       setError(err.response?.data?.message || 'Failed to save tag.');
@@ -60,13 +67,23 @@ export default function TagForm({ initialData, isEdit, tagId }: TagFormProps) {
     <form onSubmit={handleSubmit} className="space-y-6 max-w-4xl">
       {/* Top Bar with Actions */}
       <div className="flex items-center justify-between">
-        <Link
-          href="/dashboard/posts/tags"
-          className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Back to Tags
-        </Link>
+        {!isSlideOver ? (
+          <Link
+            href="/dashboard/posts/tags"
+            className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to Tags
+          </Link>
+        ) : (
+          <button
+            type="button"
+            onClick={onCancel}
+            className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
+          >
+            Cancel
+          </button>
+        )}
         <button
           type="submit"
           disabled={loading}
