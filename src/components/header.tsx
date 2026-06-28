@@ -197,20 +197,22 @@ export default function Header() {
           )}
         </div>
 
-        {/* Profile Pill */}
-        <button className="bg-white rounded-full flex items-center gap-3 p-1.5 pr-5 shadow-[0_2px_10px_rgba(0,0,0,0.02)] border border-gray-100 hover:shadow-md transition-shadow ml-2">
-          <div className="w-9 h-9 rounded-lg overflow-hidden bg-gray-100">
-            <img 
+        {/* Profile Pill (Non-clickable info badge) */}
+        <div className="bg-white rounded-full flex items-center gap-3 p-1.5 pr-5 border border-gray-100 shadow-sm ml-2">
+          <div className="w-9 h-9 rounded-full overflow-hidden bg-emerald-50 border border-emerald-100 flex items-center justify-center shrink-0">
+            {/* Fallback to initials if no image is present */}
+            <span className="text-emerald-700 font-bold text-sm">SE</span>
+            {/* <img 
               src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" 
               alt="Saw Eh Soe" 
               className="w-full h-full object-cover"
-            />
+            /> */}
           </div>
           <div className="flex flex-col items-start hidden sm:flex">
             <span className="text-[14px] font-semibold text-gray-900 leading-tight">Saw Eh Soe</span>
-            <span className="text-[12px] font-medium text-gray-500 leading-tight mt-0.5">Profile</span>
+            <span className="text-[12px] font-medium text-emerald-600 leading-tight mt-0.5">Super Admin</span>
           </div>
-        </button>
+        </div>
       </div>
     </header>
   );
