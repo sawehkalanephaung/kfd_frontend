@@ -50,9 +50,10 @@ export default function AdminLogin() {
 
     try {
       const response = await api.post('/api/v1/auth/login', { email, password });
-      const { token } = response.data.data;
+      const { token, firstName, lastName, roles } = response.data.data;
 
       localStorage.setItem('token', token);
+      localStorage.setItem('kfd_user', JSON.stringify({ firstName, lastName, roles }));
       router.push('/dashboard');
     } catch (err: any) {
       if (err.code === 'ERR_NETWORK' || !err.response) {

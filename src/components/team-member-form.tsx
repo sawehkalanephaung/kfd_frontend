@@ -56,6 +56,7 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
     headshotUrl: initialData?.headshotUrl || '',
     displayOrder: initialData?.displayOrder || 0,
     isActive: initialData?.isActive ?? true,
+    isKfdChairman: initialData?.isKfdChairman ?? false,
   });
 
   const [headshotFile, setHeadshotFile] = useState<File | null>(null);
@@ -160,6 +161,7 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
         title: JSON.stringify({ text: formData.title }),
         bio: JSON.stringify({ richText: formData.bio }),
         departmentId: formData.departmentId || null,
+        isKfdChairman: formData.isKfdChairman,
       };
 
       if (isEdit) {
@@ -264,7 +266,7 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
                     value={formData.departmentId}
                     onChange={(e) => setFormData({...formData, departmentId: e.target.value})}
                     disabled={fetchingDepts}
-                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 appearance-none focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
                   >
                     <option value="">None / General</option>
                     {departments.map(dept => (
@@ -319,6 +321,26 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
                   <option value="false">Inactive</option>
                 </select>
               </div>
+              
+              <div>
+                <label className="flex items-center gap-3 p-4 bg-gray-50 border border-gray-100 rounded-xl cursor-pointer hover:bg-gray-100 transition-colors">
+                  <div className="relative flex items-center">
+                    <input 
+                      type="checkbox" 
+                      checked={formData.isKfdChairman}
+                      onChange={(e) => setFormData({...formData, isKfdChairman: e.target.checked})}
+                      className="peer sr-only"
+                    />
+                    <div className="w-10 h-5 bg-gray-200 rounded-full peer peer-checked:bg-emerald-500 peer-focus:ring-2 peer-focus:ring-emerald-500/30 transition-all"></div>
+                    <div className="absolute left-1 top-1 w-3 h-3 bg-white rounded-full peer-checked:translate-x-5 transition-all"></div>
+                  </div>
+                  <div>
+                    <span className="block text-sm font-semibold text-gray-900">KFD Chairman</span>
+                    <span className="block text-xs text-gray-500 mt-0.5">Flag this person as the KFD Chairman</span>
+                  </div>
+                </label>
+              </div>
+
               <div>
                 <label className="block text-sm font-semibold text-gray-900 mb-2">Display Order</label>
                 <input

@@ -20,7 +20,20 @@ export default function Header() {
   const [notifications, setNotifications] = useState<NotificationItem[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [hasUnread, setHasUnread] = useState(false);
+  const [user, setUser] = useState<{ firstName: string; lastName: string; roles: string[] } | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Load user info from localStorage
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('kfd_user');
+      if (stored) {
+        setUser(JSON.parse(stored));
+      }
+    } catch (e) {
+      console.error('Failed to parse user info', e);
+    }
+  }, []);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -201,16 +214,17 @@ export default function Header() {
         <div className="bg-white rounded-full flex items-center gap-3 p-1.5 pr-5 border border-gray-100 shadow-sm ml-2">
           <div className="w-9 h-9 rounded-full overflow-hidden bg-emerald-50 border border-emerald-100 flex items-center justify-center shrink-0">
             {/* Fallback to initials if no image is present */}
-            <span className="text-emerald-700 font-bold text-sm">SE</span>
-            {/* <img 
-              src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" 
-              alt="Saw Eh Soe" 
-              className="w-full h-full object-cover"
-            /> */}
+            <span className="text-emerald-700 font-bold text-sm">
+              {user?.firstName?.charAt(0) || ''}{user?.lastName?.charAt(0) || 'U'}
+            </span>
           </div>
           <div className="flex flex-col items-start hidden sm:flex">
-            <span className="text-[14px] font-semibold text-gray-900 leading-tight">Saw Eh Soe</span>
-            <span className="text-[12px] font-medium text-emerald-600 leading-tight mt-0.5">Super Admin</span>
+            <span className="text-[14px] font-semibold text-gray-900 leading-tight">
+              {user ? `${user.firstName} ${user.lastName}` : 'Admin User'}
+            </span>
+            <span className="text-[12px] font-medium text-emerald-600 leading-tight mt-0.5 capitalize">
+              {user?.roles?.[0]?.replace('ROLE_', '').replace('_', ' ').toLowerCase() || 'Admin'}
+            </span>
           </div>
         </div>
       </div>

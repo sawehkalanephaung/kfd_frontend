@@ -53,11 +53,7 @@ export default async function ChairmanPage() {
 
   let chairman = null;
   if (teamMembers && teamMembers.length > 0) {
-    chairman = teamMembers.find((m: any) => {
-      const titleStr = parseI18nField(m.title);
-      const roleStr = (titleStr || m.role || m.position || "").toLowerCase();
-      return roleStr.includes("chairman") || roleStr.includes("director general");
-    });
+    chairman = teamMembers.find((m: any) => m.isKfdChairman === true);
   }
 
   if (!chairman) {

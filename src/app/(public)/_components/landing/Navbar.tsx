@@ -36,6 +36,7 @@ export default async function Navbar() {
         { name: "Mission", href: "/about#mission" },
         { name: "Vision", href: "/about#vision" },
         { name: "Objective", href: "/about#objective" },
+        { name: "Team Directory", href: "/team" },
         { name: "Chairman", href: "/about#chairman" },
       ]
     },
