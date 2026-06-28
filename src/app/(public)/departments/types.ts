@@ -52,7 +52,9 @@ export interface DepartmentData {
   headMember: TeamMemberSummary | null;
   bodyContent: string;
   logoId: string | null;
+  logoUrl: string | null;
   heroImageId: string | null;
+  heroImageUrl: string | null;
   contacts: DepartmentContact[];
   teamMembers: TeamMemberSummary[];
   posts: PostSummary[];

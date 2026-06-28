@@ -10,20 +10,12 @@ function formatDate(dateStr: string) {
 }
 
 export default function DepartmentAnnouncements({ data }: { data: DepartmentData }) {
-  // Use posts but show them as announcements
-  // In a real app, this would filter by category="announcement"
-  // For the UI mockup, we'll just show the same posts or filter by a keyword
-  let posts = data.posts || [];
-  
-  // Try to find posts with 'announcement' or 'recruitment' to match the screenshot
-  const announcementPosts = posts.filter(p => 
-    p.excerpt?.toLowerCase().includes('announcement') || 
-    p.title.toLowerCase().includes('recruitment')
-  );
-  
-  if (announcementPosts.length > 0) {
-    posts = announcementPosts;
-  }
+  // Show only posts in the "Announcement" category and PUBLISHED
+  const posts = (data.posts || []).filter(p => {
+    const isPublished = !p.status || p.status === 'PUBLISHED';
+    const isAnnouncement = (p as any).categoryName?.toLowerCase() === 'announcement';
+    return isPublished && isAnnouncement;
+  });
 
   return (
     <div className="py-8 max-w-4xl">

@@ -7,8 +7,8 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-// Revalidate every 1 hour
-export const revalidate = 3600;
+// Always fetch fresh data
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
@@ -39,7 +39,7 @@ export default async function DepartmentPage({ params }: PageProps) {
   
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"}/api/v1/public/departments/${slug}`, {
-      next: { revalidate: 3600 }
+      cache: "no-store"
     });
     
     if (!res.ok) {

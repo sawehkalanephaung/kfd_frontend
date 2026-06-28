@@ -125,18 +125,11 @@ export default async function DepartmentsPage() {
         <div className="pointer-events-none absolute -bottom-32 -right-32 w-96 h-96 rounded-full bg-emerald-400/10 blur-3xl" />
 
         <div className="container relative mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-green-500/30 bg-green-500/10 px-4 py-1.5 mb-6">
-            <TreePine size={14} className="text-green-400" />
-            <span className="text-xs font-semibold uppercase tracking-widest text-green-300">
-              Our Structure
-            </span>
-          </div>
+
 
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight mb-6 leading-tight">
-            Specialized{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-300">
-              Units &amp; Departments
-            </span>
+            Our Department Branches
+
           </h1>
 
           <p className="max-w-2xl mx-auto text-lg text-green-100/70 leading-relaxed">
@@ -144,19 +137,8 @@ export default async function DepartmentsPage() {
             protecting, restoring, and sustaining our forests for future generations.
           </p>
 
-          {/* Stats row */}
-          <div className="mt-12 flex flex-wrap justify-center gap-8 md:gap-16">
-            {[
-              { label: "Active Units", value: departments.length || "5" },
-              { label: "Forest Areas", value: "120+" },
-              { label: "Staff Members", value: "80+" },
-            ].map((stat) => (
-              <div key={stat.label} className="text-center">
-                <p className="text-3xl font-bold text-white mb-1">{stat.value}</p>
-                <p className="text-sm text-green-300/70 font-medium">{stat.label}</p>
-              </div>
-            ))}
-          </div>
+
+
         </div>
       </section>
 
@@ -264,26 +246,7 @@ export default async function DepartmentsPage() {
         )}
       </section>
 
-      {/* ── Bottom CTA ───────────────────────────────────── */}
-      <section className="bg-[#0f2318] py-16">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div>
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
-              Want to collaborate with us?
-            </h2>
-            <p className="text-green-300/70 text-sm">
-              Reach out to learn how your organization can support our conservation mission.
-            </p>
-          </div>
-          <Link
-            href="/contact"
-            className="flex-shrink-0 flex items-center gap-2 bg-green-500 hover:bg-green-400 text-white font-semibold px-7 py-3.5 rounded-xl transition-colors shadow-lg shadow-green-900/30"
-          >
-            Contact Us
-            <ChevronRight size={18} />
-          </Link>
-        </div>
-      </section>
+
     </main>
   );
 }

@@ -10,7 +10,12 @@ function formatDate(dateStr: string) {
 }
 
 export default function DepartmentActivity({ data }: { data: DepartmentData }) {
-  const posts = data.posts?.filter(p => !p.excerpt?.toLowerCase().includes('announcement') && !p.slug.includes('announcement')) || [];
+  // Show posts that are NOT in the "Announcement" category and are PUBLISHED
+  const posts = (data.posts || []).filter(p => {
+    const isPublished = !p.status || p.status === 'PUBLISHED';
+    const isAnnouncement = (p as any).categoryName?.toLowerCase() === 'announcement';
+    return isPublished && !isAnnouncement;
+  });
 
   return (
     <div className="py-8 max-w-4xl">
