@@ -1,15 +1,21 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import Link from 'next/link';
-import { Users, Plus, Edit, Trash2, Loader2, CheckCircle2, XCircle } from 'lucide-react';
+import { Users, Plus, Edit, Trash2, CheckCircle2, XCircle, Search, ChevronLeft, ChevronRight } from 'lucide-react';
 import api, { getMediaUrl } from '@/lib/api';
 import DeleteModal from '@/components/delete-modal';
+import { toast } from 'sonner';
 
 export default function TeamDirectoryPage() {
   const [members, setMembers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  
+  // Search and Pagination State
+  const [searchQuery, setSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
   
   // Delete Modal State
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -50,10 +56,37 @@ export default function TeamDirectoryPage() {
 
   const confirmDelete = async () => {
     if (!memberToDelete) return;
-
+    try {
       await api.delete(`/api/v1/admin/team-members/${memberToDelete.id}`);
       setMembers((prev) => prev.filter((m) => m.id !== memberToDelete.id));
-    };
+      toast.success('Team member deleted successfully');
+      setDeleteModalOpen(false);
+    } catch (error) {
+      toast.error('Failed to delete team member');
+    }
+  };
+
+  // Filter and Paginate Logic
+  const filteredMembers = useMemo(() => {
+    return members.filter(member => {
+      const fullName = `${member.firstName || ''} ${member.lastName || ''}`.toLowerCase();
+      const title = getTitleString(member.title).toLowerCase();
+      const query = searchQuery.toLowerCase();
+      return fullName.includes(query) || title.includes(query);
+    });
+  }, [members, searchQuery]);
+
+  const totalPages = Math.ceil(filteredMembers.length / itemsPerPage);
+  
+  const paginatedMembers = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return filteredMembers.slice(startIndex, startIndex + itemsPerPage);
+  }, [filteredMembers, currentPage]);
+
+  // Reset to page 1 when search changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery]);
 
   return (
     <div>
@@ -77,7 +110,7 @@ export default function TeamDirectoryPage() {
         </div>
         <Link
           href="/dashboard/team/create"
-          className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-medium rounded-xl transition-all shadow-sm shadow-emerald-500/20 active:scale-95"
+          className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-medium rounded-xl transition-all shadow-sm shadow-emerald-500/20 active:scale-95 shrink-0"
         >
           <Plus className="w-5 h-5" />
           Add Member
@@ -93,6 +126,21 @@ export default function TeamDirectoryPage() {
 
       {/* Table Section */}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-50 overflow-hidden">
+        
+        {/* Search Bar */}
+        <div className="p-4 border-b border-gray-50 bg-gray-50/30">
+          <div className="relative max-w-sm">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <input 
+              type="text" 
+              placeholder="Search by name or title..." 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all placeholder:text-gray-400 text-gray-900"
+            />
+          </div>
+        </div>
+
         <div className="overflow-x-auto w-full">
           <table className="w-full min-w-[800px] text-left text-sm text-gray-600">
             <thead className="bg-gray-50/50 text-gray-500 font-medium border-b border-gray-100">
@@ -107,20 +155,30 @@ export default function TeamDirectoryPage() {
             </thead>
             <tbody className="divide-y divide-gray-50">
               {loading ? (
-                <tr>
-                  <td colSpan={6} className="px-6 py-12 text-center text-gray-400">
-                    <Loader2 className="w-6 h-6 animate-spin mx-auto mb-2" />
-                    Loading team members...
-                  </td>
-                </tr>
-              ) : members.length === 0 ? (
+                // Skeleton Loaders
+                Array.from({ length: 5 }).map((_, idx) => (
+                  <tr key={idx} className="animate-pulse">
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-gray-200 shrink-0"></div>
+                        <div className="h-4 bg-gray-200 rounded w-32"></div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4"><div className="h-4 bg-gray-200 rounded w-24"></div></td>
+                    <td className="px-6 py-4"><div className="h-4 bg-gray-200 rounded w-20"></div></td>
+                    <td className="px-6 py-4"><div className="h-6 bg-gray-200 rounded-full w-16"></div></td>
+                    <td className="px-6 py-4"><div className="h-4 bg-gray-200 rounded w-8"></div></td>
+                    <td className="px-6 py-4 text-right"><div className="h-8 bg-gray-200 rounded w-16 ml-auto"></div></td>
+                  </tr>
+                ))
+              ) : filteredMembers.length === 0 ? (
                 <tr>
                   <td colSpan={6} className="px-6 py-12 text-center text-gray-500">
-                    No members found. Add your first team member to get started.
+                    {searchQuery ? "No members found matching your search." : "No members found. Add your first team member to get started."}
                   </td>
                 </tr>
               ) : (
-                members.map((member) => (
+                paginatedMembers.map((member) => (
                   <tr key={member.id} className="hover:bg-gray-50/50 transition-colors">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
@@ -184,6 +242,46 @@ export default function TeamDirectoryPage() {
             </tbody>
           </table>
         </div>
+        
+        {/* Pagination Controls */}
+        {!loading && filteredMembers.length > 0 && (
+          <div className="px-6 py-4 border-t border-gray-50 bg-gray-50/30 flex items-center justify-between">
+            <span className="text-sm text-gray-500">
+              Showing <span className="font-medium text-gray-900">{(currentPage - 1) * itemsPerPage + 1}</span> to <span className="font-medium text-gray-900">{Math.min(currentPage * itemsPerPage, filteredMembers.length)}</span> of <span className="font-medium text-gray-900">{filteredMembers.length}</span> members
+            </span>
+            <div className="flex items-center gap-2">
+              <button 
+                onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                disabled={currentPage === 1}
+                className="p-1.5 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-100 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+              <div className="flex items-center gap-1">
+                {Array.from({ length: totalPages }).map((_, idx) => (
+                  <button 
+                    key={idx}
+                    onClick={() => setCurrentPage(idx + 1)}
+                    className={`w-8 h-8 rounded-lg text-sm font-medium transition-colors ${
+                      currentPage === idx + 1 
+                        ? 'bg-emerald-500 text-white' 
+                        : 'text-gray-500 hover:bg-gray-100 hover:text-gray-900'
+                    }`}
+                  >
+                    {idx + 1}
+                  </button>
+                ))}
+              </div>
+              <button 
+                onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                disabled={currentPage === totalPages}
+                className="p-1.5 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-100 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
       <DeleteModal

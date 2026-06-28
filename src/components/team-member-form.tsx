@@ -9,6 +9,7 @@ import dynamic from 'next/dynamic';
 import MediaSelector from '@/components/media-selector';
 import toast from 'react-hot-toast';
 import 'react-quill-new/dist/quill.snow.css';
+import ImageCropperModal from '@/components/image-cropper';
 
 const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
 
@@ -59,6 +60,11 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
 
   const [headshotFile, setHeadshotFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  
+  // Cropper State
+  const [cropModalOpen, setCropModalOpen] = useState(false);
+  const [imageToCrop, setImageToCrop] = useState<string | null>(null);
+  
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -79,7 +85,34 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
         return;
       }
       setError('');
-      setHeadshotFile(selectedFile);
+      
+      const url = URL.createObjectURL(selectedFile);
+      setImageToCrop(url);
+      setCropModalOpen(true);
+      
+      // Reset input so they can select the same file again if they cancel
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    }
+  };
+
+  const handleCropComplete = (croppedBlob: Blob) => {
+    const file = new File([croppedBlob], 'headshot-cropped.jpg', { type: 'image/jpeg' });
+    setHeadshotFile(file);
+    setCropModalOpen(false);
+    
+    if (imageToCrop) {
+      URL.revokeObjectURL(imageToCrop);
+      setImageToCrop(null);
+    }
+  };
+
+  const handleCropClose = () => {
+    setCropModalOpen(false);
+    if (imageToCrop) {
+      URL.revokeObjectURL(imageToCrop);
+      setImageToCrop(null);
     }
   };
 
@@ -381,6 +414,15 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
 
         </div>
       </div>
+      
+      {/* Cropper Modal */}
+      {cropModalOpen && imageToCrop && (
+        <ImageCropperModal
+          imageSrc={imageToCrop}
+          onCropComplete={handleCropComplete}
+          onClose={handleCropClose}
+        />
+      )}
     </form>
   );
 }

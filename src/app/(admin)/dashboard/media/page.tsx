@@ -191,12 +191,24 @@ export default function MediaLibraryPage() {
             </thead>
             <tbody className="divide-y divide-gray-50">
               {loading ? (
-                <tr>
-                  <td colSpan={5} className="px-6 py-12 text-center text-gray-400">
-                    <Loader2 className="w-6 h-6 animate-spin mx-auto mb-2" />
-                    Loading media...
-                  </td>
-                </tr>
+                // Skeleton Loaders
+                Array.from({ length: 5 }).map((_, idx) => (
+                  <tr key={idx} className="animate-pulse">
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-lg bg-gray-200 shrink-0"></div>
+                        <div className="flex-1">
+                          <div className="h-4 bg-gray-200 rounded w-48 mb-2"></div>
+                          <div className="h-3 bg-gray-200 rounded w-20"></div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4"><div className="h-6 bg-gray-200 rounded-md w-20"></div></td>
+                    <td className="px-6 py-4"><div className="h-4 bg-gray-200 rounded w-16"></div></td>
+                    <td className="px-6 py-4"><div className="h-4 bg-gray-200 rounded w-24"></div></td>
+                    <td className="px-6 py-4 text-right"><div className="h-8 bg-gray-200 rounded w-16 ml-auto"></div></td>
+                  </tr>
+                ))
               ) : media.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="px-6 py-12 text-center text-gray-500">
