@@ -172,14 +172,12 @@ export default function Sidebar() {
               {hasSubItems ? (
                 <button
                   onClick={() => toggleMenu(item.label)}
-                  className={`
-                    w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200
-                    ${
-                      active
-                        ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/25'
-                        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-                    }
-                  `}
+                  className={
+                    "w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 " +
+                    (active
+                      ? "bg-emerald-500 text-white shadow-lg shadow-emerald-500/25"
+                      : "text-gray-600 hover:bg-gray-50 hover:text-gray-900")
+                  }
                 >
                   <div className="flex items-center gap-3">
                     {item.icon}
@@ -195,14 +193,12 @@ export default function Sidebar() {
                 <Link
                   href={item.href}
                   onClick={() => setIsOpen(false)}
-                  className={`
-                    flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200
-                    ${
-                      active
-                        ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/25'
-                        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
-                    }
-                  `}
+                  className={
+                    "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 " +
+                    (active
+                      ? "bg-emerald-500 text-white shadow-lg shadow-emerald-500/25"
+                      : "text-gray-600 hover:bg-gray-50 hover:text-gray-900")
+                  }
                 >
                   {item.icon}
                   <span>{item.label}</span>
@@ -222,14 +218,12 @@ export default function Sidebar() {
                         key={sub.href}
                         href={sub.href}
                         onClick={() => setIsOpen(false)}
-                        className={`
-                          block px-3 py-2 rounded-lg text-[13px] font-medium transition-colors
-                          ${
-                            pathname === sub.href
-                              ? 'text-emerald-600 bg-emerald-50'
-                              : 'text-gray-500 hover:text-gray-800 hover:bg-gray-50'
-                          }
-                        `}
+                        className={
+                          "block px-3 py-2 rounded-lg text-[13px] font-medium transition-colors " +
+                          (pathname === sub.href
+                            ? "text-emerald-600 bg-emerald-50"
+                            : "text-gray-500 hover:text-gray-800 hover:bg-gray-50")
+                        }
                       >
                         {sub.label}
                       </Link>
