@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+
 import logoImg from "@/assets/logo-2.png";
 import {
   LayoutDashboard,
@@ -74,8 +75,20 @@ const menuItems: MenuItem[] = [
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
   const [expandedMenus, setExpandedMenus] = useState<string[]>([]);
   const { isOpen, setIsOpen, isCollapsed } = useSidebar();
+
+  const handleLogout = () => {
+    // Clear JWT token
+    localStorage.removeItem('token');
+    // Clear all admin-specific cached state for security
+    localStorage.removeItem('kfd_dismissed_notifs');
+    localStorage.removeItem('kfd_admin_notification_settings');
+    // Redirect to login
+    router.push('/login');
+  };
+
 
   // Auto-expand the section that contains the current route.
   // Runs only on the client to avoid SSR/hydration mismatch.
@@ -280,7 +293,10 @@ export default function Sidebar() {
 
         {/* Logout */}
         <div className="px-3 pb-5">
-          <button className={`flex items-center gap-3 py-3 w-full rounded-xl text-sm font-medium text-gray-500 hover:bg-red-50 hover:text-red-600 transition-all duration-200 ${isCollapsed ? 'justify-center px-0' : 'px-4'}`}>
+          <button 
+            onClick={handleLogout}
+            className={`flex items-center gap-3 py-3 w-full rounded-xl text-sm font-medium text-gray-500 hover:bg-red-50 hover:text-red-600 transition-all duration-200 ${isCollapsed ? 'justify-center px-0' : 'px-4'}`}
+          >
             <LogOut className="w-5 h-5" />
             {!isCollapsed && <span>Logout</span>}
           </button>

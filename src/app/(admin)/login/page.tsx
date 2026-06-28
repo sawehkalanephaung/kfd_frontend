@@ -54,12 +54,13 @@ export default function AdminLogin() {
 
       localStorage.setItem('token', token);
       router.push('/dashboard');
-    } catch (err: unknown) {
-      if (err && typeof err === 'object' && 'response' in err) {
-        const axiosErr = err as { response?: { data?: { message?: string } } };
-        setError(axiosErr.response?.data?.message || 'Invalid email or password');
+    } catch (err: any) {
+      if (err.code === 'ERR_NETWORK' || !err.response) {
+        setError('Unable to connect to the server. The backend may be down or offline.');
+      } else if (err.response.status >= 500) {
+        setError('The server encountered an internal error. Please try again later.');
       } else {
-        setError('Unable to connect to server. Please try again.');
+        setError(err.response?.data?.message || 'Invalid email or password.');
       }
     } finally {
       setLoading(false);
