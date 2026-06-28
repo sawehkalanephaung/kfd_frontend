@@ -15,19 +15,44 @@ export default function AdminLogin() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setEmailError('');
+    setPasswordError('');
+    
+    let isValid = true;
+
+    // Client-side Validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email) {
+      setEmailError('Email address is required.');
+      isValid = false;
+    } else if (!emailRegex.test(email)) {
+      setEmailError('Please enter a valid email address.');
+      isValid = false;
+    }
+    
+    if (!password) {
+      setPasswordError('Password is required.');
+      isValid = false;
+    } else if (password.length < 6) {
+      setPasswordError('Password must be at least 6 characters long.');
+      isValid = false;
+    }
+
+    if (!isValid) return;
+
     setLoading(true);
 
     try {
       const response = await api.post('/api/v1/auth/login', { email, password });
       const { token } = response.data.data;
 
-      // Store the JWT token
       localStorage.setItem('token', token);
-
-      // Redirect to dashboard
       router.push('/dashboard');
     } catch (err: unknown) {
       if (err && typeof err === 'object' && 'response' in err) {
@@ -43,10 +68,7 @@ export default function AdminLogin() {
 
   return (
     <div className="relative min-h-screen w-full flex items-center justify-center p-4 overflow-hidden">
-      {/* Background Image Setup */}
-      {/* Note: The user should save their attached image as "login-bg.png" in the "public" folder. */}
       <div className="absolute inset-0 z-0 bg-[#0f172a]">
-        {/* Background image from assets */}
         <Image
           src={loginBg}
           alt="Mountains Background"
@@ -55,11 +77,9 @@ export default function AdminLogin() {
           sizes="100vw"
           className="object-cover object-center opacity-90"
           onError={(e) => {
-            // Fallback gradient if the image isn't placed in public folder yet
             e.currentTarget.style.display = 'none';
           }}
         />
-        {/* Optional: Dark overlay to ensure contrast */}
         <div className="absolute inset-0 bg-slate-900/20" />
       </div>
 
@@ -79,43 +99,61 @@ export default function AdminLogin() {
             </p>
           </div>
 
-          {/* Error Message */}
+          {/* Server Error Message */}
           {error && (
-            <div className="mb-4 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-700 text-sm text-center font-medium">
+            <div className="mb-6 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-700 text-sm text-center font-medium animate-in fade-in">
               {error}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="space-y-2">
+          <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+            
+            {/* Email Field */}
+            <div className="space-y-1.5">
               <label className="text-sm font-semibold text-slate-900 ml-1">Email Address</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-slate-600" />
+                  <Mail className={`h-5 w-5 ${emailError ? 'text-red-500' : 'text-slate-600'}`} />
                 </div>
                 <input
                   type="email"
-                  required
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-11 pr-4 py-3 bg-white/20 border border-white/40 rounded-xl text-slate-900 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all backdrop-blur-md"
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    if (emailError) setEmailError('');
+                    if (error) setError('');
+                  }}
+                  className={`w-full pl-11 pr-4 py-3 bg-white/20 border rounded-xl text-slate-900 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:border-transparent transition-all backdrop-blur-md ${
+                    emailError 
+                      ? 'border-red-500/50 focus:ring-red-500' 
+                      : 'border-white/40 focus:ring-emerald-500'
+                  }`}
                   placeholder="admin@kfd.org"
                 />
               </div>
+              {emailError && <p className="text-red-600 text-xs font-medium ml-1 mt-1 animate-in slide-in-from-top-1">{emailError}</p>}
             </div>
 
-            <div className="space-y-2">
+            {/* Password Field */}
+            <div className="space-y-1.5">
               <label className="text-sm font-semibold text-slate-900 ml-1">Password</label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-slate-600" />
+                  <Lock className={`h-5 w-5 ${passwordError ? 'text-red-500' : 'text-slate-600'}`} />
                 </div>
                 <input
                   type={showPassword ? 'text' : 'password'}
-                  required
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-11 pr-12 py-3 bg-white/20 border border-white/40 rounded-xl text-slate-900 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all backdrop-blur-md"
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    if (passwordError) setPasswordError('');
+                    if (error) setError('');
+                  }}
+                  className={`w-full pl-11 pr-12 py-3 bg-white/20 border rounded-xl text-slate-900 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:border-transparent transition-all backdrop-blur-md ${
+                    passwordError 
+                      ? 'border-red-500/50 focus:ring-red-500' 
+                      : 'border-white/40 focus:ring-emerald-500'
+                  }`}
                   placeholder="••••••••"
                 />
                 <button
@@ -130,9 +168,10 @@ export default function AdminLogin() {
                   )}
                 </button>
               </div>
+              {passwordError && <p className="text-red-600 text-xs font-medium ml-1 mt-1 animate-in slide-in-from-top-1">{passwordError}</p>}
             </div>
 
-            <div className="flex items-center justify-between mt-4">
+            <div className="flex items-center justify-between pt-2">
               <label className="flex items-center gap-2 cursor-pointer">
                 <div className="relative flex items-center justify-center">
                   <input
@@ -156,7 +195,7 @@ export default function AdminLogin() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 mt-2 bg-emerald-500 hover:bg-emerald-400 disabled:opacity-70 disabled:cursor-not-allowed text-slate-900 font-bold rounded-xl shadow-lg shadow-emerald-500/25 transition-all transform active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-transparent flex items-center justify-center gap-2"
+              className="w-full py-3.5 mt-4 bg-emerald-500 hover:bg-emerald-400 disabled:opacity-70 disabled:cursor-not-allowed text-slate-900 font-bold rounded-xl shadow-lg shadow-emerald-500/25 transition-all transform active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-transparent flex items-center justify-center gap-2"
             >
               {loading && <Loader2 className="w-5 h-5 animate-spin" />}
               {loading ? 'Signing in...' : 'Sign In to Admin'}

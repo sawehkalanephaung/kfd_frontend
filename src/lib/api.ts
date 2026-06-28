@@ -36,8 +36,13 @@ api.interceptors.response.use(
       // Handle 401 Unauthorized globally
       if (error.response.status === 401) {
         if (typeof window !== 'undefined') {
-          // Optional: localStorage.removeItem('token');
-          // Optional: window.location.href = '/login';
+          localStorage.removeItem('token');
+          
+          // Only redirect if we are not already on the login page
+          // This prevents an infinite refresh loop when login fails with a 401
+          if (window.location.pathname !== '/login') {
+            window.location.href = '/login';
+          }
         }
       }
     }

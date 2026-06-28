@@ -2,7 +2,9 @@
 
 import React, { useEffect, useState, useMemo } from 'react';
 import Link from 'next/link';
+import { toast } from 'sonner';
 import { Plus, Edit, Trash2, FileText, Loader2, Eye, EyeOff, Archive, CalendarDays, FolderTree, Search, Filter, ChevronLeft, ChevronRight } from 'lucide-react';
+
 import api from '@/lib/api';
 import DeleteModal from '@/components/delete-modal';
 
@@ -83,10 +85,19 @@ export default function PostsListPage() {
 
   const confirmDelete = async () => {
     if (!postToDelete) return;
-
-      await api.delete(`/api/v1/admin/cms/posts/${postToDelete.id}`);
+    try {
+      const res = await api.delete(`/api/v1/admin/cms/posts/${postToDelete.id}`);
+      // Use the dynamic message from the backend (archive vs. permanent delete)
+      const message = res.data?.message || 'Post action completed successfully.';
+      toast.success(message);
       fetchPosts();
-    };
+    } catch (err: any) {
+      toast.error(err?.response?.data?.message || 'Failed to delete post.');
+    } finally {
+      setDeleteModalOpen(false);
+      setPostToDelete(null);
+    }
+  };
 
   useEffect(() => {
     fetchCategories();
