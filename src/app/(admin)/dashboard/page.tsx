@@ -47,13 +47,20 @@ export default function DashboardPage() {
           api.get('/api/v1/admin/cms/posts?size=5&sort=viewCount,desc')
         ]);
 
+        const getCount = (res: any) => {
+          if (res.data?.totalElements !== undefined) return res.data.totalElements;
+          if (res.data?.data?.totalElements !== undefined) return res.data.data.totalElements;
+          const content = res.data?.content || res.data?.data || res.data;
+          return Array.isArray(content) ? content.length : 0;
+        };
+
         setStats({
-          posts: publishedPostsRes.data?.totalElements || 0,
-          drafts: draftPostsRes.data?.totalElements || 0,
-          archived: archivedPostsRes.data?.totalElements || 0,
-          teamMembers: teamRes.data?.totalElements || 0,
-          media: mediaRes.data?.totalElements || 0,
-          departments: deptRes.data?.totalElements || 0,
+          posts: getCount(publishedPostsRes),
+          drafts: getCount(draftPostsRes),
+          archived: getCount(archivedPostsRes),
+          teamMembers: getCount(teamRes),
+          media: getCount(mediaRes),
+          departments: getCount(deptRes),
         });
 
         const recent = recentActivityRes.data?.content || recentActivityRes.data?.data || recentActivityRes.data || [];
