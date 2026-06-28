@@ -2,7 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
+import logoImg from "@/assets/logo-2.png";
 import {
   LayoutDashboard,
   Building2,
@@ -73,7 +75,7 @@ const menuItems: MenuItem[] = [
 export default function Sidebar() {
   const pathname = usePathname();
   const [expandedMenus, setExpandedMenus] = useState<string[]>([]);
-  const { isOpen, setIsOpen } = useSidebar();
+  const { isOpen, setIsOpen, isCollapsed } = useSidebar();
 
   // Auto-expand the section that contains the current route.
   // Runs only on the client to avoid SSR/hydration mismatch.
@@ -133,80 +135,97 @@ export default function Sidebar() {
 
       {/* Sidebar Container */}
       <aside
-        className={`fixed top-0 left-0 z-50 h-screen w-[260px] md:w-[220px] flex flex-col bg-white border-r border-gray-100 shadow-xl md:shadow-sm transition-transform duration-300 ease-in-out
-          ${isOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}
+        className={`fixed top-0 left-0 z-50 h-screen flex flex-col bg-white border-r border-gray-100 shadow-xl md:shadow-sm transition-all duration-300 ease-in-out
+          ${isOpen ? 'translate-x-0 w-[260px]' : '-translate-x-full md:translate-x-0'}
+          ${!isOpen && isCollapsed ? 'md:w-[80px]' : 'md:w-[280px]'}
         `}
       >
         {/* Header / Logo */}
-        <div className="flex items-center justify-between px-5 py-6">
+        <div className={`flex items-center ${isCollapsed ? 'justify-center px-0' : 'justify-between px-4'} py-6 min-h-[88px]`}>
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full bg-emerald-500 flex items-center justify-center shadow-md shadow-emerald-500/20">
-              <Leaf className="w-5 h-5 text-white" />
+            <div className={`relative w-10 h-10 flex-shrink-0 ${isCollapsed ? 'mx-auto' : ''}`}>
+              <Image
+                src={logoImg}
+                alt="KFD Logo"
+                fill
+                sizes="40px"
+                className="object-contain"
+              />
             </div>
-            <div>
-              <h1 className="text-lg font-bold text-gray-900 tracking-wide leading-none">
-                K F D
-              </h1>
-              <span className="text-[11px] text-gray-400 font-medium">Admin</span>
-            </div>
+            {!isCollapsed && (
+              <div className="flex flex-col overflow-hidden">
+                <h1 className="text-[13px] font-bold text-gray-900 tracking-tight leading-tight truncate">
+                  Kawthoolei Forestry Department
+                </h1>
+                <span className="text-[11px] text-gray-600 font-medium mt-0.5 truncate">
+                  သ့ၣ်ပှၢ်ဝဲၤကျိၤ
+                </span>
+              </div>
+            )}
           </div>
           {/* Mobile Close Button */}
-          <button 
-            onClick={() => setIsOpen(false)}
-            className="md:hidden p-2 -mr-2 text-gray-400 hover:text-gray-900 rounded-lg transition-colors"
-          >
-            <X className="w-5 h-5" />
-          </button>
+          {!isCollapsed && (
+            <button 
+              onClick={() => setIsOpen(false)}
+              className="md:hidden p-2 -mr-2 text-gray-400 hover:text-gray-900 rounded-lg transition-colors flex-shrink-0"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          )}
         </div>
 
       {/* Navigation */}
-      <nav className="flex-1 overflow-y-auto px-3 pb-4 space-y-1">
+      <nav className={`flex-1 px-3 pb-4 space-y-1 ${isCollapsed ? 'overflow-visible' : 'overflow-y-auto'}`}>
         {menuItems.map((item) => {
           const active = isActive(item);
           const expanded = expandedMenus.includes(item.label);
           const hasSubItems = item.subItems && item.subItems.length > 0;
 
           return (
-            <div key={item.label}>
+            <div key={item.label} className="relative group">
               {/* Main menu item */}
               {hasSubItems ? (
                 <button
                   onClick={() => toggleMenu(item.label)}
                   className={
-                    "w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 " +
+                    `w-full flex items-center gap-3 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${isCollapsed ? 'justify-center px-0' : 'justify-between px-4'} ` +
                     (active
                       ? "bg-emerald-500 text-white shadow-lg shadow-emerald-500/25"
                       : "text-gray-600 hover:bg-gray-50 hover:text-gray-900")
                   }
+                  title={isCollapsed ? item.label : undefined}
                 >
-                  <div className="flex items-center gap-3">
+                  <div className={`flex items-center gap-3 ${isCollapsed ? 'justify-center' : ''}`}>
                     {item.icon}
-                    <span>{item.label}</span>
+                    {!isCollapsed && <span>{item.label}</span>}
                   </div>
-                  <ChevronUp
-                    className={`w-4 h-4 transition-transform duration-200 ${
-                      expanded ? '' : 'rotate-180'
-                    }`}
-                  />
+                  {!isCollapsed && (
+                    <ChevronUp
+                      className={`w-4 h-4 transition-transform duration-200 ${
+                        expanded ? '' : 'rotate-180'
+                      }`}
+                    />
+                  )}
                 </button>
               ) : (
                 <Link
                   href={item.href}
                   onClick={() => setIsOpen(false)}
                   className={
-                    "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 " +
+                    `flex items-center gap-3 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${isCollapsed ? 'justify-center px-0' : 'px-4'} ` +
                     (active
                       ? "bg-emerald-500 text-white shadow-lg shadow-emerald-500/25"
                       : "text-gray-600 hover:bg-gray-50 hover:text-gray-900")
                   }
+                  title={isCollapsed ? item.label : undefined}
                 >
                   {item.icon}
-                  <span>{item.label}</span>
+                  {!isCollapsed && <span>{item.label}</span>}
                 </Link>
               )}
 
-              {/* Sub-items */}
-              {hasSubItems && (
+              {/* Sub-items (Expanded Mode) */}
+              {!isCollapsed && hasSubItems && (
                 <div
                   className={`overflow-hidden transition-all duration-200 ease-in-out ${
                     expanded ? 'max-h-80 opacity-100 mt-1' : 'max-h-0 opacity-0'
@@ -231,6 +250,31 @@ export default function Sidebar() {
                   </div>
                 </div>
               )}
+
+              {/* Sub-items (Collapsed Flyout Mode) */}
+              {isCollapsed && hasSubItems && (
+                <div className="hidden group-hover:block absolute left-full top-0 pl-3 w-56 z-[100]">
+                  <div className="bg-white shadow-xl rounded-xl border border-gray-100 py-2 animate-in fade-in slide-in-from-left-2 duration-200">
+                    <div className="px-4 py-2 text-sm font-bold text-gray-900 border-b border-gray-50 mb-1">{item.label}</div>
+                    <div className="px-2">
+                      {item.subItems!.map((sub) => (
+                        <Link
+                          key={sub.href}
+                          href={sub.href}
+                          className={
+                            "block px-3 py-2 my-0.5 rounded-lg text-[13px] font-medium transition-colors " +
+                            (pathname === sub.href
+                              ? "text-emerald-600 bg-emerald-50"
+                              : "text-gray-500 hover:text-gray-800 hover:bg-gray-50")
+                          }
+                        >
+                          {sub.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           );
         })}
@@ -238,9 +282,9 @@ export default function Sidebar() {
 
       {/* Logout */}
       <div className="px-3 pb-5">
-        <button className="flex items-center gap-3 px-4 py-3 w-full rounded-xl text-sm font-medium text-gray-500 hover:bg-red-50 hover:text-red-600 transition-all duration-200">
+        <button className={`flex items-center gap-3 py-3 w-full rounded-xl text-sm font-medium text-gray-500 hover:bg-red-50 hover:text-red-600 transition-all duration-200 ${isCollapsed ? 'justify-center px-0' : 'px-4'}`}>
           <LogOut className="w-5 h-5" />
-          <span>Logout</span>
+          {!isCollapsed && <span>Logout</span>}
         </button>
       </div>
     </aside>

@@ -1,6 +1,7 @@
 import Sidebar from '@/components/sidebar';
 import Header from '@/components/header';
 import { SidebarProvider } from '@/components/sidebar-context';
+import DashboardLayoutWrapper from '@/components/dashboard-layout-wrapper';
 
 export default function DashboardLayout({
   children,
@@ -11,11 +12,10 @@ export default function DashboardLayout({
     <SidebarProvider>
       <div className="flex min-h-screen bg-[#f5f6fa]">
         <Sidebar />
-        {/* Main content area offset by the sidebar width on desktop */}
-        <main className="md:ml-[220px] flex-1 p-4 md:p-8 w-full overflow-x-hidden">
+        <DashboardLayoutWrapper>
           <Header />
           {children}
-        </main>
+        </DashboardLayoutWrapper>
       </div>
     </SidebarProvider>
   );
