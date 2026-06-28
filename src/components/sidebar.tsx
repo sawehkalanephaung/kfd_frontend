@@ -46,7 +46,7 @@ const menuItems: MenuItem[] = [
       { label: 'Categories', href: '/dashboard/posts/categories' },
       { label: 'Tags', href: '/dashboard/posts/tags' },
       { label: 'Resources (Library)', href: '/dashboard/media' },
-      { label: 'Newsletter', href: '/dashboard/newsletter' },
+      { label: ' Newsletter Subscribers', href: '/dashboard/newsletter' },
     ],
   },
   {
