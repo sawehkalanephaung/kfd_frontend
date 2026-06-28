@@ -36,7 +36,7 @@ const menuItems: MenuItem[] = [
     href: '/dashboard',
   },
   {
-    label: 'Content Management',
+    label: 'Content',
     icon: <Layers className="w-5 h-5" />,
     href: '/dashboard/content-management', // This acts as a grouping identifier for active state
     subItems: [
@@ -50,7 +50,7 @@ const menuItems: MenuItem[] = [
     ],
   },
   {
-    label: 'Organization Management',
+    label: 'Organization',
     icon: <Building2 className="w-5 h-5" />,
     href: '/dashboard/org-management', // Grouping identifier
     subItems: [
@@ -61,7 +61,7 @@ const menuItems: MenuItem[] = [
     ],
   },
   {
-    label: 'Administration & Access',
+    label: 'Administration',
     icon: <Shield className="w-5 h-5" />,
     href: '/dashboard/admin-access', // Grouping identifier
     subItems: [
@@ -103,14 +103,14 @@ export default function Sidebar() {
 
   const isActive = (item: MenuItem) => {
     if (item.href === '/dashboard') return pathname === '/dashboard';
-    
+
     const checkPath = (href: string) => {
       // Special case for Team Members to prevent it from highlighting when on Users or Roles
       if (href === '/dashboard/team') {
-        return pathname === '/dashboard/team' || 
-               (pathname.startsWith('/dashboard/team/') && 
-                !pathname.startsWith('/dashboard/team/users') && 
-                !pathname.startsWith('/dashboard/team/roles'));
+        return pathname === '/dashboard/team' ||
+          (pathname.startsWith('/dashboard/team/') &&
+            !pathname.startsWith('/dashboard/team/users') &&
+            !pathname.startsWith('/dashboard/team/roles'));
       }
       return pathname === href || pathname.startsWith(href + '/');
     };
@@ -119,7 +119,7 @@ export default function Sidebar() {
     if (item.subItems) {
       return item.subItems.some(sub => checkPath(sub.href));
     }
-    
+
     return checkPath(item.href);
   };
 
@@ -165,7 +165,7 @@ export default function Sidebar() {
           </div>
           {/* Mobile Close Button */}
           {!isCollapsed && (
-            <button 
+            <button
               onClick={() => setIsOpen(false)}
               className="md:hidden p-2 -mr-2 text-gray-400 hover:text-gray-900 rounded-lg transition-colors flex-shrink-0"
             >
@@ -174,95 +174,69 @@ export default function Sidebar() {
           )}
         </div>
 
-      {/* Navigation */}
-      <nav className={`flex-1 px-3 pb-4 space-y-1 ${isCollapsed ? 'overflow-visible' : 'overflow-y-auto'}`}>
-        {menuItems.map((item) => {
-          const active = isActive(item);
-          const expanded = expandedMenus.includes(item.label);
-          const hasSubItems = item.subItems && item.subItems.length > 0;
+        {/* Navigation */}
+        <nav className={`flex-1 px-3 pb-4 space-y-1 ${isCollapsed ? 'overflow-visible' : 'overflow-y-auto'}`}>
+          {menuItems.map((item) => {
+            const active = isActive(item);
+            const expanded = expandedMenus.includes(item.label);
+            const hasSubItems = item.subItems && item.subItems.length > 0;
 
-          return (
-            <div key={item.label} className="relative group">
-              {/* Main menu item */}
-              {hasSubItems ? (
-                <button
-                  onClick={() => toggleMenu(item.label)}
-                  className={
-                    `w-full flex items-center gap-3 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${isCollapsed ? 'justify-center px-0' : 'justify-between px-4'} ` +
-                    (active
-                      ? "bg-emerald-500 text-white shadow-lg shadow-emerald-500/25"
-                      : "text-gray-600 hover:bg-gray-50 hover:text-gray-900")
-                  }
-                  title={isCollapsed ? item.label : undefined}
-                >
-                  <div className={`flex items-center gap-3 ${isCollapsed ? 'justify-center' : ''}`}>
-                    {item.icon}
-                    {!isCollapsed && <span>{item.label}</span>}
-                  </div>
-                  {!isCollapsed && (
-                    <ChevronUp
-                      className={`w-4 h-4 transition-transform duration-200 ${
-                        expanded ? '' : 'rotate-180'
+            return (
+              <div key={item.label} className="relative group">
+                {/* Main menu item */}
+                {hasSubItems ? (
+                  <button
+                    onClick={() => toggleMenu(item.label)}
+                    className={
+                      `w-full flex items-center gap-3 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${isCollapsed ? 'justify-center px-0' : 'justify-between px-4'} ` +
+                      (active
+                        ? "bg-emerald-500 text-white shadow-lg shadow-emerald-500/25"
+                        : "text-gray-600 hover:bg-gray-50 hover:text-gray-900")
+                    }
+                    title={isCollapsed ? item.label : undefined}
+                  >
+                    <div className={`flex items-center gap-3 overflow-hidden ${isCollapsed ? 'justify-center' : ''}`}>
+                      <div className="flex-shrink-0">{item.icon}</div>
+                      {!isCollapsed && <span className="text-left truncate">{item.label}</span>}
+                    </div>
+                    {!isCollapsed && (
+                      <ChevronUp
+                        className={`w-4 h-4 transition-transform duration-200 ${expanded ? '' : 'rotate-180'
+                          }`}
+                      />
+                    )}
+                  </button>
+                ) : (
+                  <Link
+                    href={item.href}
+                    onClick={() => setIsOpen(false)}
+                    className={
+                      `flex items-center gap-3 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${isCollapsed ? 'justify-center px-0' : 'px-4'} ` +
+                      (active
+                        ? "bg-emerald-500 text-white shadow-lg shadow-emerald-500/25"
+                        : "text-gray-600 hover:bg-gray-50 hover:text-gray-900")
+                    }
+                    title={isCollapsed ? item.label : undefined}
+                  >
+                    <div className="flex-shrink-0">{item.icon}</div>
+                    {!isCollapsed && <span className="text-left truncate">{item.label}</span>}
+                  </Link>
+                )}
+
+                {/* Sub-items (Expanded Mode) */}
+                {!isCollapsed && hasSubItems && (
+                  <div
+                    className={`overflow-hidden transition-all duration-200 ease-in-out ${expanded ? 'max-h-80 opacity-100 mt-1' : 'max-h-0 opacity-0'
                       }`}
-                    />
-                  )}
-                </button>
-              ) : (
-                <Link
-                  href={item.href}
-                  onClick={() => setIsOpen(false)}
-                  className={
-                    `flex items-center gap-3 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${isCollapsed ? 'justify-center px-0' : 'px-4'} ` +
-                    (active
-                      ? "bg-emerald-500 text-white shadow-lg shadow-emerald-500/25"
-                      : "text-gray-600 hover:bg-gray-50 hover:text-gray-900")
-                  }
-                  title={isCollapsed ? item.label : undefined}
-                >
-                  {item.icon}
-                  {!isCollapsed && <span>{item.label}</span>}
-                </Link>
-              )}
-
-              {/* Sub-items (Expanded Mode) */}
-              {!isCollapsed && hasSubItems && (
-                <div
-                  className={`overflow-hidden transition-all duration-200 ease-in-out ${
-                    expanded ? 'max-h-80 opacity-100 mt-1' : 'max-h-0 opacity-0'
-                  }`}
-                >
-                  <div className="ml-6 pl-4 border-l-2 border-gray-100 space-y-0.5">
-                    {item.subItems!.map((sub) => (
-                      <Link
-                        key={sub.href}
-                        href={sub.href}
-                        onClick={() => setIsOpen(false)}
-                        className={
-                          "block px-3 py-2 rounded-lg text-[13px] font-medium transition-colors " +
-                          (pathname === sub.href
-                            ? "text-emerald-600 bg-emerald-50"
-                            : "text-gray-500 hover:text-gray-800 hover:bg-gray-50")
-                        }
-                      >
-                        {sub.label}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Sub-items (Collapsed Flyout Mode) */}
-              {isCollapsed && hasSubItems && (
-                <div className="hidden group-hover:block absolute left-full top-0 pl-3 w-56 z-[100]">
-                  <div className="bg-white shadow-xl rounded-xl border border-gray-100 py-2 animate-in fade-in slide-in-from-left-2 duration-200">
-                    <div className="px-4 py-2 text-sm font-bold text-gray-900 border-b border-gray-50 mb-1">{item.label}</div>
-                    <div className="px-2">
+                  >
+                    <div className="ml-6 pl-4 border-l-2 border-gray-100 space-y-0.5">
                       {item.subItems!.map((sub) => (
                         <Link
                           key={sub.href}
                           href={sub.href}
+                          onClick={() => setIsOpen(false)}
                           className={
-                            "block px-3 py-2 my-0.5 rounded-lg text-[13px] font-medium transition-colors " +
+                            "block px-3 py-2 rounded-lg text-[13px] font-medium transition-colors " +
                             (pathname === sub.href
                               ? "text-emerald-600 bg-emerald-50"
                               : "text-gray-500 hover:text-gray-800 hover:bg-gray-50")
@@ -273,21 +247,45 @@ export default function Sidebar() {
                       ))}
                     </div>
                   </div>
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </nav>
+                )}
 
-      {/* Logout */}
-      <div className="px-3 pb-5">
-        <button className={`flex items-center gap-3 py-3 w-full rounded-xl text-sm font-medium text-gray-500 hover:bg-red-50 hover:text-red-600 transition-all duration-200 ${isCollapsed ? 'justify-center px-0' : 'px-4'}`}>
-          <LogOut className="w-5 h-5" />
-          {!isCollapsed && <span>Logout</span>}
-        </button>
-      </div>
-    </aside>
+                {/* Sub-items (Collapsed Flyout Mode) */}
+                {isCollapsed && hasSubItems && (
+                  <div className="hidden group-hover:block absolute left-full top-0 pl-3 w-56 z-[100]">
+                    <div className="bg-white shadow-xl rounded-xl border border-gray-100 py-2 animate-in fade-in slide-in-from-left-2 duration-200">
+                      <div className="px-4 py-2 text-sm font-bold text-gray-900 border-b border-gray-50 mb-1">{item.label}</div>
+                      <div className="px-2">
+                        {item.subItems!.map((sub) => (
+                          <Link
+                            key={sub.href}
+                            href={sub.href}
+                            className={
+                              "block px-3 py-2 my-0.5 rounded-lg text-[13px] font-medium transition-colors " +
+                              (pathname === sub.href
+                                ? "text-emerald-600 bg-emerald-50"
+                                : "text-gray-500 hover:text-gray-800 hover:bg-gray-50")
+                            }
+                          >
+                            {sub.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </nav>
+
+        {/* Logout */}
+        <div className="px-3 pb-5">
+          <button className={`flex items-center gap-3 py-3 w-full rounded-xl text-sm font-medium text-gray-500 hover:bg-red-50 hover:text-red-600 transition-all duration-200 ${isCollapsed ? 'justify-center px-0' : 'px-4'}`}>
+            <LogOut className="w-5 h-5" />
+            {!isCollapsed && <span>Logout</span>}
+          </button>
+        </div>
+      </aside>
     </>
   );
 }
