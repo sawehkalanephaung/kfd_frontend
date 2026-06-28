@@ -55,7 +55,7 @@ const menuItems: MenuItem[] = [
     icon: <Building2 className="w-5 h-5" />,
     href: '/dashboard/org-management', // Grouping identifier
     subItems: [
-      { label: 'Departments', href: '/dashboard/organization/departments' },
+      { label: 'Department Branches', href: '/dashboard/organization/departments' },
       { label: 'Team Members', href: '/dashboard/team' },
       { label: 'Global Contact Info', href: '/dashboard/contact' },
       { label: 'Global Metrics', href: '/dashboard/organization/metrics' },
@@ -293,7 +293,7 @@ export default function Sidebar() {
 
         {/* Logout */}
         <div className="px-3 pb-5">
-          <button 
+          <button
             onClick={handleLogout}
             className={`flex items-center gap-3 py-3 w-full rounded-xl text-sm font-medium text-gray-500 hover:bg-red-50 hover:text-red-600 transition-all duration-200 ${isCollapsed ? 'justify-center px-0' : 'px-4'}`}
           >

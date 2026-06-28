@@ -25,7 +25,7 @@ export default function DepartmentsPage() {
   const [departments, setDepartments] = useState<Department[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  
+
   // Delete Modal State
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [departmentToDelete, setDepartmentToDelete] = useState<Department | null>(null);
@@ -58,9 +58,9 @@ export default function DepartmentsPage() {
   const confirmDelete = async () => {
     if (!departmentToDelete) return;
 
-      await api.delete(`/api/v1/admin/departments/${departmentToDelete.id}`);
-      setDepartments((prev) => prev.filter((d) => d.id !== departmentToDelete.id));
-    };
+    await api.delete(`/api/v1/admin/departments/${departmentToDelete.id}`);
+    setDepartments((prev) => prev.filter((d) => d.id !== departmentToDelete.id));
+  };
 
   return (
     <div>
@@ -78,7 +78,7 @@ export default function DepartmentsPage() {
         <div>
           <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
             <Building2 className="w-6 h-6 text-emerald-500" />
-            Departments
+            Department Branches
           </h1>
           <p className="text-gray-500 mt-1">
             Manage the operational units and organizational structure of KFD.
@@ -148,11 +148,10 @@ export default function DepartmentsPage() {
                       )}
                     </td>
                     <td className="px-6 py-4">
-                      <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${
-                        dept.status === 'ACTIVE' 
-                          ? 'bg-emerald-50 text-emerald-700 border border-emerald-100' 
-                          : 'bg-gray-100 text-gray-700 border border-gray-200'
-                      }`}>
+                      <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${dept.status === 'ACTIVE'
+                        ? 'bg-emerald-50 text-emerald-700 border border-emerald-100'
+                        : 'bg-gray-100 text-gray-700 border border-gray-200'
+                        }`}>
                         {dept.status || 'ACTIVE'}
                       </span>
                     </td>
