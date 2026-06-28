@@ -27,6 +27,7 @@ export default function PostsListPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedStatus, setSelectedStatus] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
@@ -47,11 +48,11 @@ export default function PostsListPage() {
   // Reset to page 1 when filters change
   useEffect(() => {
     setCurrentPage(1);
-  }, [debouncedSearch, selectedCategory]);
+  }, [debouncedSearch, selectedCategory, selectedStatus]);
 
   useEffect(() => {
     fetchPosts();
-  }, [debouncedSearch, selectedCategory, currentPage]);
+  }, [debouncedSearch, selectedCategory, selectedStatus, currentPage]);
 
   const fetchPosts = async () => {
     try {
@@ -63,6 +64,7 @@ export default function PostsListPage() {
       });
       if (debouncedSearch) params.append('search', debouncedSearch);
       if (selectedCategory) params.append('category', selectedCategory);
+      if (selectedStatus) params.append('status', selectedStatus);
 
       const response = await api.get(`/api/v1/admin/cms/posts?${params.toString()}`);
       
@@ -152,7 +154,7 @@ export default function PostsListPage() {
 
       {/* Controls Bar */}
       <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-50 flex flex-col md:flex-row items-center gap-4 mb-6">
-        <div className="relative w-full md:w-1/3">
+        <div className="relative w-full md:w-2/5">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <Search className="w-4 h-4 text-gray-400" />
           </div>
@@ -165,20 +167,38 @@ export default function PostsListPage() {
           />
         </div>
         
-        <div className="relative w-full md:w-1/4">
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <Filter className="w-4 h-4 text-gray-400" />
+        <div className="flex w-full md:w-3/5 gap-4">
+          <div className="relative w-full md:w-1/2">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <Filter className="w-4 h-4 text-gray-400" />
+            </div>
+            <select
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-black focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all appearance-none"
+            >
+              <option value="">All Categories</option>
+              {categories.map((cat: any) => (
+                <option key={cat.id} value={cat.name}>{cat.name}</option>
+              ))}
+            </select>
           </div>
-          <select
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-black focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all appearance-none"
-          >
-            <option value="">All Categories</option>
-            {categories.map((cat: any) => (
-              <option key={cat.id} value={cat.name}>{cat.name}</option>
-            ))}
-          </select>
+
+          <div className="relative w-full md:w-1/2">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <Eye className="w-4 h-4 text-gray-400" />
+            </div>
+            <select
+              value={selectedStatus}
+              onChange={(e) => setSelectedStatus(e.target.value)}
+              className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-black focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all appearance-none"
+            >
+              <option value="">All Statuses</option>
+              <option value="PUBLISHED">Published</option>
+              <option value="DRAFT">Draft</option>
+              <option value="ARCHIVED">Archived</option>
+            </select>
+          </div>
         </div>
       </div>
 
