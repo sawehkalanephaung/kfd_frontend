@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { X, Check, Loader2, Image as ImageIcon } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { X, Check, Loader2, Image as ImageIcon, UploadCloud } from 'lucide-react';
 import api, { getMediaUrl } from '@/lib/api';
+import toast from 'react-hot-toast';
 
 interface MediaAsset {
   id: string;
@@ -27,11 +28,19 @@ export default function MediaSelector({
   const [media, setMedia] = useState<MediaAsset[]>([]);
   const [loading, setLoading] = useState(false);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  
+  // Upload State
+  const [activeTab, setActiveTab] = useState<'library' | 'upload'>('library');
+  const [uploading, setUploading] = useState(false);
+  const [uploadFile, setUploadFile] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (isOpen) {
       fetchMedia();
       setSelectedIds(new Set()); // Reset selection on open
+      setActiveTab('library');
+      setUploadFile(null);
     }
   }, [isOpen]);
 
@@ -64,6 +73,28 @@ export default function MediaSelector({
     }
   };
 
+  const handleUpload = async () => {
+    if (!uploadFile) return;
+    setUploading(true);
+    const formData = new FormData();
+    formData.append('file', uploadFile);
+    
+    try {
+      await api.post('/api/v1/admin/media/upload', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+      toast.success('Successfully uploaded file!');
+      setUploadFile(null);
+      await fetchMedia(); 
+      setActiveTab('library');
+    } catch (err: any) {
+      console.error(err);
+      toast.error(err.response?.data?.message || 'Failed to upload file.');
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const handleConfirm = () => {
     const selectedAssets = media.filter(m => selectedIds.has(m.id));
     onSelect(selectedAssets);
@@ -86,9 +117,27 @@ export default function MediaSelector({
           </button>
         </div>
 
+        {/* Tabs */}
+        <div className="flex px-6 border-b border-gray-100">
+          <button
+            onClick={() => setActiveTab('library')}
+            className={`px-4 py-3 text-sm font-medium border-b-2 transition-colors ${activeTab === 'library' ? 'border-emerald-500 text-emerald-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
+          >
+            Media Library
+          </button>
+          <button
+            onClick={() => setActiveTab('upload')}
+            className={`px-4 py-3 text-sm font-medium border-b-2 transition-colors ${activeTab === 'upload' ? 'border-emerald-500 text-emerald-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
+          >
+            Upload New
+          </button>
+        </div>
+
         {/* Content */}
         <div className="flex-1 overflow-y-auto p-6 bg-gray-50/50">
-          {loading ? (
+          {activeTab === 'library' ? (
+            <>
+              {loading ? (
             <div className="flex flex-col items-center justify-center h-64 text-gray-400">
               <Loader2 className="w-8 h-8 animate-spin mb-4 text-emerald-500" />
               <p>Loading your media...</p>
@@ -131,15 +180,75 @@ export default function MediaSelector({
                 );
               })}
             </div>
+              )}
+            </>
+          ) : (
+            <div className="flex flex-col items-center justify-center h-full max-w-lg mx-auto py-10">
+              <div 
+                className={`w-full border-2 border-dashed rounded-xl p-10 text-center transition-colors cursor-pointer ${
+                  uploadFile ? 'border-emerald-500 bg-emerald-50' : 'border-gray-300 hover:border-emerald-500 hover:bg-gray-50'
+                }`}
+                onClick={() => fileInputRef.current?.click()}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+                    setUploadFile(e.dataTransfer.files[0]);
+                  }
+                }}
+                onDragOver={(e) => e.preventDefault()}
+              >
+                <input 
+                  type="file" 
+                  ref={fileInputRef} 
+                  onChange={(e) => {
+                    if (e.target.files && e.target.files.length > 0) {
+                      setUploadFile(e.target.files[0]);
+                    }
+                  }} 
+                  className="hidden" 
+                />
+                
+                {uploadFile ? (
+                  <div className="flex flex-col items-center">
+                    <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mb-4">
+                      <UploadCloud className="w-8 h-8" />
+                    </div>
+                    <p className="text-emerald-700 font-medium text-lg">{uploadFile.name}</p>
+                    <p className="text-emerald-600/70 text-sm mt-1">
+                      {(uploadFile.size / 1024 / 1024).toFixed(2)} MB
+                    </p>
+                    <p className="text-emerald-600 text-sm mt-4 underline underline-offset-2">Click or drag to change file</p>
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center">
+                    <div className="w-16 h-16 bg-gray-100 text-gray-400 rounded-full flex items-center justify-center mb-4">
+                      <UploadCloud className="w-8 h-8" />
+                    </div>
+                    <p className="text-gray-700 font-medium text-lg">Click to select or drag and drop</p>
+                    <p className="text-gray-500 text-sm mt-1">Max 15MB</p>
+                  </div>
+                )}
+              </div>
+              
+              <button
+                onClick={handleUpload}
+                disabled={!uploadFile || uploading}
+                className="mt-6 w-full py-3 bg-emerald-500 hover:bg-emerald-600 disabled:opacity-70 text-white font-medium rounded-xl transition-all flex items-center justify-center gap-2"
+              >
+                {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <UploadCloud className="w-4 h-4" />}
+                Upload File
+              </button>
+            </div>
           )}
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 border-t border-gray-100 bg-white flex items-center justify-between">
-          <p className="text-sm text-gray-500">
-            {selectedIds.size} item{selectedIds.size !== 1 && 's'} selected
-            {!multiple && selectedIds.size > 1 && <span className="text-red-500 ml-2">Please select only 1 item.</span>}
-          </p>
+        {activeTab === 'library' && (
+          <div className="px-6 py-4 border-t border-gray-100 bg-white flex items-center justify-between">
+            <p className="text-sm text-gray-500">
+              {selectedIds.size} item{selectedIds.size !== 1 && 's'} selected
+              {!multiple && selectedIds.size > 1 && <span className="text-red-500 ml-2">Please select only 1 item.</span>}
+            </p>
           <div className="flex gap-3">
             <button 
               onClick={onClose}
@@ -156,7 +265,8 @@ export default function MediaSelector({
               Confirm Selection
             </button>
           </div>
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );

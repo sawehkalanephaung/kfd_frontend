@@ -22,14 +22,13 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [selectorMode, setSelectorMode] = useState<'none' | 'hero' | 'slider'>('none');
+  const [selectorMode, setSelectorMode] = useState<'none' | 'slider'>('none');
 
   // Form State matching the Page entity
   const [formData, setFormData] = useState({
     title: initialData?.title || '',
     slug: initialData?.slug || '',
     content: initialData?.content || '',
-    heroImageId: initialData?.heroImageId || '',
     sliderImageIds: initialData?.sliderImageIds?.join(', ') || '',
     status: initialData?.status || 'DRAFT',
   });
@@ -54,7 +53,6 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
 
     const payload = {
       ...formData,
-      heroImageId: formData.heroImageId?.trim() || null,
       sliderImageIds: formData.sliderImageIds.split(',').map((s: string) => s.trim()).filter((s: string) => s.length > 0),
     };
 
@@ -192,30 +190,6 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
             <div className="space-y-6">
               <div>
                 <label className="block text-sm font-semibold text-gray-900 mb-2 flex items-center justify-between">
-                  Hero Image
-                  {formData.heroImageId && (
-                    <button type="button" onClick={() => setFormData({...formData, heroImageId: ''})} className="text-xs text-red-500 hover:text-red-700">Clear</button>
-                  )}
-                </label>
-                <div className="flex items-center gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setSelectorMode('hero')}
-                    className="flex-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-700 hover:bg-gray-100 transition-colors text-left flex items-center justify-between"
-                  >
-                    <span className="truncate">
-                      {formData.heroImageId ? '1 Image Selected' : 'Select Hero Image...'}
-                    </span>
-                    <ImageIcon className="w-4 h-4 text-gray-400" />
-                  </button>
-                </div>
-                {formData.heroImageId && (
-                  <p className="text-xs text-gray-500 mt-2 font-mono truncate bg-gray-50 p-2 rounded-lg border border-gray-100">{formData.heroImageId}</p>
-                )}
-              </div>
-
-              <div className="pt-2">
-                <label className="block text-sm font-semibold text-gray-900 mb-2 flex items-center justify-between">
                   Slider Images (Hero Section)
                   {formData.sliderImageIds && (
                     <button type="button" onClick={() => setFormData({...formData, sliderImageIds: ''})} className="text-xs text-red-500 hover:text-red-700">Clear</button>
@@ -247,14 +221,10 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
           <MediaSelector 
             isOpen={selectorMode !== 'none'} 
             onClose={() => setSelectorMode('none')}
-            multiple={selectorMode === 'slider'}
-            title={selectorMode === 'slider' ? "Select Slider Images" : "Select Hero Image"}
+            multiple={true}
+            title="Select Slider Images"
             onSelect={(assets) => {
-              if (selectorMode === 'hero') {
-                setFormData({...formData, heroImageId: assets[0]?.id || ''});
-              } else if (selectorMode === 'slider') {
-                setFormData({...formData, sliderImageIds: assets.map(a => a.id).join(', ')});
-              }
+              setFormData({...formData, sliderImageIds: assets.map(a => a.id).join(', ')});
             }}
           />
 

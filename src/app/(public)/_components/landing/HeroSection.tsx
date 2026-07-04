@@ -48,9 +48,10 @@ export default function HeroSection({ siteIdentity, homeContent }: { siteIdentit
             {title}
           </h1>
           
-          <p className="text-lg text-green-50 mb-10 max-w-xl leading-relaxed whitespace-pre-wrap">
-            {description}
-          </p>
+          <div 
+            className="text-lg text-green-50 mb-10 max-w-xl leading-relaxed"
+            dangerouslySetInnerHTML={{ __html: description }}
+          />
           
           <div className="flex flex-wrap items-center gap-4">
             <Link 
