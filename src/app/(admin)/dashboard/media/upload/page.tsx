@@ -17,14 +17,26 @@ export default function UploadMediaPage() {
 
   // Form State
   const [file, setFile] = useState<File | null>(null);
-  const [category, setCategory] = useState('general');
+  const [categories, setCategories] = useState<any[]>([]);
+  const [categoryId, setCategoryId] = useState('');
   const [departmentId, setDepartmentId] = useState('');
-  
+
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     fetchDepartments();
+    fetchCategories();
   }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const res = await api.get('/api/v1/admin/cms/categories').catch(() => ({ data: [] }));
+      const data = res.data?.content || res.data?.data?.content || res.data?.data || res.data || [];
+      setCategories(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error('Failed to load categories', err);
+    }
+  };
 
   const fetchDepartments = async () => {
     try {
@@ -80,7 +92,7 @@ export default function UploadMediaPage() {
 
     const formData = new FormData();
     formData.append('file', file);
-    if (category) formData.append('category', category);
+    if (categoryId) formData.append('categoryId', categoryId);
     if (departmentId) formData.append('departmentId', departmentId);
 
     try {
@@ -140,22 +152,21 @@ export default function UploadMediaPage() {
           <div className="md:col-span-2 space-y-6">
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50">
               <h2 className="text-lg font-bold text-gray-900 mb-6">Select File</h2>
-              
-              <div 
-                className={`border-2 border-dashed rounded-xl p-10 text-center transition-colors cursor-pointer ${
-                  file ? 'border-emerald-500 bg-emerald-50' : 'border-gray-300 hover:border-emerald-500 hover:bg-gray-50'
-                }`}
+
+              <div
+                className={`border-2 border-dashed rounded-xl p-10 text-center transition-colors cursor-pointer ${file ? 'border-emerald-500 bg-emerald-50' : 'border-gray-300 hover:border-emerald-500 hover:bg-gray-50'
+                  }`}
                 onDrop={handleDrop}
                 onDragOver={handleDragOver}
                 onClick={() => fileInputRef.current?.click()}
               >
-                <input 
-                  type="file" 
-                  ref={fileInputRef} 
-                  onChange={handleFileChange} 
-                  className="hidden" 
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  onChange={handleFileChange}
+                  className="hidden"
                 />
-                
+
                 {file ? (
                   <div className="flex flex-col items-center">
                     <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mb-4">
@@ -184,20 +195,23 @@ export default function UploadMediaPage() {
           <div className="space-y-6">
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50">
               <h2 className="text-lg font-bold text-gray-900 mb-6">File Details</h2>
-              
+
               <div className="space-y-5">
                 <div>
                   <label className="block text-sm font-semibold text-gray-900 mb-2 flex items-center gap-2">
                     <Tag className="w-4 h-4 text-gray-400" />
                     Category
                   </label>
-                  <input
-                    type="text"
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
-                    placeholder="e.g. general, report, logo"
-                  />
+                  <select
+                    value={categoryId}
+                    onChange={(e) => setCategoryId(e.target.value)}
+                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                  >
+                    <option value="">Select a Category</option>
+                    {categories.map((cat: any) => (
+                      <option key={cat.id} value={cat.id}>{cat.name}</option>
+                    ))}
+                  </select>
                 </div>
 
                 <div>
