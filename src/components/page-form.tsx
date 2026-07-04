@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Loader2, Save, ArrowLeft, FileText, AlignLeft, Settings, Image as ImageIcon } from 'lucide-react';
+import { Loader2, Save, ArrowLeft, FileText, AlignLeft, Settings, Image as ImageIcon, X } from 'lucide-react';
 import Link from 'next/link';
 import api, { getMediaUrl } from '@/lib/api';
 import MediaSelector from '@/components/media-selector';
@@ -31,6 +31,16 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
     content: initialData?.content || '',
     sliderImageIds: initialData?.sliderImageIds?.join(', ') || '',
     status: initialData?.status || 'DRAFT',
+  });
+
+  const [sliderPreviews, setSliderPreviews] = useState<{id: string, url: string}[]>(() => {
+    if (initialData?.sliderImageIds && initialData?.sliderImageUrls) {
+      return initialData.sliderImageIds.map((id: string, i: number) => ({
+        id,
+        url: initialData.sliderImageUrls[i] || ''
+      }));
+    }
+    return [];
   });
 
   const generateSlug = (title: string) => {
@@ -191,8 +201,17 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
               <div>
                 <label className="block text-sm font-semibold text-gray-900 mb-2 flex items-center justify-between">
                   Slider Images (Hero Section)
-                  {formData.sliderImageIds && (
-                    <button type="button" onClick={() => setFormData({...formData, sliderImageIds: ''})} className="text-xs text-red-500 hover:text-red-700">Clear</button>
+                  {sliderPreviews.length > 0 && (
+                    <button 
+                      type="button" 
+                      onClick={() => {
+                        setFormData({...formData, sliderImageIds: ''});
+                        setSliderPreviews([]);
+                      }} 
+                      className="text-xs text-red-500 hover:text-red-700 font-medium"
+                    >
+                      Clear All
+                    </button>
                   )}
                 </label>
                 <div className="flex items-center gap-3">
@@ -207,10 +226,30 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
                     <ImageIcon className="w-4 h-4 text-gray-400" />
                   </button>
                 </div>
-                {formData.sliderImageIds && (
-                  <div className="mt-2 flex flex-col gap-1">
-                    {formData.sliderImageIds.split(',').filter((s: string) => s.trim().length > 0).map((id: string, i: number) => (
-                      <p key={i} className="text-xs text-gray-500 font-mono truncate bg-gray-50 p-2 rounded-lg border border-gray-100">{id.trim()}</p>
+                {sliderPreviews.length > 0 && (
+                  <div className="mt-4 grid grid-cols-2 gap-3">
+                    {sliderPreviews.map((preview, i) => (
+                      <div key={i} className="relative group aspect-video rounded-xl overflow-hidden border border-gray-200 bg-gray-50 flex items-center justify-center">
+                        {preview.url ? (
+                          <img src={getMediaUrl(preview.url)} alt="preview" className="w-full h-full object-cover" />
+                        ) : (
+                          <ImageIcon className="w-6 h-6 text-gray-300" />
+                        )}
+                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                          <button 
+                            type="button"
+                            onClick={() => {
+                              const newPreviews = sliderPreviews.filter(p => p.id !== preview.id);
+                              setSliderPreviews(newPreviews);
+                              setFormData({...formData, sliderImageIds: newPreviews.map(p => p.id).join(', ')});
+                            }}
+                            className="bg-white text-red-500 p-2 rounded-full hover:bg-red-50 hover:scale-110 transition-transform shadow-sm"
+                            title="Remove Image"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </div>
                     ))}
                   </div>
                 )}
@@ -225,6 +264,7 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
             title="Select Slider Images"
             onSelect={(assets) => {
               setFormData({...formData, sliderImageIds: assets.map(a => a.id).join(', ')});
+              setSliderPreviews(assets.map(a => ({ id: a.id, url: a.fileUrl })));
             }}
           />
 
