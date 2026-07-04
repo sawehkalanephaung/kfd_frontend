@@ -46,11 +46,11 @@ export default function DepartmentHero({ data }: { data: DepartmentData }) {
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10 flex items-center gap-8">
         {/* Logo */}
-        <div className="w-24 h-32 flex-shrink-0 flex items-center justify-center bg-white shadow-sm rounded-md border border-gray-100 overflow-hidden relative">
+        <div className="w-24 flex-shrink-0 flex items-center justify-center relative">
           {logoUrl ? (
-            <img src={logoUrl} alt={`${data.name} logo`} className="w-full h-full object-contain p-2" />
+            <img src={logoUrl} alt={`${data.name} logo`} className="w-full h-auto object-contain" />
           ) : (
-            <div className="absolute inset-0 flex flex-col items-center justify-center p-2 text-center text-[8px] font-bold text-gray-400">
+            <div className="flex flex-col items-center justify-center text-center text-[8px] font-bold text-gray-400">
               <ImageIcon size={24} className="text-gray-300 mb-1" />
               <span>No Logo</span>
             </div>

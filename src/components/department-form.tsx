@@ -384,7 +384,11 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                     >
                       <option value="">Select a team member...</option>
                       {teamMembers.map(member => (
-                        <option key={member.id} value={member.id}>{member.name || member.first_name || 'Member'}</option>
+                        <option key={member.id} value={member.id}>
+                          {member.firstName || member.lastName 
+                            ? `${member.firstName || ''} ${member.lastName || ''}`.trim() 
+                            : member.name || 'Member'}
+                        </option>
                       ))}
                     </select>
                     {fetchingMembers && (

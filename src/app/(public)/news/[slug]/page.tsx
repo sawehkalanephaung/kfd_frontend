@@ -1,8 +1,9 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowRight, User, Calendar, Share2, Bookmark, ImageIcon } from "lucide-react";
+import { ArrowRight, User, Calendar, Share2, Bookmark, ImageIcon, Download } from "lucide-react";
 import { NewsPostDetail, NewsPost } from "../types";
+import { AnnouncementActions } from "./AnnouncementActions";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
@@ -198,54 +199,55 @@ export default async function NewsDetailPage({ params }: PageProps) {
   // ── Announcement Layout ─────────────────────────────────────────
   if (categorySlug === 'announcement') {
     return (
-      <main className="min-h-screen bg-gray-100 py-16 px-4 sm:px-6 lg:px-8">
+      <main className="min-h-screen print:min-h-0 bg-[#f4f1ea] print:bg-transparent py-16 print:py-0 px-4 sm:px-6 lg:px-8 print:px-0">
         <div className="container mx-auto max-w-3xl">
-          <div className="bg-white rounded-sm shadow-2xl border border-gray-300 p-10 md:p-16 relative overflow-hidden">
+          <div className="p-8 md:p-12 print:p-0 relative overflow-hidden text-gray-900">
             {/* Memo Header */}
-            <div className="border-b-4 border-black pb-8 mb-8 text-center relative">
-              <div className="absolute left-0 top-0 text-black">
-                <Bookmark size={32} />
+            <div className="border-b-2 border-gray-900 pb-8 mb-8 text-center relative flex flex-col items-center">
+              <div className="flex items-center gap-3 justify-center mb-2">
+                <h1 className="text-3xl md:text-4xl tracking-[0.2em] uppercase font-serif font-black">
+                  Official Memorandum
+                </h1>
               </div>
-              <h1 className="text-3xl md:text-4xl font-black text-black tracking-widest uppercase font-serif">
-                Official Memorandum
-              </h1>
-              <p className="text-gray-500 font-serif mt-2 italic">Kawthoolei Forestry Department</p>
+              <p className="text-gray-500 font-serif italic text-lg">Kawthoolei Forestry Department</p>
             </div>
 
             {/* Memo Meta Table */}
-            <div className="mb-10 font-sans text-sm border-b border-gray-200 pb-8">
-              <div className="grid grid-cols-12 gap-y-4">
-                <div className="col-span-3 font-bold text-black uppercase tracking-wider">To:</div>
-                <div className="col-span-9 text-gray-800">Public Record</div>
+            <div className="mb-10 font-sans text-sm border-b border-gray-300 pb-8">
+              <div className="grid grid-cols-12 gap-y-5">
+                <div className="col-span-3 font-bold text-gray-800 uppercase tracking-widest text-xs flex items-center">TO:</div>
+                <div className="col-span-9 text-gray-900 font-serif text-base">Public Record</div>
 
-                <div className="col-span-3 font-bold text-black uppercase tracking-wider">From:</div>
-                <div className="col-span-9 text-gray-800">KFD Administration</div>
+                <div className="col-span-3 font-bold text-gray-800 uppercase tracking-widest text-xs flex items-center">FROM:</div>
+                <div className="col-span-9 text-gray-900 font-serif text-base">KFD Administration</div>
 
-                <div className="col-span-3 font-bold text-black uppercase tracking-wider">Date:</div>
-                <div className="col-span-9 text-gray-800">{formatDate(post.publishedAt || post.createdAt)}</div>
+                <div className="col-span-3 font-bold text-gray-800 uppercase tracking-widest text-xs flex items-center">DATE:</div>
+                <div className="col-span-9 text-gray-900 font-serif text-base">{formatDate(post.publishedAt || post.createdAt)}</div>
 
-                <div className="col-span-3 font-bold text-black uppercase tracking-wider">Subject:</div>
-                <div className="col-span-9 text-gray-900 font-bold">{post.title}</div>
-
-                {/* {metadata.referenceNumber && (
-                  <>
-                    <div className="col-span-3 font-bold text-black uppercase tracking-wider mt-2 pt-2 border-t border-gray-100">Ref No:</div>
-                    <div className="col-span-9 text-gray-800 mt-2 pt-2 border-t border-gray-100 font-mono">{metadata.referenceNumber}</div>
-                  </>
-                )} */}
+                <div className="col-span-3 font-bold text-gray-800 uppercase tracking-widest text-xs flex items-center">SUBJECT:</div>
+                <div className="col-span-9 text-gray-900 font-bold font-serif text-base">{post.title}</div>
               </div>
             </div>
 
             {/* Memo Content */}
-            <div className="font-serif text-black/80 leading-relaxed text-lg">
+            <div className="font-serif text-gray-800 leading-loose text-lg pb-12 border-b border-gray-300">
               {post.content ? (
                 <div
-                  className="prose prose-lg max-w-none break-words prose-p:text-gray-800 prose-headings:text-black prose-a:text-blue-600"
+                  className="prose prose-lg max-w-none break-words font-serif prose-p:text-gray-800 prose-p:leading-loose prose-headings:text-gray-900 prose-a:text-emerald-700"
                   dangerouslySetInnerHTML={{ __html: post.content }}
                 />
               ) : (
                 <p>{post.excerpt}</p>
               )}
+            </div>
+            
+            {/* Footer actions */}
+            <div className="pt-8 flex flex-wrap items-center justify-between gap-4 font-sans text-sm">
+               <div className="flex items-center gap-2 text-gray-500">
+                 <Calendar size={16} />
+                 <span>{formatDate(post.publishedAt || post.createdAt)}</span>
+               </div>
+               <AnnouncementActions title={post.title} />
             </div>
           </div>
         </div>
