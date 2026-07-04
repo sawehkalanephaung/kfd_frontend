@@ -463,29 +463,29 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
               />
 
               {formData.featuredImageUrl ? (
-                <div className="group relative rounded-xl overflow-hidden border border-gray-200 aspect-[4/3] bg-gray-50 flex flex-col">
+                <div className="relative group aspect-video rounded-xl overflow-hidden border border-gray-200 bg-gray-50 flex items-center justify-center">
                   <img
                     src={getMediaUrl(formData.featuredImageUrl)}
                     alt="Featured preview"
                     className="w-full h-full object-cover"
                     onError={(e) => { (e.target as HTMLImageElement).src = 'https://via.placeholder.com/400x300?text=Invalid+Image+URL'; }}
                   />
-                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-3">
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
                     <button
                       type="button"
                       onClick={() => setIsMediaSelectorOpen(true)}
-                      className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg backdrop-blur-sm text-sm font-medium transition-colors flex items-center gap-2"
+                      className="bg-white text-gray-700 p-3 rounded-full hover:bg-gray-100 hover:scale-110 transition-transform shadow-sm"
+                      title="Change Image"
                     >
-                      <ImageIcon className="w-4 h-4" />
-                      Change Image
+                      <ImageIcon className="w-5 h-5" />
                     </button>
                     <button
                       type="button"
                       onClick={() => setFormData({ ...formData, featuredImageUrl: '' })}
-                      className="px-4 py-2 bg-red-500/80 hover:bg-red-600 text-white rounded-lg backdrop-blur-sm text-sm font-medium transition-colors flex items-center gap-2"
+                      className="bg-white text-red-500 p-3 rounded-full hover:bg-red-50 hover:scale-110 transition-transform shadow-sm"
+                      title="Remove Image"
                     >
-                      <Trash2 className="w-4 h-4" />
-                      Remove
+                      <X className="w-5 h-5" />
                     </button>
                   </div>
                 </div>
