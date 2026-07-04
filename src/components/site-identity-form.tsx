@@ -9,6 +9,7 @@ import {
   Image as ImageIcon,
   Copyright,
   ExternalLink,
+  X
 } from 'lucide-react';
 import api, { getMediaUrl } from '@/lib/api';
 
@@ -244,35 +245,45 @@ export default function SiteIdentityForm() {
               </Field>
 
               {/* Logo preview */}
-              <div className="rounded-2xl border-2 border-dashed border-gray-100 bg-gray-50 flex items-center justify-center min-h-[160px] p-4">
-                {resolvedLogo ? (
-                  <div className="flex flex-col items-center gap-3 w-full">
-                    <img
-                      src={resolvedLogo}
-                      alt="Logo preview"
-                      className="max-h-32 max-w-full object-contain rounded-lg"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).style.display = 'none';
-                      }}
-                    />
+              {resolvedLogo ? (
+                <div className="group relative rounded-xl overflow-hidden border border-gray-200 aspect-square bg-white flex items-center justify-center p-4">
+                  <img
+                    src={resolvedLogo}
+                    alt="Logo preview"
+                    className="w-full h-full object-contain"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = 'https://via.placeholder.com/400x300?text=Invalid+Image';
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
                     <a
                       href={resolvedLogo}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-xs text-emerald-600 hover:text-emerald-700 flex items-center gap-1"
+                      className="bg-white text-gray-700 p-3 rounded-full hover:bg-gray-100 hover:scale-110 transition-transform shadow-sm flex items-center justify-center"
+                      title="Open Image"
                     >
-                      <ExternalLink className="w-3 h-3" />
-                      Open in new tab
+                      <ExternalLink className="w-5 h-5" />
                     </a>
+                    <button
+                      type="button"
+                      onClick={() => set('logoUrl')('')}
+                      className="bg-white text-red-500 p-3 rounded-full hover:bg-red-50 hover:scale-110 transition-transform shadow-sm"
+                      title="Remove Image"
+                    >
+                      <X className="w-5 h-5" />
+                    </button>
                   </div>
-                ) : (
+                </div>
+              ) : (
+                <div className="rounded-2xl border-2 border-dashed border-gray-100 bg-gray-50 flex items-center justify-center aspect-square p-4">
                   <div className="flex flex-col items-center gap-2 text-center">
                     <ImageIcon className="w-8 h-8 text-gray-200" />
-                    <p className="text-sm text-gray-400">Logo preview will appear here</p>
-                    <p className="text-xs text-gray-300">Enter a URL above to preview</p>
+                    <p className="text-sm text-gray-400">Logo preview</p>
+                    <p className="text-xs text-gray-300 max-w-[150px]">Enter a URL above to preview</p>
                   </div>
-                )}
-              </div>
+                </div>
+              )}
             </div>
           </div>
 

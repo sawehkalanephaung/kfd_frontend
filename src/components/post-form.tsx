@@ -32,6 +32,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
   // Media Widget State
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isMediaSelectorOpen, setIsMediaSelectorOpen] = useState(false);
+  const [isSliderSelectorOpen, setIsSliderSelectorOpen] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
 
   // Form State matching PostRequestDto
@@ -43,9 +44,20 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
     featuredImageUrl: initialData?.featuredImageUrl || '',
     categoryId: initialData?.category?.id || '',
     departmentId: initialData?.department?.id || initialData?.departmentId || '',
+    sliderImageIds: initialData?.sliderImageIds?.join(', ') || '',
     tagIds: initialData?.tags?.map((t: any) => t.id) || [],
     status: initialData?.status || 'DRAFT',
     metadata: initialData?.metadata || {},
+  });
+
+  const [sliderPreviews, setSliderPreviews] = useState<{id: string, url: string}[]>(() => {
+    if (initialData?.sliderImageIds && initialData?.sliderImageUrls) {
+      return initialData.sliderImageIds.map((id: string, i: number) => ({
+        id,
+        url: initialData.sliderImageUrls[i] || ''
+      }));
+    }
+    return [];
   });
 
   useEffect(() => {
@@ -140,6 +152,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
       categoryId: formData.categoryId || null,
       departmentId: formData.departmentId || null,
       featuredImageUrl: formData.featuredImageUrl?.trim() || null,
+      sliderImageIds: formData.sliderImageIds ? formData.sliderImageIds.split(',').map((id: string) => id.trim()).filter(Boolean) : [],
     };
 
     try {
@@ -462,7 +475,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                 className="hidden"
               />
 
-              {formData.featuredImageUrl ? (
+              {formData.featuredImageUrl && formData.featuredImageUrl.trim().length > 0 ? (
                 <div className="relative group aspect-video rounded-xl overflow-hidden border border-gray-200 bg-gray-50 flex items-center justify-center">
                   <img
                     src={getMediaUrl(formData.featuredImageUrl)}
@@ -526,12 +539,89 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
         </div>
       </div>
 
+      {/* Slider Images Card (Bottom) */}
+      <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50 mb-6">
+        <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
+          <ImageIcon className="w-5 h-5 text-gray-400" />
+          Slider Images (Optional Gallery)
+        </h2>
+        
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <p className="text-sm text-gray-500">
+              Add multiple images to display them as a gallery or slider on the public post page.
+            </p>
+            {sliderPreviews.length > 0 && (
+              <button 
+                type="button" 
+                onClick={() => {
+                  setFormData({...formData, sliderImageIds: ''});
+                  setSliderPreviews([]);
+                }} 
+                className="text-xs text-red-500 hover:text-red-700 font-medium px-3 py-1.5 bg-red-50 rounded-lg transition-colors"
+              >
+                Clear All Images
+              </button>
+            )}
+          </div>
+
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => setIsSliderSelectorOpen(true)}
+              className="px-5 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-xl transition-colors flex items-center justify-center gap-2"
+            >
+              <FolderOpen className="w-4 h-4" />
+              Select Images from Library
+            </button>
+          </div>
+
+          {sliderPreviews.length > 0 && (
+            <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-3">
+              {sliderPreviews.map((preview, i) => (
+                <div key={i} className="relative group aspect-video rounded-xl overflow-hidden border border-gray-200 bg-gray-50 flex items-center justify-center">
+                  {preview.url ? (
+                    <img src={getMediaUrl(preview.url)} alt="preview" className="w-full h-full object-cover" />
+                  ) : (
+                    <ImageIcon className="w-6 h-6 text-gray-300" />
+                  )}
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                    <button 
+                      type="button"
+                      onClick={() => {
+                        const newPreviews = sliderPreviews.filter(p => p.id !== preview.id);
+                        setSliderPreviews(newPreviews);
+                        setFormData({...formData, sliderImageIds: newPreviews.map(p => p.id).join(', ')});
+                      }}
+                      className="bg-white text-red-500 p-2 rounded-full hover:bg-red-50 hover:scale-110 transition-transform shadow-sm"
+                      title="Remove Image"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
       <MediaSelector
         isOpen={isMediaSelectorOpen}
         onClose={() => setIsMediaSelectorOpen(false)}
         onSelect={handleMediaSelect}
         multiple={false}
         title="Select Featured Image"
+      />
+      <MediaSelector
+        isOpen={isSliderSelectorOpen}
+        onClose={() => setIsSliderSelectorOpen(false)}
+        multiple={true}
+        title="Select Slider Images"
+        onSelect={(assets) => {
+          setFormData({...formData, sliderImageIds: assets.map(a => a.id).join(', ')});
+          setSliderPreviews(assets.map(a => ({ id: a.id, url: a.fileUrl })));
+        }}
       />
     </form>
   );

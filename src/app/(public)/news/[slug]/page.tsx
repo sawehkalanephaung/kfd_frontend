@@ -73,41 +73,38 @@ function RelatedCard({ post }: { post: NewsPost }) {
   return (
     <Link
       href={`/news/${post.slug}`}
-      className="group flex flex-col rounded-xl overflow-hidden bg-[#0f2318] border border-white/5 hover:border-green-700/40 transition-all hover:-translate-y-1"
+      className="group flex flex-col rounded-xl overflow-hidden bg-[#fdfaf5] shadow-sm hover:shadow-md transition-all hover:-translate-y-1"
     >
-      <div className="relative h-40 overflow-hidden bg-[#153020] flex items-center justify-center">
+      <div className="relative h-56 overflow-hidden bg-gray-100 flex items-center justify-center">
         {post.featuredImageUrl ? (
-          <>
-            <div
-              className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-              style={{ backgroundImage: `url('${getMediaUrl(post.featuredImageUrl)}')` }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-          </>
+          <div
+            className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
+            style={{ backgroundImage: `url('${getMediaUrl(post.featuredImageUrl)}')` }}
+          />
         ) : (
-          <ImageIcon className="w-10 h-10 text-white/10" />
+          <ImageIcon className="w-10 h-10 text-gray-300" />
         )}
+      </div>
+      <div className="p-6 flex flex-col flex-1">
         {post.category && (
-          <div className="absolute top-3 left-3">
-            <span className={`text-[9px] font-bold uppercase tracking-widest border px-2 py-0.5 rounded-full ${getCategoryColor(post.category.name)}`}>
+          <div className="mb-3">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-700">
               {post.category.name}
             </span>
           </div>
         )}
-      </div>
-      <div className="p-4 flex flex-col flex-1">
-        <h4 className="text-sm font-bold text-white leading-snug mb-2 group-hover:text-green-300 transition-colors line-clamp-2">
+        <h4 className="text-xl font-bold font-serif text-gray-900 leading-snug mb-3 group-hover:text-emerald-700 transition-colors line-clamp-2">
           {post.title}
         </h4>
-        <p className="text-xs text-white/40 line-clamp-2 mb-3 flex-1">
+        <p className="text-sm text-gray-600 font-sans line-clamp-3 mb-6 flex-1 leading-relaxed">
           {post.excerpt}
         </p>
-        <div className="flex items-center justify-between mt-auto pt-2 border-t border-white/5">
-          <div className="flex items-center gap-1 text-[11px] text-white/30">
-            <Calendar size={10} />
+        <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-200/60">
+          <div className="flex items-center gap-1.5 text-xs text-gray-500 font-sans">
+            <Calendar size={12} />
             {formatDate(post.publishedAt)}
           </div>
-          <ArrowRight size={14} className="text-green-400 group-hover:translate-x-1 transition-transform" />
+          <ArrowRight size={14} className="text-emerald-700 group-hover:translate-x-1 transition-transform" />
         </div>
       </div>
     </Link>
@@ -184,7 +181,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
 
                 {post.content ? (
                   <div
-                    className="prose prose-invert max-w-none prose-p:text-white/70 prose-headings:text-white prose-a:text-green-400"
+                    className="prose prose-invert max-w-none break-words prose-p:text-white/70 prose-headings:text-white prose-a:text-green-400"
                     dangerouslySetInnerHTML={{ __html: post.content }}
                   />
                 ) : (
@@ -243,19 +240,13 @@ export default async function NewsDetailPage({ params }: PageProps) {
             <div className="font-serif text-black/80 leading-relaxed text-lg">
               {post.content ? (
                 <div
-                  className="prose prose-lg max-w-none prose-p:text-gray-800 prose-headings:text-black prose-a:text-blue-600"
+                  className="prose prose-lg max-w-none break-words prose-p:text-gray-800 prose-headings:text-black prose-a:text-blue-600"
                   dangerouslySetInnerHTML={{ __html: post.content }}
                 />
               ) : (
                 <p>{post.excerpt}</p>
               )}
             </div>
-
-            {/* Signature Area */}
-            {/* <div className="mt-16 pt-8 border-t border-gray-200 text-right font-serif">
-              <p className="text-gray-500 italic mb-4">Authorized by</p>
-              <h4 className="font-bold text-black text-xl">KFD Directorate</h4>
-            </div> */}
           </div>
         </div>
       </main>
@@ -264,59 +255,45 @@ export default async function NewsDetailPage({ params }: PageProps) {
 
   // ── General Layout ──────────────────────────────────────────────
   return (
-    <main className="min-h-screen bg-[#0b1a10]">
+    <main className="min-h-screen bg-[#f9f7f1]">
       {/* ── Hero Header ─────────────────────────────────────── */}
-      <section className="pt-16 pb-10 px-4 sm:px-6 lg:px-8">
-        <div className="container mx-auto max-w-3xl text-center">
+      <section className="pt-20 pb-10 px-4 sm:px-6 lg:px-8">
+        <div className="container mx-auto max-w-4xl text-center flex flex-col items-center">
           {/* Category pill */}
           {post.category && (
-            <div className="mb-5">
-              <span className={`inline-block text-[10px] font-bold uppercase tracking-widest border px-3 py-1 rounded-full ${getCategoryColor(post.category.name)}`}>
+            <div className="mb-8">
+              <span className="inline-block text-[10px] font-bold uppercase tracking-widest border border-emerald-800/30 text-emerald-800 px-4 py-1.5 rounded-sm bg-transparent">
                 {post.category.name}
               </span>
             </div>
           )}
 
           {/* Title */}
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight tracking-tight mb-6">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-serif text-gray-900 leading-tight mb-8">
             {post.title}
           </h1>
 
           {/* Meta row */}
-          <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-white/40">
-            {post.authorId && (
-              <div className="flex items-center gap-1.5">
-                <User size={14} className="text-white/30" />
-                <span>KFD Author</span>
-              </div>
-            )}
-            <div className="flex items-center gap-1.5">
-              <Calendar size={14} className="text-white/30" />
+          <div className="flex flex-wrap items-center justify-center text-sm text-gray-500 font-sans font-medium">
+            <div className="flex items-center gap-2">
+              <Calendar size={14} className="text-gray-400" />
               <span>{formatDate(post.publishedAt || post.createdAt)}</span>
-            </div>
-            <div className="flex items-center gap-3 ml-2">
-              <button className="text-white/30 hover:text-white/60 transition-colors" title="Share">
-                <Share2 size={16} />
-              </button>
-              <button className="text-white/30 hover:text-white/60 transition-colors" title="Bookmark">
-                <Bookmark size={16} />
-              </button>
             </div>
           </div>
         </div>
       </section>
 
       {/* ── Featured Image ───────────────────────────────────── */}
-      <section className="px-4 sm:px-6 lg:px-8 mb-12">
-        <div className="container mx-auto max-w-4xl">
+      <section className="px-4 sm:px-6 lg:px-8 mb-16">
+        <div className="container mx-auto max-w-5xl">
           {hasHeroImage ? (
             <div
-              className="w-full h-72 md:h-[420px] rounded-2xl bg-cover bg-center shadow-2xl"
+              className="w-full h-72 md:h-[500px] rounded-xl bg-cover bg-center shadow-lg"
               style={{ backgroundImage: `url('${getMediaUrl(post.featuredImageUrl)}')` }}
             />
           ) : (
-            <div className="w-full h-72 md:h-[420px] rounded-2xl bg-[#153020]/50 flex items-center justify-center shadow-2xl">
-              <ImageIcon className="w-16 h-16 text-white/10" />
+            <div className="w-full h-72 md:h-[500px] rounded-xl bg-gray-200 flex items-center justify-center shadow-inner">
+              <ImageIcon className="w-16 h-16 text-gray-400" />
             </div>
           )}
         </div>
@@ -327,62 +304,87 @@ export default async function NewsDetailPage({ params }: PageProps) {
         <div className="container mx-auto max-w-3xl">
           {post.content ? (
             <div
-              className="prose prose-invert prose-sm md:prose-base max-w-none
-                prose-p:text-white/70 prose-p:leading-relaxed
-                prose-headings:text-white prose-headings:font-bold
-                prose-a:text-green-400 prose-a:no-underline hover:prose-a:underline
-                prose-strong:text-white prose-blockquote:border-green-500
-                prose-blockquote:text-white/60 prose-li:text-white/70"
+              className="prose prose-lg max-w-none break-words font-serif
+                prose-p:text-gray-800 prose-p:leading-loose
+                prose-headings:text-gray-900 prose-headings:font-serif
+                prose-a:text-emerald-700 prose-a:underline hover:prose-a:text-emerald-900
+                prose-strong:text-gray-900 prose-strong:font-bold
+                prose-blockquote:bg-[#dce9d5] prose-blockquote:border-none prose-blockquote:px-8 prose-blockquote:py-6 prose-blockquote:rounded-lg prose-blockquote:text-emerald-900 prose-blockquote:italic prose-blockquote:font-serif prose-blockquote:font-medium
+                prose-li:text-gray-800
+                first-letter:text-7xl first-letter:font-bold first-letter:text-emerald-800 first-letter:mr-3 first-letter:float-left first-letter:leading-none"
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
           ) : (
             <div className="space-y-4">
-              <p className="text-white/70 text-sm leading-relaxed">{post.excerpt}</p>
+              <p className="text-gray-800 font-serif text-lg leading-loose first-letter:text-7xl first-letter:font-bold first-letter:text-emerald-800 first-letter:mr-3 first-letter:float-left first-letter:leading-none">
+                {post.excerpt}
+              </p>
             </div>
           )}
 
-          {/* Tags */}
-          {post.tags && post.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2 mt-10 pt-8 border-t border-white/10">
-              {post.tags.map((tag) => (
-                <span
-                  key={tag.id}
-                  className="text-xs font-medium bg-white/5 border border-white/10 text-white/50 px-3 py-1 rounded-full"
-                >
-                  #{tag.name}
-                </span>
-              ))}
+          {/* Author Bio & Tags */}
+          <div className="mt-20 border-t border-gray-300 pt-10 font-sans">
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-12 h-12 rounded-full bg-gray-300 flex-shrink-0 overflow-hidden shadow-sm flex items-center justify-center">
+                <User className="w-6 h-6 text-gray-500" />
+              </div>
+              <div>
+                <p className="text-xs text-gray-500 uppercase tracking-widest font-bold mb-0.5">Written by</p>
+                <h4 className="text-gray-900 font-bold font-serif text-lg">KFD Editorial Team</h4>
+                <p className="text-sm text-gray-500 mt-0.5">Kawthoolei Forestry Department</p>
+              </div>
             </div>
-          )}
+
+            {post.tags && post.tags.length > 0 && (
+              <div className="flex flex-wrap gap-3">
+                {post.tags.map((tag) => (
+                  <span
+                    key={tag.id}
+                    className="text-[13px] text-gray-600 font-serif bg-[#e4e0d4] border border-[#d2ccbf] px-4 py-1.5 rounded-md"
+                  >
+                    #{tag.name}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </section>
 
       {/* ── Related Topics ───────────────────────────────────── */}
-      {post.relatedPosts && post.relatedPosts.length > 0 && (
-        <section className="px-4 sm:px-6 lg:px-8 pb-12">
-          <div className="container mx-auto max-w-5xl">
-            <h2 className="text-2xl font-bold text-white mb-8">Related Topic</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {post.relatedPosts && post.relatedPosts.length > 0 ? (
+        <section className="px-4 sm:px-6 lg:px-8 py-20 bg-[#ece9df]">
+          <div className="container mx-auto max-w-6xl">
+            <div className="flex items-center justify-between mb-12">
+              <h2 className="text-2xl font-bold font-serif text-gray-900">Related Stories</h2>
+              <Link
+                href="/news"
+                className="flex items-center gap-2 border border-emerald-800/30 text-emerald-800 hover:bg-emerald-800/5 hover:text-emerald-900 font-bold px-6 py-2.5 rounded-sm text-xs uppercase tracking-widest transition-all"
+              >
+                View All News
+                <ArrowRight size={14} />
+              </Link>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {post.relatedPosts.map((related, idx) => (
-                <RelatedCard key={related.id} post={related} idx={idx} />
+                <RelatedCard key={related.id} post={related} />
               ))}
             </div>
           </div>
         </section>
+      ) : (
+        <section className="px-4 sm:px-6 lg:px-8 pb-20">
+          <div className="container mx-auto max-w-5xl flex justify-center">
+            <Link
+              href="/news"
+              className="flex items-center gap-2 border border-gray-300 text-gray-600 hover:text-gray-900 hover:border-gray-500 font-semibold px-8 py-3 rounded-full text-sm transition-all"
+            >
+              View All News
+              <ArrowRight size={15} />
+            </Link>
+          </div>
+        </section>
       )}
-
-      {/* ── View All News CTA ────────────────────────────────── */}
-      <section className="px-4 sm:px-6 lg:px-8 pb-20">
-        <div className="container mx-auto max-w-5xl flex justify-center">
-          <Link
-            href="/news"
-            className="flex items-center gap-2 border border-white/20 text-white/70 hover:text-white hover:border-white/50 font-semibold px-8 py-3 rounded-full text-sm transition-all"
-          >
-            View All News
-            <ArrowRight size={15} />
-          </Link>
-        </div>
-      </section>
     </main>
   );
 }

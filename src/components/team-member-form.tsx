@@ -361,7 +361,7 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
               Headshot Image
             </h2>
             <div className="space-y-4">
-              <div className="w-full aspect-square bg-gray-100 rounded-xl overflow-hidden relative group flex items-center justify-center">
+              <div className="w-full aspect-square bg-gray-50 border border-gray-200 rounded-xl overflow-hidden relative group flex items-center justify-center">
                 {(previewUrl || formData.headshotUrl) ? (
                   <img 
                     src={previewUrl || getMediaUrl(formData.headshotUrl)} 
@@ -373,12 +373,29 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
                 )}
                 
                 {/* Overlay for change/upload */}
-                <div 
-                  className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center cursor-pointer"
-                  onClick={() => fileInputRef.current?.click()}
-                >
-                  <UploadCloud className="w-8 h-8 text-white mb-2" />
-                  <span className="text-white text-sm font-medium">Upload Image</span>
+                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="bg-white text-gray-700 p-3 rounded-full hover:bg-gray-100 hover:scale-110 transition-transform shadow-sm"
+                    title={(previewUrl || formData.headshotUrl) ? "Change Image" : "Upload Image"}
+                  >
+                    <UploadCloud className="w-5 h-5" />
+                  </button>
+                  {(previewUrl || formData.headshotUrl) && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setHeadshotFile(null);
+                        setFormData({...formData, headshotUrl: ''});
+                        if (fileInputRef.current) fileInputRef.current.value = '';
+                      }}
+                      className="bg-white text-red-500 p-3 rounded-full hover:bg-red-50 hover:scale-110 transition-transform shadow-sm"
+                      title="Remove Image"
+                    >
+                      <X className="w-5 h-5" />
+                    </button>
+                  )}
                 </div>
               </div>
 
@@ -389,47 +406,9 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
                 accept="image/*"
                 className="hidden" 
               />
-
-              {headshotFile ? (
-                <div className="bg-emerald-50 p-3 rounded-xl relative pr-10 border border-emerald-100">
-                  <h3 className="font-semibold text-emerald-900 text-sm truncate">{headshotFile.name}</h3>
-                  <p className="text-emerald-700 text-xs mt-1">{(headshotFile.size / 1024 / 1024).toFixed(2)} MB</p>
-                  <button 
-                    type="button" 
-                    onClick={() => {
-                      setHeadshotFile(null);
-                      if (fileInputRef.current) fileInputRef.current.value = '';
-                    }}
-                    className="absolute top-3 right-3 text-emerald-500 hover:text-emerald-700"
-                  >
-                    <X className="w-4 h-4" />
-                  </button>
-                </div>
-              ) : formData.headshotUrl ? (
-                <div className="flex gap-2">
-                  <button 
-                    type="button"
-                    onClick={() => fileInputRef.current?.click()}
-                    className="flex-1 text-center px-4 py-2 border border-gray-200 hover:bg-gray-50 text-gray-700 text-sm font-medium rounded-lg transition-colors"
-                  >
-                    Change
-                  </button>
-                  <button 
-                    type="button"
-                    onClick={() => setFormData({...formData, headshotUrl: ''})}
-                    className="flex-none px-4 py-2 border border-red-200 hover:bg-red-50 text-red-600 text-sm font-medium rounded-lg transition-colors"
-                  >
-                    Remove
-                  </button>
-                </div>
-              ) : (
-                <button 
-                  type="button"
-                  onClick={() => fileInputRef.current?.click()}
-                  className="w-full text-center px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-lg transition-colors"
-                >
-                  Select File
-                </button>
+              
+              {!previewUrl && !formData.headshotUrl && (
+                <p className="text-xs text-gray-500 text-center mt-2">Click the icon to upload a square image.</p>
               )}
             </div>
           </div>

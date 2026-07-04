@@ -412,34 +412,34 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                     className="hidden"
                   />
                   {logoUrl ? (
-                    <div className="group relative rounded-xl overflow-hidden border border-gray-200 aspect-video bg-gray-50 flex flex-col">
+                    <div className="group relative rounded-xl overflow-hidden border border-gray-200 aspect-square bg-gray-50 flex flex-col">
                       <img
                         src={getMediaUrl(logoUrl)}
                         alt="Logo preview"
                         className="w-full h-full object-cover"
                         onError={(e) => { (e.target as HTMLImageElement).src = 'https://via.placeholder.com/400x300?text=Invalid+Image'; }}
                       />
-                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-3">
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
                         <button
                           type="button"
                           onClick={() => setIsLogoSelectorOpen(true)}
-                          className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg backdrop-blur-sm text-sm font-medium transition-colors flex items-center gap-2"
+                          className="bg-white text-gray-700 p-3 rounded-full hover:bg-gray-100 hover:scale-110 transition-transform shadow-sm"
+                          title="Change Image"
                         >
-                          <ImageIcon className="w-4 h-4" />
-                          Change
+                          <ImageIcon className="w-5 h-5" />
                         </button>
                         <button
                           type="button"
                           onClick={() => { setFormData({ ...formData, logoId: '' }); setLogoUrl(''); }}
-                          className="px-4 py-2 bg-red-500/80 hover:bg-red-600 text-white rounded-lg backdrop-blur-sm text-sm font-medium transition-colors flex items-center gap-2"
+                          className="bg-white text-red-500 p-3 rounded-full hover:bg-red-50 hover:scale-110 transition-transform shadow-sm"
+                          title="Remove Image"
                         >
-                          <Trash2 className="w-4 h-4" />
-                          Remove
+                          <X className="w-5 h-5" />
                         </button>
                       </div>
                     </div>
                   ) : (
-                    <div className="border-2 border-dashed border-gray-200 rounded-xl p-6 flex flex-col items-center justify-center text-center gap-4 bg-gray-50/50 aspect-video">
+                    <div className="border-2 border-dashed border-gray-200 rounded-xl p-6 flex flex-col items-center justify-center text-center gap-4 bg-gray-50/50 aspect-square">
                       <div className="w-10 h-10 bg-white rounded-full shadow-sm flex items-center justify-center border border-gray-100">
                         {uploadingLogo ? <Loader2 className="w-5 h-5 text-emerald-500 animate-spin" /> : <ImageIcon className="w-5 h-5 text-gray-400" />}
                       </div>
@@ -486,22 +486,22 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                         className="w-full h-full object-cover"
                         onError={(e) => { (e.target as HTMLImageElement).src = 'https://via.placeholder.com/400x300?text=Invalid+Image'; }}
                       />
-                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-3">
+                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
                         <button
                           type="button"
                           onClick={() => setIsHeroSelectorOpen(true)}
-                          className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg backdrop-blur-sm text-sm font-medium transition-colors flex items-center gap-2"
+                          className="bg-white text-gray-700 p-3 rounded-full hover:bg-gray-100 hover:scale-110 transition-transform shadow-sm"
+                          title="Change Image"
                         >
-                          <ImageIcon className="w-4 h-4" />
-                          Change
+                          <ImageIcon className="w-5 h-5" />
                         </button>
                         <button
                           type="button"
                           onClick={() => { setFormData({ ...formData, heroImageId: '' }); setHeroUrl(''); }}
-                          className="px-4 py-2 bg-red-500/80 hover:bg-red-600 text-white rounded-lg backdrop-blur-sm text-sm font-medium transition-colors flex items-center gap-2"
+                          className="bg-white text-red-500 p-3 rounded-full hover:bg-red-50 hover:scale-110 transition-transform shadow-sm"
+                          title="Remove Image"
                         >
-                          <Trash2 className="w-4 h-4" />
-                          Remove
+                          <X className="w-5 h-5" />
                         </button>
                       </div>
                     </div>
