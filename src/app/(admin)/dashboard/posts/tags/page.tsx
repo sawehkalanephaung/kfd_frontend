@@ -12,7 +12,7 @@ interface Tag {
   id: string;
   name: string;
   slug: string;
-  createdAt: string;
+  created_at: string;
 }
 
 export default function TagsListPage() {
@@ -40,6 +40,7 @@ export default function TagsListPage() {
       const response = await api.get('/api/v1/admin/cms/tags');
       
       const data = response.data?.data || response.data || [];
+      console.log('Tags API Response:', data);
       setTags(Array.isArray(data) ? data : []);
     } catch (err: any) {
       console.error(err);
@@ -166,7 +167,7 @@ export default function TagsListPage() {
                       /{tag.slug}
                     </td>
                     <td className="px-6 py-4 text-gray-500">
-                      {tag.createdAt ? new Date(tag.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : '-'}
+                      {tag.created_at ? new Date(tag.created_at).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : '-'}
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2">

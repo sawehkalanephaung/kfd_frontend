@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Plus, Edit, Trash2, FileText, Search, ChevronLeft, ChevronRight } from 'lucide-react';
 import api from '@/lib/api';
 import DeleteModal from '@/components/delete-modal';
+import CreateButton from '@/components/create-button';
 import { toast } from 'sonner';
 
 interface Page {
@@ -19,12 +20,12 @@ export default function PagesListPage() {
   const [pages, setPages] = useState<Page[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  
+
   // Search and Pagination State
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
-  
+
   // Delete Modal State
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [pageToDelete, setPageToDelete] = useState<Page | null>(null);
@@ -75,7 +76,7 @@ export default function PagesListPage() {
   }, [pages, searchQuery]);
 
   const totalPages = Math.ceil(filteredPages.length / itemsPerPage);
-  
+
   const paginatedPages = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     return filteredPages.slice(startIndex, startIndex + itemsPerPage);
@@ -108,13 +109,7 @@ export default function PagesListPage() {
             Manage your standalone content pages like About Us, Contact, and Policies.
           </p>
         </div>
-        <Link
-          href="/dashboard/pages/create"
-          className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-medium rounded-xl transition-all shadow-sm shadow-emerald-500/20 active:scale-95 shrink-0"
-        >
-          <Plus className="w-5 h-5" />
-          Create Page
-        </Link>
+        <CreateButton href="/dashboard/pages/create" />
       </div>
 
       {/* Error State */}
@@ -126,14 +121,14 @@ export default function PagesListPage() {
 
       {/* Table Section */}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-50 overflow-hidden">
-        
+
         {/* Search Bar */}
         <div className="p-4 border-b border-gray-50 bg-gray-50/30">
           <div className="relative max-w-sm">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-            <input 
-              type="text" 
-              placeholder="Search by title or slug..." 
+            <input
+              type="text"
+              placeholder="Search by title or slug..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all placeholder:text-gray-400 text-gray-900"
@@ -142,12 +137,12 @@ export default function PagesListPage() {
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[800px] text-left text-sm text-gray-600">
+          <table className="w-full sm:min-w-[800px] text-left text-sm text-gray-600">
             <thead className="bg-gray-50/50 text-gray-500 font-medium border-b border-gray-100">
               <tr>
                 <th className="px-6 py-4">Page</th>
-                <th className="px-6 py-4">Status</th>
-                <th className="px-6 py-4">Last Updated</th>
+                <th className="px-6 py-4 hidden sm:table-cell">Status</th>
+                <th className="px-6 py-4 hidden sm:table-cell">Last Updated</th>
                 <th className="px-6 py-4 text-right">Actions</th>
               </tr>
             </thead>
@@ -160,8 +155,8 @@ export default function PagesListPage() {
                       <div className="h-5 bg-gray-200 rounded w-48 mb-2"></div>
                       <div className="h-4 bg-gray-200 rounded w-32"></div>
                     </td>
-                    <td className="px-6 py-4"><div className="h-6 bg-gray-200 rounded-full w-24"></div></td>
-                    <td className="px-6 py-4"><div className="h-4 bg-gray-200 rounded w-24"></div></td>
+                    <td className="px-6 py-4 hidden sm:table-cell"><div className="h-6 bg-gray-200 rounded-full w-24"></div></td>
+                    <td className="px-6 py-4 hidden sm:table-cell"><div className="h-4 bg-gray-200 rounded w-24"></div></td>
                     <td className="px-6 py-4 text-right"><div className="h-8 bg-gray-200 rounded w-16 ml-auto"></div></td>
                   </tr>
                 ))
@@ -176,20 +171,30 @@ export default function PagesListPage() {
                   <tr key={page.id} className="hover:bg-gray-50/50 transition-colors">
                     <td className="px-6 py-4">
                       <div className="font-medium text-gray-900">{page.title}</div>
-                      <div className="text-xs text-gray-400 mt-0.5">/{page.slug}</div>
+                      <div className="text-xs text-gray-400 mt-0.5 hidden sm:block">/{page.slug}</div>
+                      {/* Mobile Data Stack */}
+                      <div className="mt-2 flex items-center gap-3 sm:hidden">
+                        <span className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium ${page.status === 'PUBLISHED'
+                            ? 'bg-emerald-50 text-emerald-700 border border-emerald-100'
+                            : page.status === 'DRAFT'
+                              ? 'bg-amber-50 text-amber-700 border border-amber-200'
+                              : 'bg-gray-100 text-gray-700 border border-gray-200'
+                          }`}>
+                          {page.status}
+                        </span>
+                      </div>
                     </td>
-                    <td className="px-6 py-4">
-                      <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${
-                        page.status === 'PUBLISHED' 
-                          ? 'bg-emerald-50 text-emerald-700 border border-emerald-100' 
+                    <td className="px-6 py-4 hidden sm:table-cell">
+                      <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${page.status === 'PUBLISHED'
+                          ? 'bg-emerald-50 text-emerald-700 border border-emerald-100'
                           : page.status === 'DRAFT'
-                          ? 'bg-amber-50 text-amber-700 border border-amber-200'
-                          : 'bg-gray-100 text-gray-700 border border-gray-200'
-                      }`}>
+                            ? 'bg-amber-50 text-amber-700 border border-amber-200'
+                            : 'bg-gray-100 text-gray-700 border border-gray-200'
+                        }`}>
                         {page.status}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-gray-500 text-sm">
+                    <td className="px-6 py-4 text-gray-500 text-sm hidden sm:table-cell">
                       {page.updatedAt ? new Date(page.updatedAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : '-'}
                     </td>
                     <td className="px-6 py-4 text-right">
@@ -216,7 +221,7 @@ export default function PagesListPage() {
             </tbody>
           </table>
         </div>
-        
+
         {/* Pagination Controls */}
         {!loading && filteredPages.length > 0 && (
           <div className="px-6 py-4 border-t border-gray-50 bg-gray-50/30 flex items-center justify-between">
@@ -224,7 +229,7 @@ export default function PagesListPage() {
               Showing <span className="font-medium text-gray-900">{(currentPage - 1) * itemsPerPage + 1}</span> to <span className="font-medium text-gray-900">{Math.min(currentPage * itemsPerPage, filteredPages.length)}</span> of <span className="font-medium text-gray-900">{filteredPages.length}</span> pages
             </span>
             <div className="flex items-center gap-2">
-              <button 
+              <button
                 onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
                 className="p-1.5 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-100 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
@@ -233,20 +238,19 @@ export default function PagesListPage() {
               </button>
               <div className="flex items-center gap-1">
                 {Array.from({ length: totalPages }).map((_, idx) => (
-                  <button 
+                  <button
                     key={idx}
                     onClick={() => setCurrentPage(idx + 1)}
-                    className={`w-8 h-8 rounded-lg text-sm font-medium transition-colors ${
-                      currentPage === idx + 1 
-                        ? 'bg-emerald-500 text-white' 
+                    className={`w-8 h-8 rounded-lg text-sm font-medium transition-colors ${currentPage === idx + 1
+                        ? 'bg-emerald-500 text-white'
                         : 'text-gray-500 hover:bg-gray-100 hover:text-gray-900'
-                    }`}
+                      }`}
                   >
                     {idx + 1}
                   </button>
                 ))}
               </div>
-              <button 
+              <button
                 onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
                 className="p-1.5 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-100 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"

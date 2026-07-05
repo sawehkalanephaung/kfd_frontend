@@ -13,7 +13,7 @@ interface Category {
   name: string;
   slug: string;
   description: string;
-  createdAt: string;
+  created_at: string;
 }
 
 export default function CategoriesListPage() {
@@ -42,6 +42,7 @@ export default function CategoriesListPage() {
       
       // Category endpoint returns a direct List<PostCategoryDto>
       const data = response.data?.data || response.data || [];
+      console.log('Categories API Response:', data);
       setCategories(Array.isArray(data) ? data : []);
     } catch (err: any) {
       console.error(err);
@@ -166,7 +167,7 @@ export default function CategoriesListPage() {
                       {category.description || <span className="italic text-gray-300">No description</span>}
                     </td>
                     <td className="px-6 py-4 text-gray-500 text-sm">
-                      {category.createdAt ? new Date(category.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : '-'}
+                      {category.created_at ? new Date(category.created_at).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : '-'}
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2">

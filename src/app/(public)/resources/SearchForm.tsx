@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { Search, FileText, Map as MapIcon, X, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { MediaAsset } from "./types";
+import { getMediaUrl } from "@/lib/api";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
@@ -112,7 +113,7 @@ export default function SearchForm({ initialQuery }: { initialQuery: string }) {
                   return (
                     <a
                       key={doc.id}
-                      href={doc.fileUrl}
+                      href={getMediaUrl(doc.fileUrl)}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex items-center gap-4 p-4 hover:bg-[#132d1f] border-b border-[#132d1f]/50 transition-colors group"

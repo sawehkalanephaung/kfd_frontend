@@ -2,8 +2,8 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { Search, FileText, Download, ChevronRight, ChevronLeft, Map as MapIcon, ChevronDown } from "lucide-react";
 import { PaginatedMedia, MediaCategoryCount } from "./types";
-import { redirect } from "next/navigation";
 import SearchForm from "./SearchForm";
+import { getMediaUrl } from "@/lib/api";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
@@ -242,7 +242,7 @@ export default async function ResourcesPage({ searchParams }: PageProps) {
                 {/* Download Button */}
                 <div className="shrink-0 sm:self-center mt-4 sm:mt-0 flex justify-end">
                   <a
-                    href={doc.fileUrl}
+                    href={getMediaUrl(doc.fileUrl)}
                     download
                     target="_blank"
                     rel="noopener noreferrer"

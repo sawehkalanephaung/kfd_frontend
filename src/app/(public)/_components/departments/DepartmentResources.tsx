@@ -2,6 +2,7 @@
 
 import { DepartmentData } from "../../departments/types";
 import { Calendar } from "lucide-react";
+import { getMediaUrl } from "@/lib/api";
 
 function formatDate(dateStr: string) {
   if (!dateStr) return "";
@@ -29,7 +30,7 @@ export default function DepartmentResources({ data }: { data: DepartmentData }) 
               {items.map((res) => (
                 <div key={res.id} className="py-4 flex flex-col sm:flex-row gap-4 items-start sm:items-center group">
                   <div className="flex-1">
-                    <a href={res.fileUrl} target="_blank" rel="noopener noreferrer" className="text-[15px] text-blue-500 hover:text-blue-700 transition-colors block">
+                    <a href={getMediaUrl(res.fileUrl)} target="_blank" rel="noopener noreferrer" className="text-[15px] text-blue-500 hover:text-blue-700 transition-colors block">
                       {res.fileName.replace(/\.[^/.]+$/, "")}
                     </a>
                   </div>
