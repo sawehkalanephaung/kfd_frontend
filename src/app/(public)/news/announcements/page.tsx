@@ -30,16 +30,16 @@ function AnnouncementCard({ post }: { post: NewsPost }) {
   return (
     <Link 
       href={`/news/${post.slug}`}
-      className="group block bg-white rounded-xl overflow-hidden border-2 border-transparent hover:border-purple-200 shadow-sm hover:shadow-lg transition-all"
+      className="group block bg-white rounded-xl overflow-hidden border-2 border-transparent hover:border-emerald-200 shadow-sm hover:shadow-lg transition-all"
     >
       <div className="flex flex-col md:flex-row h-full">
         {/* Left Side: Formal Date/Icon Badge */}
-        <div className="bg-gradient-to-br from-purple-50 to-indigo-50 border-r border-gray-100 flex flex-col justify-center items-center p-6 md:w-48 shrink-0 relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-400 to-indigo-500"></div>
-          <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm border border-purple-100 mb-3 text-purple-600 group-hover:scale-110 transition-transform">
+        <div className="bg-gradient-to-br from-emerald-50 to-green-50 border-r border-gray-100 flex flex-col justify-center items-center p-6 md:w-48 shrink-0 relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-400 to-green-500"></div>
+          <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm border border-emerald-100 mb-3 text-emerald-600 group-hover:scale-110 transition-transform">
             <Bell size={20} />
           </div>
-          <span className="text-xs font-bold uppercase tracking-widest text-purple-600/70 mb-1">Posted</span>
+          <span className="text-xs font-bold uppercase tracking-widest text-emerald-600/70 mb-1">Posted</span>
           <span className="text-sm font-semibold text-gray-900 text-center">{formatDate(post.publishedAt)}</span>
         </div>
 
@@ -51,13 +51,13 @@ function AnnouncementCard({ post }: { post: NewsPost }) {
               Official Notice
             </span>
           </div>
-          <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-3 group-hover:text-purple-700 transition-colors leading-tight">
+          <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-3 group-hover:text-emerald-700 transition-colors leading-tight">
             {post.title}
           </h2>
           <p className="text-gray-600 leading-relaxed text-sm md:text-base line-clamp-2 mb-4 flex-1">
             {post.excerpt}
           </p>
-          <div className="mt-auto flex items-center text-purple-600 font-semibold text-sm group-hover:underline">
+          <div className="mt-auto flex items-center text-emerald-600 font-semibold text-sm group-hover:underline">
             Read Full Notice <ChevronRight size={16} className="ml-1" />
           </div>
         </div>

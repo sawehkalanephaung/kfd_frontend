@@ -38,7 +38,6 @@ async function getDepartments(): Promise<DepartmentData[]> {
   }
 }
 
-// Department icon map based on keywords in the slug
 function getDeptMeta(slug: string): {
   icon: React.ElementType;
   color: string;
@@ -46,61 +45,47 @@ function getDeptMeta(slug: string): {
   accent: string;
   description: string;
 } {
+  const color = "text-emerald-700";
+  const bg = "bg-emerald-50";
+  const accent = "bg-emerald-500";
+
   if (slug.includes("survey") || slug.includes("documentation")) {
     return {
-      icon: BookOpen,
-      color: "text-sky-700",
-      bg: "bg-sky-50",
-      accent: "bg-sky-500",
+      icon: BookOpen, color, bg, accent,
       description:
         "Conducting comprehensive land surveys and documentation to map and preserve forest territories across Kawthoolei.",
     };
   }
   if (slug.includes("awareness") || slug.includes("training")) {
     return {
-      icon: Users,
-      color: "text-amber-700",
-      bg: "bg-amber-50",
-      accent: "bg-amber-500",
+      icon: Users, color, bg, accent,
       description:
         "Building forest stewardship through community education, public awareness campaigns, and capacity-building training programs.",
     };
   }
   if (slug.includes("protection") || slug.includes("land")) {
     return {
-      icon: Shield,
-      color: "text-red-700",
-      bg: "bg-red-50",
-      accent: "bg-red-500",
+      icon: Shield, color, bg, accent,
       description:
         "Safeguarding forest boundaries and land rights through active patrol, enforcement, and legal documentation efforts.",
     };
   }
   if (slug.includes("nursery") || slug.includes("restoration") || slug.includes("plantation")) {
     return {
-      icon: Sprout,
-      color: "text-green-700",
-      bg: "bg-green-50",
-      accent: "bg-green-500",
+      icon: Sprout, color, bg, accent,
       description:
         "Growing native seedlings and leading large-scale reforestation programs to restore degraded forest ecosystems.",
     };
   }
   if (slug.includes("project")) {
     return {
-      icon: Briefcase,
-      color: "text-purple-700",
-      bg: "bg-purple-50",
-      accent: "bg-purple-500",
+      icon: Briefcase, color, bg, accent,
       description:
         "Coordinating multi-stakeholder conservation projects, grants, and partnerships for sustainable forest management.",
     };
   }
   return {
-    icon: TreePine,
-    color: "text-emerald-700",
-    bg: "bg-emerald-50",
-    accent: "bg-emerald-500",
+    icon: TreePine, color, bg, accent,
     description: "A specialized unit within the Kawthoolei Forestry Department.",
   };
 }

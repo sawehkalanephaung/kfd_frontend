@@ -338,9 +338,9 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
         </div>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
         {/* Main Content Column */}
-        <div className="lg:col-span-2 space-y-6">
+        <div className="xl:col-span-2 space-y-6">
           
           {/* Basic Info Card */}
           <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50">
@@ -401,7 +401,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
               </div>
 
               {/* Images / Logos */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-4 border-t border-gray-100">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-6 border-t border-gray-100">
                 {/* Logo Selection */}
                 <div>
                   <label className="block text-sm font-semibold text-gray-900 mb-2 flex items-center gap-2">
@@ -416,7 +416,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                     className="hidden"
                   />
                   {logoUrl ? (
-                    <div className="group relative rounded-xl overflow-hidden border border-gray-200 aspect-square bg-gray-50 flex flex-col">
+                    <div className="group relative rounded-xl overflow-hidden border border-gray-200 h-56 sm:h-64 bg-gray-50 flex flex-col">
                       <img
                         src={getMediaUrl(logoUrl)}
                         alt="Logo preview"
@@ -443,7 +443,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                       </div>
                     </div>
                   ) : (
-                    <div className="border-2 border-dashed border-gray-200 rounded-xl p-6 flex flex-col items-center justify-center text-center gap-4 bg-gray-50/50 aspect-square">
+                    <div className="border-2 border-dashed border-gray-200 rounded-xl p-6 flex flex-col items-center justify-center text-center gap-4 bg-gray-50/50 h-56 sm:h-64">
                       <div className="w-10 h-10 bg-white rounded-full shadow-sm flex items-center justify-center border border-gray-100">
                         {uploadingLogo ? <Loader2 className="w-5 h-5 text-emerald-500 animate-spin" /> : <ImageIcon className="w-5 h-5 text-gray-400" />}
                       </div>
@@ -483,7 +483,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                     className="hidden"
                   />
                   {heroUrl ? (
-                    <div className="group relative rounded-xl overflow-hidden border border-gray-200 aspect-video bg-gray-50 flex flex-col">
+                    <div className="group relative rounded-xl overflow-hidden border border-gray-200 h-56 sm:h-64 bg-gray-50 flex flex-col">
                       <img
                         src={getMediaUrl(heroUrl)}
                         alt="Hero preview"
@@ -510,7 +510,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                       </div>
                     </div>
                   ) : (
-                    <div className="border-2 border-dashed border-gray-200 rounded-xl p-6 flex flex-col items-center justify-center text-center gap-4 bg-gray-50/50 aspect-video">
+                    <div className="border-2 border-dashed border-gray-200 rounded-xl p-6 flex flex-col items-center justify-center text-center gap-4 bg-gray-50/50 h-56 sm:h-64">
                       <div className="w-10 h-10 bg-white rounded-full shadow-sm flex items-center justify-center border border-gray-100">
                         {uploadingHero ? <Loader2 className="w-5 h-5 text-emerald-500 animate-spin" /> : <ImageIcon className="w-5 h-5 text-gray-400" />}
                       </div>
@@ -686,30 +686,32 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                     <p className="text-xs text-gray-400 py-2">No social media links added yet.</p>
                   )}
                   {socialLinks.map((link, index) => (
-                    <div key={index} className="flex items-center gap-2">
-                      <select
-                        value={link.platform}
-                        onChange={(e) => updateSocialLink(index, 'platform', e.target.value)}
-                        className="w-32 shrink-0 px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
-                      >
-                        {SOCIAL_PLATFORMS.map(p => (
-                          <option key={p} value={p}>{p}</option>
-                        ))}
-                      </select>
+                    <div key={index} className="flex flex-col gap-2 p-3 bg-gray-50 rounded-xl border border-gray-100">
+                      <div className="flex items-center justify-between gap-2">
+                        <select
+                          value={link.platform}
+                          onChange={(e) => updateSocialLink(index, 'platform', e.target.value)}
+                          className="flex-1 px-3 py-2 bg-white border border-gray-200 rounded-lg text-xs text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                        >
+                          {SOCIAL_PLATFORMS.map(p => (
+                            <option key={p} value={p}>{p}</option>
+                          ))}
+                        </select>
+                        <button
+                          type="button"
+                          onClick={() => removeSocialLink(index)}
+                          className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors shrink-0"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
                       <input
                         type="url"
                         value={link.url}
                         onChange={(e) => updateSocialLink(index, 'url', e.target.value)}
-                        className="flex-1 px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                        className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-xs text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
                         placeholder="https://..."
                       />
-                      <button
-                        type="button"
-                        onClick={() => removeSocialLink(index)}
-                        className="p-2 text-gray-400 hover:text-red-500 transition-colors shrink-0"
-                      >
-                        <X className="w-4 h-4" />
-                      </button>
                     </div>
                   ))}
                 </div>
