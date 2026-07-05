@@ -219,7 +219,7 @@ export default function DashboardPage() {
           <h3 className="text-lg font-bold text-gray-900 mb-6">Quick Actions</h3>
           <div className="space-y-3">
             <Link
-              href="/dashboard/posts/new"
+              href="/dashboard/posts/create"
               className="flex items-center gap-4 p-4 rounded-xl border border-gray-100 hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-700 transition-all group"
             >
               <div className="w-10 h-10 rounded-full bg-emerald-100/50 flex items-center justify-center text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
@@ -245,7 +245,7 @@ export default function DashboardPage() {
             </Link>
 
             <Link
-              href="/dashboard/team/users/new"
+              href="/dashboard/team/create"
               className="flex items-center gap-4 p-4 rounded-xl border border-gray-100 hover:border-purple-200 hover:bg-purple-50 hover:text-purple-700 transition-all group"
             >
               <div className="w-10 h-10 rounded-full bg-purple-100/50 flex items-center justify-center text-purple-600 group-hover:bg-purple-600 group-hover:text-white transition-colors">
