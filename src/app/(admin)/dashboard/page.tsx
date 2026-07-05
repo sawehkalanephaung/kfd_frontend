@@ -8,7 +8,7 @@ import api from '@/lib/api';
 
 export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
-  
+
   const [stats, setStats] = useState({
     posts: 0,
     drafts: 0,
@@ -19,13 +19,13 @@ export default function DashboardPage() {
   });
 
   const [recentPosts, setRecentPosts] = useState<any[]>([]);
-  const [topPosts, setTopPosts] = useState<{name: string, views: number}[]>([]);
+  const [topPosts, setTopPosts] = useState<{ name: string, views: number }[]>([]);
 
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
         setLoading(true);
-        
+
         // Fetch all necessary data in parallel
         const [
           publishedPostsRes,
@@ -68,12 +68,12 @@ export default function DashboardPage() {
 
         const top = topPostsRes.data?.content || topPostsRes.data?.data || topPostsRes.data || [];
         setTopPosts(
-          Array.isArray(top) 
-            ? top.map(p => ({ 
-                name: p.title.length > 20 ? p.title.substring(0, 20) + '...' : p.title, 
-                // Fallback to a mock random number if views are 0 so we can preview the chart's look and feel
-                views: p.viewCount && p.viewCount > 0 ? p.viewCount : Math.floor(Math.random() * 500) + 50 
-              })) 
+          Array.isArray(top)
+            ? top.map(p => ({
+              name: p.title.length > 20 ? p.title.substring(0, 20) + '...' : p.title,
+              // Fallback to a mock random number if views are 0 so we can preview the chart's look and feel
+              views: p.viewCount && p.viewCount > 0 ? p.viewCount : Math.floor(Math.random() * 500) + 50
+            }))
             : []
         );
 
@@ -91,7 +91,7 @@ export default function DashboardPage() {
     { label: 'Total Published Posts', value: stats.posts, trend: 'Live from Database' },
     { label: 'Total Team Members', value: stats.teamMembers, trend: 'Active in System' },
     { label: 'Total Media Assets', value: stats.media, trend: 'Images & Documents' },
-    { label: 'Active Departments', value: stats.departments, trend: 'Registered Orgs' },
+    { label: 'Active Department Branches', value: stats.departments, trend: 'Registered Branches' },
   ];
 
   const statusData = [
