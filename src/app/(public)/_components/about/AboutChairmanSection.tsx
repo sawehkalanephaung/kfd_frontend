@@ -37,21 +37,23 @@ export default function AboutChairmanSection({ chairmanData }: { chairmanData?: 
             </div>
 
             {/* Bio Content */}
-            <div className="p-8 md:p-12 lg:p-16 flex flex-col justify-center w-full">
+            <div className="p-8 md:p-12 lg:p-16 flex flex-col justify-center w-full min-w-0">
               <h3 className="text-3xl font-bold text-gray-900 mb-6">{chairman.name}</h3>
               {chairman.bio && (
                 <div 
-                  className="text-gray-600 mb-8 text-lg leading-relaxed line-clamp-4 prose prose-green max-w-none"
+                  className="text-gray-600 mb-8 text-lg leading-relaxed line-clamp-4 prose prose-green max-w-none break-words overflow-hidden"
                   dangerouslySetInnerHTML={{ __html: chairman.bio }}
                 />
               )}
-              <Link 
-                href="/about/chairman" 
-                className="inline-flex items-center gap-2 text-sm font-bold tracking-wider uppercase text-[#1a3626] hover:text-[#2a563c] transition-colors group w-fit"
-              >
-                Read Full Bio
-                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-              </Link>
+              {chairman.id && (
+                <Link 
+                  href={`/team/${chairman.id}`} 
+                  className="inline-flex items-center gap-2 text-sm font-bold tracking-wider uppercase text-[#1a3626] hover:text-[#2a563c] transition-colors group w-fit"
+                >
+                  Read Full Bio
+                  <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                </Link>
+              )}
             </div>
           </div>
         </div>

@@ -210,8 +210,8 @@ export default function Header() {
           )}
         </div>
 
-        {/* Profile Pill (Non-clickable info badge) */}
-        <div className="bg-white rounded-full flex items-center gap-3 p-1.5 pr-5 border border-gray-100 shadow-sm ml-2">
+        {/* Profile Info (Non-clickable) */}
+        <div className="flex items-center gap-3 ml-2 pl-4 border-l border-gray-200/60">
           <div className="w-9 h-9 rounded-full overflow-hidden bg-emerald-50 border border-emerald-100 flex items-center justify-center shrink-0">
             {/* Fallback to initials if no image is present */}
             <span className="text-emerald-700 font-bold text-sm">

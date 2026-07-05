@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, TreePine } from "lucide-react";
+import { getMediaUrl } from "@/lib/api";
 
 export default function DepartmentsSection({ departments }: { departments: any[] }) {
   const displayDepartments = departments || [];
@@ -25,19 +26,36 @@ export default function DepartmentsSection({ departments }: { departments: any[]
           {displayDepartments.slice(0, 4).map((dept, index) => (
             <div
               key={dept.id || index}
-              className="bg-white border border-gray-100 p-8 rounded-lg shadow-sm hover:shadow-md transition-all flex flex-col h-full"
+              className="bg-white border border-gray-100 rounded-lg shadow-sm hover:shadow-md transition-all flex flex-col h-full overflow-hidden"
             >
-              <h3 className="text-lg font-bold text-[#1a3626] mb-4">{dept.title || dept.name}</h3>
-              <p className="text-sm text-gray-600 leading-relaxed flex-grow mb-8 line-clamp-4">
-                {dept.description || dept.shortDescription}
-              </p>
-              <Link
-                href={`/departments/${dept.slug}`}
-                className="text-sm font-semibold text-gray-900 hover:text-[#2a563c] inline-flex items-center gap-1 group w-fit transition-colors"
-              >
-                Explore
-                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-              </Link>
+              {/* Image Section */}
+              <div className="relative h-48 bg-gray-50 flex-shrink-0 border-b border-gray-100">
+                {dept.heroImageUrl ? (
+                  <div 
+                    className="absolute inset-0 bg-cover bg-center" 
+                    style={{ backgroundImage: `url('${getMediaUrl(dept.heroImageUrl)}')` }}
+                  />
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <TreePine size={48} className="text-gray-200" />
+                  </div>
+                )}
+              </div>
+
+              {/* Content Section */}
+              <div className="p-8 flex flex-col flex-grow">
+                <h3 className="text-lg font-bold text-[#1a3626] mb-4">{dept.title || dept.name}</h3>
+                <p className="text-sm text-gray-600 leading-relaxed flex-grow mb-8 line-clamp-4">
+                  {dept.description || dept.shortDescription}
+                </p>
+                <Link
+                  href={`/departments/${dept.slug}`}
+                  className="text-sm font-semibold text-gray-900 hover:text-[#2a563c] inline-flex items-center gap-1 group w-fit transition-colors mt-auto"
+                >
+                  Explore
+                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </div>
             </div>
           ))}
         </div>

@@ -14,6 +14,7 @@ import {
   ImageIcon,
 } from "lucide-react";
 import { DepartmentData } from "./types";
+import { getMediaUrl } from "@/lib/api";
 
 export const metadata: Metadata = {
   title: "Departments - Kawthoolei Forestry Department",
@@ -157,7 +158,14 @@ export default async function DepartmentsPage() {
                 >
                   {/* Card Image */}
                   <div className={`relative h-48 overflow-hidden flex items-center justify-center ${meta.bg}`}>
-                    <Icon size={80} className={`${meta.color} opacity-20`} />
+                    {dept.heroImageUrl ? (
+                      <div
+                        className="absolute inset-0 bg-cover bg-center"
+                        style={{ backgroundImage: `url('${getMediaUrl(dept.heroImageUrl)}')` }}
+                      />
+                    ) : (
+                      <Icon size={80} className={`${meta.color} opacity-20`} />
+                    )}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
 
                     {/* Order badge */}

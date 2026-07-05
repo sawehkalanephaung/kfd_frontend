@@ -94,6 +94,7 @@ export default async function AboutUsPage() {
   }
 
   const formattedChairman = chairman ? {
+    id: chairman.id,
     name: `${chairman.firstName || chairman.first_name || chairman.name || ''} ${chairman.lastName || chairman.last_name || ''}`.trim() || 'Chairman',
     title: finalTitle,
     bio: parseI18nField(chairman.bio || chairman.description),
