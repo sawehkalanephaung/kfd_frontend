@@ -102,7 +102,7 @@ export default async function AboutUsPage() {
   } : undefined;
 
   return (
-    <main className="flex flex-col min-h-screen pt-20">
+    <main className="flex flex-col min-h-screen">
       <AboutContentSection 
         title={heroData?.title || "About KFD"} 
         content={heroData?.content || "Information about KFD will be updated soon."} 

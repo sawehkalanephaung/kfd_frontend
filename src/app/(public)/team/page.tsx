@@ -46,7 +46,7 @@ export default async function TeamDirectoryPage() {
   const members = await getTeamMembers();
 
   return (
-    <main className="flex flex-col min-h-screen pt-20">
+    <main className="flex flex-col min-h-screen">
       {/* Hero Section */}
       <section className="bg-[#1a3626] text-white py-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('/pattern.svg')] opacity-10"></div>

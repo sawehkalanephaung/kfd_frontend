@@ -1,14 +1,11 @@
 export default function StatsSection({ metrics }: { metrics: any[] }) {
-  const defaultStats = [
-    { value: "3.2M+", label: "ACRES PROTECTED", subLabel: "across Kawthoolei regions" },
-    { value: "8.5M+", label: "TREES PLANTED", subLabel: "through community initiatives" },
-    { value: "420+", label: "SPECIES SAVED", subLabel: "from endangerment and poaching" },
-    { value: "1,200+", label: "RANGERS ON DUTY", subLabel: "protecting the forest full-time" }
-  ];
+  if (!metrics || metrics.length === 0) return null;
 
-  const displayStats = metrics && metrics.length > 0 
-    ? metrics.map(m => ({ value: m.metricValue, label: m.title, subLabel: "" }))
-    : defaultStats;
+  const displayStats = metrics.map(m => ({ 
+    value: m.metricValue, 
+    label: m.title, 
+    subLabel: m.description || "" 
+  }));
 
   return (
     <section className="bg-[#132a1c] text-white py-12 border-t border-[#1a3626]">
