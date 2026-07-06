@@ -29,15 +29,11 @@ export default async function Navbar() {
   const navLinks = [
     { name: "Home", href: "/" },
     {
-      name: "About",
+      name: "About Us",
       href: "/about",
       dropdown: [
-        { name: "History", href: "/about#history" },
-        { name: "Mission", href: "/about#mission" },
-        { name: "Vision", href: "/about#vision" },
-        { name: "Objective", href: "/about#objective" },
-        { name: "Team Directory", href: "/team" },
-        { name: "Chairman", href: "/about#chairman" },
+        { name: "About KFD", href: "/about" },
+        { name: "Our Teams", href: "/team" },
       ]
     },
     {

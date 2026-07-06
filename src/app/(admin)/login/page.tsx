@@ -23,7 +23,7 @@ export default function AdminLogin() {
     setError('');
     setEmailError('');
     setPasswordError('');
-    
+
     let isValid = true;
 
     // Client-side Validation
@@ -35,7 +35,7 @@ export default function AdminLogin() {
       setEmailError('Please enter a valid email address.');
       isValid = false;
     }
-    
+
     if (!password) {
       setPasswordError('Password is required.');
       isValid = false;
@@ -90,11 +90,9 @@ export default function AdminLogin() {
         <div className="bg-white/65 backdrop-blur-[30px] border border-white/40 shadow-[0_8px_32px_rgba(0,0,0,0.1)] rounded-2xl p-8 md:p-10">
 
           <div className="flex flex-col items-center mb-8">
-            <div className="w-12 h-12 rounded-full bg-emerald-500 flex items-center justify-center mb-4 shadow-lg shadow-emerald-500/30">
-              <ShieldCheck className="w-6 h-6 text-slate-900" />
-            </div>
+
             <h1 className="text-3xl font-bold text-slate-900 tracking-tight font-inter">
-              Admin Login
+              Login
             </h1>
             <p className="text-slate-700 mt-2 text-center text-sm">
               Secure access to the administration portal
@@ -109,7 +107,7 @@ export default function AdminLogin() {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-5" noValidate>
-            
+
             {/* Email Field */}
             <div className="space-y-1.5">
               <label className="text-sm font-semibold text-slate-900 ml-1">Email Address</label>
@@ -125,11 +123,10 @@ export default function AdminLogin() {
                     if (emailError) setEmailError('');
                     if (error) setError('');
                   }}
-                  className={`w-full pl-11 pr-4 py-3 bg-white/20 border rounded-xl text-slate-900 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:border-transparent transition-all backdrop-blur-md ${
-                    emailError 
-                      ? 'border-red-500/50 focus:ring-red-500' 
-                      : 'border-white/40 focus:ring-emerald-500'
-                  }`}
+                  className={`w-full pl-11 pr-4 py-3 bg-white/20 border rounded-xl text-slate-900 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:border-transparent transition-all backdrop-blur-md ${emailError
+                    ? 'border-red-500/50 focus:ring-red-500'
+                    : 'border-white/40 focus:ring-emerald-500'
+                    }`}
                   placeholder="admin@kfd.org"
                 />
               </div>
@@ -151,11 +148,10 @@ export default function AdminLogin() {
                     if (passwordError) setPasswordError('');
                     if (error) setError('');
                   }}
-                  className={`w-full pl-11 pr-12 py-3 bg-white/20 border rounded-xl text-slate-900 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:border-transparent transition-all backdrop-blur-md ${
-                    passwordError 
-                      ? 'border-red-500/50 focus:ring-red-500' 
-                      : 'border-white/40 focus:ring-emerald-500'
-                  }`}
+                  className={`w-full pl-11 pr-12 py-3 bg-white/20 border rounded-xl text-slate-900 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:border-transparent transition-all backdrop-blur-md ${passwordError
+                    ? 'border-red-500/50 focus:ring-red-500'
+                    : 'border-white/40 focus:ring-emerald-500'
+                    }`}
                   placeholder="••••••••"
                 />
                 <button
