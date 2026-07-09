@@ -85,8 +85,8 @@ export default function EditMediaPage() {
 
     try {
       const formData = new FormData();
-      if (category) formData.append('category', category);
-      if (departmentId) formData.append('departmentId', departmentId);
+      formData.append('category', category || '');
+      formData.append('departmentId', departmentId || '');
       if (file) formData.append('file', file);
 
       await api.put(`/api/v1/admin/media/${id}`, formData, {

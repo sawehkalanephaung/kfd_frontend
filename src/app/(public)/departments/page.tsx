@@ -119,7 +119,7 @@ export default async function DepartmentsPage() {
           </h1>
 
           <p className="max-w-2xl mx-auto text-lg text-on-dark-muted/70 leading-relaxed">
-            Each unit of the Kawthoolei Forestry Department plays a vital role in
+            Each branch of the Kawthoolei Forestry Department plays a vital role in
             protecting, restoring, and sustaining our forests for future generations.
           </p>
 
@@ -171,7 +171,7 @@ export default async function DepartmentsPage() {
                     {/* Order badge */}
                     <div className="absolute top-4 left-4">
                       <span className="text-xs font-bold text-white/80 bg-canvas/10 backdrop-blur-sm border border-white/20 px-2.5 py-1 rounded-full">
-                        Unit {String(idx + 1).padStart(2, "0")}
+                        Branch {String(idx + 1).padStart(2, "0")}
                       </span>
                     </div>
 
