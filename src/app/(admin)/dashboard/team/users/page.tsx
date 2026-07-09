@@ -26,6 +26,18 @@ export default function UsersDirectoryPage() {
 
   useEffect(() => {
     fetchUsers();
+
+    // Check if we need to auto-open a user for editing (e.g. from a failed login notification)
+    const params = new URLSearchParams(window.location.search);
+    const editId = params.get('editUserId');
+    if (editId) {
+      // Slight delay ensures the slide-over transition works smoothly
+      setTimeout(() => {
+        openEditDrawer({ id: editId });
+        // Clean up the URL so it doesn't reopen on refresh
+        window.history.replaceState({}, '', '/dashboard/team/users');
+      }, 300);
+    }
   }, []);
 
   const fetchUsers = async () => {

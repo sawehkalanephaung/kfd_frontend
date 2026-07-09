@@ -70,7 +70,7 @@ export default async function Navbar() {
           </div>
           <div className="flex flex-col">
             <span className="font-bold text-lg leading-none text-[#1a3626] tracking-tight">Kawthoolei Forestry Department</span>
-            <span className="font-medium text-sm mt-1 text-[#1a3626]">သ့ၣ်ပှၢ်ဝဲၤကျိၤ</span>
+            <span className="font-medium text-sm mt-1 text-[#1a3626]">ကီၢ်သူလ့ၤသ့ၣ်ပှၢ်ဝဲၤကျိၤ</span>
           </div>
         </Link>
 
@@ -139,7 +139,7 @@ export default async function Navbar() {
               </div>
             </div>
           </div>
-          
+
           {/* Mobile Menu */}
           <MobileMenu navLinks={navLinks} />
         </div>

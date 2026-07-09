@@ -149,13 +149,13 @@ export default function Sidebar() {
       {/* Sidebar Container */}
       <aside
         className={`fixed top-0 left-0 z-50 h-screen flex flex-col bg-white border-r border-gray-100 shadow-xl md:shadow-sm transition-all duration-300 ease-in-out
-          ${isOpen ? 'translate-x-0 w-[260px]' : '-translate-x-full md:translate-x-0'}
+          ${isOpen ? 'translate-x-0 w-[280px]' : '-translate-x-full md:translate-x-0'}
           ${!isOpen && isCollapsed ? 'md:w-[80px]' : 'md:w-[280px]'}
         `}
       >
         {/* Header / Logo */}
-        <div className={`flex items-center ${isCollapsed ? 'justify-center px-0' : 'justify-between px-4'} py-6 min-h-[88px]`}>
-          <div className="flex items-center gap-3">
+        <div className={`flex items-center ${isCollapsed ? 'justify-center px-0' : 'justify-between px-4'} py-6 min-h-[88px] min-w-0`}>
+          <div className="flex items-center gap-3 min-w-0">
             <div className={`relative w-10 h-10 flex-shrink-0 ${isCollapsed ? 'mx-auto' : ''}`}>
               <Image
                 src={logoImg}
@@ -166,12 +166,12 @@ export default function Sidebar() {
               />
             </div>
             {!isCollapsed && (
-              <div className="flex flex-col overflow-hidden">
+              <div className="flex flex-col min-w-0">
                 <h1 className="text-[13px] font-bold text-gray-900 tracking-tight leading-tight truncate">
                   Kawthoolei Forestry Department
                 </h1>
                 <span className="text-[11px] text-gray-600 font-medium mt-0.5 truncate">
-                  သ့ၣ်ပှၢ်ဝဲၤကျိၤ
+                  ကီၢ်သူလ့ၤသ့ၣ်ပှၢ်ဝဲၤကျိၤ
                 </span>
               </div>
             )}
@@ -188,7 +188,7 @@ export default function Sidebar() {
         </div>
 
         {/* Navigation */}
-        <nav className={`flex-1 px-3 pb-4 space-y-1 ${isCollapsed ? 'overflow-visible' : 'overflow-y-auto'}`}>
+        <nav className={`flex-1 px-3 pb-4 space-y-1.5 ${isCollapsed ? 'overflow-visible' : 'overflow-y-auto'}`}>
           {menuItems.map((item) => {
             const active = isActive(item);
             const expanded = expandedMenus.includes(item.label);
@@ -201,21 +201,20 @@ export default function Sidebar() {
                   <button
                     onClick={() => toggleMenu(item.label)}
                     className={
-                      `w-full flex items-center gap-3 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${isCollapsed ? 'justify-center px-0' : 'justify-between px-4'} ` +
+                      `w-full flex items-center gap-3 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${isCollapsed ? 'justify-center px-0' : 'justify-between px-4'} min-w-0 ` +
                       (active
                         ? "bg-emerald-500 text-white shadow-lg shadow-emerald-500/25"
                         : "text-gray-600 hover:bg-gray-50 hover:text-gray-900")
                     }
                     title={isCollapsed ? item.label : undefined}
                   >
-                    <div className={`flex items-center gap-3 overflow-hidden ${isCollapsed ? 'justify-center' : ''}`}>
+                    <div className={`flex items-center gap-3 min-w-0 ${isCollapsed ? 'justify-center' : ''}`}>
                       <div className="flex-shrink-0">{item.icon}</div>
                       {!isCollapsed && <span className="text-left truncate">{item.label}</span>}
                     </div>
                     {!isCollapsed && (
                       <ChevronUp
-                        className={`w-4 h-4 transition-transform duration-200 ${expanded ? '' : 'rotate-180'
-                          }`}
+                        className={`w-4 h-4 flex-shrink-0 transition-transform duration-200 ${expanded ? '' : 'rotate-180'}`}
                       />
                     )}
                   </button>
@@ -224,7 +223,7 @@ export default function Sidebar() {
                     href={item.href}
                     onClick={() => setIsOpen(false)}
                     className={
-                      `flex items-center gap-3 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${isCollapsed ? 'justify-center px-0' : 'px-4'} ` +
+                      `flex items-center gap-3 py-3 rounded-xl text-sm font-medium transition-all duration-200 min-w-0 ${isCollapsed ? 'justify-center px-0' : 'px-4'} ` +
                       (active
                         ? "bg-emerald-500 text-white shadow-lg shadow-emerald-500/25"
                         : "text-gray-600 hover:bg-gray-50 hover:text-gray-900")
@@ -239,19 +238,18 @@ export default function Sidebar() {
                 {/* Sub-items (Expanded Mode) */}
                 {!isCollapsed && hasSubItems && (
                   <div
-                    className={`overflow-hidden transition-all duration-200 ease-in-out ${expanded ? 'max-h-80 opacity-100 mt-1' : 'max-h-0 opacity-0'
-                      }`}
+                    className={`overflow-hidden transition-all duration-200 ease-in-out ${expanded ? 'max-h-80 opacity-100 mt-1' : 'max-h-0 opacity-0'}`}
                   >
-                    <div className="ml-6 pl-4 border-l-2 border-gray-100 space-y-0.5">
+                    <div className="ml-[22px] pl-4 border-l-[1.5px] border-gray-100 space-y-0.5 my-1">
                       {item.subItems!.map((sub) => (
                         <Link
                           key={sub.href}
                           href={sub.href}
                           onClick={() => setIsOpen(false)}
                           className={
-                            "block px-3 py-2 rounded-lg text-[13px] font-medium transition-colors " +
+                            "block px-3 py-2 rounded-lg text-[13px] font-medium transition-colors truncate " +
                             (pathname === sub.href
-                              ? "text-emerald-600 bg-emerald-50"
+                              ? "text-emerald-700 bg-emerald-50/80 font-semibold"
                               : "text-gray-500 hover:text-gray-800 hover:bg-gray-50")
                           }
                         >

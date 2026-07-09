@@ -2,18 +2,57 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Settings, Bell, Save, ShieldAlert, Users, Mail, FileText } from 'lucide-react';
+import { Settings, Bell, ShieldAlert, Mail, FileText, Check } from 'lucide-react';
 import { toast } from 'sonner';
+
+type PreferenceKey = 'notifyNewSubscriber' | 'notifyFailedLogin' | 'notifyPendingReview';
+
+interface NotificationOption {
+  key: PreferenceKey;
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+  iconBg: string;
+  iconColor: string;
+}
+
+const NOTIFICATION_OPTIONS: NotificationOption[] = [
+  {
+    key: 'notifyNewSubscriber',
+    title: 'New Newsletter Subscriber',
+    description: 'Get notified when a citizen subscribes to the public newsletter.',
+    icon: <Mail className="w-5 h-5" />,
+    iconBg: 'bg-blue-50',
+    iconColor: 'text-blue-600',
+  },
+
+  {
+    key: 'notifyPendingReview',
+    title: 'Pending Content Review',
+    description: 'Notify me when a post is marked as draft and awaits final approval.',
+    icon: <FileText className="w-5 h-5" />,
+    iconBg: 'bg-amber-50',
+    iconColor: 'text-amber-600',
+  },
+  {
+    key: 'notifyFailedLogin',
+    title: 'Failed Admin Login Attempts',
+    description: 'Security alert for multiple failed logins to the KFD admin panel.',
+    icon: <ShieldAlert className="w-5 h-5" />,
+    iconBg: 'bg-red-50',
+    iconColor: 'text-red-600',
+  },
+];
 
 export default function SystemSettingsPage() {
   const [loading, setLoading] = useState(true);
-  
+  const [savedKey, setSavedKey] = useState<string | null>(null);
+
   // Notification Preferences State
-  const [preferences, setPreferences] = useState({
+  const [preferences, setPreferences] = useState<Record<PreferenceKey, boolean>>({
     notifyNewSubscriber: true,
-    notifyNewUser: true,
     notifyFailedLogin: true,
-    notifyPendingReview: true
+    notifyPendingReview: true,
   });
 
   // Load preferences from localStorage on mount
@@ -21,24 +60,35 @@ export default function SystemSettingsPage() {
     const saved = localStorage.getItem('kfd_admin_notification_settings');
     if (saved) {
       try {
-        setPreferences(JSON.parse(saved));
+        setPreferences(prev => ({ ...prev, ...JSON.parse(saved) }));
       } catch (e) {
-        console.error("Failed to parse settings");
+        console.error('Failed to parse settings');
       }
     }
     setLoading(false);
   }, []);
 
-  const handleToggle = (key: keyof typeof preferences) => {
-    setPreferences(prev => ({
-      ...prev,
-      [key]: !prev[key]
-    }));
-  };
+  const handleToggle = (key: PreferenceKey) => {
+    const updated = { ...preferences, [key]: !preferences[key] };
+    setPreferences(updated);
 
-  const handleSave = () => {
-    localStorage.setItem('kfd_admin_notification_settings', JSON.stringify(preferences));
-    toast.success('Notification preferences saved successfully!');
+    // Auto-save immediately
+    localStorage.setItem('kfd_admin_notification_settings', JSON.stringify(updated));
+
+    // Show subtle saved indicator
+    setSavedKey(key);
+    setTimeout(() => setSavedKey(null), 1500);
+
+    // Show toast
+    const option = NOTIFICATION_OPTIONS.find(o => o.key === key);
+    if (option) {
+      toast.success(
+        updated[key]
+          ? `${option.title} enabled`
+          : `${option.title} disabled`,
+        { duration: 2000 }
+      );
+    }
   };
 
   if (loading) {
@@ -55,134 +105,73 @@ export default function SystemSettingsPage() {
       </div>
 
       {/* Header Section */}
-      <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-50 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
-            <Settings className="w-6 h-6 text-emerald-500" />
-            System Settings
-          </h1>
-          <p className="text-gray-500 mt-1">
-            Manage your personal dashboard preferences and notification alerts.
-          </p>
-        </div>
-        <button
-          onClick={handleSave}
-          className="inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-medium rounded-xl transition-all shadow-sm shadow-emerald-500/20 active:scale-95"
-        >
-          <Save className="w-4 h-4" />
-          Save Preferences
-        </button>
+      <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-50 mb-6">
+        <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
+          <Settings className="w-6 h-6 text-emerald-500" />
+          System Settings
+        </h1>
+        <p className="text-gray-500 mt-1">
+          Manage your personal dashboard preferences and notification alerts.
+        </p>
       </div>
 
       {/* Settings Grid */}
       <div className="grid grid-cols-1 gap-6">
-        
+
         {/* Notification Settings Panel */}
         <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm">
-          <div className="p-6 border-b border-gray-50 bg-gray-50/30 flex items-center gap-3">
-            <Bell className="w-5 h-5 text-gray-600" />
-            <div>
-              <h2 className="text-lg font-bold text-gray-900">Notification Alerts</h2>
-              <p className="text-sm text-gray-500">Choose which events trigger an alert on your dashboard.</p>
+          <div className="p-6 border-b border-gray-50 bg-gray-50/30 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <Bell className="w-5 h-5 text-gray-600" />
+              <div>
+                <h2 className="text-lg font-bold text-gray-900">Notification Alerts</h2>
+                <p className="text-sm text-gray-500">Choose which events trigger an alert on your dashboard.</p>
+              </div>
             </div>
+            <span className="text-xs font-medium text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100">
+              Auto-saved
+            </span>
           </div>
-          
-          <div className="p-6 space-y-6">
-            
-            {/* Setting Item */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 shrink-0">
-                  <Mail className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="font-medium text-gray-900">New Newsletter Subscriber</h3>
-                  <p className="text-sm text-gray-500 mt-0.5">Get notified when a citizen subscribes to the public newsletter.</p>
-                </div>
-              </div>
-              <label className="relative inline-flex items-center cursor-pointer shrink-0">
-                <input 
-                  type="checkbox" 
-                  className="sr-only peer" 
-                  checked={preferences.notifyNewSubscriber}
-                  onChange={() => handleToggle('notifyNewSubscriber')}
-                />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
-              </label>
-            </div>
 
-            <hr className="border-gray-50" />
-
-            {/* Setting Item */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center text-purple-600 shrink-0">
-                  <Users className="w-5 h-5" />
+          <div className="p-6 space-y-1">
+            {NOTIFICATION_OPTIONS.map((option, index) => (
+              <React.Fragment key={option.key}>
+                {index > 0 && <hr className="border-gray-50 !my-0" />}
+                <div className="flex items-center justify-between py-4 group">
+                  <div className="flex items-start gap-4">
+                    <div className={`w-10 h-10 rounded-full ${option.iconBg} flex items-center justify-center ${option.iconColor} shrink-0 transition-transform group-hover:scale-105`}>
+                      {option.icon}
+                    </div>
+                    <div>
+                      <h3 className="font-medium text-gray-900">{option.title}</h3>
+                      <p className="text-sm text-gray-500 mt-0.5">{option.description}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 shrink-0">
+                    {/* Saved micro-animation */}
+                    <span
+                      className={`text-xs font-medium text-emerald-600 flex items-center gap-1 transition-all duration-300 ${
+                        savedKey === option.key
+                          ? 'opacity-100 translate-x-0'
+                          : 'opacity-0 translate-x-2'
+                      }`}
+                    >
+                      <Check className="w-3 h-3" />
+                      Saved
+                    </span>
+                    <label className="relative inline-flex items-center cursor-pointer">
+                      <input
+                        type="checkbox"
+                        className="sr-only peer"
+                        checked={preferences[option.key]}
+                        onChange={() => handleToggle(option.key)}
+                      />
+                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
+                    </label>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-medium text-gray-900">New System User Created</h3>
-                  <p className="text-sm text-gray-500 mt-0.5">Alert me when a new admin or manager account is added.</p>
-                </div>
-              </div>
-              <label className="relative inline-flex items-center cursor-pointer shrink-0">
-                <input 
-                  type="checkbox" 
-                  className="sr-only peer" 
-                  checked={preferences.notifyNewUser}
-                  onChange={() => handleToggle('notifyNewUser')}
-                />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
-              </label>
-            </div>
-
-            <hr className="border-gray-50" />
-
-            {/* Setting Item */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center text-amber-600 shrink-0">
-                  <FileText className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="font-medium text-gray-900">Pending Content Review</h3>
-                  <p className="text-sm text-gray-500 mt-0.5">Notify me when a post is marked as draft and awaits final approval.</p>
-                </div>
-              </div>
-              <label className="relative inline-flex items-center cursor-pointer shrink-0">
-                <input 
-                  type="checkbox" 
-                  className="sr-only peer" 
-                  checked={preferences.notifyPendingReview}
-                  onChange={() => handleToggle('notifyPendingReview')}
-                />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
-              </label>
-            </div>
-
-            <hr className="border-gray-50" />
-
-            {/* Setting Item */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center text-red-600 shrink-0">
-                  <ShieldAlert className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="font-medium text-gray-900">Failed Admin Login Attempts</h3>
-                  <p className="text-sm text-gray-500 mt-0.5">Security alert for multiple failed logins to the KFD admin panel.</p>
-                </div>
-              </div>
-              <label className="relative inline-flex items-center cursor-pointer shrink-0">
-                <input 
-                  type="checkbox" 
-                  className="sr-only peer" 
-                  checked={preferences.notifyFailedLogin}
-                  onChange={() => handleToggle('notifyFailedLogin')}
-                />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
-              </label>
-            </div>
-
+              </React.Fragment>
+            ))}
           </div>
         </div>
 
