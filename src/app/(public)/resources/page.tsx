@@ -18,28 +18,16 @@ interface PageProps {
 
 // ── Data Fetchers ──────────────────────────────────────────────
 
-async function getMedia(page: number, search?: string, category?: string, sort?: string): Promise<PaginatedMedia | null> {
+async function getAllMedia(search?: string, sort?: string): Promise<any[]> {
   try {
-    const params = new URLSearchParams({ page: String(page), size: "10" });
+    const params = new URLSearchParams({ page: "0", size: "1000" });
     if (search) params.set("search", search);
-    if (category) params.set("category", category);
     if (sort) params.set("sort", sort);
 
     const res = await fetch(`${API}/api/v1/public/media?${params}`, { cache: "no-store" });
-    if (!res.ok) return null;
-    const json = await res.json();
-    return json.data || null;
-  } catch {
-    return null;
-  }
-}
-
-async function getCategories(): Promise<MediaCategoryCount[]> {
-  try {
-    const res = await fetch(`${API}/api/v1/public/media/categories`, { cache: "no-store" });
     if (!res.ok) return [];
     const json = await res.json();
-    return json.data || [];
+    return json.data?.content || [];
   } catch {
     return [];
   }
@@ -87,15 +75,32 @@ export default async function ResourcesPage({ searchParams }: PageProps) {
   const searchQuery = (resolvedSearchParams.search as string) || "";
   const sortQuery = (resolvedSearchParams.sort as string) || "newest";
 
-  const [paginatedData, categoriesData] = await Promise.all([
-    getMedia(currentPage, searchQuery, activeCategory, sortQuery),
-    getCategories(),
-  ]);
+  // Fetch all media
+  const rawItems = await getAllMedia(searchQuery, sortQuery);
+  
+  // Filter out images
+  const documentItems = rawItems.filter((item: any) => !item.fileType?.startsWith('image/'));
 
-  const items = paginatedData?.content || [];
-  const totalElements = paginatedData?.totalElements || 0;
-  const totalPages = paginatedData?.totalPages || 0;
-  const totalDocuments = categoriesData.reduce((acc, cat) => acc + cat.count, 0);
+  // Calculate dynamic categories based ONLY on documents
+  const categoryMap: Record<string, number> = {};
+  documentItems.forEach(item => {
+    const cat = item.mediaCategory || 'general';
+    categoryMap[cat] = (categoryMap[cat] || 0) + 1;
+  });
+
+  const categoriesData = Object.entries(categoryMap).map(([category, count]) => ({ category, count }));
+  const totalDocuments = documentItems.length;
+
+  // Filter by active category
+  const filteredItems = activeCategory 
+    ? documentItems.filter(item => (item.mediaCategory || 'general') === activeCategory)
+    : documentItems;
+
+  // Paginate
+  const pageSize = 10;
+  const totalElements = filteredItems.length;
+  const totalPages = Math.ceil(totalElements / pageSize);
+  const items = filteredItems.slice(currentPage * pageSize, (currentPage + 1) * pageSize);
 
   // Sort categories by count (descending)
   const sortedCategories = [...categoriesData].sort((a, b) => b.count - a.count);
@@ -110,8 +115,8 @@ export default async function ResourcesPage({ searchParams }: PageProps) {
     return `/resources${params.toString() ? `?${params.toString()}` : ""}`;
   };
 
-  const showingStart = totalElements === 0 ? 0 : currentPage * 10 + 1;
-  const showingEnd = Math.min((currentPage + 1) * 10, totalElements);
+  const showingStart = totalElements === 0 ? 0 : currentPage * pageSize + 1;
+  const showingEnd = Math.min((currentPage + 1) * pageSize, totalElements);
 
   return (
     <main className="min-h-screen bg-[#05110a] pt-24 pb-20">

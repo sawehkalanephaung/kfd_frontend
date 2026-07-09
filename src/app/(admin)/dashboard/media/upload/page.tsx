@@ -148,14 +148,14 @@ export default function UploadMediaPage() {
           </div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* File Upload Area */}
-          <div className="md:col-span-2 space-y-6">
+          <div className="lg:col-span-1 space-y-6">
             <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft">
               <h2 className="text-lg font-bold text-ink mb-6">Select File</h2>
 
               <div
-                className={`border-2 border-dashed rounded-full p-10 text-center transition-colors cursor-pointer ${file ? 'border-emerald-500 bg-brand-green-soft' : 'border-gray-300 hover:border-emerald-500 hover:bg-surface'
+                className={`border-2 border-dashed rounded-xl aspect-square flex flex-col items-center justify-center p-6 text-center transition-colors cursor-pointer ${file ? 'border-emerald-500 bg-brand-green-soft' : 'border-gray-300 hover:border-emerald-500 hover:bg-surface'
                   }`}
                 onDrop={handleDrop}
                 onDragOver={handleDragOver}
@@ -170,22 +170,22 @@ export default function UploadMediaPage() {
 
                 {file ? (
                   <div className="flex flex-col items-center">
-                    <div className="w-16 h-16 bg-brand-green-soft text-brand-green-dark rounded-full flex items-center justify-center mb-4">
-                      <UploadCloud className="w-8 h-8" />
+                    <div className="w-12 h-12 bg-brand-green-soft text-brand-green-dark rounded-full flex items-center justify-center mb-3">
+                      <UploadCloud className="w-6 h-6" />
                     </div>
-                    <p className="text-brand-green-dark font-medium text-lg">{file.name}</p>
-                    <p className="text-brand-green-dark/70 text-sm mt-1">
+                    <p className="text-brand-green-dark font-medium text-sm break-all line-clamp-2 px-2">{file.name}</p>
+                    <p className="text-brand-green-dark/70 text-xs mt-1">
                       {(file.size / 1024 / 1024).toFixed(2)} MB • {file.type || 'Unknown type'}
                     </p>
-                    <p className="text-brand-green-dark text-sm mt-4 underline underline-offset-2">Click or drag to change file</p>
+                    <p className="text-brand-green-dark text-xs mt-3 underline underline-offset-2">Click to change</p>
                   </div>
                 ) : (
                   <div className="flex flex-col items-center">
-                    <div className="w-16 h-16 bg-surface text-muted rounded-full flex items-center justify-center mb-4">
-                      <UploadCloud className="w-8 h-8" />
+                    <div className="w-12 h-12 bg-surface text-muted rounded-full flex items-center justify-center mb-3">
+                      <UploadCloud className="w-6 h-6" />
                     </div>
-                    <p className="text-slate font-medium text-lg">Click to select or drag and drop</p>
-                    <p className="text-steel text-sm mt-1">SVG, PNG, JPG, PDF or MP4 (max. 15MB)</p>
+                    <p className="text-slate font-medium text-sm px-2">Click to select or drag and drop</p>
+                    <p className="text-steel text-xs mt-2 px-2">SVG, PNG, JPG, PDF or MP4 (max. 15MB)</p>
                   </div>
                 )}
               </div>
@@ -193,7 +193,7 @@ export default function UploadMediaPage() {
           </div>
 
           {/* Metadata Area */}
-          <div className="space-y-6">
+          <div className="lg:col-span-2 space-y-6">
             <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft">
               <h2 className="text-lg font-bold text-ink mb-6">File Details</h2>
 
