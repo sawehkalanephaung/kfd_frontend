@@ -91,28 +91,28 @@ export default function RolesDirectoryPage() {
   return (
     <div>
       {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm text-gray-400 mb-6">
-        <Link href="/dashboard" className="text-gray-500 hover:text-gray-900 transition-colors">Home</Link>
+      <div className="flex items-center gap-2 text-sm text-muted mb-6">
+        <Link href="/dashboard" className="text-steel hover:text-ink transition-colors">Home</Link>
         <span>&gt;</span>
-        <Link href="/dashboard/team" className="text-gray-500 hover:text-gray-900 transition-colors">Team Directory</Link>
+        <Link href="/dashboard/team" className="text-steel hover:text-ink transition-colors">Team Directory</Link>
         <span>&gt;</span>
-        <span className="text-gray-900 font-medium">Roles & Access</span>
+        <span className="text-ink font-medium">Roles & Access</span>
       </div>
 
       {/* Header Section */}
-      <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-50 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+      <div className="bg-canvas rounded-lg p-8 shadow-sm border border-hairline-soft flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
-            <Shield className="w-6 h-6 text-emerald-500" />
+          <h1 className="text-2xl font-bold text-ink flex items-center gap-3">
+            <Shield className="w-6 h-6 text-brand-green" />
             Roles & Access
           </h1>
-          <p className="text-gray-500 mt-1">
+          <p className="text-steel mt-1">
             Manage system roles, permissions, and access levels.
           </p>
         </div>
         <button
           onClick={openCreateDrawer}
-          className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-medium rounded-xl transition-all shadow-sm shadow-emerald-500/20 active:scale-95"
+          className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-brand-green hover:bg-primary-deep text-on-primary font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
         >
           <Plus className="w-5 h-5" />
           Create Role
@@ -127,59 +127,59 @@ export default function RolesDirectoryPage() {
       )}
 
       {/* Table Section */}
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-50 overflow-hidden">
+      <div className="bg-canvas rounded-lg shadow-sm border border-hairline-soft overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[800px] text-left text-sm text-gray-600">
-            <thead className="bg-gray-50/50 text-gray-500 font-medium border-b border-gray-100">
+          <table className="w-full min-w-[800px] text-left text-sm text-steel">
+            <thead className="bg-surface-soft text-steel font-medium border-b border-hairline">
               <tr>
                 <th className="px-6 py-4">Role Name</th>
                 <th className="px-6 py-4">Description</th>
                 <th className="px-6 py-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-50">
+            <tbody className="divide-y divide-hairline-soft">
               {loading ? (
                 <tr>
-                  <td colSpan={3} className="px-6 py-12 text-center text-gray-400">
+                  <td colSpan={3} className="px-6 py-12 text-center text-muted">
                     <Loader2 className="w-6 h-6 animate-spin mx-auto mb-2" />
                     Loading roles...
                   </td>
                 </tr>
               ) : roles.length === 0 ? (
                 <tr>
-                  <td colSpan={3} className="px-6 py-12 text-center text-gray-500">
+                  <td colSpan={3} className="px-6 py-12 text-center text-steel">
                     No roles found.
                   </td>
                 </tr>
               ) : (
                 roles.map((role) => (
-                  <tr key={role.id} className="hover:bg-gray-50/50 transition-colors">
+                  <tr key={role.id} className="hover:bg-surface-soft transition-colors">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 border border-emerald-100">
+                        <div className="w-10 h-10 rounded-full bg-brand-green-soft text-brand-green-dark flex items-center justify-center shrink-0 border border-brand-green/20">
                           <Shield className="w-5 h-5" />
                         </div>
                         <div>
-                          <p className="font-bold text-gray-900">{formatForDisplay(role.name)}</p>
-                          <p className="font-mono text-xs text-gray-400">{role.name}</p>
+                          <p className="font-bold text-ink">{formatForDisplay(role.name)}</p>
+                          <p className="font-mono text-xs text-muted">{role.name}</p>
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <p className="text-gray-500 max-w-md truncate">{role.description || '-'}</p>
+                      <p className="text-steel max-w-md truncate">{role.description || '-'}</p>
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <button
                           onClick={() => openEditDrawer(role)}
-                          className="p-2 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
+                          className="p-2 text-muted hover:text-brand-green-dark hover:bg-brand-green-soft rounded-full transition-colors"
                           title="Edit Role"
                         >
                           <Edit className="w-4 h-4" />
                         </button>
                         <button
                           onClick={() => openDeleteModal(role)}
-                          className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                          className="p-2 text-muted hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                           title="Delete Role"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -209,8 +209,8 @@ export default function RolesDirectoryPage() {
         title={isEditMode ? 'Edit Role' : 'Create New Role'}
       >
         {fetchingDetails ? (
-          <div className="flex flex-col items-center justify-center py-20 text-gray-500">
-            <Loader2 className="w-8 h-8 animate-spin mb-4 text-emerald-500" />
+          <div className="flex flex-col items-center justify-center py-20 text-steel">
+            <Loader2 className="w-8 h-8 animate-spin mb-4 text-brand-green" />
             Loading details...
           </div>
         ) : (

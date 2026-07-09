@@ -104,8 +104,8 @@ export default function EditMediaPage() {
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center py-20 text-gray-500">
-        <Loader2 className="w-8 h-8 animate-spin mb-4 text-emerald-500" />
+      <div className="flex flex-col items-center justify-center py-20 text-steel">
+        <Loader2 className="w-8 h-8 animate-spin mb-4 text-brand-green" />
         Loading media details...
       </div>
     );
@@ -113,7 +113,7 @@ export default function EditMediaPage() {
 
   if (error && !mediaData) {
     return (
-      <div className="bg-red-50 text-red-600 p-6 rounded-2xl border border-red-100">
+      <div className="bg-red-50 text-red-600 p-6 rounded-lg border border-red-100">
         <h2 className="text-lg font-bold mb-2">Error</h2>
         <p>{error || 'Media not found.'}</p>
         <Link href="/dashboard/media" className="text-red-700 underline mt-4 inline-block">Back to Library</Link>
@@ -124,8 +124,8 @@ export default function EditMediaPage() {
   return (
     <div>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Edit Media Details</h1>
-        <p className="text-gray-500 mt-1">
+        <h1 className="text-2xl font-bold text-ink">Edit Media Details</h1>
+        <p className="text-steel mt-1">
           Update the file or metadata classification for this asset.
         </p>
       </div>
@@ -134,7 +134,7 @@ export default function EditMediaPage() {
         <div className="flex items-center justify-between">
           <Link
             href="/dashboard/media"
-            className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
+            className="inline-flex items-center gap-2 text-sm font-medium text-steel hover:text-ink transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Library
@@ -142,7 +142,7 @@ export default function EditMediaPage() {
           <button
             type="submit"
             disabled={saving}
-            className="inline-flex items-center gap-2 px-6 py-2.5 bg-emerald-500 hover:bg-emerald-600 disabled:opacity-70 text-white font-medium rounded-xl transition-all shadow-sm shadow-emerald-500/20 active:scale-95"
+            className="inline-flex items-center gap-2 px-6 py-2.5 bg-brand-green hover:bg-primary-deep disabled:opacity-70 text-on-primary font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
           >
             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
             Save Changes
@@ -158,12 +158,12 @@ export default function EditMediaPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* File Preview Card */}
           <div className="md:col-span-1 space-y-6">
-            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50">
-              <div className="aspect-square bg-gray-100 rounded-xl overflow-hidden mb-4 flex items-center justify-center relative group">
+            <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft">
+              <div className="aspect-square bg-surface rounded-xl overflow-hidden mb-4 flex items-center justify-center relative group">
                 {(previewUrl || mediaData.fileType?.startsWith('image/')) ? (
                   <img src={previewUrl || getMediaUrl(mediaData.fileUrl)} alt={mediaData.fileName} className="w-full h-full object-cover" />
                 ) : (
-                  <ImageIcon className="w-12 h-12 text-gray-300" />
+                  <ImageIcon className="w-12 h-12 text-muted" />
                 )}
                 
                 {/* File Replace Overlay */}
@@ -184,21 +184,21 @@ export default function EditMediaPage() {
               />
 
               {file ? (
-                <div className="mb-4 bg-emerald-50 p-3 rounded-xl relative">
+                <div className="mb-4 bg-brand-green-soft p-3 rounded-full relative">
                   <h3 className="font-semibold text-emerald-900 text-sm break-all pr-6">{file.name}</h3>
-                  <p className="text-emerald-700 text-xs mt-1">{(file.size / 1024 / 1024).toFixed(2)} MB (New File)</p>
+                  <p className="text-brand-green-dark text-xs mt-1">{(file.size / 1024 / 1024).toFixed(2)} MB (New File)</p>
                   <button 
                     type="button" 
                     onClick={() => setFile(null)}
-                    className="absolute top-3 right-3 text-emerald-500 hover:text-emerald-700"
+                    className="absolute top-3 right-3 text-brand-green hover:text-brand-green-dark"
                   >
                     <X className="w-4 h-4" />
                   </button>
                 </div>
               ) : (
                 <>
-                  <h3 className="font-semibold text-gray-900 text-sm break-all">{mediaData.fileName}</h3>
-                  <p className="text-gray-500 text-xs mt-1">{mediaData.fileType} • {mediaData.fileSizeKb > 1024 ? (mediaData.fileSizeKb / 1024).toFixed(2) + ' MB' : mediaData.fileSizeKb + ' KB'}</p>
+                  <h3 className="font-semibold text-ink text-sm break-all">{mediaData.fileName}</h3>
+                  <p className="text-steel text-xs mt-1">{mediaData.fileType} • {mediaData.fileSizeKb > 1024 ? (mediaData.fileSizeKb / 1024).toFixed(2) + ' MB' : mediaData.fileSizeKb + ' KB'}</p>
                 </>
               )}
               
@@ -207,7 +207,7 @@ export default function EditMediaPage() {
                   href={getMediaUrl(mediaData.fileUrl)} 
                   target="_blank" 
                   rel="noreferrer"
-                  className="mt-4 block w-full text-center px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-lg transition-colors"
+                  className="mt-4 block w-full text-center px-4 py-2 bg-surface hover:bg-gray-200 text-slate text-sm font-medium rounded-lg transition-colors"
                 >
                   View Current File
                 </a>
@@ -215,7 +215,7 @@ export default function EditMediaPage() {
               <button 
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="mt-2 block w-full text-center px-4 py-2 border border-gray-200 hover:bg-gray-50 text-gray-700 text-sm font-medium rounded-lg transition-colors"
+                className="mt-2 block w-full text-center px-4 py-2 border border-hairline-strong hover:bg-surface text-slate text-sm font-medium rounded-lg transition-colors"
               >
                 Upload New File
               </button>
@@ -224,32 +224,32 @@ export default function EditMediaPage() {
 
           {/* Edit Form */}
           <div className="md:col-span-2 space-y-6">
-            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50">
-              <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-                <Tag className="w-5 h-5 text-gray-400" />
+            <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft">
+              <h2 className="text-lg font-bold text-ink mb-6 flex items-center gap-2">
+                <Tag className="w-5 h-5 text-muted" />
                 Metadata
               </h2>
               <div className="space-y-5">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-900 mb-2">Category</label>
+                  <label className="block text-sm font-semibold text-ink mb-2">Category</label>
                   <input
                     type="text"
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
-                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                    className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                     placeholder="e.g. general, logo, campaign"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-900 mb-2 flex items-center gap-2">
-                    <Building2 className="w-4 h-4 text-gray-400" />
+                  <label className="block text-sm font-semibold text-ink mb-2 flex items-center gap-2">
+                    <Building2 className="w-4 h-4 text-muted" />
                     Department (Optional)
                   </label>
                   <select
                     value={departmentId}
                     onChange={(e) => setDepartmentId(e.target.value)}
-                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                    className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                   >
                     <option value="">None / General</option>
                     {departments.map((dept: any) => (

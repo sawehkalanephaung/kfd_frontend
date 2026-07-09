@@ -87,7 +87,7 @@ export default function AdminLogin() {
 
       {/* Glassmorphic Login Card */}
       <div className="relative z-10 w-full max-w-md">
-        <div className="bg-white/65 backdrop-blur-[30px] border border-white/40 shadow-[0_8px_32px_rgba(0,0,0,0.1)] rounded-2xl p-8 md:p-10">
+        <div className="bg-canvas/65 backdrop-blur-[30px] border border-white/40 shadow-[0_8px_32px_rgba(0,0,0,0.1)] rounded-lg p-8 md:p-10">
 
           <div className="flex flex-col items-center mb-8">
 
@@ -123,9 +123,9 @@ export default function AdminLogin() {
                     if (emailError) setEmailError('');
                     if (error) setError('');
                   }}
-                  className={`w-full pl-11 pr-4 py-3 bg-white/20 border rounded-xl text-slate-900 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:border-transparent transition-all backdrop-blur-md ${emailError
+                  className={`w-full pl-11 pr-4 py-3 bg-canvas/20 border rounded-xl text-slate-900 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:border-transparent transition-all backdrop-blur-md ${emailError
                     ? 'border-red-500/50 focus:ring-red-500'
-                    : 'border-white/40 focus:ring-emerald-500'
+                    : 'border-white/40 focus:ring-brand-green'
                     }`}
                   placeholder="admin@kfd.org"
                 />
@@ -148,9 +148,9 @@ export default function AdminLogin() {
                     if (passwordError) setPasswordError('');
                     if (error) setError('');
                   }}
-                  className={`w-full pl-11 pr-12 py-3 bg-white/20 border rounded-xl text-slate-900 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:border-transparent transition-all backdrop-blur-md ${passwordError
+                  className={`w-full pl-11 pr-12 py-3 bg-canvas/20 border rounded-xl text-slate-900 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:border-transparent transition-all backdrop-blur-md ${passwordError
                     ? 'border-red-500/50 focus:ring-red-500'
-                    : 'border-white/40 focus:ring-emerald-500'
+                    : 'border-white/40 focus:ring-brand-green'
                     }`}
                   placeholder="••••••••"
                 />
@@ -174,7 +174,7 @@ export default function AdminLogin() {
                 <div className="relative flex items-center justify-center">
                   <input
                     type="checkbox"
-                    className="peer appearance-none w-5 h-5 border border-white/50 rounded-md bg-white/20 checked:bg-emerald-500 checked:border-emerald-500 transition-colors cursor-pointer"
+                    className="peer appearance-none w-5 h-5 border border-white/50 rounded-md bg-canvas/20 checked:bg-brand-green checked:border-emerald-500 transition-colors cursor-pointer"
                   />
                   <div className="absolute text-white opacity-0 peer-checked:opacity-100 pointer-events-none transition-opacity">
                     <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
@@ -185,7 +185,7 @@ export default function AdminLogin() {
                 <span className="text-sm text-slate-800 font-medium select-none">Remember Me</span>
               </label>
 
-              <a href="/forgot-password" className="text-sm font-semibold text-emerald-700 hover:text-emerald-900 transition-colors">
+              <a href="/forgot-password" className="text-sm font-semibold text-brand-green-dark hover:text-emerald-900 transition-colors">
                 Forgot password?
               </a>
             </div>
@@ -193,7 +193,7 @@ export default function AdminLogin() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 mt-4 bg-emerald-500 hover:bg-emerald-400 disabled:opacity-70 disabled:cursor-not-allowed text-slate-900 font-bold rounded-xl shadow-lg shadow-emerald-500/25 transition-all transform active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-transparent flex items-center justify-center gap-2"
+              className="w-full py-3.5 mt-4 bg-brand-green hover:bg-emerald-400 disabled:opacity-70 disabled:cursor-not-allowed text-slate-900 font-bold rounded-full shadow-lg shadow-brand-green/20 transition-all transform active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-brand-green focus:ring-offset-2 focus:ring-offset-transparent flex items-center justify-center gap-2"
             >
               {loading && <Loader2 className="w-5 h-5 animate-spin" />}
               {loading ? 'Signing in...' : 'Sign In to Admin'}

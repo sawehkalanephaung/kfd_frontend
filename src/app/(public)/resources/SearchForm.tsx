@@ -119,7 +119,7 @@ export default function SearchForm({ initialQuery }: { initialQuery: string }) {
                       className="flex items-center gap-4 p-4 hover:bg-[#132d1f] border-b border-[#132d1f]/50 transition-colors group"
                       onClick={() => setIsOpen(false)}
                     >
-                      <div className="shrink-0 text-white/40 group-hover:text-green-400 transition-colors">
+                      <div className="shrink-0 text-white/40 group-hover:text-brand-green transition-colors">
                         {isMap ? <MapIcon size={18} /> : <FileText size={18} />}
                       </div>
                       <div className="flex-1 min-w-0 text-left">
@@ -129,13 +129,13 @@ export default function SearchForm({ initialQuery }: { initialQuery: string }) {
                         {doc.mediaCategory && (
                           <div className="text-xs text-white/40 mt-0.5 flex items-center gap-2">
                             <span>{doc.mediaCategory}</span>
-                            <span className="text-[10px] uppercase font-mono bg-white/5 px-1.5 py-0.5 rounded">
+                            <span className="text-[10px] uppercase font-mono bg-canvas/5 px-1.5 py-0.5 rounded">
                               {doc.fileType ? doc.fileType.split('/').pop()?.toUpperCase() : 'FILE'}
                             </span>
                           </div>
                         )}
                       </div>
-                      <ArrowRight size={14} className="text-white/20 group-hover:text-green-400 opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
+                      <ArrowRight size={14} className="text-white/20 group-hover:text-brand-green opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
                     </a>
                   );
                 })}
@@ -143,7 +143,7 @@ export default function SearchForm({ initialQuery }: { initialQuery: string }) {
               <div className="p-2 border-t border-[#132d1f] bg-[#05110a]/50">
                 <Link
                   href={`/resources?search=${encodeURIComponent(query.trim())}`}
-                  className="block w-full text-center py-2 text-sm text-green-400 hover:text-green-300 hover:bg-green-500/10 rounded transition-colors"
+                  className="block w-full text-center py-2 text-sm text-green-400 hover:text-brand-green hover:bg-surface-soft0/10 rounded transition-colors"
                   onClick={() => setIsOpen(false)}
                 >
                   View all results for "{query.trim()}"

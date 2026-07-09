@@ -9,23 +9,23 @@ export default function NewsletterSettingsPage() {
   return (
     <div>
       {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm text-gray-400 mb-6">
-        <Link href="/dashboard" className="text-gray-500 hover:text-gray-900 transition-colors">
+      <div className="flex items-center gap-2 text-sm text-muted mb-6">
+        <Link href="/dashboard" className="text-steel hover:text-ink transition-colors">
           Home
         </Link>
         <span>&gt;</span>
-        <span className="text-gray-500">Content Management</span>
+        <span className="text-steel">Content Management</span>
         <span>&gt;</span>
-        <span className="text-gray-900 font-medium">Newsletter</span>
+        <span className="text-ink font-medium">Newsletter</span>
       </div>
 
       {/* Header */}
-      <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-50 mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
-          <Mail className="w-6 h-6 text-emerald-500" />
+      <div className="bg-canvas rounded-lg p-8 shadow-sm border border-hairline-soft mb-6">
+        <h1 className="text-2xl font-bold text-ink flex items-center gap-3">
+          <Mail className="w-6 h-6 text-brand-green" />
           Newsletter Subscribers
         </h1>
-        <p className="text-gray-500 mt-1">
+        <p className="text-steel mt-1">
           View and manage all newsletter subscribers. People subscribe via the public-facing
           newsletter form. You can remove individual subscribers from this list.
         </p>

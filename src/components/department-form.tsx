@@ -317,7 +317,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
       <div className="flex items-center justify-between">
         <Link
           href="/dashboard/organization/departments"
-          className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
+          className="inline-flex items-center gap-2 text-sm font-medium text-steel hover:text-ink transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Departments
@@ -325,7 +325,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
         <button
           type="submit"
           disabled={loading}
-          className="inline-flex items-center gap-2 px-6 py-2.5 bg-emerald-500 hover:bg-emerald-600 disabled:opacity-70 text-white font-medium rounded-xl transition-all shadow-sm shadow-emerald-500/20 active:scale-95"
+          className="inline-flex items-center gap-2 px-6 py-2.5 bg-brand-green hover:bg-primary-deep disabled:opacity-70 text-on-primary font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
         >
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
           {isEdit ? 'Save Changes' : 'Create Department'}
@@ -343,44 +343,44 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
         <div className="xl:col-span-2 space-y-6">
           
           {/* Basic Info Card */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50">
-            <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-              <Building2 className="w-5 h-5 text-gray-400" />
+          <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft">
+            <h2 className="text-lg font-bold text-ink mb-6 flex items-center gap-2">
+              <Building2 className="w-5 h-5 text-muted" />
               Department Information
             </h2>
             <div className="space-y-5">
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">Department Name</label>
+                <label className="block text-sm font-semibold text-ink mb-2">Department Name</label>
                 <input
                   type="text"
                   required
                   value={formData.name}
                   onChange={handleNameChange}
-                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
                   placeholder="e.g. Survey and Documentation Unit"
                 />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-900 mb-2">URL Slug</label>
+                  <label className="block text-sm font-semibold text-ink mb-2">URL Slug</label>
                   <input
                     type="text"
                     required
                     value={formData.slug}
                     onChange={(e) => setFormData({...formData, slug: e.target.value})}
-                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                    className="w-full px-4 py-3 bg-surface border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                     placeholder="survey-unit"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-900 mb-2">Head of Department</label>
+                  <label className="block text-sm font-semibold text-ink mb-2">Head of Department</label>
                   <div className="relative">
                     <select
                       value={formData.headMemberId}
                       onChange={(e) => setFormData({...formData, headMemberId: e.target.value})}
                       disabled={fetchingMembers}
-                      className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 appearance-none focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                      className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink appearance-none focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                     >
                       <option value="">Select a team member...</option>
                       {teamMembers.map(member => (
@@ -393,7 +393,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                     </select>
                     {fetchingMembers && (
                       <div className="absolute right-3 top-3.5">
-                        <Loader2 className="w-4 h-4 text-gray-400 animate-spin" />
+                        <Loader2 className="w-4 h-4 text-muted animate-spin" />
                       </div>
                     )}
                   </div>
@@ -401,11 +401,11 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
               </div>
 
               {/* Images / Logos */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-6 border-t border-gray-100">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-6 border-t border-hairline">
                 {/* Logo Selection */}
                 <div>
-                  <label className="block text-sm font-semibold text-gray-900 mb-2 flex items-center gap-2">
-                    <ImageIcon className="w-4 h-4 text-gray-400" />
+                  <label className="block text-sm font-semibold text-ink mb-2 flex items-center gap-2">
+                    <ImageIcon className="w-4 h-4 text-muted" />
                     Department Logo
                   </label>
                   <input
@@ -416,7 +416,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                     className="hidden"
                   />
                   {logoUrl ? (
-                    <div className="group relative rounded-xl overflow-hidden border border-gray-200 h-56 sm:h-64 bg-gray-50 flex flex-col">
+                    <div className="group relative rounded-xl overflow-hidden border border-hairline-strong h-56 sm:h-64 bg-surface flex flex-col">
                       <img
                         src={getMediaUrl(logoUrl)}
                         alt="Logo preview"
@@ -427,7 +427,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                         <button
                           type="button"
                           onClick={() => setIsLogoSelectorOpen(true)}
-                          className="bg-white text-gray-700 p-3 rounded-full hover:bg-gray-100 hover:scale-110 transition-transform shadow-sm"
+                          className="bg-canvas text-slate p-3 rounded-full hover:bg-surface hover:scale-110 transition-transform shadow-sm"
                           title="Change Image"
                         >
                           <ImageIcon className="w-5 h-5" />
@@ -435,7 +435,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                         <button
                           type="button"
                           onClick={() => { setFormData({ ...formData, logoId: '' }); setLogoUrl(''); }}
-                          className="bg-white text-red-500 p-3 rounded-full hover:bg-red-50 hover:scale-110 transition-transform shadow-sm"
+                          className="bg-canvas text-red-500 p-3 rounded-full hover:bg-red-50 hover:scale-110 transition-transform shadow-sm"
                           title="Remove Image"
                         >
                           <X className="w-5 h-5" />
@@ -443,16 +443,16 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                       </div>
                     </div>
                   ) : (
-                    <div className="border-2 border-dashed border-gray-200 rounded-xl p-6 flex flex-col items-center justify-center text-center gap-4 bg-gray-50/50 h-56 sm:h-64">
-                      <div className="w-10 h-10 bg-white rounded-full shadow-sm flex items-center justify-center border border-gray-100">
-                        {uploadingLogo ? <Loader2 className="w-5 h-5 text-emerald-500 animate-spin" /> : <ImageIcon className="w-5 h-5 text-gray-400" />}
+                    <div className="border-2 border-dashed border-hairline-strong rounded-xl p-6 flex flex-col items-center justify-center text-center gap-4 bg-surface-soft h-56 sm:h-64">
+                      <div className="w-10 h-10 bg-canvas rounded-full shadow-sm flex items-center justify-center border border-hairline">
+                        {uploadingLogo ? <Loader2 className="w-5 h-5 text-brand-green animate-spin" /> : <ImageIcon className="w-5 h-5 text-muted" />}
                       </div>
                       <div className="flex flex-col w-full gap-2">
                         <button
                           type="button"
                           onClick={() => logoInputRef.current?.click()}
                           disabled={uploadingLogo}
-                          className="w-full py-2 bg-white border border-gray-200 hover:border-emerald-500 hover:text-emerald-600 text-gray-700 text-xs font-medium rounded-lg transition-colors flex items-center justify-center gap-2 shadow-sm"
+                          className="w-full py-2 bg-canvas border border-hairline-strong hover:border-emerald-500 hover:text-brand-green-dark text-slate text-xs font-medium rounded-lg transition-colors flex items-center justify-center gap-2 shadow-sm"
                         >
                           {uploadingLogo ? 'Uploading...' : 'Upload Image'}
                         </button>
@@ -460,7 +460,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                           type="button"
                           onClick={() => setIsLogoSelectorOpen(true)}
                           disabled={uploadingLogo}
-                          className="w-full py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
+                          className="w-full py-2 bg-surface hover:bg-gray-200 text-slate text-xs font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
                         >
                           Library
                         </button>
@@ -471,8 +471,8 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
 
                 {/* Hero Image Selection */}
                 <div>
-                  <label className="block text-sm font-semibold text-gray-900 mb-2 flex items-center gap-2">
-                    <ImageIcon className="w-4 h-4 text-gray-400" />
+                  <label className="block text-sm font-semibold text-ink mb-2 flex items-center gap-2">
+                    <ImageIcon className="w-4 h-4 text-muted" />
                     Hero Background
                   </label>
                   <input
@@ -483,7 +483,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                     className="hidden"
                   />
                   {heroUrl ? (
-                    <div className="group relative rounded-xl overflow-hidden border border-gray-200 h-56 sm:h-64 bg-gray-50 flex flex-col">
+                    <div className="group relative rounded-xl overflow-hidden border border-hairline-strong h-56 sm:h-64 bg-surface flex flex-col">
                       <img
                         src={getMediaUrl(heroUrl)}
                         alt="Hero preview"
@@ -494,7 +494,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                         <button
                           type="button"
                           onClick={() => setIsHeroSelectorOpen(true)}
-                          className="bg-white text-gray-700 p-3 rounded-full hover:bg-gray-100 hover:scale-110 transition-transform shadow-sm"
+                          className="bg-canvas text-slate p-3 rounded-full hover:bg-surface hover:scale-110 transition-transform shadow-sm"
                           title="Change Image"
                         >
                           <ImageIcon className="w-5 h-5" />
@@ -502,7 +502,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                         <button
                           type="button"
                           onClick={() => { setFormData({ ...formData, heroImageId: '' }); setHeroUrl(''); }}
-                          className="bg-white text-red-500 p-3 rounded-full hover:bg-red-50 hover:scale-110 transition-transform shadow-sm"
+                          className="bg-canvas text-red-500 p-3 rounded-full hover:bg-red-50 hover:scale-110 transition-transform shadow-sm"
                           title="Remove Image"
                         >
                           <X className="w-5 h-5" />
@@ -510,16 +510,16 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                       </div>
                     </div>
                   ) : (
-                    <div className="border-2 border-dashed border-gray-200 rounded-xl p-6 flex flex-col items-center justify-center text-center gap-4 bg-gray-50/50 h-56 sm:h-64">
-                      <div className="w-10 h-10 bg-white rounded-full shadow-sm flex items-center justify-center border border-gray-100">
-                        {uploadingHero ? <Loader2 className="w-5 h-5 text-emerald-500 animate-spin" /> : <ImageIcon className="w-5 h-5 text-gray-400" />}
+                    <div className="border-2 border-dashed border-hairline-strong rounded-xl p-6 flex flex-col items-center justify-center text-center gap-4 bg-surface-soft h-56 sm:h-64">
+                      <div className="w-10 h-10 bg-canvas rounded-full shadow-sm flex items-center justify-center border border-hairline">
+                        {uploadingHero ? <Loader2 className="w-5 h-5 text-brand-green animate-spin" /> : <ImageIcon className="w-5 h-5 text-muted" />}
                       </div>
                       <div className="flex flex-col w-full gap-2">
                         <button
                           type="button"
                           onClick={() => heroInputRef.current?.click()}
                           disabled={uploadingHero}
-                          className="w-full py-2 bg-white border border-gray-200 hover:border-emerald-500 hover:text-emerald-600 text-gray-700 text-xs font-medium rounded-lg transition-colors flex items-center justify-center gap-2 shadow-sm"
+                          className="w-full py-2 bg-canvas border border-hairline-strong hover:border-emerald-500 hover:text-brand-green-dark text-slate text-xs font-medium rounded-lg transition-colors flex items-center justify-center gap-2 shadow-sm"
                         >
                           {uploadingHero ? 'Uploading...' : 'Upload Image'}
                         </button>
@@ -527,7 +527,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                           type="button"
                           onClick={() => setIsHeroSelectorOpen(true)}
                           disabled={uploadingHero}
-                          className="w-full py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
+                          className="w-full py-2 bg-surface hover:bg-gray-200 text-slate text-xs font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
                         >
                           Library
                         </button>
@@ -540,12 +540,12 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
           </div>
 
           {/* Description / Rich Text */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50">
-            <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-              <AlignLeft className="w-5 h-5 text-gray-400" />
+          <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft">
+            <h2 className="text-lg font-bold text-ink mb-6 flex items-center gap-2">
+              <AlignLeft className="w-5 h-5 text-muted" />
               Description (Rich Text)
             </h2>
-            <div className="bg-white rounded-xl overflow-hidden border border-gray-200">
+            <div className="bg-canvas rounded-xl overflow-hidden border border-hairline-strong">
               <style dangerouslySetInnerHTML={{__html: `
                 .ql-editor {
                   color: #000000 !important;
@@ -582,100 +582,100 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
         <div className="space-y-6">
           
           {/* Settings Card */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50">
-            <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-              <Settings className="w-5 h-5 text-gray-400" />
+          <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft">
+            <h2 className="text-lg font-bold text-ink mb-6 flex items-center gap-2">
+              <Settings className="w-5 h-5 text-muted" />
               Settings
             </h2>
             <div className="space-y-5">
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">Status</label>
+                <label className="block text-sm font-semibold text-ink mb-2">Status</label>
                 <select
                   value={formData.status}
                   onChange={(e) => setFormData({...formData, status: e.target.value})}
-                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                 >
                   <option value="ACTIVE">Active</option>
                   <option value="INACTIVE">Inactive</option>
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">Order Index</label>
+                <label className="block text-sm font-semibold text-ink mb-2">Order Index</label>
                 <input
                   type="number"
                   value={formData.orderIndex}
                   onChange={(e) => setFormData({...formData, orderIndex: parseInt(e.target.value) || 0})}
-                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                 />
-                <p className="text-xs text-gray-400 mt-2">Determines display order (lower = first)</p>
+                <p className="text-xs text-muted mt-2">Determines display order (lower = first)</p>
               </div>
             </div>
           </div>
 
           {/* Contact Information */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50">
-            <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-              <Contact className="w-5 h-5 text-gray-400" />
+          <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft">
+            <h2 className="text-lg font-bold text-ink mb-6 flex items-center gap-2">
+              <Contact className="w-5 h-5 text-muted" />
               Contact Information
             </h2>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">Email</label>
+                <label className="block text-sm font-semibold text-ink mb-2">Email</label>
                 <input
                   type="email"
                   value={contactInfo.email}
                   onChange={(e) => setContactInfo({...contactInfo, email: e.target.value})}
-                  className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-xl text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                   placeholder="contact@dept.org"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">Phone</label>
+                <label className="block text-sm font-semibold text-ink mb-2">Phone</label>
                 <input
                   type="text"
                   value={contactInfo.phone}
                   onChange={(e) => setContactInfo({...contactInfo, phone: e.target.value})}
-                  className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-xl text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                   placeholder="+1 (555) 000-0000"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">Address</label>
+                <label className="block text-sm font-semibold text-ink mb-2">Address</label>
                 <textarea
                   rows={2}
                   value={contactInfo.address}
                   onChange={(e) => setContactInfo({...contactInfo, address: e.target.value})}
-                  className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-xl text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                   placeholder="123 Office St."
                 ></textarea>
               </div>
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">Office Hours</label>
+                <label className="block text-sm font-semibold text-ink mb-2">Office Hours</label>
                 <input
                   type="text"
                   value={contactInfo.officeHours}
                   onChange={(e) => setContactInfo({...contactInfo, officeHours: e.target.value})}
-                  className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-xl text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                   placeholder="Mon-Fri, 9am - 5pm"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">Website</label>
+                <label className="block text-sm font-semibold text-ink mb-2">Website</label>
                 <input
                   type="url"
                   value={contactInfo.website}
                   onChange={(e) => setContactInfo({...contactInfo, website: e.target.value})}
-                  className="w-full px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-xl text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                   placeholder="https://example.com"
                 />
               </div>
-              <div className="pt-2 border-t border-gray-100">
+              <div className="pt-2 border-t border-hairline">
                 <div className="flex items-center justify-between mb-2">
-                  <label className="block text-sm font-semibold text-gray-900">Social Media Links</label>
+                  <label className="block text-sm font-semibold text-ink">Social Media Links</label>
                   <button
                     type="button"
                     onClick={addSocialLink}
-                    className="inline-flex items-center gap-1 text-xs font-medium text-emerald-600 hover:text-emerald-700 transition-colors"
+                    className="inline-flex items-center gap-1 text-xs font-medium text-brand-green-dark hover:text-brand-green-dark transition-colors"
                   >
                     <Plus className="w-3.5 h-3.5" />
                     Add Link
@@ -683,15 +683,15 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                 </div>
                 <div className="space-y-3">
                   {socialLinks.length === 0 && (
-                    <p className="text-xs text-gray-400 py-2">No social media links added yet.</p>
+                    <p className="text-xs text-muted py-2">No social media links added yet.</p>
                   )}
                   {socialLinks.map((link, index) => (
-                    <div key={index} className="flex flex-col gap-2 p-3 bg-gray-50 rounded-xl border border-gray-100">
+                    <div key={index} className="flex flex-col gap-2 p-3 bg-surface rounded-xl border border-hairline">
                       <div className="flex items-center justify-between gap-2">
                         <select
                           value={link.platform}
                           onChange={(e) => updateSocialLink(index, 'platform', e.target.value)}
-                          className="flex-1 px-3 py-2 bg-white border border-gray-200 rounded-lg text-xs text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                          className="flex-1 px-3 py-2 bg-canvas border border-hairline-strong rounded-lg text-xs text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                         >
                           {SOCIAL_PLATFORMS.map(p => (
                             <option key={p} value={p}>{p}</option>
@@ -700,7 +700,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                         <button
                           type="button"
                           onClick={() => removeSocialLink(index)}
-                          className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors shrink-0"
+                          className="p-1.5 text-muted hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors shrink-0"
                         >
                           <X className="w-4 h-4" />
                         </button>
@@ -709,7 +709,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                         type="url"
                         value={link.url}
                         onChange={(e) => updateSocialLink(index, 'url', e.target.value)}
-                        className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg text-xs text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                        className="w-full px-3 py-2 bg-canvas border border-hairline-strong rounded-lg text-xs text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                         placeholder="https://..."
                       />
                     </div>

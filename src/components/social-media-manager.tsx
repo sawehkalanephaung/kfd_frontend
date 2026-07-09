@@ -91,11 +91,11 @@ export default function SocialMediaManager() {
   };
 
   if (loading) {
-    return <div className="p-4 flex justify-center"><Loader2 className="animate-spin text-emerald-500 w-6 h-6" /></div>;
+    return <div className="p-4 flex justify-center"><Loader2 className="animate-spin text-brand-green w-6 h-6" /></div>;
   }
 
   return (
-    <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50 mt-8">
+    <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft mt-8">
       <DeleteModal
         isOpen={deleteLinkId !== null}
         onClose={() => setDeleteLinkId(null)}
@@ -103,14 +103,14 @@ export default function SocialMediaManager() {
         itemName="this social media link"
       />
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2">
-          <Globe className="w-5 h-5 text-emerald-500" />
+        <h2 className="text-lg font-bold text-ink flex items-center gap-2">
+          <Globe className="w-5 h-5 text-brand-green" />
           Social Media Links
         </h2>
         {!isEditing && (
           <button
             onClick={handleAddNew}
-            className="flex items-center gap-2 px-4 py-2 bg-emerald-500 text-white rounded-lg text-sm font-medium hover:bg-emerald-600 transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-brand-green text-on-primary rounded-full text-sm font-medium hover:bg-primary-deep transition-colors"
           >
             <Plus className="w-4 h-4" /> Add Link
           </button>
@@ -120,14 +120,14 @@ export default function SocialMediaManager() {
       {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
       {isEditing ? (
-        <form onSubmit={handleSave} className="bg-gray-50 p-6 rounded-xl border border-gray-100 mb-6 space-y-4">
+        <form onSubmit={handleSave} className="bg-surface p-6 rounded-xl border border-hairline mb-6 space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-semibold text-gray-900 mb-1">Platform</label>
+              <label className="block text-sm font-semibold text-ink mb-1">Platform</label>
               <select
                 value={currentLink.platformName}
                 onChange={e => setCurrentLink({...currentLink, platformName: e.target.value})}
-                className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-emerald-500 outline-none text-gray-900"
+                className="w-full px-4 py-2.5 rounded-lg border border-hairline-strong focus:ring-2 focus:ring-brand-green outline-none text-ink"
               >
                 {PLATFORMS.map(p => (
                   <option key={p} value={p}>{p}</option>
@@ -135,25 +135,25 @@ export default function SocialMediaManager() {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-semibold text-gray-900 mb-1">URL</label>
+              <label className="block text-sm font-semibold text-ink mb-1">URL</label>
               <input
                 type="url"
                 required
                 value={currentLink.url}
                 onChange={e => setCurrentLink({...currentLink, url: e.target.value})}
                 placeholder="https://..."
-                className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-emerald-500 outline-none text-gray-900 placeholder:text-gray-400"
+                className="w-full px-4 py-2.5 rounded-lg border border-hairline-strong focus:ring-2 focus:ring-brand-green outline-none text-ink placeholder:text-muted"
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-gray-900 mb-1">Display Order</label>
+              <label className="block text-sm font-semibold text-ink mb-1">Display Order</label>
               <input
                 type="number"
                 required
                 min="0"
                 value={currentLink.displayOrder}
                 onChange={e => setCurrentLink({...currentLink, displayOrder: e.target.value ? parseInt(e.target.value) : 0})}
-                className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-emerald-500 outline-none text-gray-900"
+                className="w-full px-4 py-2.5 rounded-lg border border-hairline-strong focus:ring-2 focus:ring-brand-green outline-none text-ink"
               />
             </div>
             <div className="flex items-center mt-6">
@@ -162,9 +162,9 @@ export default function SocialMediaManager() {
                   type="checkbox"
                   checked={currentLink.isActive}
                   onChange={e => setCurrentLink({...currentLink, isActive: e.target.checked})}
-                  className="w-5 h-5 text-emerald-500 rounded focus:ring-emerald-500"
+                  className="w-5 h-5 text-brand-green rounded focus:ring-brand-green"
                 />
-                <span className="text-sm font-semibold text-gray-900">Active</span>
+                <span className="text-sm font-semibold text-ink">Active</span>
               </label>
             </div>
           </div>
@@ -172,14 +172,14 @@ export default function SocialMediaManager() {
             <button
               type="button"
               onClick={() => setIsEditing(false)}
-              className="px-4 py-2 text-gray-500 hover:bg-gray-100 rounded-lg text-sm font-medium transition-colors"
+              className="px-4 py-2 text-steel hover:bg-surface rounded-lg text-sm font-medium transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={saving}
-              className="flex items-center gap-2 px-4 py-2 bg-emerald-500 text-white rounded-lg text-sm font-medium hover:bg-emerald-600 transition-colors disabled:opacity-50"
+              className="flex items-center gap-2 px-4 py-2 bg-brand-green text-on-primary rounded-full text-sm font-medium hover:bg-primary-deep transition-colors disabled:opacity-50"
             >
               {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
               Save Link
@@ -188,8 +188,8 @@ export default function SocialMediaManager() {
         </form>
       ) : (
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[800px] text-left text-sm text-gray-600">
-            <thead className="bg-gray-50 text-gray-900 font-semibold border-b border-gray-100">
+          <table className="w-full min-w-[800px] text-left text-sm text-steel">
+            <thead className="bg-surface text-ink font-semibold border-b border-hairline">
               <tr>
                 <th className="px-4 py-3 rounded-tl-xl">Platform</th>
                 <th className="px-4 py-3">URL</th>
@@ -198,19 +198,19 @@ export default function SocialMediaManager() {
                 <th className="px-4 py-3 text-right rounded-tr-xl">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100">
+            <tbody className="divide-y divide-hairline">
               {links.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-4 py-8 text-center text-gray-500">
+                  <td colSpan={5} className="px-4 py-8 text-center text-steel">
                     No social media links added yet.
                   </td>
                 </tr>
               ) : (
                 links.map((link) => (
-                  <tr key={link.id} className="hover:bg-gray-50 transition-colors">
-                    <td className="px-4 py-4 font-medium text-gray-900">
+                  <tr key={link.id} className="hover:bg-surface transition-colors">
+                    <td className="px-4 py-4 font-medium text-ink">
                       <div className="flex items-center gap-2">
-                        <LinkIcon className="w-4 h-4 text-gray-400" />
+                        <LinkIcon className="w-4 h-4 text-muted" />
                         {link.platformName}
                       </div>
                     </td>
@@ -220,11 +220,11 @@ export default function SocialMediaManager() {
                     <td className="px-4 py-4 text-center">{link.displayOrder}</td>
                     <td className="px-4 py-4 text-center">
                       {link.isActive ? (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-brand-green-soft text-brand-green-dark">
                           <Check className="w-3 h-3" /> Active
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-surface text-steel">
                           <X className="w-3 h-3" /> Inactive
                         </span>
                       )}

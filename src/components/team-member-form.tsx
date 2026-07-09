@@ -187,7 +187,7 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
       <div className="flex items-center justify-between">
         <Link
           href="/dashboard/team"
-          className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
+          className="inline-flex items-center gap-2 text-sm font-medium text-steel hover:text-ink transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Team
@@ -195,7 +195,7 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
         <button
           type="submit"
           disabled={loading}
-          className="inline-flex items-center gap-2 px-6 py-2.5 bg-emerald-500 hover:bg-emerald-600 disabled:opacity-70 text-white font-medium rounded-xl transition-all shadow-sm shadow-emerald-500/20 active:scale-95"
+          className="inline-flex items-center gap-2 px-6 py-2.5 bg-brand-green hover:bg-primary-deep disabled:opacity-70 text-on-primary font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
         >
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
           {isEdit ? 'Save Changes' : 'Add Member'}
@@ -213,52 +213,52 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
         <div className="lg:col-span-2 space-y-6">
           
           {/* Basic Info Card */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50">
-            <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-              <User className="w-5 h-5 text-gray-400" />
+          <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft">
+            <h2 className="text-lg font-bold text-ink mb-6 flex items-center gap-2">
+              <User className="w-5 h-5 text-muted" />
               Member Details
             </h2>
             <div className="space-y-5">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-900 mb-2">First Name</label>
+                  <label className="block text-sm font-semibold text-ink mb-2">First Name</label>
                   <input
                     type="text"
                     required
                     value={formData.firstName}
                     onChange={(e) => setFormData({...formData, firstName: e.target.value})}
-                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                    className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
                     placeholder="e.g. John"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-900 mb-2">Last Name</label>
+                  <label className="block text-sm font-semibold text-ink mb-2">Last Name</label>
                   <input
                     type="text"
                     required
                     value={formData.lastName}
                     onChange={(e) => setFormData({...formData, lastName: e.target.value})}
-                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                    className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
                     placeholder="e.g. Doe"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">Job Title</label>
+                <label className="block text-sm font-semibold text-ink mb-2">Job Title</label>
                 <input
                   type="text"
                   required
                   value={formData.title}
                   onChange={(e) => setFormData({...formData, title: e.target.value})}
-                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                   placeholder="e.g. Conservation Director"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2 flex items-center gap-2">
-                  <Building2 className="w-4 h-4 text-gray-400" />
+                <label className="block text-sm font-semibold text-ink mb-2 flex items-center gap-2">
+                  <Building2 className="w-4 h-4 text-muted" />
                   Department
                 </label>
                 <div className="relative">
@@ -266,7 +266,7 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
                     value={formData.departmentId}
                     onChange={(e) => setFormData({...formData, departmentId: e.target.value})}
                     disabled={fetchingDepts}
-                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                    className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                   >
                     <option value="">None / General</option>
                     {departments.map(dept => (
@@ -275,7 +275,7 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
                   </select>
                   {fetchingDepts && (
                     <div className="absolute right-3 top-3.5">
-                      <Loader2 className="w-4 h-4 text-gray-400 animate-spin" />
+                      <Loader2 className="w-4 h-4 text-muted animate-spin" />
                     </div>
                   )}
                 </div>
@@ -284,9 +284,9 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
           </div>
 
           {/* Bio / Rich Text */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50">
-            <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-              <AlignLeft className="w-5 h-5 text-gray-400" />
+          <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft">
+            <h2 className="text-lg font-bold text-ink mb-6 flex items-center gap-2">
+              <AlignLeft className="w-5 h-5 text-muted" />
               Biography (Rich Text)
             </h2>
             <ReactQuill
@@ -304,18 +304,18 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
         <div className="space-y-6">
           
           {/* Settings Card */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50">
-            <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-              <Settings className="w-5 h-5 text-gray-400" />
+          <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft">
+            <h2 className="text-lg font-bold text-ink mb-6 flex items-center gap-2">
+              <Settings className="w-5 h-5 text-muted" />
               Settings
             </h2>
             <div className="space-y-5">
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">Status</label>
+                <label className="block text-sm font-semibold text-ink mb-2">Status</label>
                 <select
                   value={formData.isActive ? 'true' : 'false'}
                   onChange={(e) => setFormData({...formData, isActive: e.target.value === 'true'})}
-                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                 >
                   <option value="true">Active</option>
                   <option value="false">Inactive</option>
@@ -323,7 +323,7 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
               </div>
               
               <div>
-                <label className="flex items-center gap-3 p-4 bg-gray-50 border border-gray-100 rounded-xl cursor-pointer hover:bg-gray-100 transition-colors">
+                <label className="flex items-center gap-3 p-4 bg-surface border border-hairline rounded-xl cursor-pointer hover:bg-surface transition-colors">
                   <div className="relative flex items-center">
                     <input 
                       type="checkbox" 
@@ -331,37 +331,37 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
                       onChange={(e) => setFormData({...formData, isKfdChairman: e.target.checked})}
                       className="peer sr-only"
                     />
-                    <div className="w-10 h-5 bg-gray-200 rounded-full peer peer-checked:bg-emerald-500 peer-focus:ring-2 peer-focus:ring-emerald-500/30 transition-all"></div>
-                    <div className="absolute left-1 top-1 w-3 h-3 bg-white rounded-full peer-checked:translate-x-5 transition-all"></div>
+                    <div className="w-10 h-5 bg-gray-200 rounded-full peer peer-checked:bg-brand-green peer-focus:ring-2 peer-focus:ring-brand-green/30 transition-all"></div>
+                    <div className="absolute left-1 top-1 w-3 h-3 bg-canvas rounded-full peer-checked:translate-x-5 transition-all"></div>
                   </div>
                   <div>
-                    <span className="block text-sm font-semibold text-gray-900">KFD Chairman</span>
-                    <span className="block text-xs text-gray-500 mt-0.5">Flag this person as the KFD Chairman</span>
+                    <span className="block text-sm font-semibold text-ink">KFD Chairman</span>
+                    <span className="block text-xs text-steel mt-0.5">Flag this person as the KFD Chairman</span>
                   </div>
                 </label>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">Display Order</label>
+                <label className="block text-sm font-semibold text-ink mb-2">Display Order</label>
                 <input
                   type="number"
                   value={formData.displayOrder}
                   onChange={(e) => setFormData({...formData, displayOrder: parseInt(e.target.value) || 0})}
-                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                 />
-                <p className="text-xs text-gray-400 mt-2">Determines display order (lower = first)</p>
+                <p className="text-xs text-muted mt-2">Determines display order (lower = first)</p>
               </div>
             </div>
           </div>
 
           {/* Media Card */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50">
-            <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-              <ImageIcon className="w-5 h-5 text-gray-400" />
+          <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft">
+            <h2 className="text-lg font-bold text-ink mb-6 flex items-center gap-2">
+              <ImageIcon className="w-5 h-5 text-muted" />
               Headshot Image
             </h2>
             <div className="space-y-4">
-              <div className="w-full aspect-square bg-gray-50 border border-gray-200 rounded-xl overflow-hidden relative group flex items-center justify-center">
+              <div className="w-full aspect-square bg-surface border border-hairline-strong rounded-xl overflow-hidden relative group flex items-center justify-center">
                 {(previewUrl || formData.headshotUrl) ? (
                   <img 
                     src={previewUrl || getMediaUrl(formData.headshotUrl)} 
@@ -369,7 +369,7 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
                     className="w-full h-full object-cover" 
                   />
                 ) : (
-                  <User className="w-16 h-16 text-gray-300" />
+                  <User className="w-16 h-16 text-muted" />
                 )}
                 
                 {/* Overlay for change/upload */}
@@ -377,7 +377,7 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
                   <button
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
-                    className="bg-white text-gray-700 p-3 rounded-full hover:bg-gray-100 hover:scale-110 transition-transform shadow-sm"
+                    className="bg-canvas text-slate p-3 rounded-full hover:bg-surface hover:scale-110 transition-transform shadow-sm"
                     title={(previewUrl || formData.headshotUrl) ? "Change Image" : "Upload Image"}
                   >
                     <UploadCloud className="w-5 h-5" />
@@ -390,7 +390,7 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
                         setFormData({...formData, headshotUrl: ''});
                         if (fileInputRef.current) fileInputRef.current.value = '';
                       }}
-                      className="bg-white text-red-500 p-3 rounded-full hover:bg-red-50 hover:scale-110 transition-transform shadow-sm"
+                      className="bg-canvas text-red-500 p-3 rounded-full hover:bg-red-50 hover:scale-110 transition-transform shadow-sm"
                       title="Remove Image"
                     >
                       <X className="w-5 h-5" />
@@ -408,7 +408,7 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
               />
               
               {!previewUrl && !formData.headshotUrl && (
-                <p className="text-xs text-gray-500 text-center mt-2">Click the icon to upload a square image.</p>
+                <p className="text-xs text-steel text-center mt-2">Click the icon to upload a square image.</p>
               )}
             </div>
           </div>

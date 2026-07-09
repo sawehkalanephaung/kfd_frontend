@@ -1,38 +1,167 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+/* ─────────────────────────────────────────────
+   MongoDB Design System — Color Tokens
+   ───────────────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Brand & Accent */
+  --color-brand-green: #00ed64;
+  --color-brand-green-dark: #00684a;
+  --color-brand-green-mid: #00a35c;
+  --color-brand-green-soft: #c3f0d2;
+  --color-primary: #00ed64;
+  --color-primary-deep: #00b545;
+  --color-primary-pressed: #008c34;
+  --color-on-primary: #001e2b;
+  --color-teal-deep: #001e2b;
+  --color-teal: #003d4f;
+  --color-teal-mid: #00684a;
+  --color-accent-purple: #7b3ff2;
+  --color-accent-orange: #fa6e39;
+  --color-accent-pink: #f06bb8;
+  --color-accent-blue: #3d4f9f;
+
+  /* Semantic */
+  --color-warning-bg: #fff8e0;
+  --color-warning-text: #946f3f;
+
+  /* Surfaces */
+  --color-canvas: #ffffff;
+  --color-canvas-dark: #001e2b;
+  --color-surface: #f9fbfa;
+  --color-surface-soft: #f4f7f6;
+  --color-surface-feature: #e3fcef;
+
+  /* Borders */
+  --color-hairline: #e1e5e8;
+  --color-hairline-soft: #eceff1;
+  --color-hairline-strong: #c1ccd6;
+  --color-hairline-dark: #1c2d38;
+
+  /* Text */
+  --color-ink: #001e2b;
+  --color-charcoal: #1c2d38;
+  --color-slate: #3d4f5b;
+  --color-steel: #5c6c7a;
+  --color-stone: #7c8c9a;
+  --color-muted: #a8b3bc;
+  --color-on-dark: #ffffff;
+  --color-on-dark-muted: #a8b3bc;
+
+  /* Background / Foreground shortcuts */
+  --background: var(--color-canvas);
+  --foreground: var(--color-ink);
 }
 
-html {
-  scroll-behavior: smooth;
+/* ─── Dark Mode (MongoDB teal-deep canvas) ─── */
+.dark {
+  --color-canvas: #001e2b;
+  --color-canvas-dark: #00141d;
+  --color-surface: #0a2c3a;
+  --color-surface-soft: #0d3345;
+  --color-surface-feature: #0a3d2e;
+
+  --color-hairline: #1c2d38;
+  --color-hairline-soft: #162632;
+  --color-hairline-strong: #2a4050;
+  --color-hairline-dark: #0a1f2b;
+
+  --color-ink: #ffffff;
+  --color-charcoal: #e8ecee;
+  --color-slate: #c1ccd6;
+  --color-steel: #a8b3bc;
+  --color-stone: #7c8c9a;
+  --color-muted: #5c6c7a;
+
+  --color-warning-bg: #2a2000;
+  --color-warning-text: #f5d780;
+
+  --background: var(--color-canvas);
+  --foreground: var(--color-ink);
 }
 
+/* ─────────────────────────────────────────────
+   Tailwind v4 Theme Registration
+   ───────────────────────────────────────────── */
 @theme inline {
+  /* Colors */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  --color-brand-green: var(--color-brand-green);
+  --color-brand-green-dark: var(--color-brand-green-dark);
+  --color-brand-green-mid: var(--color-brand-green-mid);
+  --color-brand-green-soft: var(--color-brand-green-soft);
+  --color-primary: var(--color-primary);
+  --color-primary-deep: var(--color-primary-deep);
+  --color-primary-pressed: var(--color-primary-pressed);
+  --color-on-primary: var(--color-on-primary);
+  --color-teal-deep: var(--color-teal-deep);
+  --color-teal: var(--color-teal);
+  --color-teal-mid: var(--color-teal-mid);
+  --color-accent-purple: var(--color-accent-purple);
+  --color-accent-orange: var(--color-accent-orange);
+  --color-accent-pink: var(--color-accent-pink);
+  --color-accent-blue: var(--color-accent-blue);
+  --color-canvas: var(--color-canvas);
+  --color-canvas-dark: var(--color-canvas-dark);
+  --color-surface: var(--color-surface);
+  --color-surface-soft: var(--color-surface-soft);
+  --color-surface-feature: var(--color-surface-feature);
+  --color-hairline: var(--color-hairline);
+  --color-hairline-soft: var(--color-hairline-soft);
+  --color-hairline-strong: var(--color-hairline-strong);
+  --color-hairline-dark: var(--color-hairline-dark);
+  --color-ink: var(--color-ink);
+  --color-charcoal: var(--color-charcoal);
+  --color-slate: var(--color-slate);
+  --color-steel: var(--color-steel);
+  --color-stone: var(--color-stone);
+  --color-muted: var(--color-muted);
+  --color-on-dark: var(--color-on-dark);
+  --color-on-dark-muted: var(--color-on-dark-muted);
+  --color-warning-bg: var(--color-warning-bg);
+  --color-warning-text: var(--color-warning-text);
+
+  /* Fonts */
+  --font-sans: var(--font-jakarta);
+  --font-mono: var(--font-source-code);
+
+  /* Border Radius (MongoDB scale) */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+
+  /* Shadows (MongoDB elevation) */
+  --shadow-subtle: rgba(0, 30, 43, 0.04) 0px 1px 2px 0px;
+  --shadow-card: rgba(0, 30, 43, 0.08) 0px 4px 12px 0px;
+  --shadow-mockup: rgba(0, 30, 43, 0.12) 0px 12px 24px -4px;
+  --shadow-modal: rgba(0, 30, 43, 0.16) 0px 16px 48px -8px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ─────────────────────────────────────────────
+   Base Styles
+   ───────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-jakarta), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Notification dropdown animation */
+/* ─────────────────────────────────────────────
+   Notification dropdown animation
+   ───────────────────────────────────────────── */
 @keyframes slideDown {
   from { opacity: 0; transform: translateY(-8px); }
   to { opacity: 1; transform: translateY(0); }
 }
-

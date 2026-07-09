@@ -49,7 +49,7 @@ export default function NewsSection({ news, notices }: { news: any[], notices?: 
   const displayNotices = notices && notices.length > 0 ? notices : defaultNoticeBoardItems;
 
   return (
-    <section className="py-20 bg-white border-t border-gray-100">
+    <section className="py-20 bg-canvas border-t border-hairline">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
@@ -57,10 +57,10 @@ export default function NewsSection({ news, notices }: { news: any[], notices?: 
           {/* Left Column: Latest News */}
           <div className="lg:col-span-2">
             <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
-              <h2 className="text-3xl font-bold text-gray-900">Latest News</h2>
+              <h2 className="text-3xl font-bold text-ink">Latest News</h2>
               <Link 
                 href="/news" 
-                className="text-sm font-semibold text-gray-600 hover:text-[#1a3626] flex items-center gap-1 transition-colors group"
+                className="text-sm font-semibold text-steel hover:text-teal-deep flex items-center gap-1 transition-colors group"
               >
                 View All News 
                 <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
@@ -77,7 +77,7 @@ export default function NewsSection({ news, notices }: { news: any[], notices?: 
                 return (
                   <div key={item.id || index} className="flex flex-col group h-full">
                     {/* Image */}
-                    <div className="relative w-full h-52 rounded-xl overflow-hidden mb-5 shrink-0 bg-gray-100 flex items-center justify-center">
+                    <div className="relative w-full h-52 rounded-xl overflow-hidden mb-5 shrink-0 bg-surface flex items-center justify-center">
                       {imgUrl ? (
                         <div 
                           className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
@@ -93,16 +93,16 @@ export default function NewsSection({ news, notices }: { news: any[], notices?: 
                       <span className="text-[11px] font-bold uppercase tracking-wider text-[#2a563c] bg-green-50 px-2.5 py-1 rounded-sm">
                         {catName}
                       </span>
-                      <span className="text-sm text-gray-500 font-medium">
+                      <span className="text-sm text-steel font-medium">
                         {dateStr}
                       </span>
                     </div>
 
                     {/* Content */}
-                    <h3 className="text-lg font-bold text-gray-900 mb-3 leading-tight group-hover:text-[#2a563c] transition-colors line-clamp-2">
+                    <h3 className="text-lg font-bold text-ink mb-3 leading-tight group-hover:text-brand-green-dark transition-colors line-clamp-2">
                       {item.title}
                     </h3>
-                    <p className="text-sm text-gray-600 leading-relaxed flex-grow line-clamp-3 mb-4">
+                    <p className="text-sm text-steel leading-relaxed flex-grow line-clamp-3 mb-4">
                       {item.excerpt}
                     </p>
                   </div>
@@ -113,9 +113,9 @@ export default function NewsSection({ news, notices }: { news: any[], notices?: 
 
           {/* Right Column: Announcements & Events */}
           <div className="lg:col-span-1 flex flex-col">
-            <h2 className="text-2xl font-bold text-gray-900 mb-8">Announcements & Events</h2>
+            <h2 className="text-2xl font-bold text-ink mb-8">Announcements & Events</h2>
             
-            <div className="bg-gray-50 border border-gray-100 rounded-2xl p-6 flex flex-col gap-6 flex-grow">
+            <div className="bg-surface border border-hairline rounded-2xl p-6 flex flex-col gap-6 flex-grow">
               {displayNotices.map((notice) => {
                 const isReal = !!notice.category;
                 const type = isReal ? notice.category.name : notice.type;
@@ -136,9 +136,9 @@ export default function NewsSection({ news, notices }: { news: any[], notices?: 
                   <Link 
                     key={notice.id} 
                     href={link}
-                    className="group flex gap-4 p-4 -mx-4 rounded-xl hover:bg-white hover:shadow-sm transition-all"
+                    className="group flex gap-4 p-4 -mx-4 rounded-xl hover:bg-canvas hover:shadow-sm transition-all"
                   >
-                    <div className="w-10 h-10 rounded-full bg-white shadow-sm border border-gray-100 flex items-center justify-center shrink-0 group-hover:bg-green-50 group-hover:border-green-100 group-hover:text-[#2a563c] transition-colors text-gray-400">
+                    <div className="w-10 h-10 rounded-full bg-canvas shadow-sm border border-hairline flex items-center justify-center shrink-0 group-hover:bg-surface-soft group-hover:border-green-100 group-hover:text-brand-green-dark transition-colors text-muted">
                       {(type === "Event" || type?.toLowerCase() === "event") ? <CalendarDays size={18} /> : <Bell size={18} />}
                     </div>
                     <div>
@@ -148,9 +148,9 @@ export default function NewsSection({ news, notices }: { news: any[], notices?: 
                         }`}>
                           {type}
                         </span>
-                        <span className="text-xs text-gray-500 font-medium">{dateStr}</span>
+                        <span className="text-xs text-steel font-medium">{dateStr}</span>
                       </div>
-                      <h4 className="text-sm font-bold text-gray-900 leading-snug group-hover:text-[#2a563c] transition-colors line-clamp-2">
+                      <h4 className="text-sm font-bold text-ink leading-snug group-hover:text-brand-green-dark transition-colors line-clamp-2">
                         {title}
                       </h4>
                     </div>
@@ -158,7 +158,7 @@ export default function NewsSection({ news, notices }: { news: any[], notices?: 
                 );
               })}
 
-              <div className="mt-auto pt-4 border-t border-gray-200/60 flex justify-between">
+              <div className="mt-auto pt-4 border-t border-hairline-strong/60 flex justify-between">
                 <Link href="/news/announcements" className="text-xs font-semibold text-[#2a563c] hover:underline">
                   All Announcements
                 </Link>

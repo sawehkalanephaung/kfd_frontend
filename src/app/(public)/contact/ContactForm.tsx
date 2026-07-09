@@ -63,7 +63,7 @@ export default function ContactForm({ settings }: { settings: ContactSettings | 
           </p>
           <button 
             onClick={() => setSuccess(false)}
-            className="mt-8 text-sm font-semibold text-green-400 hover:text-green-300 transition-colors hover:underline"
+            className="mt-8 text-sm font-semibold text-green-400 hover:text-brand-green transition-colors hover:underline"
           >
             Submit another inquiry
           </button>

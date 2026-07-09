@@ -30,34 +30,34 @@ function AnnouncementCard({ post }: { post: NewsPost }) {
   return (
     <Link 
       href={`/news/${post.slug}`}
-      className="group block bg-white rounded-xl overflow-hidden border-2 border-transparent hover:border-emerald-200 shadow-sm hover:shadow-lg transition-all"
+      className="group block bg-canvas rounded-xl overflow-hidden border-2 border-transparent hover:border-brand-green/30 shadow-sm hover:shadow-lg transition-all"
     >
       <div className="flex flex-col md:flex-row h-full">
         {/* Left Side: Formal Date/Icon Badge */}
-        <div className="bg-gradient-to-br from-emerald-50 to-green-50 border-r border-gray-100 flex flex-col justify-center items-center p-6 md:w-48 shrink-0 relative overflow-hidden">
+        <div className="bg-gradient-to-br from-emerald-50 to-green-50 border-r border-hairline flex flex-col justify-center items-center p-6 md:w-48 shrink-0 relative overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-400 to-green-500"></div>
-          <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm border border-emerald-100 mb-3 text-emerald-600 group-hover:scale-110 transition-transform">
+          <div className="w-12 h-12 bg-canvas rounded-full flex items-center justify-center shadow-sm border border-brand-green/20 mb-3 text-brand-green-dark group-hover:scale-110 transition-transform">
             <Bell size={20} />
           </div>
-          <span className="text-xs font-bold uppercase tracking-widest text-emerald-600/70 mb-1">Posted</span>
-          <span className="text-sm font-semibold text-gray-900 text-center">{formatDate(post.publishedAt)}</span>
+          <span className="text-xs font-bold uppercase tracking-widest text-brand-green-dark/70 mb-1">Posted</span>
+          <span className="text-sm font-semibold text-ink text-center">{formatDate(post.publishedAt)}</span>
         </div>
 
         {/* Right Side: Content */}
-        <div className="p-6 md:p-8 flex flex-col flex-1 bg-white">
+        <div className="p-6 md:p-8 flex flex-col flex-1 bg-canvas">
           <div className="flex items-center gap-2 mb-3">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-gray-100 text-gray-600 text-[10px] font-bold uppercase tracking-widest rounded-md">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-surface text-steel text-[10px] font-bold uppercase tracking-widest rounded-md">
               <FileText size={12} />
               Official Notice
             </span>
           </div>
-          <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-3 group-hover:text-emerald-700 transition-colors leading-tight">
+          <h2 className="text-xl md:text-2xl font-bold text-ink mb-3 group-hover:text-brand-green-dark transition-colors leading-tight">
             {post.title}
           </h2>
-          <p className="text-gray-600 leading-relaxed text-sm md:text-base line-clamp-2 mb-4 flex-1">
+          <p className="text-steel leading-relaxed text-sm md:text-base line-clamp-2 mb-4 flex-1">
             {post.excerpt}
           </p>
-          <div className="mt-auto flex items-center text-emerald-600 font-semibold text-sm group-hover:underline">
+          <div className="mt-auto flex items-center text-brand-green-dark font-semibold text-sm group-hover:underline">
             Read Full Notice <ChevronRight size={16} className="ml-1" />
           </div>
         </div>
@@ -80,7 +80,7 @@ export default async function AnnouncementsPage() {
       <div className="container mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-12">
-          <Link href="/news" className="inline-flex items-center gap-2 text-green-400 hover:text-green-300 text-sm font-medium mb-6 transition-colors">
+          <Link href="/news" className="inline-flex items-center gap-2 text-green-400 hover:text-brand-green text-sm font-medium mb-6 transition-colors">
             <ArrowLeft size={16} /> Back to News
           </Link>
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">

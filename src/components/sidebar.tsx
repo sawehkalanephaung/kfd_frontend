@@ -146,9 +146,9 @@ export default function Sidebar() {
         />
       )}
 
-      {/* Sidebar Container */}
+      {/* Sidebar Container — MongoDB brand-teal-deep */}
       <aside
-        className={`fixed top-0 left-0 z-50 h-screen flex flex-col bg-white border-r border-gray-100 shadow-xl md:shadow-sm transition-all duration-300 ease-in-out
+        className={`fixed top-0 left-0 z-50 h-screen flex flex-col bg-teal-deep transition-all duration-300 ease-in-out
           ${isOpen ? 'translate-x-0 w-[280px]' : '-translate-x-full md:translate-x-0'}
           ${!isOpen && isCollapsed ? 'md:w-[80px]' : 'md:w-[280px]'}
         `}
@@ -167,10 +167,10 @@ export default function Sidebar() {
             </div>
             {!isCollapsed && (
               <div className="flex flex-col min-w-0">
-                <h1 className="text-[13px] font-bold text-gray-900 tracking-tight leading-tight truncate">
+                <h1 className="text-[13px] font-bold text-on-dark tracking-tight leading-tight truncate">
                   Kawthoolei Forestry Department
                 </h1>
-                <span className="text-[11px] text-gray-600 font-medium mt-0.5 truncate">
+                <span className="text-[11px] text-on-dark-muted font-medium mt-0.5 truncate">
                   ကီၢ်သူလ့ၤသ့ၣ်ပှၢ်ဝဲၤကျိၤ
                 </span>
               </div>
@@ -180,7 +180,7 @@ export default function Sidebar() {
           {!isCollapsed && (
             <button
               onClick={() => setIsOpen(false)}
-              className="md:hidden p-2 -mr-2 text-gray-400 hover:text-gray-900 rounded-lg transition-colors flex-shrink-0"
+              className="md:hidden p-2 -mr-2 text-on-dark-muted hover:text-on-dark rounded-lg transition-colors flex-shrink-0"
             >
               <X className="w-5 h-5" />
             </button>
@@ -201,10 +201,10 @@ export default function Sidebar() {
                   <button
                     onClick={() => toggleMenu(item.label)}
                     className={
-                      `w-full flex items-center gap-3 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${isCollapsed ? 'justify-center px-0' : 'justify-between px-4'} min-w-0 ` +
+                      `w-full flex items-center gap-3 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${isCollapsed ? 'justify-center px-0' : 'justify-between px-4'} min-w-0 ` +
                       (active
-                        ? "bg-emerald-500 text-white shadow-lg shadow-emerald-500/25"
-                        : "text-gray-600 hover:bg-gray-50 hover:text-gray-900")
+                        ? "bg-brand-green text-on-primary shadow-lg shadow-brand-green/20"
+                        : "text-on-dark-muted hover:bg-canvas/8 hover:text-on-dark")
                     }
                     title={isCollapsed ? item.label : undefined}
                   >
@@ -223,10 +223,10 @@ export default function Sidebar() {
                     href={item.href}
                     onClick={() => setIsOpen(false)}
                     className={
-                      `flex items-center gap-3 py-3 rounded-xl text-sm font-medium transition-all duration-200 min-w-0 ${isCollapsed ? 'justify-center px-0' : 'px-4'} ` +
+                      `flex items-center gap-3 py-3 rounded-lg text-sm font-medium transition-all duration-200 min-w-0 ${isCollapsed ? 'justify-center px-0' : 'px-4'} ` +
                       (active
-                        ? "bg-emerald-500 text-white shadow-lg shadow-emerald-500/25"
-                        : "text-gray-600 hover:bg-gray-50 hover:text-gray-900")
+                        ? "bg-brand-green text-on-primary shadow-lg shadow-brand-green/20"
+                        : "text-on-dark-muted hover:bg-canvas/8 hover:text-on-dark")
                     }
                     title={isCollapsed ? item.label : undefined}
                   >
@@ -240,7 +240,7 @@ export default function Sidebar() {
                   <div
                     className={`overflow-hidden transition-all duration-200 ease-in-out ${expanded ? 'max-h-80 opacity-100 mt-1' : 'max-h-0 opacity-0'}`}
                   >
-                    <div className="ml-[22px] pl-4 border-l-[1.5px] border-gray-100 space-y-0.5 my-1">
+                    <div className="ml-[22px] pl-4 border-l-[1.5px] border-white/15 space-y-0.5 my-1">
                       {item.subItems!.map((sub) => (
                         <Link
                           key={sub.href}
@@ -249,8 +249,8 @@ export default function Sidebar() {
                           className={
                             "block px-3 py-2 rounded-lg text-[13px] font-medium transition-colors truncate " +
                             (pathname === sub.href
-                              ? "text-emerald-700 bg-emerald-50/80 font-semibold"
-                              : "text-gray-500 hover:text-gray-800 hover:bg-gray-50")
+                              ? "text-brand-green bg-canvas/10 font-semibold"
+                              : "text-on-dark-muted hover:text-on-dark hover:bg-canvas/5")
                           }
                         >
                           {sub.label}
@@ -263,8 +263,8 @@ export default function Sidebar() {
                 {/* Sub-items (Collapsed Flyout Mode) */}
                 {isCollapsed && hasSubItems && (
                   <div className="hidden group-hover:block absolute left-full top-0 pl-3 w-56 z-[100]">
-                    <div className="bg-white shadow-xl rounded-xl border border-gray-100 py-2 animate-in fade-in slide-in-from-left-2 duration-200">
-                      <div className="px-4 py-2 text-sm font-bold text-gray-900 border-b border-gray-50 mb-1">{item.label}</div>
+                    <div className="bg-teal-deep shadow-modal rounded-lg border border-hairline-dark py-2 animate-in fade-in slide-in-from-left-2 duration-200">
+                      <div className="px-4 py-2 text-sm font-bold text-on-dark border-b border-white/10 mb-1">{item.label}</div>
                       <div className="px-2">
                         {item.subItems!.map((sub) => (
                           <Link
@@ -273,8 +273,8 @@ export default function Sidebar() {
                             className={
                               "block px-3 py-2 my-0.5 rounded-lg text-[13px] font-medium transition-colors " +
                               (pathname === sub.href
-                                ? "text-emerald-600 bg-emerald-50"
-                                : "text-gray-500 hover:text-gray-800 hover:bg-gray-50")
+                                ? "text-brand-green bg-canvas/10"
+                                : "text-on-dark-muted hover:text-on-dark hover:bg-canvas/5")
                             }
                           >
                             {sub.label}
@@ -293,7 +293,7 @@ export default function Sidebar() {
         <div className="px-3 pb-5">
           <button
             onClick={handleLogout}
-            className={`flex items-center gap-3 py-3 w-full rounded-xl text-sm font-medium text-gray-500 hover:bg-red-50 hover:text-red-600 transition-all duration-200 ${isCollapsed ? 'justify-center px-0' : 'px-4'}`}
+            className={`flex items-center gap-3 py-3 w-full rounded-lg text-sm font-medium text-on-dark-muted hover:bg-red-500/15 hover:text-red-400 transition-all duration-200 ${isCollapsed ? 'justify-center px-0' : 'px-4'}`}
           >
             <LogOut className="w-5 h-5" />
             {!isCollapsed && <span>Logout</span>}

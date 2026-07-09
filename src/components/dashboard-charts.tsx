@@ -34,13 +34,13 @@ export default function DashboardCharts({ statusData, topPosts, loading = false 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
       {/* Top Viewed Posts Chart */}
-      <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex flex-col">
-        <h3 className="text-lg font-bold text-gray-900 mb-6">Top Viewed Posts</h3>
+      <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline flex flex-col">
+        <h3 className="text-lg font-bold text-ink mb-6">Top Viewed Posts</h3>
         <div className="flex-1 min-h-[300px] w-full relative flex items-center justify-center">
           {loading ? (
-            <Loader2 className="w-8 h-8 animate-spin text-gray-300" />
+            <Loader2 className="w-8 h-8 animate-spin text-muted" />
           ) : !hasTopPosts ? (
-            <p className="text-gray-400 text-sm">No views data available yet.</p>
+            <p className="text-muted text-sm">No views data available yet.</p>
           ) : (
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={topPosts} layout="vertical" margin={{ top: 0, right: 30, left: 10, bottom: 0 }}>
@@ -59,13 +59,13 @@ export default function DashboardCharts({ statusData, topPosts, loading = false 
       </div>
 
       {/* Content Status Breakdown Chart */}
-      <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex flex-col">
-        <h3 className="text-lg font-bold text-gray-900 mb-6">Content Status Breakdown</h3>
+      <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline flex flex-col">
+        <h3 className="text-lg font-bold text-ink mb-6">Content Status Breakdown</h3>
         <div className="flex-1 min-h-[300px] w-full relative flex items-center justify-center">
           {loading ? (
-            <Loader2 className="w-8 h-8 animate-spin text-gray-300" />
+            <Loader2 className="w-8 h-8 animate-spin text-muted" />
           ) : totalStatus === 0 ? (
-            <p className="text-gray-400 text-sm">No content published yet.</p>
+            <p className="text-muted text-sm">No content published yet.</p>
           ) : (
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -90,7 +90,7 @@ export default function DashboardCharts({ statusData, topPosts, loading = false 
                   verticalAlign="bottom" 
                   height={36} 
                   iconType="circle"
-                  formatter={(value) => <span className="text-sm text-gray-600">{value}</span>}
+                  formatter={(value) => <span className="text-sm text-steel">{value}</span>}
                 />
               </PieChart>
             </ResponsiveContainer>

@@ -37,28 +37,28 @@ export default function FAQSection({ faqs }: { faqs: any[] }) {
   };
 
   return (
-    <section className="py-24 bg-gray-50">
+    <section className="py-24 bg-surface">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8">
           
           {/* Left Column: Heading & Contact Box */}
           <div className="lg:col-span-5 flex flex-col">
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+            <h2 className="text-3xl lg:text-4xl font-bold text-ink mb-6">
               All You Need to Know
             </h2>
-            <p className="text-gray-600 mb-10 max-w-md text-lg">
+            <p className="text-steel mb-10 max-w-md text-lg">
               Find quick answers to the most common questions about KFD policies, permits, and conservation efforts.
             </p>
 
             {/* Contact Box */}
-            <div className="bg-white border border-gray-100 shadow-sm rounded-xl p-8 max-w-sm">
-              <h3 className="font-bold text-xl text-gray-900 mb-3">Still have questions?</h3>
-              <p className="text-sm text-gray-600 mb-6">
+            <div className="bg-canvas border border-hairline shadow-sm rounded-xl p-8 max-w-sm">
+              <h3 className="font-bold text-xl text-ink mb-3">Still have questions?</h3>
+              <p className="text-sm text-steel mb-6">
                 Cannot find the answers you're looking for? Reach out to our support team.
               </p>
               <Link 
                 href="/contact" 
-                className="bg-[#1a3626] hover:bg-[#2a563c] text-white font-medium px-6 py-3 rounded-md transition-colors flex items-center justify-center gap-2 w-full"
+                className="bg-brand-green hover:bg-primary-deep text-on-primary font-bold px-6 py-3 rounded-full transition-colors flex items-center justify-center gap-2 w-full"
               >
                 Contact Us
                 <ArrowRight size={18} />
@@ -68,14 +68,14 @@ export default function FAQSection({ faqs }: { faqs: any[] }) {
 
           {/* Right Column: Accordion */}
           <div className="lg:col-span-7">
-            <div className="bg-white border border-gray-100 shadow-sm rounded-xl overflow-hidden divide-y divide-gray-100">
+            <div className="bg-canvas border border-hairline shadow-sm rounded-xl overflow-hidden divide-y divide-hairline">
               {displayFaqs.map((faq, index) => (
                 <div key={faq.id || index} className="w-full">
                   <button
                     onClick={() => toggleFAQ(index)}
-                    className="w-full text-left px-8 py-6 flex items-center justify-between hover:bg-gray-50 transition-colors focus:outline-none"
+                    className="w-full text-left px-8 py-6 flex items-center justify-between hover:bg-surface transition-colors focus:outline-none"
                   >
-                    <span className="font-bold text-gray-900 pr-8">{faq.question}</span>
+                    <span className="font-bold text-ink pr-8">{faq.question}</span>
                     <span className="text-[#1a3626] shrink-0">
                       {openIndex === index ? <Minus size={20} /> : <Plus size={20} />}
                     </span>
@@ -87,7 +87,7 @@ export default function FAQSection({ faqs }: { faqs: any[] }) {
                       openIndex === index ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
                     }`}
                   >
-                    <div className="px-8 pb-6 text-gray-600 leading-relaxed">
+                    <div className="px-8 pb-6 text-steel leading-relaxed">
                       {faq.answer}
                     </div>
                   </div>

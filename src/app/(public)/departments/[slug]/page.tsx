@@ -58,7 +58,7 @@ export default async function DepartmentPage({ params }: PageProps) {
   }
 
   return (
-    <main className="min-h-screen bg-gray-50 flex flex-col">
+    <main className="min-h-screen bg-surface flex flex-col">
       <DepartmentHero data={departmentData} />
       <DepartmentTabs data={departmentData} />
     </main>

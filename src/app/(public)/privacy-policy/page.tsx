@@ -29,11 +29,11 @@ export default async function PrivacyPolicyPage() {
   const pageData = await getPageData("privacy-policy");
 
   return (
-    <main className="min-h-screen bg-white pt-20">
-      <div className="bg-[#f8faf9] border-b border-gray-100 py-4">
+    <main className="min-h-screen bg-canvas pt-20">
+      <div className="bg-[#f8faf9] border-b border-hairline py-4">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-2 text-sm text-gray-500 font-medium">
-            <Link href="/" className="hover:text-[#1a3626] transition-colors">Home</Link>
+          <div className="flex items-center gap-2 text-sm text-steel font-medium">
+            <Link href="/" className="hover:text-teal-deep transition-colors">Home</Link>
             <ChevronRight size={14} />
             <span className="text-[#1a3626]">Privacy Policy</span>
           </div>
@@ -44,9 +44,9 @@ export default async function PrivacyPolicyPage() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
           {/* Only show title if it's not already in the content */}
           {!pageData?.content?.includes("<h2>") && !pageData?.content?.includes("<h1>") && (
-            <h1 className="text-4xl font-bold text-gray-900 mb-8">{pageData?.title || "Privacy Policy"}</h1>
+            <h1 className="text-4xl font-bold text-ink mb-8">{pageData?.title || "Privacy Policy"}</h1>
           )}
-          <div className="prose prose-lg prose-green max-w-none text-gray-700">
+          <div className="prose prose-lg prose-green max-w-none text-slate">
             {pageData?.content ? (
               <div dangerouslySetInnerHTML={{ __html: pageData.content }} />
             ) : (

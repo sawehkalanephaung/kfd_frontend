@@ -118,22 +118,22 @@ export default function PostsListPage() {
   return (
     <div>
       {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm text-gray-400 mb-6">
-        <Link href="/dashboard" className="text-gray-500 hover:text-gray-900 transition-colors">Home</Link>
+      <div className="flex items-center gap-2 text-sm text-muted mb-6">
+        <Link href="/dashboard" className="text-steel hover:text-ink transition-colors">Home</Link>
         <span>&gt;</span>
-        <span className="text-gray-500">Posts & News</span>
+        <span className="text-steel">Posts & News</span>
         <span>&gt;</span>
-        <span className="text-gray-900 font-medium">All Posts</span>
+        <span className="text-ink font-medium">All Posts</span>
       </div>
 
       {/* Header Section */}
-      <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-50 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+      <div className="bg-canvas rounded-lg p-8 shadow-sm border border-hairline-soft flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
-            <FileText className="w-6 h-6 text-emerald-500" />
+          <h1 className="text-2xl font-bold text-ink flex items-center gap-3">
+            <FileText className="w-6 h-6 text-brand-green" />
             Posts & News
           </h1>
-          <p className="text-gray-500 mt-1">
+          <p className="text-steel mt-1">
             Manage your articles, news updates, and organization announcements.
           </p>
         </div>
@@ -148,29 +148,29 @@ export default function PostsListPage() {
       )}
 
       {/* Controls Bar */}
-      <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-50 flex flex-col md:flex-row items-center gap-4 mb-6">
+      <div className="bg-canvas rounded-lg p-4 shadow-sm border border-hairline-soft flex flex-col md:flex-row items-center gap-4 mb-6">
         <div className="relative w-full md:w-2/5">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <Search className="w-4 h-4 text-gray-400" />
+            <Search className="w-4 h-4 text-muted" />
           </div>
           <input
             type="text"
             placeholder="Search posts..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-black focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+            className="w-full pl-10 pr-4 py-2.5 bg-surface border border-hairline-strong rounded-xl text-sm text-black focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
           />
         </div>
         
         <div className="flex w-full md:w-3/5 gap-4">
           <div className="relative w-full md:w-1/2">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Filter className="w-4 h-4 text-gray-400" />
+              <Filter className="w-4 h-4 text-muted" />
             </div>
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-black focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all appearance-none"
+              className="w-full pl-10 pr-4 py-2.5 bg-surface border border-hairline-strong rounded-xl text-sm text-black focus:outline-none focus:ring-2 focus:ring-brand-green transition-all appearance-none"
             >
               <option value="">All Categories</option>
               {categories.map((cat: any) => (
@@ -181,12 +181,12 @@ export default function PostsListPage() {
 
           <div className="relative w-full md:w-1/2">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Eye className="w-4 h-4 text-gray-400" />
+              <Eye className="w-4 h-4 text-muted" />
             </div>
             <select
               value={selectedStatus}
               onChange={(e) => setSelectedStatus(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-black focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all appearance-none"
+              className="w-full pl-10 pr-4 py-2.5 bg-surface border border-hairline-strong rounded-xl text-sm text-black focus:outline-none focus:ring-2 focus:ring-brand-green transition-all appearance-none"
             >
               <option value="">All Statuses</option>
               <option value="PUBLISHED">Published</option>
@@ -198,10 +198,10 @@ export default function PostsListPage() {
       </div>
 
       {/* Table Section */}
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-50 overflow-hidden">
+      <div className="bg-canvas rounded-lg shadow-sm border border-hairline-soft overflow-hidden">
         <div className="overflow-x-auto w-full">
-          <table className="w-full sm:min-w-[800px] text-left text-sm text-gray-600">
-            <thead className="bg-gray-50/50 text-gray-500 font-medium border-b border-gray-100">
+          <table className="w-full sm:min-w-[800px] text-left text-sm text-steel">
+            <thead className="bg-surface-soft text-steel font-medium border-b border-hairline">
               <tr>
                 <th className="px-6 py-4">Title</th>
                 <th className="px-6 py-4 hidden sm:table-cell">Category</th>
@@ -210,7 +210,7 @@ export default function PostsListPage() {
                 <th className="px-6 py-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-50">
+            <tbody className="divide-y divide-hairline-soft">
               {loading ? (
                 // Skeleton Loaders
                 Array.from({ length: 5 }).map((_, idx) => (
@@ -227,30 +227,30 @@ export default function PostsListPage() {
                 ))
               ) : posts.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-12 text-center text-gray-500">
+                  <td colSpan={5} className="px-6 py-12 text-center text-steel">
                     No posts found matching your criteria.
                   </td>
                 </tr>
               ) : (
                 posts.map((post) => (
-                  <tr key={post.id} className="hover:bg-gray-50/50 transition-colors">
-                    <td className="px-6 py-4 font-medium text-gray-900 max-w-md">
+                  <tr key={post.id} className="hover:bg-surface-soft transition-colors">
+                    <td className="px-6 py-4 font-medium text-ink max-w-md">
                       <div className="truncate" title={post.title}>{post.title}</div>
-                      <div className="text-xs text-gray-400 font-normal mt-0.5 hidden sm:block">/{post.slug}</div>
+                      <div className="text-xs text-muted font-normal mt-0.5 hidden sm:block">/{post.slug}</div>
                       {/* Mobile Data Stack */}
                       <div className="mt-2 flex flex-wrap items-center gap-2 sm:hidden font-normal">
                         {post.category ? (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-gray-100 rounded text-[10px] font-medium text-gray-700">
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-surface rounded text-[10px] font-medium text-slate">
                             <FolderTree className="w-3 h-3" />
                             {post.category.name}
                           </span>
                         ) : null}
                         <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-medium ${
                           post.status === 'PUBLISHED' 
-                            ? 'bg-emerald-50 text-emerald-700 border border-emerald-100' 
+                            ? 'bg-brand-green-soft text-brand-green-dark border border-brand-green/20' 
                             : post.status === 'DRAFT'
                             ? 'bg-amber-50 text-amber-700 border border-amber-200'
-                            : 'bg-gray-100 text-gray-700 border border-gray-200'
+                            : 'bg-surface text-slate border border-hairline-strong'
                         }`}>
                           {post.status === 'PUBLISHED' ? <Eye className="w-3 h-3" /> : post.status === 'DRAFT' ? <EyeOff className="w-3 h-3" /> : <Archive className="w-3 h-3" />}
                           {post.status}
@@ -259,29 +259,29 @@ export default function PostsListPage() {
                     </td>
                     <td className="px-6 py-4 hidden sm:table-cell">
                       {post.category ? (
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-gray-100 rounded-md font-medium text-xs text-gray-700">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-surface rounded-md font-medium text-xs text-slate">
                           <FolderTree className="w-3.5 h-3.5" />
                           {post.category.name}
                         </span>
                       ) : (
-                        <span className="text-gray-400 italic text-xs">Uncategorized</span>
+                        <span className="text-muted italic text-xs">Uncategorized</span>
                       )}
                     </td>
                     <td className="px-6 py-4 hidden sm:table-cell">
                       <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${
                         post.status === 'PUBLISHED' 
-                          ? 'bg-emerald-50 text-emerald-700 border border-emerald-100' 
+                          ? 'bg-brand-green-soft text-brand-green-dark border border-brand-green/20' 
                           : post.status === 'DRAFT'
                           ? 'bg-amber-50 text-amber-700 border border-amber-200'
-                          : 'bg-gray-100 text-gray-700 border border-gray-200'
+                          : 'bg-surface text-slate border border-hairline-strong'
                       }`}>
                         {post.status === 'PUBLISHED' ? <Eye className="w-3.5 h-3.5" /> : post.status === 'DRAFT' ? <EyeOff className="w-3.5 h-3.5" /> : <Archive className="w-3.5 h-3.5" />}
                         {post.status}
                        </span>
                     </td>
-                    <td className="px-6 py-4 text-gray-500 text-sm hidden md:table-cell">
+                    <td className="px-6 py-4 text-steel text-sm hidden md:table-cell">
                       <div className="flex items-center gap-1.5">
-                        <CalendarDays className="w-3.5 h-3.5 text-gray-400" />
+                        <CalendarDays className="w-3.5 h-3.5 text-muted" />
                         {post.updatedAt ? new Date(post.updatedAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : '-'}
                       </div>
                     </td>
@@ -289,14 +289,14 @@ export default function PostsListPage() {
                       <div className="flex items-center justify-end gap-2">
                         <Link
                           href={`/dashboard/posts/${post.id}/edit`}
-                          className="p-2 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
+                          className="p-2 text-muted hover:text-brand-green-dark hover:bg-brand-green-soft rounded-full transition-colors"
                           title="Edit"
                         >
                           <Edit className="w-4 h-4" />
                         </Link>
                         <button
                           onClick={() => openDeleteModal(post)}
-                          className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                          className="p-2 text-muted hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                           title={post.status === 'ARCHIVED' ? 'Permanently Delete' : 'Archive'}
                         >
                           <Trash2 className="w-4 h-4" />
@@ -312,25 +312,25 @@ export default function PostsListPage() {
         
         {/* Pagination Footer */}
         {totalElements > 0 && (
-          <div className="px-4 sm:px-6 py-4 border-t border-gray-100 flex flex-col md:flex-row items-center justify-between gap-4 bg-gray-50/30">
-            <div className="text-sm text-gray-500 text-center md:text-left">
+          <div className="px-4 sm:px-6 py-4 border-t border-hairline flex flex-col md:flex-row items-center justify-between gap-4 bg-surface-soft">
+            <div className="text-sm text-steel text-center md:text-left">
               Showing <span className="font-medium">{(currentPage - 1) * itemsPerPage + 1}</span> to <span className="font-medium">{Math.min(currentPage * itemsPerPage, totalElements)}</span> of <span className="font-medium">{totalElements}</span> results
             </div>
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
-                className="p-2 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="p-2 rounded-lg border border-hairline-strong text-steel hover:bg-surface disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
-              <div className="text-sm font-medium text-gray-700 px-2">
+              <div className="text-sm font-medium text-slate px-2">
                 Page {currentPage} of {totalPages}
               </div>
               <button
                 onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
-                className="p-2 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="p-2 rounded-lg border border-hairline-strong text-steel hover:bg-surface disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 <ChevronRight className="w-4 h-4" />
               </button>

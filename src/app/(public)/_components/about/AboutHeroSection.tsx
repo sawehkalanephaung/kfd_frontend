@@ -23,7 +23,7 @@ export default function AboutHeroSection({ tagline, bgImage }: { tagline?: strin
         <h1 className="text-5xl md:text-6xl font-serif text-white tracking-widest mb-6 drop-shadow-lg">
           ABOUT KFD
         </h1>
-        <p className="text-lg md:text-xl text-green-50 max-w-3xl mx-auto leading-relaxed drop-shadow-md font-medium">
+        <p className="text-lg md:text-xl text-on-dark-muted max-w-3xl mx-auto leading-relaxed drop-shadow-md font-medium">
           {tagline || "We are dedicated to the sustainable management of Kawthoolei's natural resources. Our work bridges traditional ecological knowledge with modern conservation strategies to protect our land and empower our people."}
         </p>
       </div>

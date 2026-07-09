@@ -50,16 +50,16 @@ export default function SlideOver({ isOpen, onClose, title, children }: SlideOve
         <div 
           className="pointer-events-auto w-screen max-w-2xl transform transition-transform duration-300 ease-in-out sm:duration-500 translate-x-0"
         >
-          <div className="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
+          <div className="flex h-full flex-col overflow-y-scroll bg-canvas shadow-xl">
             {/* Header */}
-            <div className="px-4 py-6 sm:px-6 bg-gray-50 border-b border-gray-100 flex items-center justify-between">
-              <h2 className="text-xl font-semibold leading-6 text-gray-900">
+            <div className="px-4 py-6 sm:px-6 bg-surface border-b border-hairline flex items-center justify-between">
+              <h2 className="text-xl font-semibold leading-6 text-ink">
                 {title}
               </h2>
               <div className="ml-3 flex h-7 items-center">
                 <button
                   type="button"
-                  className="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition-colors p-2"
+                  className="rounded-md bg-canvas text-muted hover:text-steel focus:outline-none focus:ring-2 focus:ring-brand-green focus:ring-offset-2 transition-colors p-2"
                   onClick={onClose}
                 >
                   <span className="sr-only">Close panel</span>

@@ -18,19 +18,19 @@ interface NotificationItem {
 // Notification type styling config
 const NOTIF_STYLES: Record<NotificationItem['type'], { bg: string; text: string; icon: React.ReactNode }> = {
   SUBSCRIBER: {
-    bg: 'bg-blue-50',
-    text: 'text-blue-600',
+    bg: 'bg-accent-blue/10',
+    text: 'text-accent-blue',
     icon: <Mail className="w-4 h-4" />,
   },
   POST_REVIEW: {
-    bg: 'bg-amber-50',
-    text: 'text-amber-600',
+    bg: 'bg-accent-orange/10',
+    text: 'text-accent-orange',
     icon: <FileText className="w-4 h-4" />,
   },
 
   FAILED_LOGIN: {
-    bg: 'bg-red-50',
-    text: 'text-red-600',
+    bg: 'bg-red-50 dark:bg-red-500/10',
+    text: 'text-red-600 dark:text-red-400',
     icon: <ShieldAlert className="w-4 h-4" />,
   },
 };
@@ -249,7 +249,7 @@ export default function Header() {
             setIsCollapsed(!isCollapsed);
           }
         }}
-        className="mr-auto w-11 h-11 bg-white rounded-xl flex items-center justify-center shadow-[0_2px_10px_rgba(0,0,0,0.02)] border border-gray-100 text-gray-700 hover:text-emerald-600 transition-colors"
+        className="mr-auto w-11 h-11 bg-canvas rounded-lg flex items-center justify-center shadow-subtle border border-hairline text-steel hover:text-brand-green-dark transition-colors"
       >
         <Menu className="w-5 h-5" />
       </button>
@@ -261,11 +261,11 @@ export default function Header() {
         <div className="relative" ref={dropdownRef}>
           <button 
             onClick={handleDropdownClick}
-            className={`relative w-11 h-11 bg-white rounded-full flex items-center justify-center shadow-[0_2px_10px_rgba(0,0,0,0.02)] border border-gray-100 transition-colors ${showDropdown ? 'text-emerald-600 border-emerald-200' : 'text-gray-500 hover:text-gray-900'}`}
+            className={`relative w-11 h-11 bg-canvas rounded-full flex items-center justify-center shadow-subtle border transition-colors ${showDropdown ? 'text-brand-green-dark border-brand-green-soft' : 'text-steel border-hairline hover:text-ink'}`}
           >
             <Bell className="w-5 h-5" />
             {hasUnread && (
-              <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 bg-red-500 border-2 border-white rounded-full flex items-center justify-center">
+              <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 bg-accent-orange border-2 border-canvas rounded-full flex items-center justify-center">
                 <span className="text-[10px] font-bold text-white leading-none">
                   {notifications.length > 9 ? '9+' : notifications.length}
                 </span>
@@ -275,18 +275,18 @@ export default function Header() {
 
           {/* Notification Dropdown */}
           {showDropdown && (
-            <div className="absolute -right-[72px] sm:right-0 mt-2 w-[calc(100vw-2rem)] sm:w-96 max-w-[384px] bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden z-50 origin-top-right" style={{ animation: 'slideDown 0.2s ease-out' }}>
-              <div className="flex items-center justify-between p-4 border-b border-gray-50 bg-gray-50/50">
+            <div className="absolute -right-[72px] sm:right-0 mt-2 w-[calc(100vw-2rem)] sm:w-96 max-w-[384px] bg-canvas rounded-lg shadow-modal border border-hairline overflow-hidden z-50 origin-top-right" style={{ animation: 'slideDown 0.2s ease-out' }}>
+              <div className="flex items-center justify-between p-4 border-b border-hairline-soft bg-surface-soft">
                 <div className="flex items-center gap-2">
-                  <h3 className="font-bold text-gray-900">Notifications</h3>
+                  <h3 className="font-bold text-ink">Notifications</h3>
                   {notifications.length > 0 && (
-                    <span className="text-[11px] font-semibold text-white bg-red-500 rounded-full px-1.5 py-0.5 leading-none">
+                    <span className="text-[11px] font-semibold text-on-dark bg-accent-orange rounded-full px-1.5 py-0.5 leading-none">
                       {notifications.length}
                     </span>
                   )}
                 </div>
                 {notifications.length > 0 && (
-                  <button onClick={markAllAsRead} className="text-xs font-medium text-emerald-600 hover:text-emerald-700 flex items-center gap-1 hover:bg-emerald-50 px-2 py-1 rounded-lg transition-colors">
+                  <button onClick={markAllAsRead} className="text-xs font-medium text-brand-green-dark hover:text-brand-green-mid flex items-center gap-1 hover:bg-brand-green-soft px-2 py-1 rounded-full transition-colors">
                     <Check className="w-3 h-3" /> Mark all read
                   </button>
                 )}
@@ -294,14 +294,14 @@ export default function Header() {
               <div className="max-h-[400px] overflow-y-auto">
                 {notifications.length === 0 ? (
                   <div className="p-10 text-center">
-                    <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-3">
-                      <Bell className="w-5 h-5 text-gray-400" />
+                    <div className="w-12 h-12 rounded-full bg-surface flex items-center justify-center mx-auto mb-3">
+                      <Bell className="w-5 h-5 text-muted" />
                     </div>
-                    <p className="text-sm font-medium text-gray-500">All caught up!</p>
-                    <p className="text-xs text-gray-400 mt-1">No new notifications right now.</p>
+                    <p className="text-sm font-medium text-steel">All caught up!</p>
+                    <p className="text-xs text-muted mt-1">No new notifications right now.</p>
                   </div>
                 ) : (
-                  <div className="divide-y divide-gray-50">
+                  <div className="divide-y divide-hairline-soft">
                     {notifications.map(notif => {
                       const style = NOTIF_STYLES[notif.type];
                       return (
@@ -314,22 +314,22 @@ export default function Header() {
                             }
                             setShowDropdown(false);
                           }}
-                          className="flex items-start gap-3 p-4 hover:bg-gray-50/80 transition-colors group relative"
+                          className="flex items-start gap-3 p-4 hover:bg-surface-soft transition-colors group relative"
                         >
                           <div className={`mt-0.5 w-9 h-9 rounded-full flex items-center justify-center shrink-0 ${style.bg} ${style.text} transition-transform group-hover:scale-105`}>
                             {style.icon}
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center justify-between gap-2">
-                              <p className="text-sm font-semibold text-gray-900">{notif.title}</p>
-                              <span className="text-[11px] text-gray-400 shrink-0">{timeAgo(notif.date)}</span>
+                              <p className="text-sm font-semibold text-ink">{notif.title}</p>
+                              <span className="text-[11px] text-muted shrink-0">{timeAgo(notif.date)}</span>
                             </div>
-                            <p className="text-sm text-gray-500 line-clamp-1 mt-0.5">{notif.subtitle}</p>
+                            <p className="text-sm text-steel line-clamp-1 mt-0.5">{notif.subtitle}</p>
                           </div>
                           {/* Dismiss button */}
                           <button
                             onClick={(e) => dismissSingle(notif.id, e)}
-                            className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity text-gray-400 hover:text-gray-600 p-1 rounded-lg hover:bg-gray-100"
+                            className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity text-muted hover:text-ink p-1 rounded-lg hover:bg-surface"
                             title="Dismiss"
                           >
                             <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -345,11 +345,11 @@ export default function Header() {
               </div>
               {/* Footer */}
               {notifications.length > 0 && (
-                <div className="p-3 border-t border-gray-50 bg-gray-50/30">
+                <div className="p-3 border-t border-hairline-soft bg-surface-soft">
                   <Link
                     href="/dashboard/settings"
                     onClick={() => setShowDropdown(false)}
-                    className="block text-center text-xs font-medium text-gray-500 hover:text-emerald-600 transition-colors"
+                    className="block text-center text-xs font-medium text-steel hover:text-brand-green-dark transition-colors"
                   >
                     Manage notification preferences
                   </Link>
@@ -360,18 +360,18 @@ export default function Header() {
         </div>
 
         {/* Profile Info (Non-clickable) */}
-        <div className="flex items-center gap-3 ml-2 pl-4 border-l border-gray-200/60">
-          <div className="w-9 h-9 rounded-full overflow-hidden bg-emerald-50 border border-emerald-100 flex items-center justify-center shrink-0">
+        <div className="flex items-center gap-3 ml-2 pl-4 border-l border-hairline">
+          <div className="w-9 h-9 rounded-full overflow-hidden bg-brand-green-soft border border-brand-green/20 flex items-center justify-center shrink-0">
             {/* Fallback to initials if no image is present */}
-            <span className="text-emerald-700 font-bold text-sm">
+            <span className="text-brand-green-dark font-bold text-sm">
               {user?.firstName?.charAt(0) || ''}{user?.lastName?.charAt(0) || 'U'}
             </span>
           </div>
           <div className="flex flex-col items-start hidden sm:flex">
-            <span className="text-[14px] font-semibold text-gray-900 leading-tight">
+            <span className="text-[14px] font-semibold text-ink leading-tight">
               {user ? `${user.firstName} ${user.lastName}` : 'Admin User'}
             </span>
-            <span className="text-[12px] font-medium text-emerald-600 leading-tight mt-0.5 capitalize">
+            <span className="text-[12px] font-medium text-brand-green-dark leading-tight mt-0.5 capitalize">
               {user?.roles?.[0]?.replace('ROLE_', '').replace('_', ' ').toLowerCase() || 'Admin'}
             </span>
           </div>
@@ -380,4 +380,3 @@ export default function Header() {
     </header>
   );
 }
-

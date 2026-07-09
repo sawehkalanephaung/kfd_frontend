@@ -11,7 +11,7 @@ export default function DashboardLayout({
 }) {
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen bg-[#f5f6fa]">
+      <div className="flex min-h-screen bg-surface">
         <Sidebar />
         <DashboardLayoutWrapper>
           <Header />

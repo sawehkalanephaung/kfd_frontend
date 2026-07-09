@@ -92,10 +92,10 @@ export default function MediaLibraryPage() {
     };
 
   const getFileIcon = (fileType: string) => {
-    if (!fileType) return <FileText className="w-5 h-5 text-gray-400" />;
+    if (!fileType) return <FileText className="w-5 h-5 text-muted" />;
     if (fileType.startsWith('image/')) return <ImageIcon className="w-5 h-5 text-blue-500" />;
     if (fileType.startsWith('video/')) return <Video className="w-5 h-5 text-purple-500" />;
-    return <FileText className="w-5 h-5 text-gray-500" />;
+    return <FileText className="w-5 h-5 text-steel" />;
   };
 
   const formatSize = (kb: number) => {
@@ -109,28 +109,28 @@ export default function MediaLibraryPage() {
   return (
     <div>
       {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm text-gray-400 mb-6">
-        <Link href="/dashboard" className="text-gray-500 hover:text-gray-900 transition-colors">Home</Link>
+      <div className="flex items-center gap-2 text-sm text-muted mb-6">
+        <Link href="/dashboard" className="text-steel hover:text-ink transition-colors">Home</Link>
         <span>&gt;</span>
-        <span className="text-gray-500">Media & Resources</span>
+        <span className="text-steel">Media & Resources</span>
         <span>&gt;</span>
-        <span className="text-gray-900 font-medium">Library</span>
+        <span className="text-ink font-medium">Library</span>
       </div>
 
       {/* Header Section */}
-      <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-50 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+      <div className="bg-canvas rounded-lg p-8 shadow-sm border border-hairline-soft flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
-            <UploadCloud className="w-6 h-6 text-emerald-500" />
+          <h1 className="text-2xl font-bold text-ink flex items-center gap-3">
+            <UploadCloud className="w-6 h-6 text-brand-green" />
             Media Library
           </h1>
-          <p className="text-gray-500 mt-1">
+          <p className="text-steel mt-1">
             Manage all your uploaded images, videos, and documents.
           </p>
         </div>
         <Link
           href="/dashboard/media/upload"
-          className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-medium rounded-xl transition-all shadow-sm shadow-emerald-500/20 active:scale-95"
+          className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-brand-green hover:bg-primary-deep text-on-primary font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
         >
           <UploadCloud className="w-5 h-5" />
           Upload New
@@ -145,28 +145,28 @@ export default function MediaLibraryPage() {
       )}
 
       {/* Controls Bar */}
-      <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-50 flex flex-col md:flex-row items-center gap-4 mb-6">
+      <div className="bg-canvas rounded-lg p-4 shadow-sm border border-hairline-soft flex flex-col md:flex-row items-center gap-4 mb-6">
         <div className="relative w-full md:w-1/3">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <Search className="w-4 h-4 text-gray-400" />
+            <Search className="w-4 h-4 text-muted" />
           </div>
           <input
             type="text"
             placeholder="Search media files..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-black focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+            className="w-full pl-10 pr-4 py-2.5 bg-surface border border-hairline-strong rounded-xl text-sm text-black focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
           />
         </div>
         
         <div className="relative w-full md:w-1/4">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <Filter className="w-4 h-4 text-gray-400" />
+            <Filter className="w-4 h-4 text-muted" />
           </div>
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm text-black focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all appearance-none"
+            className="w-full pl-10 pr-4 py-2.5 bg-surface border border-hairline-strong rounded-xl text-sm text-black focus:outline-none focus:ring-2 focus:ring-brand-green transition-all appearance-none"
           >
             <option value="">All Categories</option>
             {categories.map((cat) => (
@@ -177,10 +177,10 @@ export default function MediaLibraryPage() {
       </div>
 
       {/* Table Section */}
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-50 overflow-hidden">
+      <div className="bg-canvas rounded-lg shadow-sm border border-hairline-soft overflow-hidden">
         <div className="overflow-x-auto w-full">
-          <table className="w-full min-w-[800px] text-left text-sm text-gray-600">
-            <thead className="bg-gray-50/50 text-gray-500 font-medium border-b border-gray-100">
+          <table className="w-full min-w-[800px] text-left text-sm text-steel">
+            <thead className="bg-surface-soft text-steel font-medium border-b border-hairline">
               <tr>
                 <th className="px-6 py-4">File Name</th>
                 <th className="px-6 py-4">Category</th>
@@ -189,7 +189,7 @@ export default function MediaLibraryPage() {
                 <th className="px-6 py-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-50">
+            <tbody className="divide-y divide-hairline-soft">
               {loading ? (
                 // Skeleton Loaders
                 Array.from({ length: 5 }).map((_, idx) => (
@@ -211,16 +211,16 @@ export default function MediaLibraryPage() {
                 ))
               ) : media.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-12 text-center text-gray-500">
+                  <td colSpan={5} className="px-6 py-12 text-center text-steel">
                     No media found. Upload your first file to get started.
                   </td>
                 </tr>
               ) : (
                 media.map((asset) => (
-                  <tr key={asset.id} className="hover:bg-gray-50/50 transition-colors">
+                  <tr key={asset.id} className="hover:bg-surface-soft transition-colors">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center shrink-0 overflow-hidden">
+                        <div className="w-10 h-10 rounded-lg bg-surface flex items-center justify-center shrink-0 overflow-hidden">
                           {asset.fileType?.startsWith('image/') ? (
                             <img src={getMediaUrl(asset.fileUrl)} alt={asset.fileName} className="w-full h-full object-cover" />
                           ) : (
@@ -228,40 +228,40 @@ export default function MediaLibraryPage() {
                           )}
                         </div>
                         <div className="max-w-[200px] sm:max-w-xs">
-                          <p className="font-medium text-gray-900 truncate" title={asset.fileName}>
-                            <a href={getMediaUrl(asset.fileUrl)} target="_blank" rel="noreferrer" className="hover:text-emerald-600 transition-colors">
+                          <p className="font-medium text-ink truncate" title={asset.fileName}>
+                            <a href={getMediaUrl(asset.fileUrl)} target="_blank" rel="noreferrer" className="hover:text-brand-green-dark transition-colors">
                               {asset.fileName}
                             </a>
                           </p>
                           <div className="flex items-center gap-2 mt-0.5">
-                            <p className="text-xs text-gray-400">{asset.fileType || 'Unknown format'}</p>
+                            <p className="text-xs text-muted">{asset.fileType || 'Unknown format'}</p>
                           </div>
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-600">
+                      <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-surface text-steel">
                         {asset.mediaCategory || 'general'}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-gray-500">
+                    <td className="px-6 py-4 text-steel">
                       {formatSize(asset.fileSizeKb)}
                     </td>
-                    <td className="px-6 py-4 text-gray-500">
+                    <td className="px-6 py-4 text-steel">
                       {asset.createdAt ? new Date(asset.createdAt).toLocaleDateString() : '-'}
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <Link
                           href={`/dashboard/media/${asset.id}/edit`}
-                          className="p-2 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
+                          className="p-2 text-muted hover:text-brand-green-dark hover:bg-brand-green-soft rounded-full transition-colors"
                           title="Edit Media"
                         >
                           <Edit className="w-4 h-4" />
                         </Link>
                         <button
                           onClick={() => openDeleteModal(asset)}
-                          className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                          className="p-2 text-muted hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                           title="Delete Media"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -277,25 +277,25 @@ export default function MediaLibraryPage() {
         
         {/* Pagination Footer */}
         {totalElements > 0 && (
-          <div className="px-4 sm:px-6 py-4 border-t border-gray-100 flex flex-col md:flex-row items-center justify-between gap-4 bg-gray-50/30">
-            <div className="text-sm text-gray-500 text-center md:text-left">
+          <div className="px-4 sm:px-6 py-4 border-t border-hairline flex flex-col md:flex-row items-center justify-between gap-4 bg-surface-soft">
+            <div className="text-sm text-steel text-center md:text-left">
               Showing <span className="font-medium">{(currentPage - 1) * itemsPerPage + 1}</span> to <span className="font-medium">{Math.min(currentPage * itemsPerPage, totalElements)}</span> of <span className="font-medium">{totalElements}</span> results
             </div>
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
-                className="p-2 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="p-2 rounded-lg border border-hairline-strong text-steel hover:bg-surface disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
-              <div className="text-sm font-medium text-gray-700 px-2">
+              <div className="text-sm font-medium text-slate px-2">
                 Page {currentPage} of {totalPages}
               </div>
               <button
                 onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
-                className="p-2 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="p-2 rounded-lg border border-hairline-strong text-steel hover:bg-surface disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 <ChevronRight className="w-4 h-4" />
               </button>

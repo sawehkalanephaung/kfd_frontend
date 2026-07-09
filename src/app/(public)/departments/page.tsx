@@ -46,9 +46,9 @@ function getDeptMeta(slug: string): {
   accent: string;
   description: string;
 } {
-  const color = "text-emerald-700";
-  const bg = "bg-emerald-50";
-  const accent = "bg-emerald-500";
+  const color = "text-brand-green-dark";
+  const bg = "bg-brand-green-soft";
+  const accent = "bg-brand-green";
 
   if (slug.includes("survey") || slug.includes("documentation")) {
     return {
@@ -95,7 +95,7 @@ export default async function DepartmentsPage() {
   const departments = await getDepartments();
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-surface">
       {/* ── Hero Banner ─────────────────────────────────── */}
       <section className="relative overflow-hidden bg-[#0f2318] py-20 md:py-28">
         {/* Background pattern */}
@@ -108,7 +108,7 @@ export default async function DepartmentsPage() {
 
         {/* Decorative blobs */}
         <div className="pointer-events-none absolute -top-32 -left-32 w-96 h-96 rounded-full bg-green-500/10 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-32 -right-32 w-96 h-96 rounded-full bg-emerald-400/10 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-32 -right-32 w-96 h-96 rounded-full bg-brand-green-soft blur-3xl" />
 
         <div className="container relative mx-auto px-4 sm:px-6 lg:px-8 text-center">
 
@@ -118,7 +118,7 @@ export default async function DepartmentsPage() {
 
           </h1>
 
-          <p className="max-w-2xl mx-auto text-lg text-green-100/70 leading-relaxed">
+          <p className="max-w-2xl mx-auto text-lg text-on-dark-muted/70 leading-relaxed">
             Each unit of the Kawthoolei Forestry Department plays a vital role in
             protecting, restoring, and sustaining our forests for future generations.
           </p>
@@ -133,11 +133,11 @@ export default async function DepartmentsPage() {
         {departments.length === 0 ? (
           /* Fallback when backend is offline */
           <div className="text-center py-24">
-            <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
-              <TreePine size={28} className="text-gray-400" />
+            <div className="w-16 h-16 rounded-full bg-surface flex items-center justify-center mx-auto mb-4">
+              <TreePine size={28} className="text-muted" />
             </div>
-            <h2 className="text-xl font-semibold text-gray-700 mb-2">No departments found</h2>
-            <p className="text-gray-500 text-sm">
+            <h2 className="text-xl font-semibold text-slate mb-2">No departments found</h2>
+            <p className="text-steel text-sm">
               Please ensure the backend server is running.
             </p>
           </div>
@@ -154,7 +154,7 @@ export default async function DepartmentsPage() {
                 <Link
                   key={dept.id}
                   href={`/departments/${dept.slug}`}
-                  className="group relative flex flex-col rounded-2xl overflow-hidden bg-white border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300"
+                  className="group relative flex flex-col rounded-2xl overflow-hidden bg-canvas border border-hairline shadow-sm hover:shadow-xl .5 transition-all duration-300"
                 >
                   {/* Card Image */}
                   <div className={`relative h-48 overflow-hidden flex items-center justify-center ${meta.bg}`}>
@@ -170,7 +170,7 @@ export default async function DepartmentsPage() {
 
                     {/* Order badge */}
                     <div className="absolute top-4 left-4">
-                      <span className="text-xs font-bold text-white/80 bg-white/10 backdrop-blur-sm border border-white/20 px-2.5 py-1 rounded-full">
+                      <span className="text-xs font-bold text-white/80 bg-canvas/10 backdrop-blur-sm border border-white/20 px-2.5 py-1 rounded-full">
                         Unit {String(idx + 1).padStart(2, "0")}
                       </span>
                     </div>
@@ -187,35 +187,35 @@ export default async function DepartmentsPage() {
 
                   {/* Card Body */}
                   <div className="flex flex-col flex-1 p-6">
-                    <h2 className="text-base font-bold text-gray-900 mb-3 group-hover:text-[#1a3626] transition-colors leading-snug line-clamp-2">
+                    <h2 className="text-base font-bold text-ink mb-3 group-hover:text-teal-deep transition-colors leading-snug line-clamp-2">
                       {dept.name}
                     </h2>
 
-                    <p className="text-sm text-gray-500 leading-relaxed mb-5 line-clamp-3 flex-1">
+                    <p className="text-sm text-steel leading-relaxed mb-5 line-clamp-3 flex-1">
                       {meta.description}
                     </p>
 
                     {/* Meta row */}
-                    <div className="flex flex-wrap items-center gap-3 mb-5 text-xs text-gray-500">
+                    <div className="flex flex-wrap items-center gap-3 mb-5 text-xs text-steel">
                       {headName && (
-                        <span className="flex items-center gap-1.5 bg-gray-50 border border-gray-100 px-2.5 py-1 rounded-full">
-                          <Users size={11} className="text-gray-400" />
+                        <span className="flex items-center gap-1.5 bg-surface border border-hairline px-2.5 py-1 rounded-full">
+                          <Users size={11} className="text-muted" />
                           {headName}
                         </span>
                       )}
-                      <span className="flex items-center gap-1.5 bg-gray-50 border border-gray-100 px-2.5 py-1 rounded-full">
-                        <FileText size={11} className="text-gray-400" />
+                      <span className="flex items-center gap-1.5 bg-surface border border-hairline px-2.5 py-1 rounded-full">
+                        <FileText size={11} className="text-muted" />
                         {dept.resources?.length ?? 0} Resources
                       </span>
-                      <span className="flex items-center gap-1.5 bg-gray-50 border border-gray-100 px-2.5 py-1 rounded-full">
-                        <Activity size={11} className="text-gray-400" />
+                      <span className="flex items-center gap-1.5 bg-surface border border-hairline px-2.5 py-1 rounded-full">
+                        <Activity size={11} className="text-muted" />
                         {dept.posts?.length ?? 0} Activities
                       </span>
                     </div>
 
                     {/* CTA */}
                     <div
-                      className={`flex items-center justify-between pt-4 border-t border-gray-100`}
+                      className={`flex items-center justify-between pt-4 border-t border-hairline`}
                     >
                       <span className="text-xs font-semibold text-[#1a3626] group-hover:text-green-700 transition-colors">
                         View Department

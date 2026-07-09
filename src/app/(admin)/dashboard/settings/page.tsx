@@ -92,25 +92,25 @@ export default function SystemSettingsPage() {
   };
 
   if (loading) {
-    return <div className="p-8 text-gray-500">Loading settings...</div>;
+    return <div className="p-8 text-steel">Loading settings...</div>;
   }
 
   return (
     <div className="max-w-4xl">
       {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm text-gray-400 mb-6">
-        <Link href="/dashboard" className="text-gray-500 hover:text-gray-900 transition-colors">Home</Link>
+      <div className="flex items-center gap-2 text-sm text-muted mb-6">
+        <Link href="/dashboard" className="text-steel hover:text-ink transition-colors">Home</Link>
         <span>&gt;</span>
-        <span className="text-gray-900 font-medium">System Settings</span>
+        <span className="text-ink font-medium">System Settings</span>
       </div>
 
       {/* Header Section */}
-      <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-50 mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
-          <Settings className="w-6 h-6 text-emerald-500" />
+      <div className="bg-canvas rounded-lg p-8 shadow-sm border border-hairline-soft mb-6">
+        <h1 className="text-2xl font-bold text-ink flex items-center gap-3">
+          <Settings className="w-6 h-6 text-brand-green" />
           System Settings
         </h1>
-        <p className="text-gray-500 mt-1">
+        <p className="text-steel mt-1">
           Manage your personal dashboard preferences and notification alerts.
         </p>
       </div>
@@ -119,16 +119,16 @@ export default function SystemSettingsPage() {
       <div className="grid grid-cols-1 gap-6">
 
         {/* Notification Settings Panel */}
-        <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm">
-          <div className="p-6 border-b border-gray-50 bg-gray-50/30 flex items-center justify-between">
+        <div className="bg-canvas rounded-lg border border-hairline overflow-hidden shadow-sm">
+          <div className="p-6 border-b border-hairline-soft bg-surface-soft flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <Bell className="w-5 h-5 text-gray-600" />
+              <Bell className="w-5 h-5 text-steel" />
               <div>
-                <h2 className="text-lg font-bold text-gray-900">Notification Alerts</h2>
-                <p className="text-sm text-gray-500">Choose which events trigger an alert on your dashboard.</p>
+                <h2 className="text-lg font-bold text-ink">Notification Alerts</h2>
+                <p className="text-sm text-steel">Choose which events trigger an alert on your dashboard.</p>
               </div>
             </div>
-            <span className="text-xs font-medium text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100">
+            <span className="text-xs font-medium text-brand-green-dark bg-brand-green-soft px-3 py-1 rounded-full border border-brand-green/20">
               Auto-saved
             </span>
           </div>
@@ -136,21 +136,21 @@ export default function SystemSettingsPage() {
           <div className="p-6 space-y-1">
             {NOTIFICATION_OPTIONS.map((option, index) => (
               <React.Fragment key={option.key}>
-                {index > 0 && <hr className="border-gray-50 !my-0" />}
+                {index > 0 && <hr className="border-hairline-soft !my-0" />}
                 <div className="flex items-center justify-between py-4 group">
                   <div className="flex items-start gap-4">
                     <div className={`w-10 h-10 rounded-full ${option.iconBg} flex items-center justify-center ${option.iconColor} shrink-0 transition-transform group-hover:scale-105`}>
                       {option.icon}
                     </div>
                     <div>
-                      <h3 className="font-medium text-gray-900">{option.title}</h3>
-                      <p className="text-sm text-gray-500 mt-0.5">{option.description}</p>
+                      <h3 className="font-medium text-ink">{option.title}</h3>
+                      <p className="text-sm text-steel mt-0.5">{option.description}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
                     {/* Saved micro-animation */}
                     <span
-                      className={`text-xs font-medium text-emerald-600 flex items-center gap-1 transition-all duration-300 ${
+                      className={`text-xs font-medium text-brand-green-dark flex items-center gap-1 transition-all duration-300 ${
                         savedKey === option.key
                           ? 'opacity-100 translate-x-0'
                           : 'opacity-0 translate-x-2'
@@ -166,7 +166,7 @@ export default function SystemSettingsPage() {
                         checked={preferences[option.key]}
                         onChange={() => handleToggle(option.key)}
                       />
-                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
+                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-canvas after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-green"></div>
                     </label>
                   </div>
                 </div>

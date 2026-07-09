@@ -92,20 +92,20 @@ export default function TeamDirectoryPage() {
   return (
     <div>
       {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm text-gray-400 mb-6">
-        <Link href="/dashboard" className="text-gray-500 hover:text-gray-900 transition-colors">Home</Link>
+      <div className="flex items-center gap-2 text-sm text-muted mb-6">
+        <Link href="/dashboard" className="text-steel hover:text-ink transition-colors">Home</Link>
         <span>&gt;</span>
-        <span className="text-gray-900 font-medium">Team Directory</span>
+        <span className="text-ink font-medium">Team Directory</span>
       </div>
 
       {/* Header Section */}
-      <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-50 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+      <div className="bg-canvas rounded-lg p-8 shadow-sm border border-hairline-soft flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
-            <Users className="w-6 h-6 text-emerald-500" />
+          <h1 className="text-2xl font-bold text-ink flex items-center gap-3">
+            <Users className="w-6 h-6 text-brand-green" />
             Team Directory
           </h1>
-          <p className="text-gray-500 mt-1">
+          <p className="text-steel mt-1">
             Manage all profiles and bios for your organization's members.
           </p>
         </div>
@@ -120,25 +120,25 @@ export default function TeamDirectoryPage() {
       )}
 
       {/* Table Section */}
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-50 overflow-hidden">
+      <div className="bg-canvas rounded-lg shadow-sm border border-hairline-soft overflow-hidden">
         
         {/* Search Bar */}
-        <div className="p-4 border-b border-gray-50 bg-gray-50/30">
+        <div className="p-4 border-b border-hairline-soft bg-surface-soft">
           <div className="relative max-w-sm">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted" />
             <input 
               type="text" 
               placeholder="Search by name or title..." 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all placeholder:text-gray-400 text-gray-900"
+              className="w-full pl-10 pr-4 py-2 bg-canvas border border-hairline-strong rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-green/20 focus:border-emerald-500 transition-all placeholder:text-muted text-ink"
             />
           </div>
         </div>
 
         <div className="overflow-x-auto w-full">
-          <table className="w-full sm:min-w-[800px] text-left text-sm text-gray-600">
-            <thead className="bg-gray-50/50 text-gray-500 font-medium border-b border-gray-100">
+          <table className="w-full sm:min-w-[800px] text-left text-sm text-steel">
+            <thead className="bg-surface-soft text-steel font-medium border-b border-hairline">
               <tr>
                 <th className="px-6 py-4">Member Info</th>
                 <th className="px-6 py-4 hidden sm:table-cell">Job Title</th>
@@ -148,7 +148,7 @@ export default function TeamDirectoryPage() {
                 <th className="px-6 py-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-50">
+            <tbody className="divide-y divide-hairline-soft">
               {loading ? (
                 // Skeleton Loaders
                 Array.from({ length: 5 }).map((_, idx) => (
@@ -168,16 +168,16 @@ export default function TeamDirectoryPage() {
                 ))
               ) : filteredMembers.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-12 text-center text-gray-500">
+                  <td colSpan={6} className="px-6 py-12 text-center text-steel">
                     {searchQuery ? "No members found matching your search." : "No members found. Add your first team member to get started."}
                   </td>
                 </tr>
               ) : (
                 paginatedMembers.map((member) => (
-                  <tr key={member.id} className="hover:bg-gray-50/50 transition-colors">
+                  <tr key={member.id} className="hover:bg-surface-soft transition-colors">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0 overflow-hidden border border-emerald-200">
+                        <div className="w-10 h-10 rounded-full bg-brand-green-soft text-brand-green-dark flex items-center justify-center shrink-0 overflow-hidden border border-brand-green/30">
                           {member.headshotUrl ? (
                             <img src={getMediaUrl(member.headshotUrl)} alt={`${member.firstName} ${member.lastName}`} className="w-full h-full object-cover" />
                           ) : (
@@ -187,23 +187,23 @@ export default function TeamDirectoryPage() {
                           )}
                         </div>
                         <div>
-                          <p className="font-medium text-gray-900">{member.firstName} {member.lastName}</p>
+                          <p className="font-medium text-ink">{member.firstName} {member.lastName}</p>
                           {/* Mobile Data Stack */}
                           <div className="mt-1 flex flex-col gap-1 sm:hidden font-normal">
-                            <div className="text-xs text-gray-500">{getTitleString(member.title)}</div>
+                            <div className="text-xs text-steel">{getTitleString(member.title)}</div>
                             <div className="flex flex-wrap items-center gap-2 mt-1">
                               {member.isActive ? (
-                                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-emerald-50 text-emerald-700 border border-emerald-200/50">
+                                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-brand-green-soft text-brand-green-dark border border-brand-green/20">
                                   <CheckCircle2 className="w-3 h-3" />
                                   Active
                                 </span>
                               ) : (
-                                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-gray-100 text-gray-600 border border-gray-200">
+                                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-surface text-steel border border-hairline-strong">
                                   <XCircle className="w-3 h-3" />
                                   Inactive
                                 </span>
                               )}
-                              <span className="text-[11px] text-gray-400 border border-gray-100 bg-gray-50 px-1.5 py-0.5 rounded">
+                              <span className="text-[11px] text-muted border border-hairline bg-surface px-1.5 py-0.5 rounded">
                                 {member.departmentName || 'No Dept'}
                               </span>
                             </div>
@@ -211,40 +211,40 @@ export default function TeamDirectoryPage() {
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-gray-900 font-medium hidden sm:table-cell">
+                    <td className="px-6 py-4 text-ink font-medium hidden sm:table-cell">
                       {getTitleString(member.title)}
                     </td>
-                    <td className="px-6 py-4 text-gray-500 hidden sm:table-cell">
-                      {member.departmentName || <span className="text-gray-400 italic">None</span>}
+                    <td className="px-6 py-4 text-steel hidden sm:table-cell">
+                      {member.departmentName || <span className="text-muted italic">None</span>}
                     </td>
                     <td className="px-6 py-4 hidden sm:table-cell">
                       {member.isActive ? (
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200/50">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-brand-green-soft text-brand-green-dark border border-brand-green/20">
                           <CheckCircle2 className="w-3.5 h-3.5" />
                           Active
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-600 border border-gray-200">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-surface text-steel border border-hairline-strong">
                           <XCircle className="w-3.5 h-3.5" />
                           Inactive
                         </span>
                       )}
                     </td>
-                    <td className="px-6 py-4 text-gray-500 hidden sm:table-cell">
+                    <td className="px-6 py-4 text-steel hidden sm:table-cell">
                       {member.displayOrder || 0}
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <Link
                           href={`/dashboard/team/${member.id}/edit`}
-                          className="p-2 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
+                          className="p-2 text-muted hover:text-brand-green-dark hover:bg-brand-green-soft rounded-full transition-colors"
                           title="Edit Member"
                         >
                           <Edit className="w-4 h-4" />
                         </Link>
                         <button
                           onClick={() => openDeleteModal(member)}
-                          className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                          className="p-2 text-muted hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                           title="Delete Member"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -260,15 +260,15 @@ export default function TeamDirectoryPage() {
         
         {/* Pagination Controls */}
         {!loading && filteredMembers.length > 0 && (
-          <div className="px-6 py-4 border-t border-gray-50 bg-gray-50/30 flex items-center justify-between">
-            <span className="text-sm text-gray-500">
-              Showing <span className="font-medium text-gray-900">{(currentPage - 1) * itemsPerPage + 1}</span> to <span className="font-medium text-gray-900">{Math.min(currentPage * itemsPerPage, filteredMembers.length)}</span> of <span className="font-medium text-gray-900">{filteredMembers.length}</span> members
+          <div className="px-6 py-4 border-t border-hairline-soft bg-surface-soft flex items-center justify-between">
+            <span className="text-sm text-steel">
+              Showing <span className="font-medium text-ink">{(currentPage - 1) * itemsPerPage + 1}</span> to <span className="font-medium text-ink">{Math.min(currentPage * itemsPerPage, filteredMembers.length)}</span> of <span className="font-medium text-ink">{filteredMembers.length}</span> members
             </span>
             <div className="flex items-center gap-2">
               <button 
                 onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
-                className="p-1.5 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-100 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="p-1.5 rounded-lg border border-hairline-strong text-steel hover:bg-surface hover:text-ink disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
@@ -279,8 +279,8 @@ export default function TeamDirectoryPage() {
                     onClick={() => setCurrentPage(idx + 1)}
                     className={`w-8 h-8 rounded-lg text-sm font-medium transition-colors ${
                       currentPage === idx + 1 
-                        ? 'bg-emerald-500 text-white' 
-                        : 'text-gray-500 hover:bg-gray-100 hover:text-gray-900'
+                        ? 'bg-brand-green text-on-primary' 
+                        : 'text-steel hover:bg-surface hover:text-ink'
                     }`}
                   >
                     {idx + 1}
@@ -290,7 +290,7 @@ export default function TeamDirectoryPage() {
               <button 
                 onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
-                className="p-1.5 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-100 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="p-1.5 rounded-lg border border-hairline-strong text-steel hover:bg-surface hover:text-ink disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 <ChevronRight className="w-4 h-4" />
               </button>

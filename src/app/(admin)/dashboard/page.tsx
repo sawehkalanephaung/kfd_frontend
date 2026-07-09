@@ -103,18 +103,18 @@ export default function DashboardPage() {
   return (
     <div>
       {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm text-gray-400 mb-6">
-        <span className="text-gray-500">Home</span>
+      <div className="flex items-center gap-2 text-sm text-muted mb-6">
+        <span className="text-steel">Home</span>
         <span>&gt;</span>
-        <span className="text-gray-900 font-medium">Dashboard</span>
+        <span className="text-ink font-medium">Dashboard</span>
       </div>
 
       {/* Welcome Card */}
-      <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
-        <h1 className="text-2xl font-bold text-gray-900">
+      <div className="bg-canvas rounded-lg p-8 shadow-sm border border-hairline">
+        <h1 className="text-2xl font-bold text-ink">
           Good morning, Admin!
         </h1>
-        <p className="text-gray-500 mt-1">
+        <p className="text-steel mt-1">
           Here is your KFD command center overview for today.
         </p>
       </div>
@@ -124,16 +124,16 @@ export default function DashboardPage() {
         {kpiData.map((kpi) => (
           <div
             key={kpi.label}
-            className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex flex-col justify-between"
+            className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline flex flex-col justify-between"
           >
-            <p className="text-sm font-medium text-gray-500">{kpi.label}</p>
+            <p className="text-sm font-medium text-steel">{kpi.label}</p>
             <div className="mt-4">
               {loading ? (
-                <Loader2 className="w-6 h-6 animate-spin text-emerald-500" />
+                <Loader2 className="w-6 h-6 animate-spin text-brand-green" />
               ) : (
                 <>
-                  <p className="text-3xl font-bold text-gray-900">{kpi.value}</p>
-                  <p className="text-xs text-emerald-600 font-medium mt-1">{kpi.trend}</p>
+                  <p className="text-3xl font-bold text-ink">{kpi.value}</p>
+                  <p className="text-xs text-brand-green-dark font-medium mt-1">{kpi.trend}</p>
                 </>
               )}
             </div>
@@ -148,62 +148,62 @@ export default function DashboardPage() {
       <div className="mt-6 grid grid-cols-1 xl:grid-cols-3 gap-6">
 
         {/* Recent Activity */}
-        <div className="xl:col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
+        <div className="xl:col-span-2 bg-canvas rounded-lg p-6 shadow-sm border border-hairline">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-bold text-gray-900">Recent Activity</h3>
-            <Link href="/dashboard/posts" className="text-sm font-medium text-emerald-600 hover:text-emerald-700">
+            <h3 className="text-lg font-bold text-ink">Recent Activity</h3>
+            <Link href="/dashboard/posts" className="text-sm font-medium text-brand-green-dark hover:text-brand-green-dark">
               View All Posts
             </Link>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm text-gray-600 min-w-[600px]">
+            <table className="w-full text-left text-sm text-steel min-w-[600px]">
               <thead>
-                <tr className="border-b border-gray-100 text-gray-400 text-xs uppercase tracking-wider">
+                <tr className="border-b border-hairline text-muted text-xs uppercase tracking-wider">
                   <th className="pb-3 font-medium">Title</th>
                   <th className="pb-3 font-medium">Status</th>
                   <th className="pb-3 font-medium">Last Updated</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-50">
+              <tbody className="divide-y divide-hairline-soft">
                 {loading ? (
                   <tr>
-                    <td colSpan={3} className="py-8 text-center text-gray-400">
+                    <td colSpan={3} className="py-8 text-center text-muted">
                       <Loader2 className="w-6 h-6 animate-spin mx-auto mb-2" />
                       Loading recent activity...
                     </td>
                   </tr>
                 ) : recentPosts.length === 0 ? (
                   <tr>
-                    <td colSpan={3} className="py-8 text-center text-gray-500">
+                    <td colSpan={3} className="py-8 text-center text-steel">
                       No recent activity found.
                     </td>
                   </tr>
                 ) : (
                   recentPosts.map((item, idx) => (
-                    <tr key={idx} className="group hover:bg-gray-50/50 transition-colors">
+                    <tr key={idx} className="group hover:bg-surface-soft transition-colors">
                       <td className="py-4">
                         <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-lg bg-gray-50 flex items-center justify-center text-gray-400 group-hover:bg-white group-hover:shadow-sm transition-all">
+                          <div className="w-8 h-8 rounded-lg bg-surface flex items-center justify-center text-muted group-hover:bg-canvas group-hover:shadow-sm transition-all">
                             <FileText className="w-4 h-4" />
                           </div>
                           <div className="flex flex-col">
-                            <span className="font-medium text-gray-900 truncate max-w-[300px]" title={item.title}>{item.title}</span>
-                            <span className="text-xs text-gray-400">/{item.slug}</span>
+                            <span className="font-medium text-ink truncate max-w-[300px]" title={item.title}>{item.title}</span>
+                            <span className="text-xs text-muted">/{item.slug}</span>
                           </div>
                         </div>
                       </td>
                       <td className="py-4">
                         <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${item.status === 'PUBLISHED'
-                          ? 'bg-emerald-50 text-emerald-700 border border-emerald-100'
+                          ? 'bg-brand-green-soft text-brand-green-dark border border-brand-green/20'
                           : item.status === 'DRAFT'
                             ? 'bg-amber-50 text-amber-700 border border-amber-200'
-                            : 'bg-gray-100 text-gray-600 border border-gray-200'
+                            : 'bg-surface text-steel border border-hairline-strong'
                           }`}>
                           {item.status === 'PUBLISHED' ? <CheckCircle2 className="w-3.5 h-3.5" /> : <Clock className="w-3.5 h-3.5" />}
                           {item.status}
                         </span>
                       </td>
-                      <td className="py-4 text-gray-400 text-sm">
+                      <td className="py-4 text-muted text-sm">
                         {item.updatedAt ? new Date(item.updatedAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : '-'}
                       </td>
                     </tr>
@@ -215,45 +215,45 @@ export default function DashboardPage() {
         </div>
 
         {/* Quick Actions */}
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-          <h3 className="text-lg font-bold text-gray-900 mb-6">Quick Actions</h3>
+        <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline">
+          <h3 className="text-lg font-bold text-ink mb-6">Quick Actions</h3>
           <div className="space-y-3">
             <Link
               href="/dashboard/posts/create"
-              className="flex items-center gap-4 p-4 rounded-xl border border-gray-100 hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-700 transition-all group"
+              className="flex items-center gap-4 p-4 rounded-full border border-hairline hover:border-brand-green/30 hover:bg-brand-green-soft hover:text-brand-green-dark transition-all group"
             >
-              <div className="w-10 h-10 rounded-full bg-emerald-100/50 flex items-center justify-center text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+              <div className="w-10 h-10 rounded-full bg-brand-green-soft/50 flex items-center justify-center text-brand-green-dark group-hover:bg-primary-deep group-hover:text-on-primary transition-colors">
                 <PlusCircle className="w-5 h-5" />
               </div>
               <div>
-                <p className="font-medium text-gray-900 group-hover:text-emerald-700">Create New Post</p>
-                <p className="text-xs text-gray-500 group-hover:text-emerald-600/70">Draft a new article or page</p>
+                <p className="font-medium text-ink group-hover:text-brand-green-dark">Create New Post</p>
+                <p className="text-xs text-steel group-hover:text-brand-green-dark/70">Draft a new article or page</p>
               </div>
             </Link>
 
             <Link
               href="/dashboard/media/upload"
-              className="flex items-center gap-4 p-4 rounded-xl border border-gray-100 hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700 transition-all group"
+              className="flex items-center gap-4 p-4 rounded-xl border border-hairline hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700 transition-all group"
             >
               <div className="w-10 h-10 rounded-full bg-blue-100/50 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors">
                 <UploadCloud className="w-5 h-5" />
               </div>
               <div>
-                <p className="font-medium text-gray-900 group-hover:text-blue-700">Upload Media</p>
-                <p className="text-xs text-gray-500 group-hover:text-blue-600/70">Add photos or documents</p>
+                <p className="font-medium text-ink group-hover:text-blue-700">Upload Media</p>
+                <p className="text-xs text-steel group-hover:text-blue-600/70">Add photos or documents</p>
               </div>
             </Link>
 
             <Link
               href="/dashboard/team/create"
-              className="flex items-center gap-4 p-4 rounded-xl border border-gray-100 hover:border-purple-200 hover:bg-purple-50 hover:text-purple-700 transition-all group"
+              className="flex items-center gap-4 p-4 rounded-xl border border-hairline hover:border-purple-200 hover:bg-purple-50 hover:text-purple-700 transition-all group"
             >
               <div className="w-10 h-10 rounded-full bg-purple-100/50 flex items-center justify-center text-purple-600 group-hover:bg-purple-600 group-hover:text-white transition-colors">
                 <UserPlus className="w-5 h-5" />
               </div>
               <div>
-                <p className="font-medium text-gray-900 group-hover:text-purple-700">Add Team Member</p>
-                <p className="text-xs text-gray-500 group-hover:text-purple-600/70">Invite a new system user</p>
+                <p className="font-medium text-ink group-hover:text-purple-700">Add Team Member</p>
+                <p className="text-xs text-steel group-hover:text-purple-600/70">Invite a new system user</p>
               </div>
             </Link>
           </div>

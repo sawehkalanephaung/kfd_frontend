@@ -55,7 +55,7 @@ export default async function Navbar() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white border-b border-gray-100 shadow-sm">
+    <header className="sticky top-0 z-50 w-full bg-canvas border-b border-hairline shadow-sm">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3">
@@ -80,20 +80,20 @@ export default async function Navbar() {
             <div key={link.name} className="relative group">
               <Link
                 href={link.href}
-                className="text-sm font-medium text-gray-700 hover:text-[#1a3626] transition-colors flex items-center gap-1 py-4"
+                className="text-sm font-medium text-slate hover:text-teal-deep transition-colors flex items-center gap-1 py-4"
               >
                 {link.name}
-                {link.dropdown && <ChevronDown size={14} className="text-gray-400 group-hover:text-[#1a3626] transition-colors" />}
+                {link.dropdown && <ChevronDown size={14} className="text-muted group-hover:text-teal-deep transition-colors" />}
               </Link>
 
               {link.dropdown && (
-                <div className="absolute top-full left-0 w-48 bg-white border border-gray-100 shadow-lg rounded-md overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 transform origin-top-left -translate-y-2 group-hover:translate-y-0">
+                <div className="absolute top-full left-0 w-48 bg-canvas border border-hairline shadow-lg rounded-md overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 transform origin-top-left -translate-y-2 group-hover:translate-y-0">
                   <div className="py-2">
                     {link.dropdown.map((subLink: any) => (
                       <Link
                         key={subLink.name}
                         href={subLink.href}
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-green-50 hover:text-[#1a3626] transition-colors"
+                        className="block px-4 py-2 text-sm text-slate hover:bg-surface-soft hover:text-teal-deep transition-colors"
                       >
                         {subLink.name}
                       </Link>
@@ -107,7 +107,7 @@ export default async function Navbar() {
 
         {/* Actions */}
         <div className="flex items-center gap-6">
-          {/* <button className="text-gray-600 hover:text-[#1a3626] transition-colors" aria-label="Search">
+          {/* <button className="text-steel hover:text-teal-deep transition-colors" aria-label="Search">
             <Search size={20} />
           </button> */}
 
@@ -117,7 +117,7 @@ export default async function Navbar() {
               <Globe className="w-5 h-5 text-[#1a3626]" />
             </div>
 
-            <div className="absolute top-full right-0 w-36 bg-white border border-gray-100 shadow-lg rounded-md overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 transform origin-top-right -translate-y-2 group-hover:translate-y-0">
+            <div className="absolute top-full right-0 w-36 bg-canvas border border-hairline shadow-lg rounded-md overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 transform origin-top-right -translate-y-2 group-hover:translate-y-0">
               <div className="py-2">
                 <button
                   className="block w-full text-left px-4 py-2 text-sm text-[#1a3626] font-medium bg-green-50 transition-colors"
@@ -125,13 +125,13 @@ export default async function Navbar() {
                   English
                 </button>
                 <button
-                  className="block w-full text-left px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-[#1a3626] transition-colors"
+                  className="block w-full text-left px-4 py-2 text-sm text-steel hover:bg-surface hover:text-teal-deep transition-colors"
                   title="Not implemented yet"
                 >
                   ကညီ (Karen)
                 </button>
                 <button
-                  className="block w-full text-left px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-[#1a3626] transition-colors"
+                  className="block w-full text-left px-4 py-2 text-sm text-steel hover:bg-surface hover:text-teal-deep transition-colors"
                   title="Not implemented yet"
                 >
                   မြန်မာ (Burmese)

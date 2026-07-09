@@ -36,8 +36,8 @@ function Field({
 }) {
   return (
     <div className="space-y-1.5">
-      <label className="block text-sm font-semibold text-gray-900">{label}</label>
-      {hint && <p className="text-xs text-gray-400">{hint}</p>}
+      <label className="block text-sm font-semibold text-ink">{label}</label>
+      {hint && <p className="text-xs text-muted">{hint}</p>}
       {children}
     </div>
   );
@@ -112,9 +112,9 @@ export default function SiteIdentityForm() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-20 bg-white rounded-2xl shadow-sm border border-gray-50">
-        <div className="flex flex-col items-center gap-3 text-gray-400">
-          <Loader2 className="w-8 h-8 animate-spin text-emerald-500" />
+      <div className="flex items-center justify-center py-20 bg-canvas rounded-lg shadow-sm border border-hairline-soft">
+        <div className="flex flex-col items-center gap-3 text-muted">
+          <Loader2 className="w-8 h-8 animate-spin text-brand-green" />
           <p>Loading site identity...</p>
         </div>
       </div>
@@ -127,11 +127,11 @@ export default function SiteIdentityForm() {
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Top bar */}
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-bold text-gray-900">Manage Identity</h2>
+        <h2 className="text-lg font-bold text-ink">Manage Identity</h2>
         <button
           type="submit"
           disabled={saving}
-          className="inline-flex items-center gap-2 px-6 py-2.5 bg-emerald-500 hover:bg-emerald-600 disabled:opacity-70 text-white font-medium rounded-xl transition-all shadow-sm shadow-emerald-500/20 active:scale-95"
+          className="inline-flex items-center gap-2 px-6 py-2.5 bg-brand-green hover:bg-primary-deep disabled:opacity-70 text-on-primary font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
         >
           {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
           Save Changes
@@ -145,7 +145,7 @@ export default function SiteIdentityForm() {
         </div>
       )}
       {successMsg && (
-        <div className="bg-emerald-50 text-emerald-700 p-4 rounded-xl border border-emerald-100 text-sm font-medium">
+        <div className="bg-brand-green-soft text-brand-green-dark p-4 rounded-full border border-brand-green/20 text-sm font-medium">
           {successMsg}
         </div>
       )}
@@ -154,9 +154,9 @@ export default function SiteIdentityForm() {
         {/* ── Left column ── */}
         <div className="space-y-6">
           {/* Organisation card */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50">
-            <h3 className="text-base font-bold text-gray-900 flex items-center gap-2 mb-6">
-              <Building2 className="w-5 h-5 text-gray-400" />
+          <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft">
+            <h3 className="text-base font-bold text-ink flex items-center gap-2 mb-6">
+              <Building2 className="w-5 h-5 text-muted" />
               Organisation
             </h3>
             <div className="space-y-5">
@@ -166,14 +166,14 @@ export default function SiteIdentityForm() {
               >
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Building2 className="h-5 w-5 text-gray-400" />
+                    <Building2 className="h-5 w-5 text-muted" />
                   </div>
                   <input
                     type="text"
                     value={formData.organizationName}
                     onChange={(e) => set('organizationName')(e.target.value)}
                     placeholder="e.g. Kaung Foundation"
-                    className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                    className="w-full pl-10 pr-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
                   />
                 </div>
               </Field>
@@ -184,14 +184,14 @@ export default function SiteIdentityForm() {
               >
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Type className="h-5 w-5 text-gray-400" />
+                    <Type className="h-5 w-5 text-muted" />
                   </div>
                   <input
                     type="text"
                     value={formData.tagline}
                     onChange={(e) => set('tagline')(e.target.value)}
                     placeholder="e.g. Empowering Communities Since 2010"
-                    className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                    className="w-full pl-10 pr-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
                   />
                 </div>
               </Field>
@@ -202,14 +202,14 @@ export default function SiteIdentityForm() {
               >
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Copyright className="h-5 w-5 text-gray-400" />
+                    <Copyright className="h-5 w-5 text-muted" />
                   </div>
                   <input
                     type="text"
                     value={formData.footerCopyright}
                     onChange={(e) => set('footerCopyright')(e.target.value)}
                     placeholder="e.g. © {year} Kaung Foundation. All rights reserved."
-                    className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                    className="w-full pl-10 pr-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
                   />
                 </div>
               </Field>
@@ -220,9 +220,9 @@ export default function SiteIdentityForm() {
         {/* ── Right column ── */}
         <div className="space-y-6">
           {/* Logo card */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50">
-            <h3 className="text-base font-bold text-gray-900 flex items-center gap-2 mb-6">
-              <ImageIcon className="w-5 h-5 text-gray-400" />
+          <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft">
+            <h3 className="text-base font-bold text-ink flex items-center gap-2 mb-6">
+              <ImageIcon className="w-5 h-5 text-muted" />
               Logo
             </h3>
             <div className="space-y-4">
@@ -232,21 +232,21 @@ export default function SiteIdentityForm() {
               >
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <ImageIcon className="h-5 w-5 text-gray-400" />
+                    <ImageIcon className="h-5 w-5 text-muted" />
                   </div>
                   <input
                     type="text"
                     value={formData.logoUrl}
                     onChange={(e) => set('logoUrl')(e.target.value)}
                     placeholder="https://... or /media/logo.png"
-                    className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                    className="w-full pl-10 pr-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
                   />
                 </div>
               </Field>
 
               {/* Logo preview */}
               {resolvedLogo ? (
-                <div className="group relative rounded-xl overflow-hidden border border-gray-200 aspect-square bg-white flex items-center justify-center p-4">
+                <div className="group relative rounded-xl overflow-hidden border border-hairline-strong aspect-square bg-canvas flex items-center justify-center p-4">
                   <img
                     src={resolvedLogo}
                     alt="Logo preview"
@@ -260,7 +260,7 @@ export default function SiteIdentityForm() {
                       href={resolvedLogo}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bg-white text-gray-700 p-3 rounded-full hover:bg-gray-100 hover:scale-110 transition-transform shadow-sm flex items-center justify-center"
+                      className="bg-canvas text-slate p-3 rounded-full hover:bg-surface hover:scale-110 transition-transform shadow-sm flex items-center justify-center"
                       title="Open Image"
                     >
                       <ExternalLink className="w-5 h-5" />
@@ -268,7 +268,7 @@ export default function SiteIdentityForm() {
                     <button
                       type="button"
                       onClick={() => set('logoUrl')('')}
-                      className="bg-white text-red-500 p-3 rounded-full hover:bg-red-50 hover:scale-110 transition-transform shadow-sm"
+                      className="bg-canvas text-red-500 p-3 rounded-full hover:bg-red-50 hover:scale-110 transition-transform shadow-sm"
                       title="Remove Image"
                     >
                       <X className="w-5 h-5" />
@@ -276,11 +276,11 @@ export default function SiteIdentityForm() {
                   </div>
                 </div>
               ) : (
-                <div className="rounded-2xl border-2 border-dashed border-gray-100 bg-gray-50 flex items-center justify-center aspect-square p-4">
+                <div className="rounded-lg border-2 border-dashed border-hairline bg-surface flex items-center justify-center aspect-square p-4">
                   <div className="flex flex-col items-center gap-2 text-center">
                     <ImageIcon className="w-8 h-8 text-gray-200" />
-                    <p className="text-sm text-gray-400">Logo preview</p>
-                    <p className="text-xs text-gray-300 max-w-[150px]">Enter a URL above to preview</p>
+                    <p className="text-sm text-muted">Logo preview</p>
+                    <p className="text-xs text-muted max-w-[150px]">Enter a URL above to preview</p>
                   </div>
                 </div>
               )}
@@ -288,28 +288,28 @@ export default function SiteIdentityForm() {
           </div>
 
           {/* Live preview card */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50">
-            <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wide mb-4">
+          <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft">
+            <h3 className="text-sm font-bold text-steel uppercase tracking-wide mb-4">
               Footer Preview
             </h3>
             <div className="bg-gray-900 rounded-xl p-5 text-white space-y-1">
               {formData.organizationName ? (
                 <p className="font-bold text-white">{formData.organizationName}</p>
               ) : (
-                <p className="font-bold text-gray-600 italic">Organisation Name</p>
+                <p className="font-bold text-steel italic">Organisation Name</p>
               )}
               {formData.tagline ? (
-                <p className="text-sm text-gray-300">{formData.tagline}</p>
+                <p className="text-sm text-muted">{formData.tagline}</p>
               ) : (
-                <p className="text-sm text-gray-600 italic">Your tagline here</p>
+                <p className="text-sm text-steel italic">Your tagline here</p>
               )}
               <div className="border-t border-gray-700 mt-3 pt-3">
                 {formData.footerCopyright ? (
-                  <p className="text-xs text-gray-400">
+                  <p className="text-xs text-muted">
                     {formData.footerCopyright.replace('{year}', String(new Date().getFullYear()))}
                   </p>
                 ) : (
-                  <p className="text-xs text-gray-600 italic">Footer copyright text</p>
+                  <p className="text-xs text-steel italic">Footer copyright text</p>
                 )}
               </div>
             </div>

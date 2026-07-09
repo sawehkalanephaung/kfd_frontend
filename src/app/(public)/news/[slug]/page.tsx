@@ -59,7 +59,7 @@ const CATEGORY_COLORS: Record<string, string> = {
 
 function getCategoryColor(name?: string): string {
   if (!name) return "bg-green-500/20 text-green-300 border-green-500/40";
-  return CATEGORY_COLORS[name.toLowerCase()] ?? "bg-emerald-500/20 text-emerald-300 border-emerald-500/40";
+  return CATEGORY_COLORS[name.toLowerCase()] ?? "bg-brand-green/20 text-brand-green border-brand-green/30";
 }
 
 function getMediaUrl(url?: string | null): string {
@@ -74,9 +74,9 @@ function RelatedCard({ post }: { post: NewsPost }) {
   return (
     <Link
       href={`/news/${post.slug}`}
-      className="group flex flex-col rounded-xl overflow-hidden bg-[#fdfaf5] shadow-sm hover:shadow-md transition-all hover:-translate-y-1"
+      className="group flex flex-col rounded-xl overflow-hidden bg-[#fdfaf5] shadow-sm hover:shadow-md transition-all "
     >
-      <div className="relative h-56 overflow-hidden bg-gray-100 flex items-center justify-center">
+      <div className="relative h-56 overflow-hidden bg-surface flex items-center justify-center">
         {post.featuredImageUrl ? (
           <div
             className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
@@ -89,23 +89,23 @@ function RelatedCard({ post }: { post: NewsPost }) {
       <div className="p-6 flex flex-col flex-1">
         {post.category && (
           <div className="mb-3">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-700">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-brand-green-dark">
               {post.category.name}
             </span>
           </div>
         )}
-        <h4 className="text-xl font-bold font-serif text-gray-900 leading-snug mb-3 group-hover:text-emerald-700 transition-colors line-clamp-2">
+        <h4 className="text-xl font-bold font-serif text-ink leading-snug mb-3 group-hover:text-brand-green-dark transition-colors line-clamp-2">
           {post.title}
         </h4>
-        <p className="text-sm text-gray-600 font-sans line-clamp-3 mb-6 flex-1 leading-relaxed">
+        <p className="text-sm text-steel font-sans line-clamp-3 mb-6 flex-1 leading-relaxed">
           {post.excerpt}
         </p>
-        <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-200/60">
-          <div className="flex items-center gap-1.5 text-xs text-gray-500 font-sans">
+        <div className="flex items-center justify-between mt-auto pt-4 border-t border-hairline-strong/60">
+          <div className="flex items-center gap-1.5 text-xs text-steel font-sans">
             <Calendar size={12} />
             {formatDate(post.publishedAt)}
           </div>
-          <ArrowRight size={14} className="text-emerald-700 group-hover:translate-x-1 transition-transform" />
+          <ArrowRight size={14} className="text-brand-green-dark group-hover:translate-x-1 transition-transform" />
         </div>
       </div>
     </Link>
@@ -122,7 +122,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
 
   const hasHeroImage = !!post.featuredImageUrl;
   const categorySlug = post.category?.slug?.toLowerCase();
-  const metadata: any = post.metadata || {};
+  const metadata: any = (post as any).metadata || {};
 
   // ── Event Layout ───────────────────────────────────────────────
   if (categorySlug === 'event') {
@@ -201,7 +201,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
     return (
       <main className="min-h-screen print:min-h-0 bg-[#f4f1ea] print:bg-transparent py-16 print:py-0 px-4 sm:px-6 lg:px-8 print:px-0">
         <div className="container mx-auto max-w-3xl">
-          <div className="p-8 md:p-12 print:p-0 relative overflow-hidden text-gray-900">
+          <div className="p-8 md:p-12 print:p-0 relative overflow-hidden text-ink">
             {/* Memo Header */}
             <div className="border-b-2 border-gray-900 pb-8 mb-8 text-center relative flex flex-col items-center">
               <div className="flex items-center gap-3 justify-center mb-2">
@@ -209,31 +209,31 @@ export default async function NewsDetailPage({ params }: PageProps) {
                   Official Memorandum
                 </h1>
               </div>
-              <p className="text-gray-500 font-serif italic text-lg">Kawthoolei Forestry Department</p>
+              <p className="text-steel font-serif italic text-lg">Kawthoolei Forestry Department</p>
             </div>
 
             {/* Memo Meta Table */}
             <div className="mb-10 font-sans text-sm border-b border-gray-300 pb-8">
               <div className="grid grid-cols-12 gap-y-5">
-                <div className="col-span-3 font-bold text-gray-800 uppercase tracking-widest text-xs flex items-center">TO:</div>
-                <div className="col-span-9 text-gray-900 font-serif text-base">Public Record</div>
+                <div className="col-span-3 font-bold text-charcoal uppercase tracking-widest text-xs flex items-center">TO:</div>
+                <div className="col-span-9 text-ink font-serif text-base">Public Record</div>
 
-                <div className="col-span-3 font-bold text-gray-800 uppercase tracking-widest text-xs flex items-center">FROM:</div>
-                <div className="col-span-9 text-gray-900 font-serif text-base">KFD Administration</div>
+                <div className="col-span-3 font-bold text-charcoal uppercase tracking-widest text-xs flex items-center">FROM:</div>
+                <div className="col-span-9 text-ink font-serif text-base">KFD Administration</div>
 
-                <div className="col-span-3 font-bold text-gray-800 uppercase tracking-widest text-xs flex items-center">DATE:</div>
-                <div className="col-span-9 text-gray-900 font-serif text-base">{formatDate(post.publishedAt || post.createdAt)}</div>
+                <div className="col-span-3 font-bold text-charcoal uppercase tracking-widest text-xs flex items-center">DATE:</div>
+                <div className="col-span-9 text-ink font-serif text-base">{formatDate(post.publishedAt || post.createdAt)}</div>
 
-                <div className="col-span-3 font-bold text-gray-800 uppercase tracking-widest text-xs flex items-center">SUBJECT:</div>
-                <div className="col-span-9 text-gray-900 font-bold font-serif text-base">{post.title}</div>
+                <div className="col-span-3 font-bold text-charcoal uppercase tracking-widest text-xs flex items-center">SUBJECT:</div>
+                <div className="col-span-9 text-ink font-bold font-serif text-base">{post.title}</div>
               </div>
             </div>
 
             {/* Memo Content */}
-            <div className="font-serif text-gray-800 leading-loose text-lg pb-12 border-b border-gray-300">
+            <div className="font-serif text-charcoal leading-loose text-lg pb-12 border-b border-gray-300">
               {post.content ? (
                 <div
-                  className="prose prose-lg max-w-none break-words font-serif prose-p:text-gray-800 prose-p:leading-loose prose-headings:text-gray-900 prose-a:text-emerald-700"
+                  className="prose prose-lg max-w-none break-words font-serif prose-p:text-charcoal prose-p:leading-loose prose-headings:text-ink prose-a:text-brand-green-dark"
                   dangerouslySetInnerHTML={{ __html: post.content }}
                 />
               ) : (
@@ -243,7 +243,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
             
             {/* Footer actions */}
             <div className="pt-8 flex flex-wrap items-center justify-between gap-4 font-sans text-sm">
-               <div className="flex items-center gap-2 text-gray-500">
+               <div className="flex items-center gap-2 text-steel">
                  <Calendar size={16} />
                  <span>{formatDate(post.publishedAt || post.createdAt)}</span>
                </div>
@@ -264,21 +264,21 @@ export default async function NewsDetailPage({ params }: PageProps) {
           {/* Category pill */}
           {post.category && (
             <div className="mb-8">
-              <span className="inline-block text-[10px] font-bold uppercase tracking-widest border border-emerald-800/30 text-emerald-800 px-4 py-1.5 rounded-sm bg-transparent">
+              <span className="inline-block text-[10px] font-bold uppercase tracking-widest border border-teal-deep/30 text-brand-green-dark px-4 py-1.5 rounded-sm bg-transparent">
                 {post.category.name}
               </span>
             </div>
           )}
 
           {/* Title */}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-serif text-gray-900 leading-tight mb-8">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-serif text-ink leading-tight mb-8">
             {post.title}
           </h1>
 
           {/* Meta row */}
-          <div className="flex flex-wrap items-center justify-center text-sm text-gray-500 font-sans font-medium">
+          <div className="flex flex-wrap items-center justify-center text-sm text-steel font-sans font-medium">
             <div className="flex items-center gap-2">
-              <Calendar size={14} className="text-gray-400" />
+              <Calendar size={14} className="text-muted" />
               <span>{formatDate(post.publishedAt || post.createdAt)}</span>
             </div>
           </div>
@@ -295,7 +295,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
             />
           ) : (
             <div className="w-full h-72 md:h-[500px] rounded-xl bg-gray-200 flex items-center justify-center shadow-inner">
-              <ImageIcon className="w-16 h-16 text-gray-400" />
+              <ImageIcon className="w-16 h-16 text-muted" />
             </div>
           )}
         </div>
@@ -307,18 +307,18 @@ export default async function NewsDetailPage({ params }: PageProps) {
           {post.content ? (
             <div
               className="prose prose-lg max-w-none break-words font-serif
-                prose-p:text-gray-800 prose-p:leading-loose
-                prose-headings:text-gray-900 prose-headings:font-serif
-                prose-a:text-emerald-700 prose-a:underline hover:prose-a:text-emerald-900
-                prose-strong:text-gray-900 prose-strong:font-bold
+                prose-p:text-charcoal prose-p:leading-loose
+                prose-headings:text-ink prose-headings:font-serif
+                prose-a:text-brand-green-dark prose-a:underline hover:prose-a:text-emerald-900
+                prose-strong:text-ink prose-strong:font-bold
                 prose-blockquote:bg-[#dce9d5] prose-blockquote:border-none prose-blockquote:px-8 prose-blockquote:py-6 prose-blockquote:rounded-lg prose-blockquote:text-emerald-900 prose-blockquote:italic prose-blockquote:font-serif prose-blockquote:font-medium
-                prose-li:text-gray-800
-                first-letter:text-7xl first-letter:font-bold first-letter:text-emerald-800 first-letter:mr-3 first-letter:float-left first-letter:leading-none"
+                prose-li:text-charcoal
+                first-letter:text-7xl first-letter:font-bold first-letter:text-brand-green-dark first-letter:mr-3 first-letter:float-left first-letter:leading-none"
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
           ) : (
             <div className="space-y-4">
-              <p className="text-gray-800 font-serif text-lg leading-loose first-letter:text-7xl first-letter:font-bold first-letter:text-emerald-800 first-letter:mr-3 first-letter:float-left first-letter:leading-none">
+              <p className="text-charcoal font-serif text-lg leading-loose first-letter:text-7xl first-letter:font-bold first-letter:text-brand-green-dark first-letter:mr-3 first-letter:float-left first-letter:leading-none">
                 {post.excerpt}
               </p>
             </div>
@@ -328,12 +328,12 @@ export default async function NewsDetailPage({ params }: PageProps) {
           <div className="mt-20 border-t border-gray-300 pt-10 font-sans">
             <div className="flex items-center gap-4 mb-8">
               <div className="w-12 h-12 rounded-full bg-gray-300 flex-shrink-0 overflow-hidden shadow-sm flex items-center justify-center">
-                <User className="w-6 h-6 text-gray-500" />
+                <User className="w-6 h-6 text-steel" />
               </div>
               <div>
-                <p className="text-xs text-gray-500 uppercase tracking-widest font-bold mb-0.5">Written by</p>
-                <h4 className="text-gray-900 font-bold font-serif text-lg">KFD Editorial Team</h4>
-                <p className="text-sm text-gray-500 mt-0.5">Kawthoolei Forestry Department</p>
+                <p className="text-xs text-steel uppercase tracking-widest font-bold mb-0.5">Written by</p>
+                <h4 className="text-ink font-bold font-serif text-lg">KFD Editorial Team</h4>
+                <p className="text-sm text-steel mt-0.5">Kawthoolei Forestry Department</p>
               </div>
             </div>
 
@@ -342,7 +342,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
                 {post.tags.map((tag) => (
                   <span
                     key={tag.id}
-                    className="text-[13px] text-gray-600 font-serif bg-[#e4e0d4] border border-[#d2ccbf] px-4 py-1.5 rounded-md"
+                    className="text-[13px] text-steel font-serif bg-[#e4e0d4] border border-[#d2ccbf] px-4 py-1.5 rounded-md"
                   >
                     #{tag.name}
                   </span>
@@ -358,10 +358,10 @@ export default async function NewsDetailPage({ params }: PageProps) {
         <section className="px-4 sm:px-6 lg:px-8 py-20 bg-[#ece9df]">
           <div className="container mx-auto max-w-6xl">
             <div className="flex items-center justify-between mb-12">
-              <h2 className="text-2xl font-bold font-serif text-gray-900">Related Stories</h2>
+              <h2 className="text-2xl font-bold font-serif text-ink">Related Stories</h2>
               <Link
                 href="/news"
-                className="flex items-center gap-2 border border-emerald-800/30 text-emerald-800 hover:bg-emerald-800/5 hover:text-emerald-900 font-bold px-6 py-2.5 rounded-sm text-xs uppercase tracking-widest transition-all"
+                className="flex items-center gap-2 border border-teal-deep/30 text-brand-green-dark hover:bg-emerald-800/5 hover:text-brand-green-dark font-bold px-6 py-2.5 rounded-sm text-xs uppercase tracking-widest transition-all"
               >
                 View All News
                 <ArrowRight size={14} />
@@ -379,7 +379,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
           <div className="container mx-auto max-w-5xl flex justify-center">
             <Link
               href="/news"
-              className="flex items-center gap-2 border border-gray-300 text-gray-600 hover:text-gray-900 hover:border-gray-500 font-semibold px-8 py-3 rounded-full text-sm transition-all"
+              className="flex items-center gap-2 border border-gray-300 text-steel hover:text-ink hover:border-gray-500 font-semibold px-8 py-3 rounded-full text-sm transition-all"
             >
               View All News
               <ArrowRight size={15} />

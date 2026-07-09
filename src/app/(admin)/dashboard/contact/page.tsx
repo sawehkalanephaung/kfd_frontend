@@ -36,30 +36,30 @@ export default function ContactSettingsPage() {
   return (
     <div>
       {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm text-gray-400 mb-6">
-        <Link href="/dashboard" className="text-gray-500 hover:text-gray-900 transition-colors">Home</Link>
+      <div className="flex items-center gap-2 text-sm text-muted mb-6">
+        <Link href="/dashboard" className="text-steel hover:text-ink transition-colors">Home</Link>
         <span>&gt;</span>
-        <span className="text-gray-500">Organization Management</span>
+        <span className="text-steel">Organization Management</span>
         <span>&gt;</span>
-        <span className="text-gray-900 font-medium">Global Contact Info</span>
+        <span className="text-ink font-medium">Global Contact Info</span>
       </div>
 
       {/* Header Section */}
-      <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-50 mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
-          <Globe className="w-6 h-6 text-emerald-500" />
+      <div className="bg-canvas rounded-lg p-8 shadow-sm border border-hairline-soft mb-6">
+        <h1 className="text-2xl font-bold text-ink flex items-center gap-3">
+          <Globe className="w-6 h-6 text-brand-green" />
           Global Contact Settings
         </h1>
-        <p className="text-gray-500 mt-1">
+        <p className="text-steel mt-1">
           Manage the organization's physical address, emails, phone numbers, and social media links.
           These details are displayed globally across the public application.
         </p>
       </div>
 
       {loading ? (
-        <div className="flex items-center justify-center py-20 bg-white rounded-2xl shadow-sm border border-gray-50">
-          <div className="flex flex-col items-center gap-3 text-gray-400">
-            <Loader2 className="w-8 h-8 animate-spin text-emerald-500" />
+        <div className="flex items-center justify-center py-20 bg-canvas rounded-lg shadow-sm border border-hairline-soft">
+          <div className="flex flex-col items-center gap-3 text-muted">
+            <Loader2 className="w-8 h-8 animate-spin text-brand-green" />
             <p>Loading contact settings...</p>
           </div>
         </div>

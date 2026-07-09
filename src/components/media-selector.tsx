@@ -105,46 +105,46 @@ export default function MediaSelector({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm transition-opacity">
-      <div className="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden" onClick={e => e.stopPropagation()}>
+      <div className="bg-canvas rounded-lg w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden" onClick={e => e.stopPropagation()}>
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
-          <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-            <ImageIcon className="w-5 h-5 text-emerald-500" />
+        <div className="flex items-center justify-between px-6 py-4 border-b border-hairline">
+          <h2 className="text-xl font-bold text-ink flex items-center gap-2">
+            <ImageIcon className="w-5 h-5 text-brand-green" />
             {title}
           </h2>
-          <button onClick={onClose} className="p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100 transition-colors">
+          <button onClick={onClose} className="p-2 text-muted hover:text-steel rounded-lg hover:bg-surface transition-colors">
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Tabs */}
-        <div className="flex px-6 border-b border-gray-100">
+        <div className="flex px-6 border-b border-hairline">
           <button
             onClick={() => setActiveTab('library')}
-            className={`px-4 py-3 text-sm font-medium border-b-2 transition-colors ${activeTab === 'library' ? 'border-emerald-500 text-emerald-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
+            className={`px-4 py-3 text-sm font-medium border-b-2 transition-colors ${activeTab === 'library' ? 'border-emerald-500 text-brand-green-dark' : 'border-transparent text-steel hover:text-slate hover:border-gray-300'}`}
           >
             Media Library
           </button>
           <button
             onClick={() => setActiveTab('upload')}
-            className={`px-4 py-3 text-sm font-medium border-b-2 transition-colors ${activeTab === 'upload' ? 'border-emerald-500 text-emerald-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'}`}
+            className={`px-4 py-3 text-sm font-medium border-b-2 transition-colors ${activeTab === 'upload' ? 'border-emerald-500 text-brand-green-dark' : 'border-transparent text-steel hover:text-slate hover:border-gray-300'}`}
           >
             Upload New
           </button>
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto p-6 bg-gray-50/50">
+        <div className="flex-1 overflow-y-auto p-6 bg-surface-soft">
           {activeTab === 'library' ? (
             <>
               {loading ? (
-            <div className="flex flex-col items-center justify-center h-64 text-gray-400">
-              <Loader2 className="w-8 h-8 animate-spin mb-4 text-emerald-500" />
+            <div className="flex flex-col items-center justify-center h-64 text-muted">
+              <Loader2 className="w-8 h-8 animate-spin mb-4 text-brand-green" />
               <p>Loading your media...</p>
             </div>
           ) : media.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-64 text-gray-400">
-              <ImageIcon className="w-12 h-12 mb-4 text-gray-300" />
+            <div className="flex flex-col items-center justify-center h-64 text-muted">
+              <ImageIcon className="w-12 h-12 mb-4 text-muted" />
               <p>No images found. Please upload some in the Media Library.</p>
             </div>
           ) : (
@@ -155,7 +155,7 @@ export default function MediaSelector({
                   <div 
                     key={asset.id}
                     onClick={() => toggleSelection(asset.id)}
-                    className={`relative aspect-square rounded-xl overflow-hidden cursor-pointer group border-2 transition-all ${isSelected ? 'border-emerald-500 shadow-md scale-95' : 'border-transparent hover:border-emerald-200'}`}
+                    className={`relative aspect-square rounded-xl overflow-hidden cursor-pointer group border-2 transition-all ${isSelected ? 'border-emerald-500 shadow-md scale-95' : 'border-transparent hover:border-brand-green/30'}`}
                   >
                     <img 
                       src={getMediaUrl(asset.fileUrl)} 
@@ -163,11 +163,11 @@ export default function MediaSelector({
                       className="w-full h-full object-cover"
                     />
                     {/* Overlay */}
-                    <div className={`absolute inset-0 transition-opacity duration-200 ${isSelected ? 'bg-emerald-500/20' : 'bg-black/0 group-hover:bg-black/10'}`}></div>
+                    <div className={`absolute inset-0 transition-opacity duration-200 ${isSelected ? 'bg-brand-green/20' : 'bg-black/0 group-hover:bg-black/10'}`}></div>
                     
                     {/* Checkbox Icon */}
                     {isSelected && (
-                      <div className="absolute top-2 right-2 w-6 h-6 bg-emerald-500 rounded-full flex items-center justify-center text-white shadow-sm transform scale-100 animate-in zoom-in">
+                      <div className="absolute top-2 right-2 w-6 h-6 bg-brand-green rounded-full flex items-center justify-center text-on-primary shadow-sm transform scale-100 animate-in zoom-in">
                         <Check className="w-3.5 h-3.5 font-bold" />
                       </div>
                     )}
@@ -186,7 +186,7 @@ export default function MediaSelector({
             <div className="flex flex-col items-center justify-center h-full max-w-lg mx-auto py-10">
               <div 
                 className={`w-full border-2 border-dashed rounded-xl p-10 text-center transition-colors cursor-pointer ${
-                  uploadFile ? 'border-emerald-500 bg-emerald-50' : 'border-gray-300 hover:border-emerald-500 hover:bg-gray-50'
+                  uploadFile ? 'border-emerald-500 bg-brand-green-soft' : 'border-gray-300 hover:border-emerald-500 hover:bg-surface'
                 }`}
                 onClick={() => fileInputRef.current?.click()}
                 onDrop={(e) => {
@@ -210,22 +210,22 @@ export default function MediaSelector({
                 
                 {uploadFile ? (
                   <div className="flex flex-col items-center">
-                    <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mb-4">
+                    <div className="w-16 h-16 bg-brand-green-soft text-brand-green-dark rounded-full flex items-center justify-center mb-4">
                       <UploadCloud className="w-8 h-8" />
                     </div>
-                    <p className="text-emerald-700 font-medium text-lg">{uploadFile.name}</p>
-                    <p className="text-emerald-600/70 text-sm mt-1">
+                    <p className="text-brand-green-dark font-medium text-lg">{uploadFile.name}</p>
+                    <p className="text-brand-green-dark/70 text-sm mt-1">
                       {(uploadFile.size / 1024 / 1024).toFixed(2)} MB
                     </p>
-                    <p className="text-emerald-600 text-sm mt-4 underline underline-offset-2">Click or drag to change file</p>
+                    <p className="text-brand-green-dark text-sm mt-4 underline underline-offset-2">Click or drag to change file</p>
                   </div>
                 ) : (
                   <div className="flex flex-col items-center">
-                    <div className="w-16 h-16 bg-gray-100 text-gray-400 rounded-full flex items-center justify-center mb-4">
+                    <div className="w-16 h-16 bg-surface text-muted rounded-full flex items-center justify-center mb-4">
                       <UploadCloud className="w-8 h-8" />
                     </div>
-                    <p className="text-gray-700 font-medium text-lg">Click to select or drag and drop</p>
-                    <p className="text-gray-500 text-sm mt-1">Max 15MB</p>
+                    <p className="text-slate font-medium text-lg">Click to select or drag and drop</p>
+                    <p className="text-steel text-sm mt-1">Max 15MB</p>
                   </div>
                 )}
               </div>
@@ -233,7 +233,7 @@ export default function MediaSelector({
               <button
                 onClick={handleUpload}
                 disabled={!uploadFile || uploading}
-                className="mt-6 w-full py-3 bg-emerald-500 hover:bg-emerald-600 disabled:opacity-70 text-white font-medium rounded-xl transition-all flex items-center justify-center gap-2"
+                className="mt-6 w-full py-3 bg-brand-green hover:bg-primary-deep disabled:opacity-70 text-on-primary font-medium rounded-full transition-all flex items-center justify-center gap-2"
               >
                 {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <UploadCloud className="w-4 h-4" />}
                 Upload File
@@ -244,22 +244,22 @@ export default function MediaSelector({
 
         {/* Footer */}
         {activeTab === 'library' && (
-          <div className="px-6 py-4 border-t border-gray-100 bg-white flex items-center justify-between">
-            <p className="text-sm text-gray-500">
+          <div className="px-6 py-4 border-t border-hairline bg-canvas flex items-center justify-between">
+            <p className="text-sm text-steel">
               {selectedIds.size} item{selectedIds.size !== 1 && 's'} selected
               {!multiple && selectedIds.size > 1 && <span className="text-red-500 ml-2">Please select only 1 item.</span>}
             </p>
           <div className="flex gap-3">
             <button 
               onClick={onClose}
-              className="px-5 py-2.5 text-gray-700 bg-gray-100 hover:bg-gray-200 font-medium rounded-xl transition-colors"
+              className="px-5 py-2.5 text-slate bg-surface hover:bg-gray-200 font-medium rounded-xl transition-colors"
             >
               Cancel
             </button>
             <button 
               onClick={handleConfirm}
               disabled={selectedIds.size === 0 || (!multiple && selectedIds.size > 1)}
-              className="px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 disabled:bg-emerald-300 text-white font-medium rounded-xl transition-all shadow-sm active:scale-95 flex items-center gap-2"
+              className="px-5 py-2.5 bg-brand-green hover:bg-primary-deep disabled:bg-emerald-300 text-on-primary font-medium rounded-full transition-all shadow-sm active:scale-95 flex items-center gap-2"
             >
               <Check className="w-4 h-4" />
               Confirm Selection

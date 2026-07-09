@@ -13,9 +13,9 @@ export default function StatsSection({ metrics }: { metrics: any[] }) {
         <div className="flex flex-wrap justify-center gap-y-8 lg:gap-y-0 lg:divide-x lg:divide-green-800/50">
           {displayStats.slice(0, 4).map((stat, index) => (
             <div key={index} className="flex flex-col px-4 lg:px-12">
-              <span className="text-3xl lg:text-4xl font-bold text-green-50 mb-2">{stat.value}</span>
+              <span className="text-3xl lg:text-4xl font-bold text-on-dark-muted mb-2">{stat.value}</span>
               <span className="text-sm font-bold tracking-wider text-green-400 mb-1">{stat.label}</span>
-              {stat.subLabel && <span className="text-xs text-green-200/70">{stat.subLabel}</span>}
+              {stat.subLabel && <span className="text-xs text-on-dark-muted/70">{stat.subLabel}</span>}
             </div>
           ))}
         </div>

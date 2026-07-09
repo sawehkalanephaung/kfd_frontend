@@ -91,7 +91,7 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
       <div className="flex items-center justify-between">
         <Link
           href="/dashboard/pages"
-          className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
+          className="inline-flex items-center gap-2 text-sm font-medium text-steel hover:text-ink transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Pages
@@ -99,7 +99,7 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
         <button
           type="submit"
           disabled={loading}
-          className="inline-flex items-center gap-2 px-6 py-2.5 bg-emerald-500 hover:bg-emerald-600 disabled:opacity-70 text-white font-medium rounded-xl transition-all shadow-sm shadow-emerald-500/20 active:scale-95"
+          className="inline-flex items-center gap-2 px-6 py-2.5 bg-brand-green hover:bg-primary-deep disabled:opacity-70 text-on-primary font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
         >
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
           {isEdit ? 'Save Changes' : 'Create Page'}
@@ -117,32 +117,32 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
         <div className="lg:col-span-2 space-y-6">
           
           {/* Basic Info Card */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50">
-            <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-              <FileText className="w-5 h-5 text-gray-400" />
+          <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft">
+            <h2 className="text-lg font-bold text-ink mb-6 flex items-center gap-2">
+              <FileText className="w-5 h-5 text-muted" />
               Page Details
             </h2>
             <div className="space-y-5">
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">Page Title</label>
+                <label className="block text-sm font-semibold text-ink mb-2">Page Title</label>
                 <input
                   type="text"
                   required
                   value={formData.title}
                   onChange={handleTitleChange}
-                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
                   placeholder="e.g. About Us"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">URL Slug</label>
+                <label className="block text-sm font-semibold text-ink mb-2">URL Slug</label>
                 <input
                   type="text"
                   required
                   value={formData.slug}
                   onChange={(e) => setFormData({...formData, slug: e.target.value})}
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                  className="w-full px-4 py-3 bg-surface border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                   placeholder="about-us"
                 />
               </div>
@@ -150,9 +150,9 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
           </div>
 
           {/* Content / Rich Text */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50">
-            <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-              <AlignLeft className="w-5 h-5 text-gray-400" />
+          <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft">
+            <h2 className="text-lg font-bold text-ink mb-6 flex items-center gap-2">
+              <AlignLeft className="w-5 h-5 text-muted" />
               Page Content
             </h2>
             <ReactQuill
@@ -170,18 +170,18 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
         <div className="space-y-6">
           
           {/* Settings Card */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50">
-            <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-              <Settings className="w-5 h-5 text-gray-400" />
+          <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft">
+            <h2 className="text-lg font-bold text-ink mb-6 flex items-center gap-2">
+              <Settings className="w-5 h-5 text-muted" />
               Settings
             </h2>
             <div className="space-y-5">
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">Status</label>
+                <label className="block text-sm font-semibold text-ink mb-2">Status</label>
                 <select
                   value={formData.status}
                   onChange={(e) => setFormData({...formData, status: e.target.value})}
-                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                 >
                   <option value="PUBLISHED">Published</option>
                   <option value="DRAFT">Draft</option>
@@ -192,14 +192,14 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
           </div>
 
           {/* Media Card */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50">
-            <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-              <ImageIcon className="w-5 h-5 text-gray-400" />
+          <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft">
+            <h2 className="text-lg font-bold text-ink mb-6 flex items-center gap-2">
+              <ImageIcon className="w-5 h-5 text-muted" />
               Media
             </h2>
             <div className="space-y-6">
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2 flex items-center justify-between">
+                <label className="block text-sm font-semibold text-ink mb-2 flex items-center justify-between">
                   Slider Images (Hero Section)
                   {sliderPreviews.length > 0 && (
                     <button 
@@ -218,22 +218,22 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
                   <button
                     type="button"
                     onClick={() => setSelectorMode('slider')}
-                    className="flex-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-700 hover:bg-gray-100 transition-colors text-left flex items-center justify-between"
+                    className="flex-1 px-4 py-3 bg-surface border border-hairline-strong rounded-xl text-slate hover:bg-surface transition-colors text-left flex items-center justify-between"
                   >
                     <span className="truncate">
                       {formData.sliderImageIds ? `${formData.sliderImageIds.split(',').filter((s: string) => s.trim().length > 0).length} Images Selected` : 'Select Slider Images...'}
                     </span>
-                    <ImageIcon className="w-4 h-4 text-gray-400" />
+                    <ImageIcon className="w-4 h-4 text-muted" />
                   </button>
                 </div>
                 {sliderPreviews.length > 0 && (
                   <div className="mt-4 grid grid-cols-2 gap-3">
                     {sliderPreviews.map((preview, i) => (
-                      <div key={i} className="relative group aspect-video rounded-xl overflow-hidden border border-gray-200 bg-gray-50 flex items-center justify-center">
+                      <div key={i} className="relative group aspect-video rounded-xl overflow-hidden border border-hairline-strong bg-surface flex items-center justify-center">
                         {preview.url ? (
                           <img src={getMediaUrl(preview.url)} alt="preview" className="w-full h-full object-cover" />
                         ) : (
-                          <ImageIcon className="w-6 h-6 text-gray-300" />
+                          <ImageIcon className="w-6 h-6 text-muted" />
                         )}
                         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                           <button 
@@ -243,7 +243,7 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
                               setSliderPreviews(newPreviews);
                               setFormData({...formData, sliderImageIds: newPreviews.map(p => p.id).join(', ')});
                             }}
-                            className="bg-white text-red-500 p-2 rounded-full hover:bg-red-50 hover:scale-110 transition-transform shadow-sm"
+                            className="bg-canvas text-red-500 p-2 rounded-full hover:bg-red-50 hover:scale-110 transition-transform shadow-sm"
                             title="Remove Image"
                           >
                             <X className="w-4 h-4" />

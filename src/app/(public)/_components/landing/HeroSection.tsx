@@ -38,7 +38,7 @@ export default function HeroSection({ siteIdentity, homeContent }: { siteIdentit
           className={`absolute inset-0 z-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out ${idx === currentIndex ? 'opacity-100' : 'opacity-0'}`}
           style={{ backgroundImage: `url('${getMediaUrl(img)}')` }}
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-[#1a2e1d]/90 via-[#1a2e1d]/70 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-teal-deep/90 via-teal-deep/70 to-transparent"></div>
         </div>
       ))}
 
@@ -49,20 +49,20 @@ export default function HeroSection({ siteIdentity, homeContent }: { siteIdentit
           </h1>
           
           <div 
-            className="text-lg text-green-50 mb-10 max-w-xl leading-relaxed"
+            className="text-lg text-on-dark-muted mb-10 max-w-xl leading-relaxed"
             dangerouslySetInnerHTML={{ __html: description }}
           />
           
           <div className="flex flex-wrap items-center gap-4">
             <Link 
               href="/news" 
-              className="bg-[#2a563c] hover:bg-[#326949] text-white font-medium px-8 py-3.5 rounded-md transition-colors"
+              className="bg-brand-green hover:bg-primary-deep text-on-primary font-medium px-8 py-3.5 rounded-full transition-colors"
             >
               Explore Our Work
             </Link>
             <Link 
               href="/about" 
-              className="bg-transparent border border-white text-white hover:bg-white/10 font-medium px-8 py-3.5 rounded-md transition-colors"
+              className="bg-transparent border border-white text-white hover:bg-canvas/10 font-medium px-8 py-3.5 rounded-full transition-colors"
             >
               About Us
             </Link>
@@ -77,7 +77,7 @@ export default function HeroSection({ siteIdentity, homeContent }: { siteIdentit
             <button 
               key={idx}
               onClick={() => setCurrentIndex(idx)}
-              className={`w-2.5 h-2.5 rounded-full transition-colors ${idx === currentIndex ? 'bg-white' : 'bg-white/40 hover:bg-white/60'}`}
+              className={`w-2.5 h-2.5 rounded-full transition-colors ${idx === currentIndex ? 'bg-canvas' : 'bg-canvas/40 hover:bg-canvas/60'}`}
               aria-label={`Go to slide ${idx + 1}`}
             />
           ))}

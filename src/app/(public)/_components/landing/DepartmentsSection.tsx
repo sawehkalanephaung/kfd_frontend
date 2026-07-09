@@ -6,7 +6,7 @@ export default function DepartmentsSection({ departments }: { departments: any[]
   const displayDepartments = departments || [];
 
   return (
-    <section className="py-20 bg-gray-100">
+    <section className="py-20 bg-surface">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Section Header */}
@@ -26,10 +26,10 @@ export default function DepartmentsSection({ departments }: { departments: any[]
           {displayDepartments.slice(0, 4).map((dept, index) => (
             <div
               key={dept.id || index}
-              className="bg-white border border-gray-100 rounded-lg shadow-sm hover:shadow-md transition-all flex flex-col h-full overflow-hidden"
+              className="bg-canvas border border-hairline rounded-lg shadow-sm hover:shadow-md transition-all flex flex-col h-full overflow-hidden"
             >
               {/* Image Section */}
-              <div className="relative h-48 bg-gray-50 flex-shrink-0 border-b border-gray-100">
+              <div className="relative h-48 bg-surface flex-shrink-0 border-b border-hairline">
                 {dept.heroImageUrl ? (
                   <div 
                     className="absolute inset-0 bg-cover bg-center" 
@@ -45,12 +45,12 @@ export default function DepartmentsSection({ departments }: { departments: any[]
               {/* Content Section */}
               <div className="p-8 flex flex-col flex-grow">
                 <h3 className="text-lg font-bold text-[#1a3626] mb-4">{dept.title || dept.name}</h3>
-                <p className="text-sm text-gray-600 leading-relaxed flex-grow mb-8 line-clamp-4">
+                <p className="text-sm text-steel leading-relaxed flex-grow mb-8 line-clamp-4">
                   {dept.description || dept.shortDescription}
                 </p>
                 <Link
                   href={`/departments/${dept.slug}`}
-                  className="text-sm font-semibold text-gray-900 hover:text-[#2a563c] inline-flex items-center gap-1 group w-fit transition-colors mt-auto"
+                  className="text-sm font-semibold text-ink hover:text-brand-green-dark inline-flex items-center gap-1 group w-fit transition-colors mt-auto"
                 >
                   Explore
                   <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />

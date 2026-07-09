@@ -34,8 +34,8 @@ export default function EditPage() {
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center py-20 text-gray-500">
-        <Loader2 className="w-8 h-8 animate-spin mb-4 text-emerald-500" />
+      <div className="flex flex-col items-center justify-center py-20 text-steel">
+        <Loader2 className="w-8 h-8 animate-spin mb-4 text-brand-green" />
         Loading page details...
       </div>
     );
@@ -43,7 +43,7 @@ export default function EditPage() {
 
   if (error || !pageData) {
     return (
-      <div className="bg-red-50 text-red-600 p-6 rounded-2xl border border-red-100">
+      <div className="bg-red-50 text-red-600 p-6 rounded-lg border border-red-100">
         <h2 className="text-lg font-bold mb-2">Error</h2>
         <p>{error || 'Page not found.'}</p>
       </div>
@@ -53,8 +53,8 @@ export default function EditPage() {
   return (
     <div>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Edit Page</h1>
-        <p className="text-gray-500 mt-1">
+        <h1 className="text-2xl font-bold text-ink">Edit Page</h1>
+        <p className="text-steel mt-1">
           Update the content and settings for this page.
         </p>
       </div>

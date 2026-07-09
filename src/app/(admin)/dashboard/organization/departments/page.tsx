@@ -66,22 +66,22 @@ export default function DepartmentsPage() {
   return (
     <div>
       {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm text-gray-400 mb-6">
-        <Link href="/dashboard" className="text-gray-500 hover:text-gray-900 transition-colors">Home</Link>
+      <div className="flex items-center gap-2 text-sm text-muted mb-6">
+        <Link href="/dashboard" className="text-steel hover:text-ink transition-colors">Home</Link>
         <span>&gt;</span>
-        <span className="text-gray-500">Organization</span>
+        <span className="text-steel">Organization</span>
         <span>&gt;</span>
-        <span className="text-gray-900 font-medium">Departments</span>
+        <span className="text-ink font-medium">Departments</span>
       </div>
 
       {/* Header Section */}
-      <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-50 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+      <div className="bg-canvas rounded-lg p-8 shadow-sm border border-hairline-soft flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
-            <Building2 className="w-6 h-6 text-emerald-500" />
+          <h1 className="text-2xl font-bold text-ink flex items-center gap-3">
+            <Building2 className="w-6 h-6 text-brand-green" />
             Department Branches
           </h1>
-          <p className="text-gray-500 mt-1">
+          <p className="text-steel mt-1">
             Manage the operational units and organizational structure of KFD.
           </p>
         </div>
@@ -96,10 +96,10 @@ export default function DepartmentsPage() {
       )}
 
       {/* Table Section */}
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-50 overflow-hidden">
+      <div className="bg-canvas rounded-lg shadow-sm border border-hairline-soft overflow-hidden">
         <div className="overflow-x-auto w-full">
-          <table className="w-full sm:min-w-[800px] text-left text-sm text-gray-600">
-            <thead className="bg-gray-50/50 text-gray-500 font-medium border-b border-gray-100">
+          <table className="w-full sm:min-w-[800px] text-left text-sm text-steel">
+            <thead className="bg-surface-soft text-steel font-medium border-b border-hairline">
               <tr>
                 <th className="px-6 py-4">Department</th>
                 <th className="px-6 py-4 hidden sm:table-cell">Head of Dept</th>
@@ -109,84 +109,84 @@ export default function DepartmentsPage() {
                 <th className="px-6 py-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-50">
+            <tbody className="divide-y divide-hairline-soft">
               {loading ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-12 text-center text-gray-400">
+                  <td colSpan={6} className="px-6 py-12 text-center text-muted">
                     <Loader2 className="w-6 h-6 animate-spin mx-auto mb-2" />
                     Loading departments...
                   </td>
                 </tr>
               ) : departments.length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="px-6 py-12 text-center text-gray-500">
+                  <td colSpan={4} className="px-6 py-12 text-center text-steel">
                     No departments found. Create your first one to get started.
                   </td>
                 </tr>
               ) : (
                 departments.map((dept) => (
-                  <tr key={dept.id} className="hover:bg-gray-50/50 transition-colors">
+                  <tr key={dept.id} className="hover:bg-surface-soft transition-colors">
                     <td className="px-6 py-4">
-                      <div className="font-medium text-gray-900">{dept.name}</div>
-                      <div className="text-xs text-gray-400 mt-0.5 hidden sm:block">/{dept.slug}</div>
+                      <div className="font-medium text-ink">{dept.name}</div>
+                      <div className="text-xs text-muted mt-0.5 hidden sm:block">/{dept.slug}</div>
                       {/* Mobile Data Stack */}
                       <div className="mt-2 flex flex-col gap-1.5 sm:hidden font-normal">
                         <div className="flex flex-wrap items-center gap-2">
                           <span className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium ${dept.status === 'ACTIVE'
-                            ? 'bg-emerald-50 text-emerald-700 border border-emerald-100'
-                            : 'bg-gray-100 text-gray-700 border border-gray-200'
+                            ? 'bg-brand-green-soft text-brand-green-dark border border-brand-green/20'
+                            : 'bg-surface text-slate border border-hairline-strong'
                             }`}>
                             {dept.status || 'ACTIVE'}
                           </span>
-                          <span className="text-[11px] text-gray-500">Order: {dept.orderIndex}</span>
+                          <span className="text-[11px] text-steel">Order: {dept.orderIndex}</span>
                         </div>
-                        <div className="text-[11px] text-gray-500 flex items-center gap-1">
+                        <div className="text-[11px] text-steel flex items-center gap-1">
                           {dept.headMember ? (
                              <span>Head: {dept.headMember.name || dept.headMember.first_name || 'Assigned'}</span>
                           ) : (
-                             <span className="italic text-gray-400">Unassigned</span>
+                             <span className="italic text-muted">Unassigned</span>
                           )}
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-gray-600 hidden sm:table-cell">
+                    <td className="px-6 py-4 text-steel hidden sm:table-cell">
                       {dept.headMember ? (
                         <div className="flex items-center gap-2">
-                          <div className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-xs font-bold">
+                          <div className="w-6 h-6 rounded-full bg-brand-green-soft text-brand-green-dark flex items-center justify-center text-xs font-bold">
                             {(dept.headMember.name || dept.headMember.first_name || 'U')[0].toUpperCase()}
                           </div>
                           <span>{dept.headMember.name || dept.headMember.first_name || 'Assigned'}</span>
                         </div>
                       ) : (
-                        <span className="text-gray-400 italic text-sm">Unassigned</span>
+                        <span className="text-muted italic text-sm">Unassigned</span>
                       )}
                     </td>
                     <td className="px-6 py-4 hidden sm:table-cell">
                       <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${dept.status === 'ACTIVE'
-                        ? 'bg-emerald-50 text-emerald-700 border border-emerald-100'
-                        : 'bg-gray-100 text-gray-700 border border-gray-200'
+                        ? 'bg-brand-green-soft text-brand-green-dark border border-brand-green/20'
+                        : 'bg-surface text-slate border border-hairline-strong'
                         }`}>
                         {dept.status || 'ACTIVE'}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-gray-500 hidden sm:table-cell">
+                    <td className="px-6 py-4 text-steel hidden sm:table-cell">
                       {dept.orderIndex}
                     </td>
-                    <td className="px-6 py-4 text-gray-500 text-sm hidden md:table-cell">
+                    <td className="px-6 py-4 text-steel text-sm hidden md:table-cell">
                       {dept.updatedAt ? new Date(dept.updatedAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : '-'}
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <Link
                           href={`/dashboard/organization/departments/${dept.id}/edit`}
-                          className="p-2 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
+                          className="p-2 text-muted hover:text-brand-green-dark hover:bg-brand-green-soft rounded-full transition-colors"
                           title="Edit"
                         >
                           <Edit className="w-4 h-4" />
                         </Link>
                         <button
                           onClick={() => openDeleteModal(dept)}
-                          className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                          className="p-2 text-muted hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                           title="Delete"
                         >
                           <Trash2 className="w-4 h-4" />

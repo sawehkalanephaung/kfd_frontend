@@ -67,7 +67,7 @@ const CATEGORY_COLORS: Record<string, string> = {
 
 function getCategoryColor(name?: string): string {
   if (!name) return "bg-green-500/20 text-green-300 border-green-500/30";
-  return CATEGORY_COLORS[name.toLowerCase()] ?? "bg-emerald-500/20 text-emerald-300 border-emerald-500/30";
+  return CATEGORY_COLORS[name.toLowerCase()] ?? "bg-brand-green/20 text-brand-green border-brand-green/30";
 }
 
 function getMediaUrl(url?: string | null): string {
@@ -129,7 +129,7 @@ export default async function NewsPage({ searchParams }: PageProps) {
                 className={`px-4 py-1.5 rounded-full text-xs font-semibold border transition-all ${
                   !activeCategory
                     ? "bg-green-500 text-white border-green-400"
-                    : "bg-white/5 text-white/60 border-white/10 hover:border-white/30 hover:text-white"
+                    : "bg-canvas/5 text-white/60 border-white/10 hover:border-white/30 hover:text-white"
                 }`}
               >
                 All
@@ -141,7 +141,7 @@ export default async function NewsPage({ searchParams }: PageProps) {
                   className={`px-4 py-1.5 rounded-full text-xs font-semibold border transition-all ${
                     activeCategory === cat.slug
                       ? "bg-green-500 text-white border-green-400"
-                      : "bg-white/5 text-white/60 border-white/10 hover:border-white/30 hover:text-white"
+                      : "bg-canvas/5 text-white/60 border-white/10 hover:border-white/30 hover:text-white"
                   }`}
                 >
                   {cat.name}
@@ -179,7 +179,7 @@ export default async function NewsPage({ searchParams }: PageProps) {
                   {featured.category.name}
                 </span>
               )}
-              <h2 className="text-2xl md:text-3xl font-bold text-white mb-2 leading-tight max-w-2xl group-hover:text-green-300 transition-colors">
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-2 leading-tight max-w-2xl group-hover:text-brand-green transition-colors">
                 {featured.title}
               </h2>
               <p className="text-sm text-white/70 leading-relaxed max-w-xl line-clamp-2 mb-3">
@@ -199,7 +199,7 @@ export default async function NewsPage({ searchParams }: PageProps) {
               <Link
                 key={post.id}
                 href={`/news/${post.slug}`}
-                className="group flex flex-col rounded-xl overflow-hidden bg-[#0f2318] border border-white/5 hover:border-green-700/40 transition-all hover:-translate-y-1 hover:shadow-xl hover:shadow-green-900/20"
+                className="group flex flex-col rounded-xl overflow-hidden bg-[#0f2318] border border-white/5 hover:border-brand-green-dark/40 transition-all  hover:shadow-xl hover:shadow-card"
               >
                 {/* Image */}
                 <div className="relative h-44 overflow-hidden bg-[#1a3024] flex items-center justify-center">
@@ -225,7 +225,7 @@ export default async function NewsPage({ searchParams }: PageProps) {
 
                 {/* Body */}
                 <div className="flex flex-col flex-1 p-5">
-                  <h3 className="text-sm font-bold text-white leading-snug mb-2 group-hover:text-green-300 transition-colors line-clamp-3">
+                  <h3 className="text-sm font-bold text-white leading-snug mb-2 group-hover:text-brand-green transition-colors line-clamp-3">
                     {post.title}
                   </h3>
                   <p className="text-xs text-white/50 leading-relaxed line-clamp-2 mb-4 flex-1">
@@ -247,11 +247,11 @@ export default async function NewsPage({ searchParams }: PageProps) {
           </div>
         ) : (
           <div className="text-center py-24">
-            <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center mx-auto mb-4">
+            <div className="w-16 h-16 rounded-full bg-canvas/5 flex items-center justify-center mx-auto mb-4">
               <Tag size={24} className="text-white/30" />
             </div>
             <p className="text-white/40 text-sm">No posts found for this category.</p>
-            <Link href="/news" className="text-green-400 hover:text-green-300 text-sm mt-3 inline-block underline">
+            <Link href="/news" className="text-green-400 hover:text-brand-green text-sm mt-3 inline-block underline">
               View all news →
             </Link>
           </div>

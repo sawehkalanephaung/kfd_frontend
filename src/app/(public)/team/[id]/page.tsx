@@ -63,7 +63,7 @@ export default async function TeamMemberProfilePage({ params }: { params: Promis
 
         {/* Back Link */}
         <div className="mb-12">
-          <Link href="/team" className="inline-flex items-center gap-2 text-gray-400 hover:text-gray-900 transition-colors font-medium text-sm">
+          <Link href="/team" className="inline-flex items-center gap-2 text-muted hover:text-ink transition-colors font-medium text-sm">
             <ChevronLeft size={16} />
             Back to Team Directory
           </Link>
@@ -74,7 +74,7 @@ export default async function TeamMemberProfilePage({ params }: { params: Promis
           <h1 className="text-5xl md:text-6xl font-black text-[#111827] uppercase tracking-tight mb-4 font-sans">
             {name}
           </h1>
-          <p className="text-xl md:text-2xl text-gray-500 font-light">
+          <p className="text-xl md:text-2xl text-steel font-light">
             {position}
           </p>
         </div>
@@ -85,7 +85,7 @@ export default async function TeamMemberProfilePage({ params }: { params: Promis
             {displayImage ? (
               <img src={displayImage} alt={name} className="w-full h-full object-cover" />
             ) : (
-              <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
+              <div className="absolute inset-0 flex items-center justify-center bg-surface">
                 <User size={80} className="text-gray-300" />
               </div>
             )}
@@ -97,8 +97,8 @@ export default async function TeamMemberProfilePage({ params }: { params: Promis
         {/* Department Badge (Optional) */}
         {/* {member.departmentName && (
           <div className="flex justify-center mb-12">
-            <div className="flex items-center gap-2 text-gray-600 bg-white px-5 py-2.5 rounded-full shadow-sm border border-gray-100">
-              <Building2 size={16} className="text-gray-400" />
+            <div className="flex items-center gap-2 text-steel bg-canvas px-5 py-2.5 rounded-full shadow-sm border border-hairline">
+              <Building2 size={16} className="text-muted" />
               <span className="font-medium text-sm tracking-wide uppercase">{member.departmentName}</span>
             </div>
           </div>
@@ -106,11 +106,11 @@ export default async function TeamMemberProfilePage({ params }: { params: Promis
 
         {/* Bio Content */}
         <div className="max-w-2xl mx-auto w-full px-4 sm:px-0">
-          <div className="prose prose-lg prose-gray text-gray-600 leading-relaxed font-light w-full break-words [&_*]:!whitespace-normal [&_*]:!break-words [&_*]:max-w-full">
+          <div className="prose prose-lg prose-gray text-steel leading-relaxed font-light w-full break-words [&_*]:!whitespace-normal [&_*]:!break-words [&_*]:max-w-full">
             {bio ? (
               <div dangerouslySetInnerHTML={{ __html: bio }} />
             ) : (
-              <p className="text-center italic text-gray-400">No biography information available.</p>
+              <p className="text-center italic text-muted">No biography information available.</p>
             )}
           </div>
         </div>

@@ -73,17 +73,17 @@ export default function ImageCropperModal({ imageSrc, onCropComplete, onClose }:
       />
       
       {/* Modal */}
-      <div className="relative bg-white rounded-2xl w-full max-w-lg shadow-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+      <div className="relative bg-canvas rounded-lg w-full max-w-lg shadow-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
         
         {/* Header */}
-        <div className="flex items-center justify-between p-4 border-b border-gray-100 bg-gray-50/50">
+        <div className="flex items-center justify-between p-4 border-b border-hairline bg-surface-soft">
           <div>
-            <h3 className="text-lg font-bold text-gray-900">Crop Headshot</h3>
-            <p className="text-sm text-gray-500">Position the image inside the square.</p>
+            <h3 className="text-lg font-bold text-ink">Crop Headshot</h3>
+            <p className="text-sm text-steel">Position the image inside the square.</p>
           </div>
           <button 
             onClick={onClose}
-            className="p-2 text-gray-400 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+            className="p-2 text-muted hover:text-ink hover:bg-surface rounded-lg transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -105,9 +105,9 @@ export default function ImageCropperModal({ imageSrc, onCropComplete, onClose }:
         </div>
 
         {/* Controls & Actions */}
-        <div className="p-4 bg-white border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="p-4 bg-canvas border-t border-hairline flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3 w-full sm:w-1/2">
-            <span className="text-xs text-gray-500 font-medium">Zoom</span>
+            <span className="text-xs text-steel font-medium">Zoom</span>
             <input
               type="range"
               value={zoom}
@@ -124,14 +124,14 @@ export default function ImageCropperModal({ imageSrc, onCropComplete, onClose }:
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-colors"
+              className="px-4 py-2 text-sm font-medium text-slate bg-canvas border border-hairline-strong hover:bg-surface hover:text-ink rounded-xl transition-colors"
             >
               Cancel
             </button>
             <button
               type="button"
               onClick={createCroppedImage}
-              className="inline-flex items-center gap-2 px-5 py-2 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium rounded-xl transition-all shadow-sm shadow-emerald-500/20 active:scale-95"
+              className="inline-flex items-center gap-2 px-5 py-2 bg-brand-green hover:bg-primary-deep text-on-primary text-sm font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
             >
               <Check className="w-4 h-4" />
               Apply Crop

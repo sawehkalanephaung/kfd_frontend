@@ -23,18 +23,18 @@ export default function AboutContentSection({
   const [isExpanded, setIsExpanded] = useState(false);
   
   // Set background and text colors based on variant
-  let bgClass = "bg-white text-gray-900";
+  let bgClass = "bg-canvas text-ink";
   let titleClass = "text-[#1a3626]";
-  let contentClass = "text-gray-700";
+  let contentClass = "text-slate";
 
   if (bgVariant === 'light') {
-    bgClass = "bg-[#f0f4f1] text-gray-900";
+    bgClass = "bg-[#f0f4f1] text-ink";
     titleClass = "text-[#1a3626]";
-    contentClass = "text-gray-700";
+    contentClass = "text-slate";
   } else if (bgVariant === 'dark') {
-    bgClass = "bg-[#1a3626] text-white";
-    titleClass = "text-green-50";
-    contentClass = "text-green-100/90";
+    bgClass = "bg-teal-deep text-white";
+    titleClass = "text-on-dark-muted";
+    contentClass = "text-on-dark-muted/90";
   }
 
   // Fallback image if none provided
@@ -67,8 +67,8 @@ export default function AboutContentSection({
             onClick={() => setIsExpanded(!isExpanded)}
             className={`inline-flex items-center gap-2 font-medium px-6 py-3 rounded-full transition-all ${
               bgVariant === 'dark' 
-                ? 'bg-white/10 hover:bg-white/20 text-white border border-white/20' 
-                : 'bg-[#1a3626]/10 hover:bg-[#1a3626]/20 text-[#1a3626]'
+                ? 'bg-canvas/10 hover:bg-canvas/20 text-white border border-white/20' 
+                : 'bg-teal-deep/10 hover:bg-teal-deep/20 text-[#1a3626]'
             }`}
           >
             {isExpanded ? (
@@ -83,7 +83,7 @@ export default function AboutContentSection({
   );
 
   const imageBlock = (
-    <div className="relative h-[400px] lg:h-[600px] w-full rounded-3xl overflow-hidden shadow-2xl group bg-gray-100 flex items-center justify-center">
+    <div className="relative h-[400px] lg:h-[600px] w-full rounded-3xl overflow-hidden shadow-2xl group bg-surface flex items-center justify-center">
       {displayImage ? (
         <>
           <div 

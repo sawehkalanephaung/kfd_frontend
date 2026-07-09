@@ -36,7 +36,7 @@ export default async function Footer() {
   };
 
   return (
-    <footer className="bg-[#1a3626] text-white pt-16 pb-8">
+    <footer className="bg-teal-deep text-white pt-16 pb-8">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-8 mb-16">
 
@@ -64,18 +64,18 @@ export default async function Footer() {
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
+                  className="w-8 h-8 rounded-full bg-canvas/10 flex items-center justify-center hover:bg-canvas/20 transition-colors"
                 >
                   {renderSocialIcon(link.platformName)}
                 </a>
               ))}
               {(!socialMediaLinks || socialMediaLinks.length === 0) && (
-                <a href="#" className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
+                <a href="#" className="w-8 h-8 rounded-full bg-canvas/10 flex items-center justify-center hover:bg-canvas/20 transition-colors">
                   <FaFacebook size={16} />
                 </a>
               )}
             </div>
-            <div className="flex flex-col gap-5 text-sm text-green-100 pt-2">
+            <div className="flex flex-col gap-5 text-sm text-on-dark-muted pt-2">
               <div className="flex items-start gap-3">
                 <Phone className="w-5 h-5 flex-shrink-0 mt-0.5" />
                 <span>{contactSettings?.phoneNumbers?.[0] || "+66 123 456 789"}</span>
@@ -100,19 +100,19 @@ export default async function Footer() {
           <div>
             <h3 className="font-bold text-lg mb-6">QUICK LINKS</h3>
             <ul className="space-y-4">
-              <li><Link href="/" className="text-sm text-green-100 hover:text-white transition-colors">Home</Link></li>
-              <li><Link href="/about" className="text-sm text-green-100 hover:text-white transition-colors">About Us</Link></li>
-              <li><Link href="/departments" className="text-sm text-green-100 hover:text-white transition-colors">Department Branches</Link></li>
-              <li><Link href="/news" className="text-sm text-green-100 hover:text-white transition-colors">News & Announcements</Link></li>
-              <li><Link href="/resources" className="text-sm text-green-100 hover:text-white transition-colors">Resources</Link></li>
-              <li><Link href="/contact" className="text-sm text-green-100 hover:text-white transition-colors">Contact Us</Link></li>
+              <li><Link href="/" className="text-sm text-on-dark-muted hover:text-white transition-colors">Home</Link></li>
+              <li><Link href="/about" className="text-sm text-on-dark-muted hover:text-white transition-colors">About Us</Link></li>
+              <li><Link href="/departments" className="text-sm text-on-dark-muted hover:text-white transition-colors">Department Branches</Link></li>
+              <li><Link href="/news" className="text-sm text-on-dark-muted hover:text-white transition-colors">News & Announcements</Link></li>
+              <li><Link href="/resources" className="text-sm text-on-dark-muted hover:text-white transition-colors">Resources</Link></li>
+              <li><Link href="/contact" className="text-sm text-on-dark-muted hover:text-white transition-colors">Contact Us</Link></li>
             </ul>
           </div>
 
           {/* Newsletter */}
           <div>
             <h3 className="font-bold text-lg mb-6">NEWSLETTER</h3>
-            <p className="text-sm text-green-100 mb-4">
+            <p className="text-sm text-on-dark-muted mb-4">
               Stay updated with the latest news, conservation efforts, and reports from KFD.
             </p>
             <NewsletterForm />
@@ -122,14 +122,14 @@ export default async function Footer() {
 
         {/* Bottom Bar */}
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
-          <p className="text-sm text-green-200">
+          <p className="text-sm text-on-dark-muted">
             Copyright © {new Date().getFullYear()} Kawthoolei Forestry Department, All rights reserved.
           </p>
           <div className="flex flex-wrap items-center justify-center md:justify-end gap-x-6 gap-y-3">
-            <Link href="/privacy-policy" className="text-sm text-green-200 hover:text-white transition-colors py-2 md:py-0">Privacy Policy</Link>
-            <Link href="/terms-of-use" className="text-sm text-green-200 hover:text-white transition-colors py-2 md:py-0">Terms of Use</Link>
-            <Link href="/accessibility" className="text-sm text-green-200 hover:text-white transition-colors py-2 md:py-0">Accessibility</Link>
-            <Link href="/contact" className="text-sm text-green-200 hover:text-white transition-colors py-2 md:py-0">Contact</Link>
+            <Link href="/privacy-policy" className="text-sm text-on-dark-muted hover:text-white transition-colors py-2 md:py-0">Privacy Policy</Link>
+            <Link href="/terms-of-use" className="text-sm text-on-dark-muted hover:text-white transition-colors py-2 md:py-0">Terms of Use</Link>
+            <Link href="/accessibility" className="text-sm text-on-dark-muted hover:text-white transition-colors py-2 md:py-0">Accessibility</Link>
+            <Link href="/contact" className="text-sm text-on-dark-muted hover:text-white transition-colors py-2 md:py-0">Contact</Link>
           </div>
         </div>
       </div>

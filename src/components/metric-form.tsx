@@ -62,7 +62,7 @@ export default function MetricForm({ initialData, isEdit, metricId, onSave }: Me
       <div className="flex items-center justify-between">
         <Link
           href="/dashboard/organization/metrics"
-          className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
+          className="inline-flex items-center gap-2 text-sm font-medium text-steel hover:text-ink transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Global Metrics
@@ -70,7 +70,7 @@ export default function MetricForm({ initialData, isEdit, metricId, onSave }: Me
         <button
           type="submit"
           disabled={loading}
-          className="inline-flex items-center gap-2 px-6 py-2.5 bg-emerald-500 hover:bg-emerald-600 disabled:opacity-70 text-white font-medium rounded-xl transition-all shadow-sm shadow-emerald-500/20 active:scale-95"
+          className="inline-flex items-center gap-2 px-6 py-2.5 bg-brand-green hover:bg-primary-deep disabled:opacity-70 text-on-primary font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
         >
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
           {isEdit ? 'Save Changes' : 'Create Metric'}
@@ -88,46 +88,46 @@ export default function MetricForm({ initialData, isEdit, metricId, onSave }: Me
         <div className="lg:col-span-2 space-y-6">
           
           {/* Basic Info Card */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50">
-            <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-              <BarChart2 className="w-5 h-5 text-gray-400" />
+          <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft">
+            <h2 className="text-lg font-bold text-ink mb-6 flex items-center gap-2">
+              <BarChart2 className="w-5 h-5 text-muted" />
               Metric Information
             </h2>
             <div className="space-y-5">
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">Metric Title</label>
+                <label className="block text-sm font-semibold text-ink mb-2">Metric Title</label>
                 <input
                   type="text"
                   required
                   value={formData.title}
                   onChange={(e) => setFormData({...formData, title: e.target.value})}
-                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
                   placeholder="e.g. Protected Forest Area"
                 />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-900 mb-2">Metric Value</label>
+                  <label className="block text-sm font-semibold text-ink mb-2">Metric Value</label>
                   <input
                     type="text"
                     required
                     value={formData.metricValue}
                     onChange={(e) => setFormData({...formData, metricValue: e.target.value})}
-                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                    className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
                     placeholder="e.g. 200,000 Acres"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-900 mb-2">Icon Identifier</label>
+                  <label className="block text-sm font-semibold text-ink mb-2">Icon Identifier</label>
                   <input
                     type="text"
                     value={formData.icon}
                     onChange={(e) => setFormData({...formData, icon: e.target.value})}
-                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                    className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
                     placeholder="e.g. TreePine (Lucide Icon name)"
                   />
-                  <p className="text-xs text-gray-400 mt-2">Optional icon identifier name</p>
+                  <p className="text-xs text-muted mt-2">Optional icon identifier name</p>
                 </div>
               </div>
             </div>
@@ -139,20 +139,20 @@ export default function MetricForm({ initialData, isEdit, metricId, onSave }: Me
         <div className="space-y-6">
           
           {/* Settings Card */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50">
-            <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-              <Settings className="w-5 h-5 text-gray-400" />
+          <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft">
+            <h2 className="text-lg font-bold text-ink mb-6 flex items-center gap-2">
+              <Settings className="w-5 h-5 text-muted" />
               Settings
             </h2>
             <div className="space-y-5">
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">Status</label>
-                <div className="flex items-center gap-3 bg-gray-50 p-1.5 rounded-xl border border-gray-200">
+                <label className="block text-sm font-semibold text-ink mb-2">Status</label>
+                <div className="flex items-center gap-3 bg-surface p-1.5 rounded-xl border border-hairline-strong">
                   <button
                     type="button"
                     onClick={() => setFormData({...formData, isActive: true})}
                     className={`flex-1 py-2 text-sm font-medium rounded-lg transition-colors ${
-                      formData.isActive ? 'bg-white text-emerald-700 shadow-sm border border-emerald-100' : 'text-gray-500 hover:text-gray-900'
+                      formData.isActive ? 'bg-canvas text-brand-green-dark shadow-sm border border-brand-green/20' : 'text-steel hover:text-ink'
                     }`}
                   >
                     Active
@@ -161,7 +161,7 @@ export default function MetricForm({ initialData, isEdit, metricId, onSave }: Me
                     type="button"
                     onClick={() => setFormData({...formData, isActive: false})}
                     className={`flex-1 py-2 text-sm font-medium rounded-lg transition-colors ${
-                      !formData.isActive ? 'bg-white text-gray-900 shadow-sm border border-gray-200' : 'text-gray-500 hover:text-gray-900'
+                      !formData.isActive ? 'bg-canvas text-ink shadow-sm border border-hairline-strong' : 'text-steel hover:text-ink'
                     }`}
                   >
                     Hidden
@@ -169,14 +169,14 @@ export default function MetricForm({ initialData, isEdit, metricId, onSave }: Me
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">Display Order</label>
+                <label className="block text-sm font-semibold text-ink mb-2">Display Order</label>
                 <input
                   type="number"
                   value={formData.displayOrder}
                   onChange={(e) => setFormData({...formData, displayOrder: parseInt(e.target.value) || 0})}
-                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                 />
-                <p className="text-xs text-gray-400 mt-2">Determines display order (lower = first)</p>
+                <p className="text-xs text-muted mt-2">Determines display order (lower = first)</p>
               </div>
             </div>
           </div>

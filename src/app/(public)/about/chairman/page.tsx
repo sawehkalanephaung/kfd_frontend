@@ -58,21 +58,21 @@ export default async function ChairmanPage() {
 
   if (!chairman) {
     return (
-      <main className="min-h-screen bg-white pt-20">
-        <div className="bg-[#f8faf9] border-b border-gray-100 py-4">
+      <main className="min-h-screen bg-canvas pt-20">
+        <div className="bg-[#f8faf9] border-b border-hairline py-4">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center gap-2 text-sm text-gray-500 font-medium">
-              <Link href="/" className="hover:text-[#1a3626] transition-colors">Home</Link>
+            <div className="flex items-center gap-2 text-sm text-steel font-medium">
+              <Link href="/" className="hover:text-teal-deep transition-colors">Home</Link>
               <ChevronRight size={14} />
-              <Link href="/about" className="hover:text-[#1a3626] transition-colors">About Us</Link>
+              <Link href="/about" className="hover:text-teal-deep transition-colors">About Us</Link>
               <ChevronRight size={14} />
               <span className="text-[#1a3626]">Chairman</span>
             </div>
           </div>
         </div>
         <div className="container mx-auto px-4 py-32 text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Chairman Details</h1>
-          <p className="text-gray-500">Chairman details will be updated soon.</p>
+          <h1 className="text-4xl font-bold text-ink mb-4">Chairman Details</h1>
+          <p className="text-steel">Chairman details will be updated soon.</p>
         </div>
       </main>
     );
@@ -87,15 +87,15 @@ export default async function ChairmanPage() {
   const displayImage = rawImage ? getMediaUrl(rawImage) : null;
 
   return (
-    <main className="min-h-screen bg-white pt-20">
+    <main className="min-h-screen bg-canvas pt-20">
       
       {/* ── Breadcrumb & Navigation ──────────────────────────────────── */}
-      <div className="bg-[#f8faf9] border-b border-gray-100 py-4">
+      <div className="bg-[#f8faf9] border-b border-hairline py-4">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-2 text-sm text-gray-500 font-medium">
-            <Link href="/" className="hover:text-[#1a3626] transition-colors">Home</Link>
+          <div className="flex items-center gap-2 text-sm text-steel font-medium">
+            <Link href="/" className="hover:text-teal-deep transition-colors">Home</Link>
             <ChevronRight size={14} />
-            <Link href="/about" className="hover:text-[#1a3626] transition-colors">About Us</Link>
+            <Link href="/about" className="hover:text-teal-deep transition-colors">About Us</Link>
             <ChevronRight size={14} />
             <span className="text-[#1a3626]">Chairman</span>
           </div>
@@ -111,7 +111,7 @@ export default async function ChairmanPage() {
         <div className="absolute top-0 right-0 -mr-20 -mt-20 w-[600px] h-[600px] bg-green-900/30 blur-3xl rounded-full pointer-events-none"></div>
 
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <Link href="/about" className="inline-flex items-center gap-2 text-green-100 hover:text-white mb-10 transition-colors text-sm font-semibold uppercase tracking-wider group">
+          <Link href="/about" className="inline-flex items-center gap-2 text-on-dark-muted hover:text-white mb-10 transition-colors text-sm font-semibold uppercase tracking-wider group">
             <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
             Back to About KFD
           </Link>
@@ -120,7 +120,7 @@ export default async function ChairmanPage() {
             
             {/* Portrait Frame (Left) */}
             <div className="w-full lg:w-1/3 flex justify-center lg:justify-end shrink-0">
-              <div className="relative w-64 h-80 md:w-80 md:h-96 rounded-t-full rounded-b-xl overflow-hidden border-[6px] border-[#1a3626] shadow-2xl bg-gray-100 flex items-center justify-center">
+              <div className="relative w-64 h-80 md:w-80 md:h-96 rounded-t-full rounded-b-xl overflow-hidden border-[6px] border-[#1a3626] shadow-2xl bg-surface flex items-center justify-center">
                 {displayImage ? (
                   <div 
                     className="absolute inset-0 bg-cover bg-center"
@@ -136,13 +136,13 @@ export default async function ChairmanPage() {
 
             {/* Title & Introduction (Right) */}
             <div className="w-full lg:w-2/3 text-center lg:text-left text-white">
-              <div className="inline-block bg-white/10 border border-white/20 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs font-bold tracking-widest text-green-300 uppercase mb-6">
+              <div className="inline-block bg-canvas/10 border border-white/20 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs font-bold tracking-widest text-green-300 uppercase mb-6">
                 Kawthoolei Forestry Department
               </div>
               <h1 className="text-5xl md:text-6xl font-serif font-bold mb-4 tracking-tight drop-shadow-md">
                 {fullName}
               </h1>
-              <p className="text-xl md:text-2xl text-green-100 font-medium tracking-wide mb-8">
+              <p className="text-xl md:text-2xl text-on-dark-muted font-medium tracking-wide mb-8">
                 {finalTitle}
               </p>
               
@@ -154,13 +154,13 @@ export default async function ChairmanPage() {
       </section>
 
       {/* ── Biography & Message Section ──────────────────────────────── */}
-      <section className="py-20 lg:py-32 bg-white relative">
+      <section className="py-20 lg:py-32 bg-canvas relative">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto">
             
             {/* Bio Content */}
-            <div className="prose prose-lg md:prose-xl prose-green max-w-none text-gray-700">
-              <h2 className="text-3xl font-bold text-gray-900 mb-8 border-b border-gray-100 pb-4">Biography</h2>
+            <div className="prose prose-lg md:prose-xl prose-green max-w-none text-slate">
+              <h2 className="text-3xl font-bold text-ink mb-8 border-b border-hairline pb-4">Biography</h2>
               
               {bio ? (
                 <div 
@@ -168,7 +168,7 @@ export default async function ChairmanPage() {
                   dangerouslySetInnerHTML={{ __html: bio }}
                 />
               ) : (
-                <p className="italic text-gray-500">
+                <p className="italic text-steel">
                   Detailed biography is currently being updated.
                 </p>
               )}

@@ -100,7 +100,7 @@ export default function UserForm({ initialData, isEdit, userId, isSlideOver, onS
         {!isSlideOver ? (
           <Link
             href="/dashboard/team/users"
-            className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
+            className="inline-flex items-center gap-2 text-sm font-medium text-steel hover:text-ink transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Users
@@ -109,7 +109,7 @@ export default function UserForm({ initialData, isEdit, userId, isSlideOver, onS
           <button
             type="button"
             onClick={onCancel}
-            className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
+            className="inline-flex items-center gap-2 text-sm font-medium text-steel hover:text-ink transition-colors"
           >
             Cancel
           </button>
@@ -117,7 +117,7 @@ export default function UserForm({ initialData, isEdit, userId, isSlideOver, onS
         <button
           type="submit"
           disabled={loading}
-          className="inline-flex items-center gap-2 px-6 py-2.5 bg-emerald-500 hover:bg-emerald-600 disabled:opacity-70 text-white font-medium rounded-xl transition-all shadow-sm shadow-emerald-500/20 active:scale-95"
+          className="inline-flex items-center gap-2 px-6 py-2.5 bg-brand-green hover:bg-primary-deep disabled:opacity-70 text-on-primary font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
         >
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
           {isEdit ? 'Save Changes' : 'Create User'}
@@ -132,60 +132,60 @@ export default function UserForm({ initialData, isEdit, userId, isSlideOver, onS
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-6">
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50">
-            <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-              <UserCircle className="w-5 h-5 text-gray-400" />
+          <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft">
+            <h2 className="text-lg font-bold text-ink mb-6 flex items-center gap-2">
+              <UserCircle className="w-5 h-5 text-muted" />
               User Information
             </h2>
             
             <div className="space-y-5">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-900 mb-2">First Name</label>
+                  <label className="block text-sm font-semibold text-ink mb-2">First Name</label>
                   <input
                     type="text"
                     required
                     value={formData.firstName}
                     onChange={(e) => setFormData({...formData, firstName: e.target.value})}
-                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                    className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                     placeholder="e.g. John"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-900 mb-2">Last Name</label>
+                  <label className="block text-sm font-semibold text-ink mb-2">Last Name</label>
                   <input
                     type="text"
                     required
                     value={formData.lastName}
                     onChange={(e) => setFormData({...formData, lastName: e.target.value})}
-                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                    className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                     placeholder="e.g. Doe"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">Email Address</label>
+                <label className="block text-sm font-semibold text-ink mb-2">Email Address</label>
                 <input
                   type="email"
                   required
                   value={formData.email}
                   onChange={(e) => setFormData({...formData, email: e.target.value})}
-                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                   placeholder="e.g. admin@kfd.org"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">
-                  Password {isEdit && <span className="text-gray-400 font-normal">(Leave blank to keep current)</span>}
+                <label className="block text-sm font-semibold text-ink mb-2">
+                  Password {isEdit && <span className="text-muted font-normal">(Leave blank to keep current)</span>}
                 </label>
                 <input
                   type="password"
                   required={!isEdit}
                   value={formData.password}
                   onChange={(e) => setFormData({...formData, password: e.target.value})}
-                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                   placeholder="••••••••"
                 />
               </div>
@@ -194,21 +194,21 @@ export default function UserForm({ initialData, isEdit, userId, isSlideOver, onS
         </div>
 
         <div className="space-y-6">
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50">
-            <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-              <Settings className="w-5 h-5 text-gray-400" />
+          <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft">
+            <h2 className="text-lg font-bold text-ink mb-6 flex items-center gap-2">
+              <Settings className="w-5 h-5 text-muted" />
               Access Settings
             </h2>
             <div className="space-y-5">
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">System Role</label>
+                <label className="block text-sm font-semibold text-ink mb-2">System Role</label>
                 <div className="relative">
                   <select
                     required
                     value={formData.roleId}
                     onChange={(e) => setFormData({...formData, roleId: e.target.value})}
                     disabled={fetchingRoles}
-                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 appearance-none focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                    className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink appearance-none focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                   >
                     <option value="">Select a role...</option>
                     {roles.map(role => {
@@ -218,18 +218,18 @@ export default function UserForm({ initialData, isEdit, userId, isSlideOver, onS
                   </select>
                   {fetchingRoles && (
                     <div className="absolute right-3 top-3.5">
-                      <Loader2 className="w-4 h-4 text-gray-400 animate-spin" />
+                      <Loader2 className="w-4 h-4 text-muted animate-spin" />
                     </div>
                   )}
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">Language</label>
+                <label className="block text-sm font-semibold text-ink mb-2">Language</label>
                 <select
                   value={formData.dashboardLanguage}
                   onChange={(e) => setFormData({...formData, dashboardLanguage: e.target.value})}
-                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 appearance-none focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink appearance-none focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                 >
                   <option value="en">English (en)</option>
                   <option value="km">Khmer (km)</option>
@@ -237,11 +237,11 @@ export default function UserForm({ initialData, isEdit, userId, isSlideOver, onS
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">Status</label>
+                <label className="block text-sm font-semibold text-ink mb-2">Status</label>
                 <select
                   value={formData.isActive ? 'true' : 'false'}
                   onChange={(e) => setFormData({...formData, isActive: e.target.value === 'true'})}
-                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 appearance-none focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink appearance-none focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                 >
                   <option value="true">Active (Can Login)</option>
                   <option value="false">Inactive (Suspended)</option>

@@ -25,8 +25,8 @@ export default function DepartmentResources({ data }: { data: DepartmentData }) 
       {Object.entries(groupedResources).length > 0 ? (
         Object.entries(groupedResources).map(([category, items]) => (
           <div key={category} className="mb-10">
-            <h3 className="text-[17px] font-bold text-gray-900 mb-4">{category}</h3>
-            <div className="divide-y divide-gray-100 border-t border-gray-100">
+            <h3 className="text-[17px] font-bold text-ink mb-4">{category}</h3>
+            <div className="divide-y divide-hairline border-t border-hairline">
               {items.map((res) => (
                 <div key={res.id} className="py-4 flex flex-col sm:flex-row gap-4 items-start sm:items-center group">
                   <div className="flex-1">
@@ -35,8 +35,8 @@ export default function DepartmentResources({ data }: { data: DepartmentData }) 
                     </a>
                   </div>
                   
-                  <div className="flex items-center gap-2 text-[13px] text-gray-500 font-medium shrink-0 mt-1 sm:mt-0">
-                    <Calendar size={14} className="text-gray-400" />
+                  <div className="flex items-center gap-2 text-[13px] text-steel font-medium shrink-0 mt-1 sm:mt-0">
+                    <Calendar size={14} className="text-muted" />
                     {formatDate(res.createdAt)}
                   </div>
                 </div>
@@ -45,7 +45,7 @@ export default function DepartmentResources({ data }: { data: DepartmentData }) 
           </div>
         ))
       ) : (
-        <div className="py-12 text-gray-500 text-sm">
+        <div className="py-12 text-steel text-sm">
           No resources found.
         </div>
       )}

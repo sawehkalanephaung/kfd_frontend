@@ -28,10 +28,10 @@ export default function DepartmentHero({ data }: { data: DepartmentData }) {
   const logoUrl = data.logoUrl ? getMediaUrl(data.logoUrl) : "";
 
   return (
-    <div className="relative w-full bg-white overflow-hidden border-b border-gray-100">
+    <div className="relative w-full bg-canvas overflow-hidden border-b border-hairline">
       {/* Background Image/Gradient overlay */}
       <div 
-        className="absolute right-0 top-0 w-2/3 h-full opacity-60 pointer-events-none bg-gray-100 flex items-center justify-center overflow-hidden"
+        className="absolute right-0 top-0 w-2/3 h-full opacity-60 pointer-events-none bg-surface flex items-center justify-center overflow-hidden"
         style={{
           WebkitMaskImage: 'linear-gradient(to left, black 50%, transparent 100%)',
           maskImage: 'linear-gradient(to left, black 50%, transparent 100%)',
@@ -50,7 +50,7 @@ export default function DepartmentHero({ data }: { data: DepartmentData }) {
           {logoUrl ? (
             <img src={logoUrl} alt={`${data.name} logo`} className="w-full h-auto object-contain" />
           ) : (
-            <div className="flex flex-col items-center justify-center text-center text-[8px] font-bold text-gray-400">
+            <div className="flex flex-col items-center justify-center text-center text-[8px] font-bold text-muted">
               <ImageIcon size={24} className="text-gray-300 mb-1" />
               <span>No Logo</span>
             </div>
@@ -59,7 +59,7 @@ export default function DepartmentHero({ data }: { data: DepartmentData }) {
 
         {/* Info */}
         <div className="flex flex-col gap-4 max-w-2xl">
-          <h1 className="text-4xl font-bold text-gray-900 tracking-tight">{data.name}</h1>
+          <h1 className="text-4xl font-bold text-ink tracking-tight">{data.name}</h1>
           
           <div className="flex flex-wrap items-center gap-4 text-sm font-medium text-[#1a3626]">
             {headName && (

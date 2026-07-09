@@ -193,7 +193,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
       <div className="flex items-center justify-between">
         <Link
           href="/dashboard/posts"
-          className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
+          className="inline-flex items-center gap-2 text-sm font-medium text-steel hover:text-ink transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Posts
@@ -201,7 +201,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
         <button
           type="submit"
           disabled={loading}
-          className="inline-flex items-center gap-2 px-6 py-2.5 bg-emerald-500 hover:bg-emerald-600 disabled:opacity-70 text-white font-medium rounded-xl transition-all shadow-sm shadow-emerald-500/20 active:scale-95"
+          className="inline-flex items-center gap-2 px-6 py-2.5 bg-brand-green hover:bg-primary-deep disabled:opacity-70 text-on-primary font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
         >
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
           {isEdit ? 'Save Changes' : 'Create Post'}
@@ -219,43 +219,43 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
         <div className="lg:col-span-2 space-y-6">
 
           {/* Basic Info Card */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50">
-            <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-              <FileText className="w-5 h-5 text-gray-400" />
+          <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft">
+            <h2 className="text-lg font-bold text-ink mb-6 flex items-center gap-2">
+              <FileText className="w-5 h-5 text-muted" />
               Post Details
             </h2>
             <div className="space-y-5">
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">Title</label>
+                <label className="block text-sm font-semibold text-ink mb-2">Title</label>
                 <input
                   type="text"
                   required
                   value={formData.title}
                   onChange={handleTitleChange}
-                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
                   placeholder="e.g. New Forest Conservation Initiative"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">URL Slug</label>
+                <label className="block text-sm font-semibold text-ink mb-2">URL Slug</label>
                 <input
                   type="text"
                   required
                   value={formData.slug}
                   onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                  className="w-full px-4 py-3 bg-surface border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                   placeholder="new-forest-conservation"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">Excerpt</label>
+                <label className="block text-sm font-semibold text-ink mb-2">Excerpt</label>
                 <textarea
                   rows={3}
                   value={formData.excerpt}
                   onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
-                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
                   placeholder="A short summary of the post..."
                 ></textarea>
               </div>
@@ -263,12 +263,12 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
           </div>
 
           {/* Content / Rich Text */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50">
-            <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-              <AlignLeft className="w-5 h-5 text-gray-400" />
+          <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft">
+            <h2 className="text-lg font-bold text-ink mb-6 flex items-center gap-2">
+              <AlignLeft className="w-5 h-5 text-muted" />
               Post Content
             </h2>
-            <div className="bg-white rounded-xl overflow-hidden border border-gray-200 focus-within:border-emerald-500 focus-within:ring-1 focus-within:ring-emerald-500 transition-all text-black">
+            <div className="bg-canvas rounded-xl overflow-hidden border border-hairline-strong focus-within:border-emerald-500 focus-within:ring-1 focus-within:ring-emerald-500 transition-all text-black">
               <ReactQuill
                 theme="snow"
                 value={formData.content}
@@ -281,9 +281,9 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
 
           {/* Conditional Metadata Fields */}
           {(categorySlug === 'event' /* || categorySlug === 'announcement' */) && (
-            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50">
-              <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-                <Settings className="w-5 h-5 text-gray-400" />
+            <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft">
+              <h2 className="text-lg font-bold text-ink mb-6 flex items-center gap-2">
+                <Settings className="w-5 h-5 text-muted" />
                 {categorySlug === 'event' ? 'Event Details' : 'Announcement Details'}
               </h2>
               <div className="space-y-5">
@@ -291,32 +291,32 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                   <>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                       <div>
-                        <label className="block text-sm font-semibold text-gray-900 mb-2">Event Date</label>
+                        <label className="block text-sm font-semibold text-ink mb-2">Event Date</label>
                         <input
                           type="date"
                           value={formData.metadata.eventDate || ''}
                           onChange={(e) => handleMetadataChange('eventDate', e.target.value)}
-                          className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                          className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-semibold text-gray-900 mb-2">Event Time</label>
+                        <label className="block text-sm font-semibold text-ink mb-2">Event Time</label>
                         <input
                           type="time"
                           value={formData.metadata.eventTime || ''}
                           onChange={(e) => handleMetadataChange('eventTime', e.target.value)}
-                          className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                          className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                         />
                       </div>
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-gray-900 mb-2">Event Location</label>
+                      <label className="block text-sm font-semibold text-ink mb-2">Event Location</label>
                       <input
                         type="text"
                         placeholder="e.g. Main Conference Hall"
                         value={formData.metadata.eventLocation || ''}
                         onChange={(e) => handleMetadataChange('eventLocation', e.target.value)}
-                        className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                        className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                       />
                     </div>
                   </>
@@ -324,13 +324,13 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                 {/* 
                 {categorySlug === 'announcement' && (
                   <div>
-                    <label className="block text-sm font-semibold text-gray-900 mb-2">Reference Number</label>
+                    <label className="block text-sm font-semibold text-ink mb-2">Reference Number</label>
                     <input
                       type="text"
                       placeholder="e.g. KFD-2024-001"
                       value={formData.metadata.referenceNumber || ''}
                       onChange={(e) => handleMetadataChange('referenceNumber', e.target.value)}
-                      className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                      className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                     />
                   </div>
                 )} 
@@ -345,18 +345,18 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
         <div className="space-y-6">
 
           {/* Settings Card */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50">
-            <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-              <Settings className="w-5 h-5 text-gray-400" />
+          <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft">
+            <h2 className="text-lg font-bold text-ink mb-6 flex items-center gap-2">
+              <Settings className="w-5 h-5 text-muted" />
               Settings
             </h2>
             <div className="space-y-5">
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">Status</label>
+                <label className="block text-sm font-semibold text-ink mb-2">Status</label>
                 <select
                   value={formData.status}
                   onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                 >
                   <option value="PUBLISHED">Published</option>
                   <option value="DRAFT">Draft</option>
@@ -367,18 +367,18 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
           </div>
 
           {/* Classification Card */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50">
-            <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-              <FolderTree className="w-5 h-5 text-gray-400" />
+          <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft">
+            <h2 className="text-lg font-bold text-ink mb-6 flex items-center gap-2">
+              <FolderTree className="w-5 h-5 text-muted" />
               Classification
             </h2>
             <div className="space-y-5">
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">Category</label>
+                <label className="block text-sm font-semibold text-ink mb-2">Category</label>
                 <select
                   value={formData.categoryId}
                   onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })}
-                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                 >
                   <option value="">Select a Category</option>
                   {categories.map((cat: any) => (
@@ -388,11 +388,11 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2">Department (Optional)</label>
+                <label className="block text-sm font-semibold text-ink mb-2">Department (Optional)</label>
                 <select
                   value={formData.departmentId}
                   onChange={(e) => setFormData({ ...formData, departmentId: e.target.value })}
-                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                 >
                   <option value="">Select a Department</option>
                   {departments.map((dept: any) => (
@@ -402,30 +402,30 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-900 mb-2 flex items-center gap-2">
-                  <TagIcon className="w-4 h-4 text-gray-400" />
+                <label className="block text-sm font-semibold text-ink mb-2 flex items-center gap-2">
+                  <TagIcon className="w-4 h-4 text-muted" />
                   Tags
                 </label>
                 <div className="relative">
                   <div
-                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all flex flex-wrap gap-2 items-center cursor-pointer min-h-[50px]"
+                    className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all flex flex-wrap gap-2 items-center cursor-pointer min-h-[50px]"
                     onClick={() => setIsTagDropdownOpen(!isTagDropdownOpen)}
                   >
-                    {formData.tagIds.length === 0 && <span className="text-gray-400">Select Tags...</span>}
+                    {formData.tagIds.length === 0 && <span className="text-muted">Select Tags...</span>}
                     {formData.tagIds.map((id: any) => {
                       const tag = tags.find(t => t.id === id);
                       if (!tag) return null;
                       return (
-                        <span key={id} className="inline-flex items-center gap-1 px-2.5 py-1 bg-emerald-50 text-emerald-700 rounded-lg text-sm font-medium border border-emerald-200">
+                        <span key={id} className="inline-flex items-center gap-1 px-2.5 py-1 bg-brand-green-soft text-brand-green-dark rounded-full text-sm font-medium border border-brand-green/30">
                           {tag.name}
-                          <button type="button" onClick={(e) => { e.stopPropagation(); toggleTag(id); }} className="text-emerald-500 hover:text-emerald-700">
+                          <button type="button" onClick={(e) => { e.stopPropagation(); toggleTag(id); }} className="text-brand-green hover:text-brand-green-dark">
                             <X className="w-3 h-3" />
                           </button>
                         </span>
                       );
                     })}
                     <div className="ml-auto">
-                      <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${isTagDropdownOpen ? 'rotate-180' : ''}`} />
+                      <ChevronDown className={`w-4 h-4 text-muted transition-transform ${isTagDropdownOpen ? 'rotate-180' : ''}`} />
                     </div>
                   </div>
 
@@ -435,20 +435,20 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                         className="fixed inset-0 z-10"
                         onClick={() => setIsTagDropdownOpen(false)}
                       ></div>
-                      <div className="absolute z-20 w-full mt-1 bg-white border border-gray-200 rounded-xl shadow-lg max-h-60 overflow-auto py-2">
+                      <div className="absolute z-20 w-full mt-1 bg-canvas border border-hairline-strong rounded-xl shadow-lg max-h-60 overflow-auto py-2">
                         {tags.length === 0 ? (
-                          <div className="px-4 py-3 text-sm text-gray-500 text-center">No tags found</div>
+                          <div className="px-4 py-3 text-sm text-steel text-center">No tags found</div>
                         ) : (
                           tags.map(tag => (
                             <div
                               key={tag.id}
-                              className="px-4 py-2.5 hover:bg-emerald-50 cursor-pointer flex items-center gap-3 transition-colors"
+                              className="px-4 py-2.5 hover:bg-brand-green-soft cursor-pointer flex items-center gap-3 transition-colors"
                               onClick={() => toggleTag(tag.id)}
                             >
-                              <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${formData.tagIds.includes(tag.id) ? 'bg-emerald-500 border-emerald-500' : 'border-gray-300'}`}>
+                              <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${formData.tagIds.includes(tag.id) ? 'bg-brand-green border-emerald-500' : 'border-gray-300'}`}>
                                 {formData.tagIds.includes(tag.id) && <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
                               </div>
-                              <span className="text-sm text-gray-700 font-medium">{tag.name}</span>
+                              <span className="text-sm text-slate font-medium">{tag.name}</span>
                             </div>
                           ))
                         )}
@@ -461,9 +461,9 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
           </div>
 
           {/* Media Card */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50">
-            <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-              <ImageIcon className="w-5 h-5 text-gray-400" />
+          <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft">
+            <h2 className="text-lg font-bold text-ink mb-6 flex items-center gap-2">
+              <ImageIcon className="w-5 h-5 text-muted" />
               Featured Media
             </h2>
             <div className="space-y-4">
@@ -476,7 +476,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
               />
 
               {formData.featuredImageUrl && formData.featuredImageUrl.trim().length > 0 ? (
-                <div className="relative group aspect-video rounded-xl overflow-hidden border border-gray-200 bg-gray-50 flex items-center justify-center">
+                <div className="relative group aspect-video rounded-xl overflow-hidden border border-hairline-strong bg-surface flex items-center justify-center">
                   <img
                     src={getMediaUrl(formData.featuredImageUrl)}
                     alt="Featured preview"
@@ -487,7 +487,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                     <button
                       type="button"
                       onClick={() => setIsMediaSelectorOpen(true)}
-                      className="bg-white text-gray-700 p-3 rounded-full hover:bg-gray-100 hover:scale-110 transition-transform shadow-sm"
+                      className="bg-canvas text-slate p-3 rounded-full hover:bg-surface hover:scale-110 transition-transform shadow-sm"
                       title="Change Image"
                     >
                       <ImageIcon className="w-5 h-5" />
@@ -495,7 +495,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                     <button
                       type="button"
                       onClick={() => setFormData({ ...formData, featuredImageUrl: '' })}
-                      className="bg-white text-red-500 p-3 rounded-full hover:bg-red-50 hover:scale-110 transition-transform shadow-sm"
+                      className="bg-canvas text-red-500 p-3 rounded-full hover:bg-red-50 hover:scale-110 transition-transform shadow-sm"
                       title="Remove Image"
                     >
                       <X className="w-5 h-5" />
@@ -503,20 +503,20 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                   </div>
                 </div>
               ) : (
-                <div className="border-2 border-dashed border-gray-200 rounded-xl p-8 flex flex-col items-center justify-center text-center gap-4 bg-gray-50/50">
-                  <div className="w-12 h-12 bg-white rounded-full shadow-sm flex items-center justify-center border border-gray-100">
-                    {uploadingImage ? <Loader2 className="w-6 h-6 text-emerald-500 animate-spin" /> : <ImageIcon className="w-6 h-6 text-gray-400" />}
+                <div className="border-2 border-dashed border-hairline-strong rounded-xl p-8 flex flex-col items-center justify-center text-center gap-4 bg-surface-soft">
+                  <div className="w-12 h-12 bg-canvas rounded-full shadow-sm flex items-center justify-center border border-hairline">
+                    {uploadingImage ? <Loader2 className="w-6 h-6 text-brand-green animate-spin" /> : <ImageIcon className="w-6 h-6 text-muted" />}
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-gray-900 mb-1">No featured image selected</p>
-                    <p className="text-xs text-gray-500 max-w-[200px] mx-auto">Upload an image or choose one from your library.</p>
+                    <p className="text-sm font-medium text-ink mb-1">No featured image selected</p>
+                    <p className="text-xs text-steel max-w-[200px] mx-auto">Upload an image or choose one from your library.</p>
                   </div>
                   <div className="flex flex-col w-full gap-2 mt-2">
                     <button
                       type="button"
                       onClick={() => fileInputRef.current?.click()}
                       disabled={uploadingImage}
-                      className="w-full py-2.5 bg-white border border-gray-200 hover:border-emerald-500 hover:text-emerald-600 text-gray-700 text-sm font-medium rounded-xl transition-colors flex items-center justify-center gap-2 shadow-sm"
+                      className="w-full py-2.5 bg-canvas border border-hairline-strong hover:border-emerald-500 hover:text-brand-green-dark text-slate text-sm font-medium rounded-xl transition-colors flex items-center justify-center gap-2 shadow-sm"
                     >
                       {uploadingImage ? <Loader2 className="w-4 h-4 animate-spin" /> : <UploadCloud className="w-4 h-4" />}
                       {uploadingImage ? 'Uploading...' : 'Upload Image'}
@@ -525,7 +525,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                       type="button"
                       onClick={() => setIsMediaSelectorOpen(true)}
                       disabled={uploadingImage}
-                      className="w-full py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-xl transition-colors flex items-center justify-center gap-2"
+                      className="w-full py-2.5 bg-surface hover:bg-gray-200 text-slate text-sm font-medium rounded-xl transition-colors flex items-center justify-center gap-2"
                     >
                       <FolderOpen className="w-4 h-4" />
                       Choose from Library
@@ -540,15 +540,15 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
       </div>
 
       {/* Slider Images Card (Bottom) */}
-      <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50 mb-6">
-        <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-          <ImageIcon className="w-5 h-5 text-gray-400" />
+      <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft mb-6">
+        <h2 className="text-lg font-bold text-ink mb-6 flex items-center gap-2">
+          <ImageIcon className="w-5 h-5 text-muted" />
           Slider Images (Optional Gallery)
         </h2>
         
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-steel">
               Add multiple images to display them as a gallery or slider on the public post page.
             </p>
             {sliderPreviews.length > 0 && (
@@ -569,7 +569,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
             <button
               type="button"
               onClick={() => setIsSliderSelectorOpen(true)}
-              className="px-5 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-xl transition-colors flex items-center justify-center gap-2"
+              className="px-5 py-2.5 bg-surface hover:bg-gray-200 text-slate text-sm font-medium rounded-xl transition-colors flex items-center justify-center gap-2"
             >
               <FolderOpen className="w-4 h-4" />
               Select Images from Library
@@ -579,11 +579,11 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
           {sliderPreviews.length > 0 && (
             <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-3">
               {sliderPreviews.map((preview, i) => (
-                <div key={i} className="relative group aspect-video rounded-xl overflow-hidden border border-gray-200 bg-gray-50 flex items-center justify-center">
+                <div key={i} className="relative group aspect-video rounded-xl overflow-hidden border border-hairline-strong bg-surface flex items-center justify-center">
                   {preview.url ? (
                     <img src={getMediaUrl(preview.url)} alt="preview" className="w-full h-full object-cover" />
                   ) : (
-                    <ImageIcon className="w-6 h-6 text-gray-300" />
+                    <ImageIcon className="w-6 h-6 text-muted" />
                   )}
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                     <button 
@@ -593,7 +593,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                         setSliderPreviews(newPreviews);
                         setFormData({...formData, sliderImageIds: newPreviews.map(p => p.id).join(', ')});
                       }}
-                      className="bg-white text-red-500 p-2 rounded-full hover:bg-red-50 hover:scale-110 transition-transform shadow-sm"
+                      className="bg-canvas text-red-500 p-2 rounded-full hover:bg-red-50 hover:scale-110 transition-transform shadow-sm"
                       title="Remove Image"
                     >
                       <X className="w-4 h-4" />

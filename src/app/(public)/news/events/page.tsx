@@ -23,17 +23,17 @@ function EventCard({ post }: { post: NewsPost }) {
   const day = eventDate.getDate();
 
   return (
-    <div className="group flex flex-col md:flex-row bg-[#0f2318] border border-white/5 rounded-2xl overflow-hidden hover:border-green-700/40 transition-all hover:shadow-xl hover:shadow-green-900/20">
+    <div className="group flex flex-col md:flex-row bg-[#0f2318] border border-white/5 rounded-2xl overflow-hidden hover:border-brand-green-dark/40 transition-all hover:shadow-xl hover:shadow-card">
       
       {/* Calendar Block (Left) */}
-      <div className="bg-white/5 border-r border-white/5 flex flex-col items-center justify-center p-6 md:w-32 shrink-0">
+      <div className="bg-canvas/5 border-r border-white/5 flex flex-col items-center justify-center p-6 md:w-32 shrink-0">
         <span className="text-green-400 font-bold uppercase tracking-widest text-xs mb-1">{month}</span>
         <span className="text-4xl md:text-5xl font-extrabold text-white leading-none">{day}</span>
       </div>
 
       {/* Content Block (Middle) */}
       <div className="p-6 md:p-8 flex flex-col flex-1">
-        <h3 className="text-xl md:text-2xl font-bold text-white mb-2 leading-tight group-hover:text-green-300 transition-colors">
+        <h3 className="text-xl md:text-2xl font-bold text-white mb-2 leading-tight group-hover:text-brand-green transition-colors">
           {post.title}
         </h3>
         <p className="text-white/60 text-sm md:text-base leading-relaxed line-clamp-2 mb-4">
@@ -81,7 +81,7 @@ export default async function EventsPage() {
       <div className="container mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-12">
-          <Link href="/news" className="inline-flex items-center gap-2 text-green-400 hover:text-green-300 text-sm font-medium mb-6 transition-colors">
+          <Link href="/news" className="inline-flex items-center gap-2 text-green-400 hover:text-brand-green text-sm font-medium mb-6 transition-colors">
             <ArrowLeft size={16} /> Back to News
           </Link>
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">

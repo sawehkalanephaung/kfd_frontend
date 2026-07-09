@@ -62,29 +62,29 @@ export default function DeleteModal({
         onClick={!isDeleting ? onClose : undefined}
       />
 
-      {/* Modal Box */}
-      <div className="relative bg-white rounded-3xl w-[90%] max-w-[400px] p-8 shadow-2xl flex flex-col items-center text-center animate-in fade-in zoom-in-95 duration-200">
+      {/* Modal Box — MongoDB elevation + border radius */}
+      <div className="relative bg-canvas rounded-xl w-[90%] max-w-[400px] p-8 shadow-modal border border-hairline flex flex-col items-center text-center animate-in fade-in zoom-in-95 duration-200">
         
         {/* Warning Icon */}
-        <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mb-6">
-          <AlertTriangle className="w-8 h-8 text-red-500" />
+        <div className="w-16 h-16 bg-accent-orange/10 rounded-full flex items-center justify-center mb-6">
+          <AlertTriangle className="w-8 h-8 text-accent-orange" />
         </div>
 
         {/* Title */}
-        <h2 className="text-xl font-bold text-gray-900 mb-3">
+        <h2 className="text-xl font-bold text-ink mb-3">
           {title}
         </h2>
 
         {/* Description */}
-        <p className="text-gray-500 text-sm mb-1">
+        <p className="text-steel text-sm mb-1">
           Are you sure you want to remove {itemName}?
         </p>
-        <p className="text-gray-500 text-sm mb-6">
+        <p className="text-steel text-sm mb-6">
           {description}
         </p>
 
         {errorMsg && (
-          <div className="w-full bg-red-50 border border-red-200 text-red-600 text-sm p-3 rounded-xl mb-6 text-left">
+          <div className="w-full bg-accent-orange/10 border border-accent-orange/30 text-accent-orange text-sm p-3 rounded-lg mb-6 text-left">
             {(() => {
               // Parse markdown-style links: [Text](url)
               const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
@@ -102,7 +102,7 @@ export default function DeleteModal({
                   <a 
                     key={match.index} 
                     href={match[2]} 
-                    className="underline font-semibold hover:text-red-800"
+                    className="underline font-semibold hover:text-accent-orange"
                   >
                     {match[1]}
                   </a>
@@ -119,19 +119,19 @@ export default function DeleteModal({
           </div>
         )}
 
-        {/* Action Buttons */}
+        {/* Action Buttons — MongoDB pill buttons */}
         <div className="flex items-center gap-4 w-full">
           <button
             onClick={onClose}
             disabled={isDeleting}
-            className="flex-1 py-3 px-4 bg-gray-50 hover:bg-gray-100 text-gray-700 font-medium rounded-2xl transition-colors disabled:opacity-50"
+            className="flex-1 py-3 px-4 bg-surface hover:bg-surface-soft text-slate font-medium rounded-full border border-hairline-strong transition-colors disabled:opacity-50"
           >
             Cancel
           </button>
           <button
             onClick={handleConfirm}
             disabled={isDeleting}
-            className="flex-1 py-3 px-4 bg-[#FF3B30] hover:bg-red-600 text-white font-medium rounded-2xl transition-colors disabled:opacity-70 flex items-center justify-center gap-2"
+            className="flex-1 py-3 px-4 bg-[#FF3B30] hover:bg-red-600 text-white font-medium rounded-full transition-colors disabled:opacity-70 flex items-center justify-center gap-2"
           >
             {isDeleting ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Delete'}
           </button>

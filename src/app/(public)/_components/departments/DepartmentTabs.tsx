@@ -22,10 +22,10 @@ export default function DepartmentTabs({ data }: { data: DepartmentData }) {
   ];
 
   return (
-    <div className="w-full bg-white">
+    <div className="w-full bg-canvas">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Tab Navigation */}
-        <div className="flex flex-wrap items-center gap-2 sm:gap-8 border-b border-gray-100 pt-6">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-8 border-b border-hairline pt-6">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -37,10 +37,10 @@ export default function DepartmentTabs({ data }: { data: DepartmentData }) {
                 className={`flex items-center gap-2 pb-4 px-2 text-[15px] font-semibold transition-all border-b-2 ${
                   isActive 
                     ? "border-blue-500 text-blue-600" 
-                    : "border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300"
+                    : "border-transparent text-steel hover:text-ink hover:border-gray-300"
                 }`}
               >
-                <Icon size={18} className={isActive ? "text-blue-500" : "text-gray-500"} />
+                <Icon size={18} className={isActive ? "text-blue-500" : "text-steel"} />
                 {tab.label}
               </button>
             );

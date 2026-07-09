@@ -116,8 +116,8 @@ export default function UploadMediaPage() {
   return (
     <div>
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Upload Media</h1>
-        <p className="text-gray-500 mt-1">
+        <h1 className="text-2xl font-bold text-ink">Upload Media</h1>
+        <p className="text-steel mt-1">
           Upload new files, images, or documents to your library.
         </p>
       </div>
@@ -126,7 +126,7 @@ export default function UploadMediaPage() {
         <div className="flex items-center justify-between">
           <Link
             href="/dashboard/media"
-            className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
+            className="inline-flex items-center gap-2 text-sm font-medium text-steel hover:text-ink transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Library
@@ -134,7 +134,7 @@ export default function UploadMediaPage() {
           <button
             type="submit"
             disabled={loading || !file}
-            className="inline-flex items-center gap-2 px-6 py-2.5 bg-emerald-500 hover:bg-emerald-600 disabled:opacity-70 text-white font-medium rounded-xl transition-all shadow-sm shadow-emerald-500/20 active:scale-95"
+            className="inline-flex items-center gap-2 px-6 py-2.5 bg-brand-green hover:bg-primary-deep disabled:opacity-70 text-on-primary font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
           >
             {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <UploadCloud className="w-4 h-4" />}
             Upload File
@@ -150,11 +150,11 @@ export default function UploadMediaPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* File Upload Area */}
           <div className="md:col-span-2 space-y-6">
-            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50">
-              <h2 className="text-lg font-bold text-gray-900 mb-6">Select File</h2>
+            <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft">
+              <h2 className="text-lg font-bold text-ink mb-6">Select File</h2>
 
               <div
-                className={`border-2 border-dashed rounded-xl p-10 text-center transition-colors cursor-pointer ${file ? 'border-emerald-500 bg-emerald-50' : 'border-gray-300 hover:border-emerald-500 hover:bg-gray-50'
+                className={`border-2 border-dashed rounded-full p-10 text-center transition-colors cursor-pointer ${file ? 'border-emerald-500 bg-brand-green-soft' : 'border-gray-300 hover:border-emerald-500 hover:bg-surface'
                   }`}
                 onDrop={handleDrop}
                 onDragOver={handleDragOver}
@@ -169,22 +169,22 @@ export default function UploadMediaPage() {
 
                 {file ? (
                   <div className="flex flex-col items-center">
-                    <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mb-4">
+                    <div className="w-16 h-16 bg-brand-green-soft text-brand-green-dark rounded-full flex items-center justify-center mb-4">
                       <UploadCloud className="w-8 h-8" />
                     </div>
-                    <p className="text-emerald-700 font-medium text-lg">{file.name}</p>
-                    <p className="text-emerald-600/70 text-sm mt-1">
+                    <p className="text-brand-green-dark font-medium text-lg">{file.name}</p>
+                    <p className="text-brand-green-dark/70 text-sm mt-1">
                       {(file.size / 1024 / 1024).toFixed(2)} MB • {file.type || 'Unknown type'}
                     </p>
-                    <p className="text-emerald-600 text-sm mt-4 underline underline-offset-2">Click or drag to change file</p>
+                    <p className="text-brand-green-dark text-sm mt-4 underline underline-offset-2">Click or drag to change file</p>
                   </div>
                 ) : (
                   <div className="flex flex-col items-center">
-                    <div className="w-16 h-16 bg-gray-100 text-gray-400 rounded-full flex items-center justify-center mb-4">
+                    <div className="w-16 h-16 bg-surface text-muted rounded-full flex items-center justify-center mb-4">
                       <UploadCloud className="w-8 h-8" />
                     </div>
-                    <p className="text-gray-700 font-medium text-lg">Click to select or drag and drop</p>
-                    <p className="text-gray-500 text-sm mt-1">SVG, PNG, JPG, PDF or MP4 (max. 15MB)</p>
+                    <p className="text-slate font-medium text-lg">Click to select or drag and drop</p>
+                    <p className="text-steel text-sm mt-1">SVG, PNG, JPG, PDF or MP4 (max. 15MB)</p>
                   </div>
                 )}
               </div>
@@ -193,19 +193,19 @@ export default function UploadMediaPage() {
 
           {/* Metadata Area */}
           <div className="space-y-6">
-            <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50">
-              <h2 className="text-lg font-bold text-gray-900 mb-6">File Details</h2>
+            <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft">
+              <h2 className="text-lg font-bold text-ink mb-6">File Details</h2>
 
               <div className="space-y-5">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-900 mb-2 flex items-center gap-2">
-                    <Tag className="w-4 h-4 text-gray-400" />
+                  <label className="block text-sm font-semibold text-ink mb-2 flex items-center gap-2">
+                    <Tag className="w-4 h-4 text-muted" />
                     Category
                   </label>
                   <select
                     value={categoryId}
                     onChange={(e) => setCategoryId(e.target.value)}
-                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                    className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                   >
                     <option value="">Select a Category</option>
                     {categories.map((cat: any) => (
@@ -215,14 +215,14 @@ export default function UploadMediaPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-900 mb-2 flex items-center gap-2">
-                    <Building2 className="w-4 h-4 text-gray-400" />
+                  <label className="block text-sm font-semibold text-ink mb-2 flex items-center gap-2">
+                    <Building2 className="w-4 h-4 text-muted" />
                     Department (Optional)
                   </label>
                   <select
                     value={departmentId}
                     onChange={(e) => setDepartmentId(e.target.value)}
-                    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                    className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                   >
                     <option value="">None / General</option>
                     {departments.map((dept: any) => (

@@ -90,22 +90,22 @@ export default function PagesListPage() {
   return (
     <div>
       {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm text-gray-400 mb-6">
-        <Link href="/dashboard" className="text-gray-500 hover:text-gray-900 transition-colors">Home</Link>
+      <div className="flex items-center gap-2 text-sm text-muted mb-6">
+        <Link href="/dashboard" className="text-steel hover:text-ink transition-colors">Home</Link>
         <span>&gt;</span>
-        <span className="text-gray-500">Pages</span>
+        <span className="text-steel">Pages</span>
         <span>&gt;</span>
-        <span className="text-gray-900 font-medium">All Pages</span>
+        <span className="text-ink font-medium">All Pages</span>
       </div>
 
       {/* Header Section */}
-      <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-50 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+      <div className="bg-canvas rounded-lg p-8 shadow-sm border border-hairline-soft flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
-            <FileText className="w-6 h-6 text-emerald-500" />
+          <h1 className="text-2xl font-bold text-ink flex items-center gap-3">
+            <FileText className="w-6 h-6 text-brand-green" />
             Pages
           </h1>
-          <p className="text-gray-500 mt-1">
+          <p className="text-steel mt-1">
             Manage your standalone content pages like About Us, Contact, and Policies.
           </p>
         </div>
@@ -120,25 +120,25 @@ export default function PagesListPage() {
       )}
 
       {/* Table Section */}
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-50 overflow-hidden">
+      <div className="bg-canvas rounded-lg shadow-sm border border-hairline-soft overflow-hidden">
 
         {/* Search Bar */}
-        <div className="p-4 border-b border-gray-50 bg-gray-50/30">
+        <div className="p-4 border-b border-hairline-soft bg-surface-soft">
           <div className="relative max-w-sm">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted" />
             <input
               type="text"
               placeholder="Search by title or slug..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all placeholder:text-gray-400 text-gray-900"
+              className="w-full pl-10 pr-4 py-2 bg-canvas border border-hairline-strong rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-green/20 focus:border-emerald-500 transition-all placeholder:text-muted text-ink"
             />
           </div>
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full sm:min-w-[800px] text-left text-sm text-gray-600">
-            <thead className="bg-gray-50/50 text-gray-500 font-medium border-b border-gray-100">
+          <table className="w-full sm:min-w-[800px] text-left text-sm text-steel">
+            <thead className="bg-surface-soft text-steel font-medium border-b border-hairline">
               <tr>
                 <th className="px-6 py-4">Page</th>
                 <th className="px-6 py-4 hidden sm:table-cell">Status</th>
@@ -146,7 +146,7 @@ export default function PagesListPage() {
                 <th className="px-6 py-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-50">
+            <tbody className="divide-y divide-hairline-soft">
               {loading ? (
                 // Skeleton Loaders
                 Array.from({ length: 5 }).map((_, idx) => (
@@ -162,23 +162,23 @@ export default function PagesListPage() {
                 ))
               ) : filteredPages.length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="px-6 py-12 text-center text-gray-500">
+                  <td colSpan={4} className="px-6 py-12 text-center text-steel">
                     {searchQuery ? "No pages found matching your search." : "No pages found. Create your first one to get started."}
                   </td>
                 </tr>
               ) : (
                 paginatedPages.map((page) => (
-                  <tr key={page.id} className="hover:bg-gray-50/50 transition-colors">
+                  <tr key={page.id} className="hover:bg-surface-soft transition-colors">
                     <td className="px-6 py-4">
-                      <div className="font-medium text-gray-900">{page.title}</div>
-                      <div className="text-xs text-gray-400 mt-0.5 hidden sm:block">/{page.slug}</div>
+                      <div className="font-medium text-ink">{page.title}</div>
+                      <div className="text-xs text-muted mt-0.5 hidden sm:block">/{page.slug}</div>
                       {/* Mobile Data Stack */}
                       <div className="mt-2 flex items-center gap-3 sm:hidden">
                         <span className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium ${page.status === 'PUBLISHED'
-                            ? 'bg-emerald-50 text-emerald-700 border border-emerald-100'
+                            ? 'bg-brand-green-soft text-brand-green-dark border border-brand-green/20'
                             : page.status === 'DRAFT'
                               ? 'bg-amber-50 text-amber-700 border border-amber-200'
-                              : 'bg-gray-100 text-gray-700 border border-gray-200'
+                              : 'bg-surface text-slate border border-hairline-strong'
                           }`}>
                           {page.status}
                         </span>
@@ -186,29 +186,29 @@ export default function PagesListPage() {
                     </td>
                     <td className="px-6 py-4 hidden sm:table-cell">
                       <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${page.status === 'PUBLISHED'
-                          ? 'bg-emerald-50 text-emerald-700 border border-emerald-100'
+                          ? 'bg-brand-green-soft text-brand-green-dark border border-brand-green/20'
                           : page.status === 'DRAFT'
                             ? 'bg-amber-50 text-amber-700 border border-amber-200'
-                            : 'bg-gray-100 text-gray-700 border border-gray-200'
+                            : 'bg-surface text-slate border border-hairline-strong'
                         }`}>
                         {page.status}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-gray-500 text-sm hidden sm:table-cell">
+                    <td className="px-6 py-4 text-steel text-sm hidden sm:table-cell">
                       {page.updatedAt ? new Date(page.updatedAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : '-'}
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <Link
                           href={`/dashboard/pages/${page.id}/edit`}
-                          className="p-2 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
+                          className="p-2 text-muted hover:text-brand-green-dark hover:bg-brand-green-soft rounded-full transition-colors"
                           title="Edit"
                         >
                           <Edit className="w-4 h-4" />
                         </Link>
                         <button
                           onClick={() => openDeleteModal(page)}
-                          className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                          className="p-2 text-muted hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                           title="Delete"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -224,15 +224,15 @@ export default function PagesListPage() {
 
         {/* Pagination Controls */}
         {!loading && filteredPages.length > 0 && (
-          <div className="px-6 py-4 border-t border-gray-50 bg-gray-50/30 flex items-center justify-between">
-            <span className="text-sm text-gray-500">
-              Showing <span className="font-medium text-gray-900">{(currentPage - 1) * itemsPerPage + 1}</span> to <span className="font-medium text-gray-900">{Math.min(currentPage * itemsPerPage, filteredPages.length)}</span> of <span className="font-medium text-gray-900">{filteredPages.length}</span> pages
+          <div className="px-6 py-4 border-t border-hairline-soft bg-surface-soft flex items-center justify-between">
+            <span className="text-sm text-steel">
+              Showing <span className="font-medium text-ink">{(currentPage - 1) * itemsPerPage + 1}</span> to <span className="font-medium text-ink">{Math.min(currentPage * itemsPerPage, filteredPages.length)}</span> of <span className="font-medium text-ink">{filteredPages.length}</span> pages
             </span>
             <div className="flex items-center gap-2">
               <button
                 onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
-                className="p-1.5 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-100 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="p-1.5 rounded-lg border border-hairline-strong text-steel hover:bg-surface hover:text-ink disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
@@ -242,8 +242,8 @@ export default function PagesListPage() {
                     key={idx}
                     onClick={() => setCurrentPage(idx + 1)}
                     className={`w-8 h-8 rounded-lg text-sm font-medium transition-colors ${currentPage === idx + 1
-                        ? 'bg-emerald-500 text-white'
-                        : 'text-gray-500 hover:bg-gray-100 hover:text-gray-900'
+                        ? 'bg-brand-green text-on-primary'
+                        : 'text-steel hover:bg-surface hover:text-ink'
                       }`}
                   >
                     {idx + 1}
@@ -253,7 +253,7 @@ export default function PagesListPage() {
               <button
                 onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
-                className="p-1.5 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-100 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="p-1.5 rounded-lg border border-hairline-strong text-steel hover:bg-surface hover:text-ink disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 <ChevronRight className="w-4 h-4" />
               </button>

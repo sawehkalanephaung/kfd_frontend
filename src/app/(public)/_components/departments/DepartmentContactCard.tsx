@@ -79,18 +79,18 @@ export default function DepartmentContactCard({ data }: { data: DepartmentData }
   const ContactRow = ({ icon: Icon, label, value, isLink, href }: { icon: any; label: string; value: string; isLink?: boolean; href?: string }) => {
     if (!value || value.trim() === '-') return null;
     return (
-      <div className="flex items-start gap-4 border-b border-gray-100 pb-6">
-        <div className="w-48 flex items-center gap-3 text-sm font-bold text-gray-700 shrink-0">
-          <Icon size={18} className="text-gray-400" />
+      <div className="flex items-start gap-4 border-b border-hairline pb-6">
+        <div className="w-48 flex items-center gap-3 text-sm font-bold text-slate shrink-0">
+          <Icon size={18} className="text-muted" />
           <span>{label}</span>
         </div>
-        <div className="text-sm font-bold text-gray-400 shrink-0 mr-4">:</div>
+        <div className="text-sm font-bold text-muted shrink-0 mr-4">:</div>
         {isLink ? (
           <a href={href || value} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-blue-600 hover:underline break-all">
             {value}
           </a>
         ) : (
-          <div className="text-sm font-medium text-gray-600">{value}</div>
+          <div className="text-sm font-medium text-steel">{value}</div>
         )}
       </div>
     );
@@ -98,13 +98,13 @@ export default function DepartmentContactCard({ data }: { data: DepartmentData }
 
   return (
     <div className="py-8">
-      <h2 className="text-xl font-bold text-gray-900 mb-6 border-b pb-4 inline-block border-green-700">
+      <h2 className="text-xl font-bold text-ink mb-6 border-b pb-4 inline-block border-green-700">
         Contact Details
       </h2>
 
       <div className="flex flex-col lg:flex-row gap-8 mt-4">
         {/* Contact Info Card */}
-        <div className="lg:w-2/3 bg-white border border-gray-100 shadow-sm rounded-lg p-8">
+        <div className="lg:w-2/3 bg-canvas border border-hairline shadow-sm rounded-lg p-8">
           <div className="flex flex-col gap-6">
             <ContactRow icon={Building2} label="Department Name" value={data.name} />
             <ContactRow icon={User} label="Head of Department" value={headName} />
@@ -127,7 +127,7 @@ export default function DepartmentContactCard({ data }: { data: DepartmentData }
               </div>
 
               <h3 className="text-sm font-bold text-green-700 mb-3 relative z-10">Connect With Us</h3>
-              <p className="text-xs text-gray-600 leading-relaxed mb-8 relative z-10">
+              <p className="text-xs text-steel leading-relaxed mb-8 relative z-10">
                 Follow our social media channels to stay updated on our latest activities and news.
               </p>
 
@@ -141,7 +141,7 @@ export default function DepartmentContactCard({ data }: { data: DepartmentData }
                       <div className={`w-10 h-10 rounded-full ${config.color} text-white flex items-center justify-center transform transition-transform group-hover:scale-110 shadow-sm`}>
                         <IconComp />
                       </div>
-                      <span className="text-[10px] text-gray-600 font-medium">{config.label}</span>
+                      <span className="text-[10px] text-steel font-medium">{config.label}</span>
                     </a>
                   );
                 })}
@@ -153,7 +153,7 @@ export default function DepartmentContactCard({ data }: { data: DepartmentData }
                 </div>
                 <div>
                   <h4 className="text-xs font-bold text-green-800 mb-1">Together for Our Forests</h4>
-                  <p className="text-[10px] text-gray-600 leading-relaxed">
+                  <p className="text-[10px] text-steel leading-relaxed">
                     Your support and collaboration help us protect and conserve our forests for future generations.
                   </p>
                 </div>

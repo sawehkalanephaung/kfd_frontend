@@ -102,7 +102,7 @@ export default async function ContactPage() {
                   <div>
                     <h3 className="text-xs font-bold text-white/50 uppercase tracking-wider mb-1">Direct Line</h3>
                     <p className="text-sm text-white/80">{officeHours.split(',')[0] || 'Mon-Fri'}, {officeHours.split(',')[1] || '08:00 - 17:00'}</p>
-                    <a href={`tel:${phone.replace(/[^\d+]/g, '')}`} className="text-sm font-semibold text-green-400 hover:text-green-300 transition-colors block mt-0.5">
+                    <a href={`tel:${phone.replace(/[^\d+]/g, '')}`} className="text-sm font-semibold text-green-400 hover:text-brand-green transition-colors block mt-0.5">
                       {phone}
                     </a>
                   </div>
@@ -116,7 +116,7 @@ export default async function ContactPage() {
                   <div>
                     <h3 className="text-xs font-bold text-white/50 uppercase tracking-wider mb-1">Electronic Mail</h3>
                     <p className="text-sm text-white/80">General Inquiries</p>
-                    <a href={`mailto:${email}`} className="text-sm font-semibold text-green-400 hover:text-green-300 transition-colors block mt-0.5">
+                    <a href={`mailto:${email}`} className="text-sm font-semibold text-green-400 hover:text-brand-green transition-colors block mt-0.5">
                       {email}
                     </a>
                   </div>

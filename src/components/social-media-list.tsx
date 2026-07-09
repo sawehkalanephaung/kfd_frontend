@@ -51,7 +51,7 @@ export default function SocialMediaList({ variant, className = '' }: SocialMedia
             href={link.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-gray-400 hover:text-emerald-500 transition-colors"
+            className="text-muted hover:text-brand-green transition-colors"
             aria-label={link.platformName}
           >
             {getIcon(link.platformName, 'w-5 h-5')}
@@ -70,9 +70,9 @@ export default function SocialMediaList({ variant, className = '' }: SocialMedia
           href={link.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 px-4 py-2 bg-gray-50 hover:bg-gray-100 border border-gray-100 rounded-full text-sm font-medium text-gray-700 transition-all"
+          className="flex items-center gap-2 px-4 py-2 bg-surface hover:bg-surface border border-hairline rounded-full text-sm font-medium text-slate transition-all"
         >
-          {getIcon(link.platformName, 'w-4 h-4 text-emerald-500')}
+          {getIcon(link.platformName, 'w-4 h-4 text-brand-green')}
           {link.platformName}
         </a>
       ))}

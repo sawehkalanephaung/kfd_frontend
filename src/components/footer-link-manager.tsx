@@ -56,13 +56,13 @@ function InlineField({
 }) {
   return (
     <div className="flex flex-col gap-1">
-      <label className="text-xs font-semibold text-gray-500 uppercase tracking-wide">{label}</label>
+      <label className="text-xs font-semibold text-steel uppercase tracking-wide">{label}</label>
       <input
         type={type}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+        className="px-3 py-2 bg-surface border border-hairline-strong rounded-xl text-sm text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
       />
     </div>
   );
@@ -121,7 +121,7 @@ function LinkForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-emerald-50 border border-emerald-100 rounded-2xl p-4 space-y-3"
+      className="bg-brand-green-soft border border-brand-green/20 rounded-full p-4 space-y-3"
     >
       {error && (
         <p className="text-xs text-red-600 bg-red-50 border border-red-100 rounded-xl px-3 py-2">
@@ -145,30 +145,30 @@ function LinkForm({
             <div
               onClick={() => setIsActive((p) => !p)}
               className={`w-10 h-5 rounded-full relative transition-colors ${
-                isActive ? 'bg-emerald-500' : 'bg-gray-200'
+                isActive ? 'bg-brand-green' : 'bg-gray-200'
               }`}
             >
               <span
-                className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${
+                className={`absolute top-0.5 w-4 h-4 bg-canvas rounded-full shadow transition-transform ${
                   isActive ? 'translate-x-5' : 'translate-x-0.5'
                 }`}
               />
             </div>
-            <span className="text-xs font-medium text-gray-600">Active</span>
+            <span className="text-xs font-medium text-steel">Active</span>
           </label>
         </div>
         <div className="flex items-center gap-2 mt-4">
           <button
             type="button"
             onClick={onCancel}
-            className="p-2 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-xl transition-colors"
+            className="p-2 text-muted hover:text-slate hover:bg-surface rounded-xl transition-colors"
           >
             <X className="w-4 h-4" />
           </button>
           <button
             type="submit"
             disabled={loading}
-            className="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium rounded-xl transition-colors disabled:opacity-70"
+            className="inline-flex items-center gap-1.5 px-4 py-2 bg-brand-green hover:bg-primary-deep text-on-primary text-sm font-medium rounded-full transition-colors disabled:opacity-70"
           >
             {loading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Check className="w-3.5 h-3.5" />}
             {initialData ? 'Update' : 'Add Link'}
@@ -229,7 +229,7 @@ function SectionForm({
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 space-y-3"
+      className="bg-brand-green-soft border border-brand-green/30 rounded-full p-4 space-y-3"
     >
       {error && (
         <p className="text-xs text-red-600 bg-red-50 border border-red-100 rounded-xl px-3 py-2">
@@ -253,29 +253,29 @@ function SectionForm({
           <div
             onClick={() => setIsActive((p) => !p)}
             className={`w-10 h-5 rounded-full relative transition-colors ${
-              isActive ? 'bg-emerald-500' : 'bg-gray-200'
+              isActive ? 'bg-brand-green' : 'bg-gray-200'
             }`}
           >
             <span
-              className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${
+              className={`absolute top-0.5 w-4 h-4 bg-canvas rounded-full shadow transition-transform ${
                 isActive ? 'translate-x-5' : 'translate-x-0.5'
               }`}
             />
           </div>
-          <span className="text-sm font-medium text-gray-600">Active</span>
+          <span className="text-sm font-medium text-steel">Active</span>
         </label>
         <div className="flex items-center gap-2">
           <button
             type="button"
             onClick={onCancel}
-            className="p-2 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-xl transition-colors"
+            className="p-2 text-muted hover:text-slate hover:bg-surface rounded-xl transition-colors"
           >
             <X className="w-4 h-4" />
           </button>
           <button
             type="submit"
             disabled={loading}
-            className="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium rounded-xl transition-colors disabled:opacity-70"
+            className="inline-flex items-center gap-1.5 px-4 py-2 bg-brand-green hover:bg-primary-deep text-on-primary text-sm font-medium rounded-full transition-colors disabled:opacity-70"
           >
             {loading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Check className="w-3.5 h-3.5" />}
             {initialData ? 'Update Section' : 'Add Section'}
@@ -325,36 +325,36 @@ function LinkRow({
         onConfirm={handleDelete}
         itemName={`"${link.label}"`}
       />
-      <div className="flex items-center gap-3 px-3 py-2.5 bg-white border border-gray-100 rounded-xl group hover:border-gray-200 transition-all">
-        <GripVertical className="w-3.5 h-3.5 text-gray-300 flex-shrink-0" />
+      <div className="flex items-center gap-3 px-3 py-2.5 bg-canvas border border-hairline rounded-xl group hover:border-hairline-strong transition-all">
+        <GripVertical className="w-3.5 h-3.5 text-muted flex-shrink-0" />
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium text-gray-800 truncate">{link.label}</p>
+          <p className="text-sm font-medium text-charcoal truncate">{link.label}</p>
           <a
             href={link.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-xs text-emerald-600 hover:text-emerald-700 flex items-center gap-1 truncate"
+            className="text-xs text-brand-green-dark hover:text-brand-green-dark flex items-center gap-1 truncate"
           >
             <ExternalLink className="w-3 h-3 flex-shrink-0" />
             {link.url}
           </a>
         </div>
         <div className="flex items-center gap-1.5 flex-shrink-0">
-          <span className="text-xs text-gray-400 w-6 text-center">#{link.displayOrder}</span>
+          <span className="text-xs text-muted w-6 text-center">#{link.displayOrder}</span>
           {link.isActive ? (
             <Eye className="w-3.5 h-3.5 text-emerald-400" />
           ) : (
-            <EyeOff className="w-3.5 h-3.5 text-gray-300" />
+            <EyeOff className="w-3.5 h-3.5 text-muted" />
           )}
           <button
             onClick={() => setEditing(true)}
-            className="p-1.5 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors opacity-0 group-hover:opacity-100"
+            className="p-1.5 text-muted hover:text-brand-green-dark hover:bg-brand-green-soft rounded-full transition-colors opacity-0 group-hover:opacity-100"
           >
             <Pencil className="w-3.5 h-3.5" />
           </button>
           <button
             onClick={() => setDeleteTarget(true)}
-            className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors opacity-0 group-hover:opacity-100"
+            className="p-1.5 text-muted hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors opacity-0 group-hover:opacity-100"
           >
             <Trash2 className="w-3.5 h-3.5" />
           </button>
@@ -393,7 +393,7 @@ function SectionCard({
         description="This will also delete all links inside this section. This action cannot be undone."
       />
 
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+      <div className="bg-canvas rounded-lg border border-hairline shadow-sm overflow-hidden">
         {/* Section Header */}
         {editingSection ? (
           <div className="p-4">
@@ -405,10 +405,10 @@ function SectionCard({
             />
           </div>
         ) : (
-          <div className="flex items-center gap-3 px-5 py-4 bg-gray-50 border-b border-gray-100">
+          <div className="flex items-center gap-3 px-5 py-4 bg-surface border-b border-hairline">
             <button
               onClick={() => setExpanded((p) => !p)}
-              className="p-1 text-gray-400 hover:text-gray-700 rounded-lg transition-colors"
+              className="p-1 text-muted hover:text-slate rounded-lg transition-colors"
             >
               {expanded ? (
                 <ChevronDown className="w-4 h-4" />
@@ -416,37 +416,37 @@ function SectionCard({
                 <ChevronRight className="w-4 h-4" />
               )}
             </button>
-            <LayoutList className="w-4 h-4 text-emerald-500 flex-shrink-0" />
+            <LayoutList className="w-4 h-4 text-brand-green flex-shrink-0" />
             <div className="flex-1 min-w-0">
-              <h3 className="text-sm font-bold text-gray-900 flex items-center gap-2">
+              <h3 className="text-sm font-bold text-ink flex items-center gap-2">
                 {section.title}
                 {!section.isActive && (
-                  <span className="text-[10px] font-medium text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">
+                  <span className="text-[10px] font-medium text-muted bg-surface px-2 py-0.5 rounded-full">
                     Hidden
                   </span>
                 )}
               </h3>
-              <p className="text-xs text-gray-400">
+              <p className="text-xs text-muted">
                 {section.links.length} link{section.links.length !== 1 ? 's' : ''} · order #{section.displayOrder}
               </p>
             </div>
             <div className="flex items-center gap-1.5">
               <button
                 onClick={() => { setAddingLink(true); setExpanded(true); }}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-emerald-700 bg-emerald-50 hover:bg-emerald-100 rounded-lg transition-colors"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-brand-green-dark bg-brand-green-soft hover:bg-brand-green-soft rounded-full transition-colors"
               >
                 <Plus className="w-3.5 h-3.5" />
                 Add Link
               </button>
               <button
                 onClick={() => setEditingSection(true)}
-                className="p-1.5 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
+                className="p-1.5 text-muted hover:text-brand-green-dark hover:bg-brand-green-soft rounded-full transition-colors"
               >
                 <Pencil className="w-3.5 h-3.5" />
               </button>
               <button
                 onClick={() => setDeleteTarget(true)}
-                className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                className="p-1.5 text-muted hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
               >
                 <Trash2 className="w-3.5 h-3.5" />
               </button>
@@ -464,10 +464,10 @@ function SectionCard({
             {section.links.length === 0 && !addingLink && (
               <div className="flex flex-col items-center justify-center py-6 text-center">
                 <Link2 className="w-6 h-6 text-gray-200 mb-2" />
-                <p className="text-sm text-gray-400">No links in this section yet.</p>
+                <p className="text-sm text-muted">No links in this section yet.</p>
                 <button
                   onClick={() => setAddingLink(true)}
-                  className="mt-2 text-xs font-medium text-emerald-600 hover:text-emerald-700 underline underline-offset-2"
+                  className="mt-2 text-xs font-medium text-brand-green-dark hover:text-brand-green-dark underline underline-offset-2"
                 >
                   Add the first link
                 </button>
@@ -495,16 +495,16 @@ function FooterPreview({ sections }: { sections: FooterLinkSection[] }) {
   const activeSections = sections.filter((s) => s.isActive);
 
   return (
-    <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50">
-      <h3 className="text-sm font-bold text-gray-500 uppercase tracking-wide mb-4">
+    <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft">
+      <h3 className="text-sm font-bold text-steel uppercase tracking-wide mb-4">
         Footer Preview
       </h3>
       <div className="bg-gray-900 rounded-xl p-6">
         {activeSections.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-8 text-center">
-            <LayoutList className="w-6 h-6 text-gray-600 mb-2" />
-            <p className="text-sm text-gray-500">No active sections to preview yet.</p>
-            <p className="text-xs text-gray-600 mt-1">Add sections and links above to see them here.</p>
+            <LayoutList className="w-6 h-6 text-steel mb-2" />
+            <p className="text-sm text-steel">No active sections to preview yet.</p>
+            <p className="text-xs text-steel mt-1">Add sections and links above to see them here.</p>
           </div>
         ) : (
           <div
@@ -518,11 +518,11 @@ function FooterPreview({ sections }: { sections: FooterLinkSection[] }) {
                   <p className="text-sm font-bold text-white mb-3">{section.title}</p>
                   <ul className="space-y-2">
                     {activeLinks.length === 0 ? (
-                      <li className="text-xs text-gray-600 italic">No active links</li>
+                      <li className="text-xs text-steel italic">No active links</li>
                     ) : (
                       activeLinks.map((link) => (
                         <li key={link.id}>
-                          <span className="text-sm text-gray-400 hover:text-gray-200 transition-colors cursor-default">
+                          <span className="text-sm text-muted hover:text-gray-200 transition-colors cursor-default">
                             {link.label}
                           </span>
                         </li>
@@ -570,10 +570,10 @@ export default function FooterLinkManager() {
     <div className="space-y-6">
       {/* Top bar */}
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-bold text-gray-900">Footer Link Sections</h2>
+        <h2 className="text-lg font-bold text-ink">Footer Link Sections</h2>
         <button
           onClick={() => setAddingSection(true)}
-          className="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium rounded-xl transition-all shadow-sm shadow-emerald-500/20 active:scale-95"
+          className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand-green hover:bg-primary-deep text-on-primary text-sm font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
         >
           <Plus className="w-4 h-4" />
           Add Section
@@ -598,24 +598,24 @@ export default function FooterLinkManager() {
 
       {/* Loading */}
       {loading ? (
-        <div className="flex items-center justify-center py-16 bg-white rounded-2xl shadow-sm border border-gray-50">
-          <div className="flex flex-col items-center gap-3 text-gray-400">
-            <Loader2 className="w-8 h-8 animate-spin text-emerald-500" />
+        <div className="flex items-center justify-center py-16 bg-canvas rounded-lg shadow-sm border border-hairline-soft">
+          <div className="flex flex-col items-center gap-3 text-muted">
+            <Loader2 className="w-8 h-8 animate-spin text-brand-green" />
             <p>Loading footer sections...</p>
           </div>
         </div>
       ) : sections.length === 0 && !addingSection ? (
-        <div className="flex flex-col items-center justify-center py-20 bg-white rounded-2xl shadow-sm border border-gray-100 text-center">
-          <div className="w-14 h-14 bg-gray-50 rounded-2xl flex items-center justify-center mb-4">
-            <LayoutList className="w-7 h-7 text-gray-300" />
+        <div className="flex flex-col items-center justify-center py-20 bg-canvas rounded-lg shadow-sm border border-hairline text-center">
+          <div className="w-14 h-14 bg-surface rounded-lg flex items-center justify-center mb-4">
+            <LayoutList className="w-7 h-7 text-muted" />
           </div>
-          <h3 className="text-base font-semibold text-gray-700 mb-1">No footer sections yet</h3>
-          <p className="text-sm text-gray-400 mb-5">
+          <h3 className="text-base font-semibold text-slate mb-1">No footer sections yet</h3>
+          <p className="text-sm text-muted mb-5">
             Create your first section to start organizing footer links.
           </p>
           <button
             onClick={() => setAddingSection(true)}
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white text-sm font-medium rounded-xl transition-colors shadow-sm shadow-emerald-500/20"
+            className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand-green hover:bg-primary-deep text-on-primary text-sm font-medium rounded-full transition-colors shadow-sm shadow-brand-green/20"
           >
             <Plus className="w-4 h-4" />
             Create First Section

@@ -76,7 +76,7 @@ export default function CategoryForm({ initialData, isEdit, categoryId, isSlideO
         {!isSlideOver ? (
           <Link
             href="/dashboard/posts/categories"
-            className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
+            className="inline-flex items-center gap-2 text-sm font-medium text-steel hover:text-ink transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Categories
@@ -85,7 +85,7 @@ export default function CategoryForm({ initialData, isEdit, categoryId, isSlideO
           <button
             type="button"
             onClick={onCancel}
-            className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
+            className="inline-flex items-center gap-2 text-sm font-medium text-steel hover:text-ink transition-colors"
           >
             Cancel
           </button>
@@ -93,7 +93,7 @@ export default function CategoryForm({ initialData, isEdit, categoryId, isSlideO
         <button
           type="submit"
           disabled={loading}
-          className="inline-flex items-center gap-2 px-6 py-2.5 bg-emerald-500 hover:bg-emerald-600 disabled:opacity-70 text-white font-medium rounded-xl transition-all shadow-sm shadow-emerald-500/20 active:scale-95"
+          className="inline-flex items-center gap-2 px-6 py-2.5 bg-brand-green hover:bg-primary-deep disabled:opacity-70 text-on-primary font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
         >
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
           {isEdit ? 'Save Changes' : 'Create Category'}
@@ -107,46 +107,46 @@ export default function CategoryForm({ initialData, isEdit, categoryId, isSlideO
       )}
 
       {/* Main Content Card */}
-      <div className="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-gray-50">
-        <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-          <FolderTree className="w-5 h-5 text-gray-400" />
+      <div className="bg-canvas rounded-lg p-6 md:p-8 shadow-sm border border-hairline-soft">
+        <h2 className="text-lg font-bold text-ink mb-6 flex items-center gap-2">
+          <FolderTree className="w-5 h-5 text-muted" />
           Category Details
         </h2>
         
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-semibold text-gray-900 mb-2">Category Name</label>
+              <label className="block text-sm font-semibold text-ink mb-2">Category Name</label>
               <input
                 type="text"
                 required
                 value={formData.name}
                 onChange={handleNameChange}
-                className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+                className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
                 placeholder="e.g. Wildlife Protection"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-gray-900 mb-2">URL Slug</label>
+              <label className="block text-sm font-semibold text-ink mb-2">URL Slug</label>
               <input
                 type="text"
                 required
                 value={formData.slug}
                 onChange={(e) => setFormData({...formData, slug: e.target.value})}
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+                className="w-full px-4 py-3 bg-surface border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                 placeholder="wildlife-protection"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2">Description</label>
+            <label className="block text-sm font-semibold text-ink mb-2">Description</label>
             <textarea
               rows={4}
               value={formData.description}
               onChange={(e) => setFormData({...formData, description: e.target.value})}
-              className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all"
+              className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
               placeholder="Provide a brief description of what this category is about..."
             ></textarea>
           </div>

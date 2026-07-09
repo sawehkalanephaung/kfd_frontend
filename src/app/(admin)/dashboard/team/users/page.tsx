@@ -110,22 +110,22 @@ export default function UsersDirectoryPage() {
   return (
     <div>
       {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm text-gray-400 mb-6">
-        <Link href="/dashboard" className="text-gray-500 hover:text-gray-900 transition-colors">Home</Link>
+      <div className="flex items-center gap-2 text-sm text-muted mb-6">
+        <Link href="/dashboard" className="text-steel hover:text-ink transition-colors">Home</Link>
         <span>&gt;</span>
-        <Link href="/dashboard/team" className="text-gray-500 hover:text-gray-900 transition-colors">Team Directory</Link>
+        <Link href="/dashboard/team" className="text-steel hover:text-ink transition-colors">Team Directory</Link>
         <span>&gt;</span>
-        <span className="text-gray-900 font-medium">System Users</span>
+        <span className="text-ink font-medium">System Users</span>
       </div>
 
       {/* Header Section */}
-      <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-50 flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+      <div className="bg-canvas rounded-lg p-8 shadow-sm border border-hairline-soft flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
-            <Users className="w-6 h-6 text-emerald-500" />
+          <h1 className="text-2xl font-bold text-ink flex items-center gap-3">
+            <Users className="w-6 h-6 text-brand-green" />
             System Users
           </h1>
-          <p className="text-gray-500 mt-1">
+          <p className="text-steel mt-1">
             Manage administrative users who have access to this dashboard.
           </p>
         </div>
@@ -133,7 +133,7 @@ export default function UsersDirectoryPage() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm font-medium text-gray-700 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all cursor-pointer"
+            className="px-4 py-2.5 bg-surface border border-hairline-strong rounded-xl text-sm font-medium text-slate focus:outline-none focus:ring-2 focus:ring-brand-green transition-all cursor-pointer"
           >
             <option value="all">All Users</option>
             <option value="active">Active Only</option>
@@ -141,7 +141,7 @@ export default function UsersDirectoryPage() {
           </select>
           <button
             onClick={openCreateDrawer}
-            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-medium rounded-xl transition-all shadow-sm shadow-emerald-500/20 active:scale-95"
+            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-brand-green hover:bg-primary-deep text-on-primary font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
           >
             <Plus className="w-5 h-5" />
             Add System User
@@ -157,10 +157,10 @@ export default function UsersDirectoryPage() {
       )}
 
       {/* Table Section */}
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-50 overflow-hidden">
+      <div className="bg-canvas rounded-lg shadow-sm border border-hairline-soft overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[800px] text-left text-sm text-gray-600">
-            <thead className="bg-gray-50/50 text-gray-500 font-medium border-b border-gray-100">
+          <table className="w-full min-w-[800px] text-left text-sm text-steel">
+            <thead className="bg-surface-soft text-steel font-medium border-b border-hairline">
               <tr>
                 <th className="px-6 py-4">User</th>
                 <th className="px-6 py-4">Email</th>
@@ -169,52 +169,52 @@ export default function UsersDirectoryPage() {
                 <th className="px-6 py-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-50">
+            <tbody className="divide-y divide-hairline-soft">
               {loading ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-12 text-center text-gray-400">
+                  <td colSpan={5} className="px-6 py-12 text-center text-muted">
                     <Loader2 className="w-6 h-6 animate-spin mx-auto mb-2" />
                     Loading users...
                   </td>
                 </tr>
               ) : filteredUsers.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="px-6 py-12 text-center text-gray-500">
+                  <td colSpan={5} className="px-6 py-12 text-center text-steel">
                     No system users found matching the selected filter.
                   </td>
                 </tr>
               ) : (
                 filteredUsers.map((user) => (
-                  <tr key={user.id} className="hover:bg-gray-50/50 transition-colors">
+                  <tr key={user.id} className="hover:bg-surface-soft transition-colors">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0 border border-emerald-200 font-bold text-sm">
+                        <div className="w-10 h-10 rounded-full bg-brand-green-soft text-brand-green-dark flex items-center justify-center shrink-0 border border-brand-green/30 font-bold text-sm">
                           {user.firstName?.charAt(0) || 'U'}{user.lastName?.charAt(0) || ''}
                         </div>
-                        <p className="font-medium text-gray-900">{user.firstName} {user.lastName}</p>
+                        <p className="font-medium text-ink">{user.firstName} {user.lastName}</p>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-gray-500">
+                    <td className="px-6 py-4 text-steel">
                       {user.email}
                     </td>
                     <td className="px-6 py-4">
                       {user.role ? (
                         <div className="flex items-center gap-1.5">
-                          <Shield className="w-4 h-4 text-emerald-500" />
-                          <span className="font-medium text-gray-700">{formatForDisplay(user.role.name)}</span>
+                          <Shield className="w-4 h-4 text-brand-green" />
+                          <span className="font-medium text-slate">{formatForDisplay(user.role.name)}</span>
                         </div>
                       ) : (
-                        <span className="text-gray-400 italic">No Role assigned</span>
+                        <span className="text-muted italic">No Role assigned</span>
                       )}
                     </td>
                     <td className="px-6 py-4">
                       {user.isActive ? (
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200/50">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-brand-green-soft text-brand-green-dark border border-brand-green/20">
                           <CheckCircle2 className="w-3.5 h-3.5" />
                           Active
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-600 border border-gray-200">
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-surface text-steel border border-hairline-strong">
                           <XCircle className="w-3.5 h-3.5" />
                           Inactive
                         </span>
@@ -224,14 +224,14 @@ export default function UsersDirectoryPage() {
                       <div className="flex items-center justify-end gap-2">
                         <button
                           onClick={() => openEditDrawer(user)}
-                          className="p-2 text-gray-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition-colors"
+                          className="p-2 text-muted hover:text-brand-green-dark hover:bg-brand-green-soft rounded-full transition-colors"
                           title="Edit User"
                         >
                           <Edit className="w-4 h-4" />
                         </button>
                         <button
                           onClick={() => openDeleteModal(user)}
-                          className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                          className="p-2 text-muted hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                           title="Delete User"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -261,8 +261,8 @@ export default function UsersDirectoryPage() {
         title={isEditMode ? 'Edit User' : 'Create New User'}
       >
         {fetchingDetails ? (
-          <div className="flex flex-col items-center justify-center py-20 text-gray-500">
-            <Loader2 className="w-8 h-8 animate-spin mb-4 text-emerald-500" />
+          <div className="flex flex-col items-center justify-center py-20 text-steel">
+            <Loader2 className="w-8 h-8 animate-spin mb-4 text-brand-green" />
             Loading details...
           </div>
         ) : (

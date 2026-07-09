@@ -97,7 +97,7 @@ export default function RoleForm({ initialData, isEdit, roleId, isSlideOver, onS
         {!isSlideOver ? (
           <Link
             href="/dashboard/team/roles"
-            className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
+            className="inline-flex items-center gap-2 text-sm font-medium text-steel hover:text-ink transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Roles
@@ -106,7 +106,7 @@ export default function RoleForm({ initialData, isEdit, roleId, isSlideOver, onS
           <button
             type="button"
             onClick={onCancel}
-            className="inline-flex items-center gap-2 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
+            className="inline-flex items-center gap-2 text-sm font-medium text-steel hover:text-ink transition-colors"
           >
             Cancel
           </button>
@@ -114,7 +114,7 @@ export default function RoleForm({ initialData, isEdit, roleId, isSlideOver, onS
         <button
           type="submit"
           disabled={loading}
-          className="inline-flex items-center gap-2 px-6 py-2.5 bg-emerald-500 hover:bg-emerald-600 disabled:opacity-70 text-white font-medium rounded-xl transition-all shadow-sm shadow-emerald-500/20 active:scale-95"
+          className="inline-flex items-center gap-2 px-6 py-2.5 bg-brand-green hover:bg-primary-deep disabled:opacity-70 text-on-primary font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
         >
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
           {isEdit ? 'Save Changes' : 'Create Role'}
@@ -127,50 +127,50 @@ export default function RoleForm({ initialData, isEdit, roleId, isSlideOver, onS
         </div>
       )}
 
-      <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-50">
-        <h2 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-          <Shield className="w-5 h-5 text-gray-400" />
+      <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft">
+        <h2 className="text-lg font-bold text-ink mb-6 flex items-center gap-2">
+          <Shield className="w-5 h-5 text-muted" />
           Role Information
         </h2>
         
         <div className="space-y-5">
           <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2">Role Name</label>
+            <label className="block text-sm font-semibold text-ink mb-2">Role Name</label>
             <input
               type="text"
               required
               value={formData.name}
               onChange={(e) => setFormData({...formData, name: e.target.value})}
-              className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+              className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
               placeholder="e.g. ROLE_EDITOR"
             />
-            <p className="text-xs text-gray-400 mt-2">Recommended format: uppercase, prefixed with ROLE_</p>
+            <p className="text-xs text-muted mt-2">Recommended format: uppercase, prefixed with ROLE_</p>
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2">Description</label>
+            <label className="block text-sm font-semibold text-ink mb-2">Description</label>
             <textarea
               rows={3}
               value={formData.description}
               onChange={(e) => setFormData({...formData, description: e.target.value})}
-              className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+              className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
               placeholder="What can this role do?"
             ></textarea>
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2 flex items-center gap-2">
-              <AlignLeft className="w-4 h-4 text-gray-400" />
+            <label className="block text-sm font-semibold text-ink mb-2 flex items-center gap-2">
+              <AlignLeft className="w-4 h-4 text-muted" />
               Permissions (JSON Array)
             </label>
             <textarea
               rows={5}
               value={formData.permissions}
               onChange={(e) => setFormData({...formData, permissions: e.target.value})}
-              className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 font-mono text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-all"
+              className="w-full px-4 py-3 bg-surface border border-hairline-strong rounded-xl text-ink font-mono text-sm placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
               placeholder={'[\n  "POST_CREATE",\n  "POST_EDIT"\n]'}
             ></textarea>
-            <p className="text-xs text-gray-400 mt-2">Provide a valid JSON array or object for fine-grained permissions if your app uses them.</p>
+            <p className="text-xs text-muted mt-2">Provide a valid JSON array or object for fine-grained permissions if your app uses them.</p>
           </div>
         </div>
       </div>

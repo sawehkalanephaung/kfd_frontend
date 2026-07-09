@@ -180,10 +180,10 @@ export default async function ResourcesPage({ searchParams }: PageProps) {
             
             {/* Dropdown Menu */}
             <div className="absolute right-0 top-full mt-2 w-48 py-2 bg-[#091810] border border-[#132d1f] rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-10">
-              <Link href={buildUrl(0, activeCategory, searchQuery, "newest")} className="block px-4 py-2 text-white/70 hover:text-white hover:bg-white/5">Date Added (Newest)</Link>
-              <Link href={buildUrl(0, activeCategory, searchQuery, "oldest")} className="block px-4 py-2 text-white/70 hover:text-white hover:bg-white/5">Date Added (Oldest)</Link>
-              <Link href={buildUrl(0, activeCategory, searchQuery, "name_asc")} className="block px-4 py-2 text-white/70 hover:text-white hover:bg-white/5">Name (A-Z)</Link>
-              <Link href={buildUrl(0, activeCategory, searchQuery, "name_desc")} className="block px-4 py-2 text-white/70 hover:text-white hover:bg-white/5">Name (Z-A)</Link>
+              <Link href={buildUrl(0, activeCategory, searchQuery, "newest")} className="block px-4 py-2 text-white/70 hover:text-white hover:bg-canvas/5">Date Added (Newest)</Link>
+              <Link href={buildUrl(0, activeCategory, searchQuery, "oldest")} className="block px-4 py-2 text-white/70 hover:text-white hover:bg-canvas/5">Date Added (Oldest)</Link>
+              <Link href={buildUrl(0, activeCategory, searchQuery, "name_asc")} className="block px-4 py-2 text-white/70 hover:text-white hover:bg-canvas/5">Name (A-Z)</Link>
+              <Link href={buildUrl(0, activeCategory, searchQuery, "name_desc")} className="block px-4 py-2 text-white/70 hover:text-white hover:bg-canvas/5">Name (Z-A)</Link>
             </div>
           </div>
         </div>
@@ -202,7 +202,7 @@ export default async function ResourcesPage({ searchParams }: PageProps) {
               >
                 {/* Icon */}
                 <div className="shrink-0">
-                  <div className="w-12 h-12 rounded-full bg-[#132d1f] flex items-center justify-center text-green-400 group-hover:bg-green-900/30 group-hover:text-green-300 transition-colors">
+                  <div className="w-12 h-12 rounded-full bg-[#132d1f] flex items-center justify-center text-green-400 group-hover:bg-green-900/30 group-hover:text-brand-green transition-colors">
                     {isMap ? <MapIcon size={20} /> : <FileText size={20} />}
                   </div>
                 </div>
