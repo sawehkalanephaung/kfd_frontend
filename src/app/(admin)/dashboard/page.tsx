@@ -220,7 +220,7 @@ export default function DashboardPage() {
           <div className="space-y-3">
             <Link
               href="/dashboard/posts/create"
-              className="flex items-center gap-4 p-4 rounded-full border border-hairline hover:border-brand-green/30 hover:bg-brand-green-soft hover:text-brand-green-dark transition-all group"
+              className="flex items-center gap-4 p-4 rounded-lg border border-hairline hover:border-brand-green/30 hover:bg-brand-green-soft hover:text-brand-green-dark transition-all group"
             >
               <div className="w-10 h-10 rounded-full bg-brand-green-soft/50 flex items-center justify-center text-brand-green-dark group-hover:bg-primary-deep group-hover:text-on-primary transition-colors">
                 <PlusCircle className="w-5 h-5" />
@@ -233,7 +233,7 @@ export default function DashboardPage() {
 
             <Link
               href="/dashboard/media/upload"
-              className="flex items-center gap-4 p-4 rounded-xl border border-hairline hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700 transition-all group"
+              className="flex items-center gap-4 p-4 rounded-lg border border-hairline hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700 transition-all group"
             >
               <div className="w-10 h-10 rounded-full bg-blue-100/50 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors">
                 <UploadCloud className="w-5 h-5" />
@@ -246,7 +246,7 @@ export default function DashboardPage() {
 
             <Link
               href="/dashboard/team/create"
-              className="flex items-center gap-4 p-4 rounded-xl border border-hairline hover:border-purple-200 hover:bg-purple-50 hover:text-purple-700 transition-all group"
+              className="flex items-center gap-4 p-4 rounded-lg border border-hairline hover:border-purple-200 hover:bg-purple-50 hover:text-purple-700 transition-all group"
             >
               <div className="w-10 h-10 rounded-full bg-purple-100/50 flex items-center justify-center text-purple-600 group-hover:bg-purple-600 group-hover:text-white transition-colors">
                 <UserPlus className="w-5 h-5" />

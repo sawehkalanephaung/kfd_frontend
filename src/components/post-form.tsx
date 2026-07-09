@@ -232,7 +232,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                   required
                   value={formData.title}
                   onChange={handleTitleChange}
-                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
+                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
                   placeholder="e.g. New Forest Conservation Initiative"
                 />
               </div>
@@ -244,7 +244,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                   required
                   value={formData.slug}
                   onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                  className="w-full px-4 py-3 bg-surface border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                  className="w-full px-4 py-3 bg-surface border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                   placeholder="new-forest-conservation"
                 />
               </div>
@@ -255,7 +255,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                   rows={3}
                   value={formData.excerpt}
                   onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
-                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
+                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
                   placeholder="A short summary of the post..."
                 ></textarea>
               </div>
@@ -296,7 +296,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                           type="date"
                           value={formData.metadata.eventDate || ''}
                           onChange={(e) => handleMetadataChange('eventDate', e.target.value)}
-                          className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                          className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                         />
                       </div>
                       <div>
@@ -305,7 +305,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                           type="time"
                           value={formData.metadata.eventTime || ''}
                           onChange={(e) => handleMetadataChange('eventTime', e.target.value)}
-                          className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                          className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                         />
                       </div>
                     </div>
@@ -316,7 +316,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                         placeholder="e.g. Main Conference Hall"
                         value={formData.metadata.eventLocation || ''}
                         onChange={(e) => handleMetadataChange('eventLocation', e.target.value)}
-                        className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                        className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                       />
                     </div>
                   </>
@@ -330,7 +330,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                       placeholder="e.g. KFD-2024-001"
                       value={formData.metadata.referenceNumber || ''}
                       onChange={(e) => handleMetadataChange('referenceNumber', e.target.value)}
-                      className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                      className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                     />
                   </div>
                 )} 
@@ -356,7 +356,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                 <select
                   value={formData.status}
                   onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                 >
                   <option value="PUBLISHED">Published</option>
                   <option value="DRAFT">Draft</option>
@@ -378,7 +378,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                 <select
                   value={formData.categoryId}
                   onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })}
-                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                 >
                   <option value="">Select a Category</option>
                   {categories.map((cat: any) => (
@@ -392,7 +392,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                 <select
                   value={formData.departmentId}
                   onChange={(e) => setFormData({ ...formData, departmentId: e.target.value })}
-                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                 >
                   <option value="">Select a Department</option>
                   {departments.map((dept: any) => (
@@ -408,7 +408,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                 </label>
                 <div className="relative">
                   <div
-                    className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all flex flex-wrap gap-2 items-center cursor-pointer min-h-[50px]"
+                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all flex flex-wrap gap-2 items-center cursor-pointer min-h-[50px]"
                     onClick={() => setIsTagDropdownOpen(!isTagDropdownOpen)}
                   >
                     {formData.tagIds.length === 0 && <span className="text-muted">Select Tags...</span>}
@@ -435,7 +435,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                         className="fixed inset-0 z-10"
                         onClick={() => setIsTagDropdownOpen(false)}
                       ></div>
-                      <div className="absolute z-20 w-full mt-1 bg-canvas border border-hairline-strong rounded-xl shadow-lg max-h-60 overflow-auto py-2">
+                      <div className="absolute z-20 w-full mt-1 bg-canvas border border-hairline-strong rounded-lg shadow-lg max-h-60 overflow-auto py-2">
                         {tags.length === 0 ? (
                           <div className="px-4 py-3 text-sm text-steel text-center">No tags found</div>
                         ) : (
@@ -503,7 +503,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                   </div>
                 </div>
               ) : (
-                <div className="border-2 border-dashed border-hairline-strong rounded-xl p-8 flex flex-col items-center justify-center text-center gap-4 bg-surface-soft">
+                <div className="border-2 border-dashed border-hairline-strong rounded-lg p-8 flex flex-col items-center justify-center text-center gap-4 bg-surface-soft">
                   <div className="w-12 h-12 bg-canvas rounded-full shadow-sm flex items-center justify-center border border-hairline">
                     {uploadingImage ? <Loader2 className="w-6 h-6 text-brand-green animate-spin" /> : <ImageIcon className="w-6 h-6 text-muted" />}
                   </div>

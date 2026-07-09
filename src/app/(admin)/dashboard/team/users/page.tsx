@@ -133,7 +133,7 @@ export default function UsersDirectoryPage() {
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-4 py-2.5 bg-surface border border-hairline-strong rounded-xl text-sm font-medium text-slate focus:outline-none focus:ring-2 focus:ring-brand-green transition-all cursor-pointer"
+            className="px-4 py-2.5 bg-surface border border-hairline-strong rounded-lg text-sm font-medium text-slate focus:outline-none focus:ring-2 focus:ring-brand-green transition-all cursor-pointer"
           >
             <option value="all">All Users</option>
             <option value="active">Active Only</option>

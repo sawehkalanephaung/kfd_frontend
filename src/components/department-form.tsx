@@ -356,7 +356,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                   required
                   value={formData.name}
                   onChange={handleNameChange}
-                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
+                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
                   placeholder="e.g. Survey and Documentation Unit"
                 />
               </div>
@@ -369,7 +369,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                     required
                     value={formData.slug}
                     onChange={(e) => setFormData({...formData, slug: e.target.value})}
-                    className="w-full px-4 py-3 bg-surface border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                    className="w-full px-4 py-3 bg-surface border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                     placeholder="survey-unit"
                   />
                 </div>
@@ -380,7 +380,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                       value={formData.headMemberId}
                       onChange={(e) => setFormData({...formData, headMemberId: e.target.value})}
                       disabled={fetchingMembers}
-                      className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink appearance-none focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                      className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink appearance-none focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                     >
                       <option value="">Select a team member...</option>
                       {teamMembers.map(member => (
@@ -443,7 +443,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                       </div>
                     </div>
                   ) : (
-                    <div className="border-2 border-dashed border-hairline-strong rounded-xl p-6 flex flex-col items-center justify-center text-center gap-4 bg-surface-soft h-56 sm:h-64">
+                    <div className="border-2 border-dashed border-hairline-strong rounded-lg p-6 flex flex-col items-center justify-center text-center gap-4 bg-surface-soft h-56 sm:h-64">
                       <div className="w-10 h-10 bg-canvas rounded-full shadow-sm flex items-center justify-center border border-hairline">
                         {uploadingLogo ? <Loader2 className="w-5 h-5 text-brand-green animate-spin" /> : <ImageIcon className="w-5 h-5 text-muted" />}
                       </div>
@@ -510,7 +510,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                       </div>
                     </div>
                   ) : (
-                    <div className="border-2 border-dashed border-hairline-strong rounded-xl p-6 flex flex-col items-center justify-center text-center gap-4 bg-surface-soft h-56 sm:h-64">
+                    <div className="border-2 border-dashed border-hairline-strong rounded-lg p-6 flex flex-col items-center justify-center text-center gap-4 bg-surface-soft h-56 sm:h-64">
                       <div className="w-10 h-10 bg-canvas rounded-full shadow-sm flex items-center justify-center border border-hairline">
                         {uploadingHero ? <Loader2 className="w-5 h-5 text-brand-green animate-spin" /> : <ImageIcon className="w-5 h-5 text-muted" />}
                       </div>
@@ -593,7 +593,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                 <select
                   value={formData.status}
                   onChange={(e) => setFormData({...formData, status: e.target.value})}
-                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                 >
                   <option value="ACTIVE">Active</option>
                   <option value="INACTIVE">Inactive</option>
@@ -605,7 +605,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                   type="number"
                   value={formData.orderIndex}
                   onChange={(e) => setFormData({...formData, orderIndex: parseInt(e.target.value) || 0})}
-                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                 />
                 <p className="text-xs text-muted mt-2">Determines display order (lower = first)</p>
               </div>
@@ -625,7 +625,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                   type="email"
                   value={contactInfo.email}
                   onChange={(e) => setContactInfo({...contactInfo, email: e.target.value})}
-                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-xl text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                   placeholder="contact@dept.org"
                 />
               </div>
@@ -635,7 +635,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                   type="text"
                   value={contactInfo.phone}
                   onChange={(e) => setContactInfo({...contactInfo, phone: e.target.value})}
-                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-xl text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                   placeholder="+1 (555) 000-0000"
                 />
               </div>
@@ -645,7 +645,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                   rows={2}
                   value={contactInfo.address}
                   onChange={(e) => setContactInfo({...contactInfo, address: e.target.value})}
-                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-xl text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                   placeholder="123 Office St."
                 ></textarea>
               </div>
@@ -655,7 +655,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                   type="text"
                   value={contactInfo.officeHours}
                   onChange={(e) => setContactInfo({...contactInfo, officeHours: e.target.value})}
-                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-xl text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                   placeholder="Mon-Fri, 9am - 5pm"
                 />
               </div>
@@ -665,7 +665,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                   type="url"
                   value={contactInfo.website}
                   onChange={(e) => setContactInfo({...contactInfo, website: e.target.value})}
-                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-xl text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                   placeholder="https://example.com"
                 />
               </div>

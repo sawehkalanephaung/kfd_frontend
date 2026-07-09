@@ -147,7 +147,7 @@ export default function UserForm({ initialData, isEdit, userId, isSlideOver, onS
                     required
                     value={formData.firstName}
                     onChange={(e) => setFormData({...formData, firstName: e.target.value})}
-                    className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                     placeholder="e.g. John"
                   />
                 </div>
@@ -158,7 +158,7 @@ export default function UserForm({ initialData, isEdit, userId, isSlideOver, onS
                     required
                     value={formData.lastName}
                     onChange={(e) => setFormData({...formData, lastName: e.target.value})}
-                    className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                     placeholder="e.g. Doe"
                   />
                 </div>
@@ -171,7 +171,7 @@ export default function UserForm({ initialData, isEdit, userId, isSlideOver, onS
                   required
                   value={formData.email}
                   onChange={(e) => setFormData({...formData, email: e.target.value})}
-                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                   placeholder="e.g. admin@kfd.org"
                 />
               </div>
@@ -185,7 +185,7 @@ export default function UserForm({ initialData, isEdit, userId, isSlideOver, onS
                   required={!isEdit}
                   value={formData.password}
                   onChange={(e) => setFormData({...formData, password: e.target.value})}
-                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                   placeholder="••••••••"
                 />
               </div>
@@ -208,7 +208,7 @@ export default function UserForm({ initialData, isEdit, userId, isSlideOver, onS
                     value={formData.roleId}
                     onChange={(e) => setFormData({...formData, roleId: e.target.value})}
                     disabled={fetchingRoles}
-                    className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink appearance-none focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink appearance-none focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                   >
                     <option value="">Select a role...</option>
                     {roles.map(role => {
@@ -229,7 +229,7 @@ export default function UserForm({ initialData, isEdit, userId, isSlideOver, onS
                 <select
                   value={formData.dashboardLanguage}
                   onChange={(e) => setFormData({...formData, dashboardLanguage: e.target.value})}
-                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink appearance-none focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink appearance-none focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                 >
                   <option value="en">English (en)</option>
                   <option value="km">Khmer (km)</option>
@@ -241,7 +241,7 @@ export default function UserForm({ initialData, isEdit, userId, isSlideOver, onS
                 <select
                   value={formData.isActive ? 'true' : 'false'}
                   onChange={(e) => setFormData({...formData, isActive: e.target.value === 'true'})}
-                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink appearance-none focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink appearance-none focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                 >
                   <option value="true">Active (Can Login)</option>
                   <option value="false">Inactive (Suspended)</option>

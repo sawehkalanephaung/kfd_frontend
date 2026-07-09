@@ -141,7 +141,7 @@ export default function RoleForm({ initialData, isEdit, roleId, isSlideOver, onS
               required
               value={formData.name}
               onChange={(e) => setFormData({...formData, name: e.target.value})}
-              className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+              className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
               placeholder="e.g. ROLE_EDITOR"
             />
             <p className="text-xs text-muted mt-2">Recommended format: uppercase, prefixed with ROLE_</p>
@@ -153,7 +153,7 @@ export default function RoleForm({ initialData, isEdit, roleId, isSlideOver, onS
               rows={3}
               value={formData.description}
               onChange={(e) => setFormData({...formData, description: e.target.value})}
-              className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+              className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
               placeholder="What can this role do?"
             ></textarea>
           </div>
@@ -167,7 +167,7 @@ export default function RoleForm({ initialData, isEdit, roleId, isSlideOver, onS
               rows={5}
               value={formData.permissions}
               onChange={(e) => setFormData({...formData, permissions: e.target.value})}
-              className="w-full px-4 py-3 bg-surface border border-hairline-strong rounded-xl text-ink font-mono text-sm placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+              className="w-full px-4 py-3 bg-surface border border-hairline-strong rounded-lg text-ink font-mono text-sm placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
               placeholder={'[\n  "POST_CREATE",\n  "POST_EDIT"\n]'}
             ></textarea>
             <p className="text-xs text-muted mt-2">Provide a valid JSON array or object for fine-grained permissions if your app uses them.</p>

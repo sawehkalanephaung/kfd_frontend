@@ -236,7 +236,7 @@ export default function EditMediaPage() {
                     type="text"
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
-                    className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                     placeholder="e.g. general, logo, campaign"
                   />
                 </div>
@@ -249,7 +249,7 @@ export default function EditMediaPage() {
                   <select
                     value={departmentId}
                     onChange={(e) => setDepartmentId(e.target.value)}
-                    className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                   >
                     <option value="">None / General</option>
                     {departments.map((dept: any) => (

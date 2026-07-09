@@ -173,7 +173,7 @@ export default function SiteIdentityForm() {
                     value={formData.organizationName}
                     onChange={(e) => set('organizationName')(e.target.value)}
                     placeholder="e.g. Kaung Foundation"
-                    className="w-full pl-10 pr-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
+                    className="w-full pl-10 pr-4 py-3 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
                   />
                 </div>
               </Field>
@@ -191,7 +191,7 @@ export default function SiteIdentityForm() {
                     value={formData.tagline}
                     onChange={(e) => set('tagline')(e.target.value)}
                     placeholder="e.g. Empowering Communities Since 2010"
-                    className="w-full pl-10 pr-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
+                    className="w-full pl-10 pr-4 py-3 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
                   />
                 </div>
               </Field>
@@ -209,7 +209,7 @@ export default function SiteIdentityForm() {
                     value={formData.footerCopyright}
                     onChange={(e) => set('footerCopyright')(e.target.value)}
                     placeholder="e.g. © {year} Kaung Foundation. All rights reserved."
-                    className="w-full pl-10 pr-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
+                    className="w-full pl-10 pr-4 py-3 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
                   />
                 </div>
               </Field>
@@ -239,7 +239,7 @@ export default function SiteIdentityForm() {
                     value={formData.logoUrl}
                     onChange={(e) => set('logoUrl')(e.target.value)}
                     placeholder="https://... or /media/logo.png"
-                    className="w-full pl-10 pr-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
+                    className="w-full pl-10 pr-4 py-3 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
                   />
                 </div>
               </Field>

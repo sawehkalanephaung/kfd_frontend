@@ -227,7 +227,7 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
                     required
                     value={formData.firstName}
                     onChange={(e) => setFormData({...formData, firstName: e.target.value})}
-                    className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
+                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
                     placeholder="e.g. John"
                   />
                 </div>
@@ -238,7 +238,7 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
                     required
                     value={formData.lastName}
                     onChange={(e) => setFormData({...formData, lastName: e.target.value})}
-                    className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
+                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
                     placeholder="e.g. Doe"
                   />
                 </div>
@@ -251,7 +251,7 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
                   required
                   value={formData.title}
                   onChange={(e) => setFormData({...formData, title: e.target.value})}
-                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                   placeholder="e.g. Conservation Director"
                 />
               </div>
@@ -266,7 +266,7 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
                     value={formData.departmentId}
                     onChange={(e) => setFormData({...formData, departmentId: e.target.value})}
                     disabled={fetchingDepts}
-                    className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                   >
                     <option value="">None / General</option>
                     {departments.map(dept => (
@@ -315,7 +315,7 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
                 <select
                   value={formData.isActive ? 'true' : 'false'}
                   onChange={(e) => setFormData({...formData, isActive: e.target.value === 'true'})}
-                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                 >
                   <option value="true">Active</option>
                   <option value="false">Inactive</option>
@@ -347,7 +347,7 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
                   type="number"
                   value={formData.displayOrder}
                   onChange={(e) => setFormData({...formData, displayOrder: parseInt(e.target.value) || 0})}
-                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                 />
                 <p className="text-xs text-muted mt-2">Determines display order (lower = first)</p>
               </div>
@@ -361,7 +361,7 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
               Headshot Image
             </h2>
             <div className="space-y-4">
-              <div className="w-full aspect-square bg-surface border border-hairline-strong rounded-xl overflow-hidden relative group flex items-center justify-center">
+              <div className="w-full aspect-square bg-surface border border-hairline-strong rounded-lg overflow-hidden relative group flex items-center justify-center">
                 {(previewUrl || formData.headshotUrl) ? (
                   <img 
                     src={previewUrl || getMediaUrl(formData.headshotUrl)} 

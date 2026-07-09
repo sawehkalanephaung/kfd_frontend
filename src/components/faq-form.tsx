@@ -100,7 +100,7 @@ export default function FaqForm({ initialData, isEdit, faqId, onSave }: FaqFormP
                   required
                   value={formData.question}
                   onChange={(e) => setFormData({...formData, question: e.target.value})}
-                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
+                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
                   placeholder="e.g. How do I request a forest survey?"
                 />
               </div>
@@ -112,7 +112,7 @@ export default function FaqForm({ initialData, isEdit, faqId, onSave }: FaqFormP
                   required
                   value={formData.answer}
                   onChange={(e) => setFormData({...formData, answer: e.target.value})}
-                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
+                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
                   placeholder="Enter the detailed answer..."
                 ></textarea>
               </div>
@@ -136,7 +136,7 @@ export default function FaqForm({ initialData, isEdit, faqId, onSave }: FaqFormP
                 <select
                   value={formData.status}
                   onChange={(e) => setFormData({...formData, status: e.target.value})}
-                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                 >
                   <option value="PUBLISHED">Published</option>
                   <option value="DRAFT">Draft</option>
@@ -149,7 +149,7 @@ export default function FaqForm({ initialData, isEdit, faqId, onSave }: FaqFormP
                   type="number"
                   value={formData.displayOrder}
                   onChange={(e) => setFormData({...formData, displayOrder: parseInt(e.target.value) || 0})}
-                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                 />
                 <p className="text-xs text-muted mt-2">Determines display order (lower = first)</p>
               </div>

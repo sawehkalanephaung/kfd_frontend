@@ -130,7 +130,7 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
                   required
                   value={formData.title}
                   onChange={handleTitleChange}
-                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
+                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
                   placeholder="e.g. About Us"
                 />
               </div>
@@ -142,7 +142,7 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
                   required
                   value={formData.slug}
                   onChange={(e) => setFormData({...formData, slug: e.target.value})}
-                  className="w-full px-4 py-3 bg-surface border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                  className="w-full px-4 py-3 bg-surface border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                   placeholder="about-us"
                 />
               </div>
@@ -181,7 +181,7 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
                 <select
                   value={formData.status}
                   onChange={(e) => setFormData({...formData, status: e.target.value})}
-                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                 >
                   <option value="PUBLISHED">Published</option>
                   <option value="DRAFT">Draft</option>
@@ -218,7 +218,7 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
                   <button
                     type="button"
                     onClick={() => setSelectorMode('slider')}
-                    className="flex-1 px-4 py-3 bg-surface border border-hairline-strong rounded-xl text-slate hover:bg-surface transition-colors text-left flex items-center justify-between"
+                    className="flex-1 px-4 py-3 bg-surface border border-hairline-strong rounded-lg text-slate hover:bg-surface transition-colors text-left flex items-center justify-between"
                   >
                     <span className="truncate">
                       {formData.sliderImageIds ? `${formData.sliderImageIds.split(',').filter((s: string) => s.trim().length > 0).length} Images Selected` : 'Select Slider Images...'}

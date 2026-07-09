@@ -101,7 +101,7 @@ export default function MetricForm({ initialData, isEdit, metricId, onSave }: Me
                   required
                   value={formData.title}
                   onChange={(e) => setFormData({...formData, title: e.target.value})}
-                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
+                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
                   placeholder="e.g. Protected Forest Area"
                 />
               </div>
@@ -114,7 +114,7 @@ export default function MetricForm({ initialData, isEdit, metricId, onSave }: Me
                     required
                     value={formData.metricValue}
                     onChange={(e) => setFormData({...formData, metricValue: e.target.value})}
-                    className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
+                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
                     placeholder="e.g. 200,000 Acres"
                   />
                 </div>
@@ -124,7 +124,7 @@ export default function MetricForm({ initialData, isEdit, metricId, onSave }: Me
                     type="text"
                     value={formData.icon}
                     onChange={(e) => setFormData({...formData, icon: e.target.value})}
-                    className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
+                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
                     placeholder="e.g. TreePine (Lucide Icon name)"
                   />
                   <p className="text-xs text-muted mt-2">Optional icon identifier name</p>
@@ -174,7 +174,7 @@ export default function MetricForm({ initialData, isEdit, metricId, onSave }: Me
                   type="number"
                   value={formData.displayOrder}
                   onChange={(e) => setFormData({...formData, displayOrder: parseInt(e.target.value) || 0})}
-                  className="w-full px-4 py-3 bg-canvas border border-hairline-strong rounded-xl text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                 />
                 <p className="text-xs text-muted mt-2">Determines display order (lower = first)</p>
               </div>

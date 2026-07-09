@@ -106,8 +106,8 @@ export default function NewsletterSubscribers() {
       filterStatus === 'all'
         ? true
         : filterStatus === 'active'
-        ? s.isActive
-        : !s.isActive;
+          ? s.isActive
+          : !s.isActive;
     return matchesSearch && matchesStatus;
   });
 
@@ -161,7 +161,7 @@ export default function NewsletterSubscribers() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by email..."
-              className="w-full pl-9 pr-9 py-2.5 bg-canvas border border-hairline-strong rounded-xl text-sm text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
+              className="w-full pl-9 pr-9 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-sm text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
             />
             {search && (
               <button
@@ -179,11 +179,10 @@ export default function NewsletterSubscribers() {
               <button
                 key={status}
                 onClick={() => setFilterStatus(status)}
-                className={`px-4 py-1.5 text-xs font-semibold rounded-lg capitalize transition-all ${
-                  filterStatus === status
-                    ? 'bg-canvas text-ink shadow-sm'
-                    : 'text-steel hover:text-slate'
-                }`}
+                className={`px-4 py-1.5 text-xs font-semibold rounded-lg capitalize transition-all ${filterStatus === status
+                  ? 'bg-canvas text-ink shadow-sm'
+                  : 'text-steel hover:text-slate'
+                  }`}
               >
                 {status}
               </button>
@@ -246,7 +245,7 @@ export default function NewsletterSubscribers() {
                   {/* Email */}
                   <div className="flex items-center gap-2.5 min-w-0">
                     <div className="w-7 h-7 rounded-full bg-brand-green-soft flex items-center justify-center flex-shrink-0">
-                      <Mail className="w-3.5 h-3.5 text-brand-green" />
+                      <Mail className="w-3.5 h-3.5 text-brand-green-dark" />
                     </div>
                     <span className="text-sm font-medium text-charcoal truncate">{sub.email}</span>
                   </div>
