@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { Loader2, Save, ArrowLeft, Image as ImageIcon, Building2, Tag, UploadCloud, X } from 'lucide-react';
 import Link from 'next/link';
 import api, { getMediaUrl } from '@/lib/api';
+import { CustomSelect } from '@/components/ui/custom-select';
 
 export default function EditMediaPage() {
   const params = useParams();
@@ -246,16 +247,13 @@ export default function EditMediaPage() {
                     <Building2 className="w-4 h-4 text-muted" />
                     Department (Optional)
                   </label>
-                  <select
+                  <CustomSelect
                     value={departmentId}
-                    onChange={(e) => setDepartmentId(e.target.value)}
-                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                  >
-                    <option value="">None / General</option>
-                    {departments.map((dept: any) => (
-                      <option key={dept.id} value={dept.id}>{dept.name}</option>
-                    ))}
-                  </select>
+                    onChange={(val) => setDepartmentId(val)}
+                    placeholder="None / General"
+                    options={departments.map((dept: any) => ({ value: dept.id.toString(), label: dept.name }))}
+                    clearable
+                  />
                 </div>
               </div>
             </div>

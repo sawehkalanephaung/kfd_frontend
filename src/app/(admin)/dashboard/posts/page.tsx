@@ -8,6 +8,7 @@ import { Plus, Edit, Trash2, FileText, Loader2, Eye, EyeOff, Archive, CalendarDa
 import api from '@/lib/api';
 import DeleteModal from '@/components/delete-modal';
 import CreateButton from '@/components/create-button';
+import { CustomSelect } from '@/components/ui/custom-select';
 
 interface Post {
   id: string;
@@ -167,32 +168,34 @@ export default function PostsListPage() {
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <Filter className="w-4 h-4 text-muted" />
             </div>
-            <select
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 bg-surface border border-hairline-strong rounded-lg text-sm text-black focus:outline-none focus:ring-2 focus:ring-brand-green transition-all appearance-none"
-            >
-              <option value="">All Categories</option>
-              {categories.map((cat: any) => (
-                <option key={cat.id} value={cat.name}>{cat.name}</option>
-              ))}
-            </select>
+            <div className="w-full pl-8">
+              <CustomSelect
+                value={selectedCategory}
+                onChange={(val) => setSelectedCategory(val)}
+                placeholder="All Categories"
+                options={categories.map((cat: any) => ({ value: cat.name, label: cat.name }))}
+                clearable
+              />
+            </div>
           </div>
 
           <div className="relative w-full md:w-1/2">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <Eye className="w-4 h-4 text-muted" />
             </div>
-            <select
-              value={selectedStatus}
-              onChange={(e) => setSelectedStatus(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 bg-surface border border-hairline-strong rounded-lg text-sm text-black focus:outline-none focus:ring-2 focus:ring-brand-green transition-all appearance-none"
-            >
-              <option value="">All Statuses</option>
-              <option value="PUBLISHED">Published</option>
-              <option value="DRAFT">Draft</option>
-              <option value="ARCHIVED">Archived</option>
-            </select>
+            <div className="w-full pl-8">
+              <CustomSelect
+                value={selectedStatus}
+                onChange={(val) => setSelectedStatus(val)}
+                placeholder="All Statuses"
+                options={[
+                  { value: 'PUBLISHED', label: 'Published' },
+                  { value: 'DRAFT', label: 'Draft' },
+                  { value: 'ARCHIVED', label: 'Archived' }
+                ]}
+                clearable
+              />
+            </div>
           </div>
         </div>
       </div>

@@ -8,6 +8,7 @@ import api, { getMediaUrl } from '@/lib/api';
 import MediaSelector from '@/components/media-selector';
 import toast from 'react-hot-toast';
 import dynamic from 'next/dynamic';
+import { CustomSelect } from '@/components/ui/custom-select';
 import 'react-quill-new/dist/quill.snow.css';
 
 const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
@@ -376,21 +377,19 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                 <div>
                   <label className="block text-sm font-semibold text-ink mb-2">Head of Department</label>
                   <div className="relative">
-                    <select
+                    <CustomSelect
                       value={formData.headMemberId}
-                      onChange={(e) => setFormData({...formData, headMemberId: e.target.value})}
+                      onChange={(val) => setFormData({...formData, headMemberId: val})}
+                      placeholder="Select a team member..."
                       disabled={fetchingMembers}
-                      className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink appearance-none focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                    >
-                      <option value="">Select a team member...</option>
-                      {teamMembers.map(member => (
-                        <option key={member.id} value={member.id}>
-                          {member.firstName || member.lastName 
-                            ? `${member.firstName || ''} ${member.lastName || ''}`.trim() 
-                            : member.name || 'Member'}
-                        </option>
-                      ))}
-                    </select>
+                      options={teamMembers.map((member: any) => ({
+                        value: member.id.toString(),
+                        label: member.firstName || member.lastName 
+                          ? `${member.firstName || ''} ${member.lastName || ''}`.trim() 
+                          : member.name || 'Member'
+                      }))}
+                      clearable
+                    />
                     {fetchingMembers && (
                       <div className="absolute right-3 top-3.5">
                         <Loader2 className="w-4 h-4 text-muted animate-spin" />
@@ -590,14 +589,14 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
             <div className="space-y-5">
               <div>
                 <label className="block text-sm font-semibold text-ink mb-2">Status</label>
-                <select
+                <CustomSelect
                   value={formData.status}
-                  onChange={(e) => setFormData({...formData, status: e.target.value})}
-                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                >
-                  <option value="ACTIVE">Active</option>
-                  <option value="INACTIVE">Inactive</option>
-                </select>
+                  onChange={(val) => setFormData({...formData, status: val})}
+                  options={[
+                    { value: 'ACTIVE', label: 'Active' },
+                    { value: 'INACTIVE', label: 'Inactive' }
+                  ]}
+                />
               </div>
               <div>
                 <label className="block text-sm font-semibold text-ink mb-2">Order Index</label>
@@ -688,15 +687,11 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                   {socialLinks.map((link, index) => (
                     <div key={index} className="flex flex-col gap-2 p-3 bg-surface rounded-xl border border-hairline">
                       <div className="flex items-center justify-between gap-2">
-                        <select
+                        <CustomSelect
                           value={link.platform}
-                          onChange={(e) => updateSocialLink(index, 'platform', e.target.value)}
-                          className="flex-1 px-3 py-2 bg-canvas border border-hairline-strong rounded-lg text-xs text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                        >
-                          {SOCIAL_PLATFORMS.map(p => (
-                            <option key={p} value={p}>{p}</option>
-                          ))}
-                        </select>
+                          onChange={(val) => updateSocialLink(index, 'platform', val)}
+                          options={SOCIAL_PLATFORMS.map(p => ({ value: p, label: p }))}
+                        />
                         <button
                           type="button"
                           onClick={() => removeSocialLink(index)}

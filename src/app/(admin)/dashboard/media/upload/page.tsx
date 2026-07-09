@@ -6,6 +6,7 @@ import { Loader2, UploadCloud, ArrowLeft, Building2, Tag } from 'lucide-react';
 import Link from 'next/link';
 import api from '@/lib/api';
 import toast from 'react-hot-toast';
+import { CustomSelect } from '@/components/ui/custom-select';
 
 export default function UploadMediaPage() {
   const router = useRouter();
@@ -202,16 +203,13 @@ export default function UploadMediaPage() {
                     <Tag className="w-4 h-4 text-muted" />
                     Category
                   </label>
-                  <select
+                  <CustomSelect
                     value={categoryId}
-                    onChange={(e) => setCategoryId(e.target.value)}
-                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                  >
-                    <option value="">Select a Category</option>
-                    {categories.map((cat: any) => (
-                      <option key={cat.id} value={cat.id}>{cat.name}</option>
-                    ))}
-                  </select>
+                    onChange={(val) => setCategoryId(val)}
+                    placeholder="Select a Category"
+                    options={categories.map((cat: any) => ({ value: cat.id.toString(), label: cat.name }))}
+                    clearable
+                  />
                 </div>
 
                 <div>
@@ -219,16 +217,13 @@ export default function UploadMediaPage() {
                     <Building2 className="w-4 h-4 text-muted" />
                     Department (Optional)
                   </label>
-                  <select
+                  <CustomSelect
                     value={departmentId}
-                    onChange={(e) => setDepartmentId(e.target.value)}
-                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                  >
-                    <option value="">None / General</option>
-                    {departments.map((dept: any) => (
-                      <option key={dept.id} value={dept.id}>{dept.name}</option>
-                    ))}
-                  </select>
+                    onChange={(val) => setDepartmentId(val)}
+                    placeholder="None / General"
+                    options={departments.map((dept: any) => ({ value: dept.id.toString(), label: dept.name }))}
+                    clearable
+                  />
                 </div>
               </div>
             </div>

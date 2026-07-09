@@ -8,6 +8,7 @@ import api, { getMediaUrl } from '@/lib/api';
 import dynamic from 'next/dynamic';
 import MediaSelector from '@/components/media-selector';
 import toast from 'react-hot-toast';
+import { CustomSelect } from '@/components/ui/custom-select';
 import 'react-quill-new/dist/quill.snow.css';
 import ImageCropperModal from '@/components/image-cropper';
 
@@ -262,17 +263,14 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
                   Department
                 </label>
                 <div className="relative">
-                  <select
+                  <CustomSelect
                     value={formData.departmentId}
-                    onChange={(e) => setFormData({...formData, departmentId: e.target.value})}
+                    onChange={(val) => setFormData({...formData, departmentId: val})}
+                    placeholder="None / General"
                     disabled={fetchingDepts}
-                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                  >
-                    <option value="">None / General</option>
-                    {departments.map(dept => (
-                      <option key={dept.id} value={dept.id}>{dept.name}</option>
-                    ))}
-                  </select>
+                    options={departments.map((dept: any) => ({ value: dept.id.toString(), label: dept.name }))}
+                    clearable
+                  />
                   {fetchingDepts && (
                     <div className="absolute right-3 top-3.5">
                       <Loader2 className="w-4 h-4 text-muted animate-spin" />
@@ -312,14 +310,14 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
             <div className="space-y-5">
               <div>
                 <label className="block text-sm font-semibold text-ink mb-2">Status</label>
-                <select
+                <CustomSelect
                   value={formData.isActive ? 'true' : 'false'}
-                  onChange={(e) => setFormData({...formData, isActive: e.target.value === 'true'})}
-                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                >
-                  <option value="true">Active</option>
-                  <option value="false">Inactive</option>
-                </select>
+                  onChange={(val) => setFormData({...formData, isActive: val === 'true'})}
+                  options={[
+                    { value: 'true', label: 'Active' },
+                    { value: 'false', label: 'Inactive' }
+                  ]}
+                />
               </div>
               
               <div>

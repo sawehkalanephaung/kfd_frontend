@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ArrowRight, Loader2, CheckCircle2 } from "lucide-react";
 import { ContactSettings } from "./types";
+import { CustomSelect } from "@/components/ui/custom-select";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
@@ -15,6 +16,8 @@ export default function ContactForm({ settings }: { settings: ContactSettings | 
     ? settings.inquiryTypes 
     : ["General Administration & Public Information", "Conservation Programs", "Media Relations", "Report a Violation"];
 
+  const [inquiryType, setInquiryType] = useState(inquiryOptions[0]);
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setIsSubmitting(true);
@@ -25,7 +28,7 @@ export default function ContactForm({ settings }: { settings: ContactSettings | 
     const payload = {
       senderName: `${formData.get("firstName")} ${formData.get("lastName")}`.trim(),
       senderEmail: formData.get("email"),
-      inquiryType: formData.get("inquiryType"),
+      inquiryType: inquiryType,
       subject: formData.get("subject"),
       message: formData.get("message"),
     };
@@ -83,21 +86,12 @@ export default function ContactForm({ settings }: { settings: ContactSettings | 
               Route Inquiry To
             </label>
             <div className="relative">
-              <select 
-                id="inquiryType"
-                name="inquiryType"
-                required
-                className="w-full bg-[#0a1f14] border border-[#132d1f] text-white text-sm rounded-md px-4 py-3 appearance-none focus:outline-none focus:border-green-500/50 focus:ring-1 focus:ring-green-500/50 transition-colors"
-              >
-                {inquiryOptions.map((opt, i) => (
-                  <option key={i} value={opt}>{opt}</option>
-                ))}
-              </select>
-              <div className="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-white/40">
-                <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20">
-                  <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" fillRule="evenodd"></path>
-                </svg>
-              </div>
+              <CustomSelect
+                value={inquiryType}
+                onChange={(val) => setInquiryType(val)}
+                className="w-full bg-[#0a1f14] border border-[#132d1f] text-white text-sm rounded-md appearance-none focus:outline-none focus:border-green-500/50 focus:ring-1 focus:ring-green-500/50 transition-colors"
+                options={inquiryOptions.map((opt) => ({ value: opt, label: opt }))}
+              />
             </div>
             <p className="text-[10px] text-white/40">Selecting the correct department expedites processing times.</p>
           </div>

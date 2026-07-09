@@ -9,6 +9,7 @@ import api, { getMediaUrl } from '@/lib/api';
 import MediaSelector from '@/components/media-selector';
 import 'react-quill-new/dist/quill.snow.css';
 import toast from 'react-hot-toast';
+import { CustomSelect } from '@/components/ui/custom-select';
 
 const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
 
@@ -353,15 +354,15 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
             <div className="space-y-5">
               <div>
                 <label className="block text-sm font-semibold text-ink mb-2">Status</label>
-                <select
+                <CustomSelect
                   value={formData.status}
-                  onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                >
-                  <option value="PUBLISHED">Published</option>
-                  <option value="DRAFT">Draft</option>
-                  <option value="ARCHIVED">Archived</option>
-                </select>
+                  onChange={(val) => setFormData({ ...formData, status: val })}
+                  options={[
+                    { value: 'PUBLISHED', label: 'Published' },
+                    { value: 'DRAFT', label: 'Draft' },
+                    { value: 'ARCHIVED', label: 'Archived' }
+                  ]}
+                />
               </div>
             </div>
           </div>
@@ -375,30 +376,24 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
             <div className="space-y-5">
               <div>
                 <label className="block text-sm font-semibold text-ink mb-2">Category</label>
-                <select
+                <CustomSelect
                   value={formData.categoryId}
-                  onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })}
-                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                >
-                  <option value="">Select a Category</option>
-                  {categories.map((cat: any) => (
-                    <option key={cat.id} value={cat.id}>{cat.name}</option>
-                  ))}
-                </select>
+                  onChange={(val) => setFormData({ ...formData, categoryId: val })}
+                  placeholder="Select a Category"
+                  options={categories.map((cat: any) => ({ value: cat.id.toString(), label: cat.name }))}
+                  clearable
+                />
               </div>
 
               <div>
                 <label className="block text-sm font-semibold text-ink mb-2">Department (Optional)</label>
-                <select
+                <CustomSelect
                   value={formData.departmentId}
-                  onChange={(e) => setFormData({ ...formData, departmentId: e.target.value })}
-                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                >
-                  <option value="">Select a Department</option>
-                  {departments.map((dept: any) => (
-                    <option key={dept.id} value={dept.id}>{dept.name}</option>
-                  ))}
-                </select>
+                  onChange={(val) => setFormData({ ...formData, departmentId: val })}
+                  placeholder="Select a Department"
+                  options={departments.map((dept: any) => ({ value: dept.id.toString(), label: dept.name }))}
+                  clearable
+                />
               </div>
 
               <div>
@@ -435,23 +430,31 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                         className="fixed inset-0 z-10"
                         onClick={() => setIsTagDropdownOpen(false)}
                       ></div>
-                      <div className="absolute z-20 w-full mt-1 bg-canvas border border-hairline-strong rounded-lg shadow-lg max-h-60 overflow-auto py-2">
-                        {tags.length === 0 ? (
-                          <div className="px-4 py-3 text-sm text-steel text-center">No tags found</div>
-                        ) : (
-                          tags.map(tag => (
-                            <div
-                              key={tag.id}
-                              className="px-4 py-2.5 hover:bg-brand-green-soft cursor-pointer flex items-center gap-3 transition-colors"
-                              onClick={() => toggleTag(tag.id)}
-                            >
-                              <div className={`w-4 h-4 rounded border flex items-center justify-center transition-colors ${formData.tagIds.includes(tag.id) ? 'bg-brand-green border-emerald-500' : 'border-gray-300'}`}>
-                                {formData.tagIds.includes(tag.id) && <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" /></svg>}
-                              </div>
-                              <span className="text-sm text-slate font-medium">{tag.name}</span>
-                            </div>
-                          ))
-                        )}
+                      <div className="absolute z-20 w-full mt-1 bg-canvas border border-hairline-strong rounded-lg shadow-card max-h-60 overflow-auto">
+                        <ul className="p-4 text-sm font-medium space-y-4">
+                          {tags.length === 0 ? (
+                            <li className="text-steel text-center">No tags found</li>
+                          ) : (
+                            tags.map(tag => (
+                              <li key={tag.id}>
+                                <div 
+                                  className="flex items-center cursor-pointer group"
+                                  onClick={() => toggleTag(tag.id)}
+                                >
+                                  <input 
+                                    type="checkbox" 
+                                    checked={formData.tagIds.includes(tag.id)}
+                                    readOnly
+                                    className="w-4 h-4 border border-hairline-strong rounded-sm bg-surface accent-brand-green cursor-pointer pointer-events-none"
+                                  />
+                                  <label className="ms-3 text-sm font-medium text-ink group-hover:text-brand-green-dark cursor-pointer transition-colors">
+                                    {tag.name}
+                                  </label>
+                                </div>
+                              </li>
+                            ))
+                          )}
+                        </ul>
                       </div>
                     </>
                   )}

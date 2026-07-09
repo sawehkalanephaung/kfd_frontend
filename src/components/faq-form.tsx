@@ -6,6 +6,7 @@ import { Loader2, Save, ArrowLeft, MessageCircleQuestion, AlignLeft, Settings } 
 import Link from 'next/link';
 import api from '@/lib/api';
 import toast from 'react-hot-toast';
+import { CustomSelect } from '@/components/ui/custom-select';
 
 interface FaqFormProps {
   initialData?: any;
@@ -133,14 +134,14 @@ export default function FaqForm({ initialData, isEdit, faqId, onSave }: FaqFormP
             <div className="space-y-5">
               <div>
                 <label className="block text-sm font-semibold text-ink mb-2">Status</label>
-                <select
+                <CustomSelect
                   value={formData.status}
-                  onChange={(e) => setFormData({...formData, status: e.target.value})}
-                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                >
-                  <option value="PUBLISHED">Published</option>
-                  <option value="DRAFT">Draft</option>
-                </select>
+                  onChange={(val) => setFormData({...formData, status: val})}
+                  options={[
+                    { value: 'PUBLISHED', label: 'Published' },
+                    { value: 'DRAFT', label: 'Draft' }
+                  ]}
+                />
               </div>
               
               <div>

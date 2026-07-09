@@ -5,6 +5,7 @@ import { Loader2, Plus, Edit2, Trash2, Check, X, Globe, Link as LinkIcon } from 
 import api from '@/lib/api';
 import toast from 'react-hot-toast';
 import DeleteModal from '@/components/delete-modal';
+import { CustomSelect } from '@/components/ui/custom-select';
 
 const PLATFORMS = ['FACEBOOK', 'TWITTER', 'INSTAGRAM', 'YOUTUBE', 'LINKEDIN', 'TIKTOK', 'OTHER'];
 
@@ -124,15 +125,11 @@ export default function SocialMediaManager() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-semibold text-ink mb-1">Platform</label>
-              <select
+              <CustomSelect
                 value={currentLink.platformName}
-                onChange={e => setCurrentLink({...currentLink, platformName: e.target.value})}
-                className="w-full px-4 py-2.5 rounded-lg border border-hairline-strong focus:ring-2 focus:ring-brand-green outline-none text-ink"
-              >
-                {PLATFORMS.map(p => (
-                  <option key={p} value={p}>{p}</option>
-                ))}
-              </select>
+                onChange={(val) => setCurrentLink({...currentLink, platformName: val})}
+                options={PLATFORMS.map(p => ({ value: p, label: p }))}
+              />
             </div>
             <div>
               <label className="block text-sm font-semibold text-ink mb-1">URL</label>

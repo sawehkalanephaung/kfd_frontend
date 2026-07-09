@@ -6,6 +6,7 @@ import { Loader2, Save, ArrowLeft, UserCircle, Settings } from 'lucide-react';
 import Link from 'next/link';
 import api from '@/lib/api';
 import toast from 'react-hot-toast';
+import { CustomSelect } from '@/components/ui/custom-select';
 
 interface UserFormProps {
   initialData?: any;
@@ -203,19 +204,16 @@ export default function UserForm({ initialData, isEdit, userId, isSlideOver, onS
               <div>
                 <label className="block text-sm font-semibold text-ink mb-2">System Role</label>
                 <div className="relative">
-                  <select
-                    required
+                  <CustomSelect
                     value={formData.roleId}
-                    onChange={(e) => setFormData({...formData, roleId: e.target.value})}
+                    onChange={(val) => setFormData({...formData, roleId: val})}
+                    placeholder="Select a role..."
                     disabled={fetchingRoles}
-                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink appearance-none focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                  >
-                    <option value="">Select a role...</option>
-                    {roles.map(role => {
+                    options={roles.map((role: any) => {
                       const displayName = role.name?.replace('ROLE_', '').split('_').map((w: string) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ');
-                      return <option key={role.id} value={role.id}>{displayName || role.name}</option>
+                      return { value: role.id.toString(), label: displayName || role.name };
                     })}
-                  </select>
+                  />
                   {fetchingRoles && (
                     <div className="absolute right-3 top-3.5">
                       <Loader2 className="w-4 h-4 text-muted animate-spin" />
@@ -226,26 +224,26 @@ export default function UserForm({ initialData, isEdit, userId, isSlideOver, onS
 
               <div>
                 <label className="block text-sm font-semibold text-ink mb-2">Language</label>
-                <select
+                <CustomSelect
                   value={formData.dashboardLanguage}
-                  onChange={(e) => setFormData({...formData, dashboardLanguage: e.target.value})}
-                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink appearance-none focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                >
-                  <option value="en">English (en)</option>
-                  <option value="km">Khmer (km)</option>
-                </select>
+                  onChange={(val) => setFormData({...formData, dashboardLanguage: val})}
+                  options={[
+                    { value: 'en', label: 'English (en)' },
+                    { value: 'km', label: 'Khmer (km)' }
+                  ]}
+                />
               </div>
 
               <div>
                 <label className="block text-sm font-semibold text-ink mb-2">Status</label>
-                <select
+                <CustomSelect
                   value={formData.isActive ? 'true' : 'false'}
-                  onChange={(e) => setFormData({...formData, isActive: e.target.value === 'true'})}
-                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink appearance-none focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                >
-                  <option value="true">Active (Can Login)</option>
-                  <option value="false">Inactive (Suspended)</option>
-                </select>
+                  onChange={(val) => setFormData({...formData, isActive: val === 'true'})}
+                  options={[
+                    { value: 'true', label: 'Active (Can Login)' },
+                    { value: 'false', label: 'Inactive (Suspended)' }
+                  ]}
+                />
               </div>
             </div>
           </div>

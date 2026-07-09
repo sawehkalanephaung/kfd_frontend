@@ -7,6 +7,7 @@ import api from '@/lib/api';
 import DeleteModal from '@/components/delete-modal';
 import SlideOver from '@/components/slide-over';
 import UserForm from '@/components/user-form';
+import { CustomSelect } from '@/components/ui/custom-select';
 
 export default function UsersDirectoryPage() {
   const [users, setUsers] = useState<any[]>([]);
@@ -130,15 +131,18 @@ export default function UsersDirectoryPage() {
           </p>
         </div>
         <div className="flex items-center gap-4">
-          <select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-4 py-2.5 bg-surface border border-hairline-strong rounded-lg text-sm font-medium text-slate focus:outline-none focus:ring-2 focus:ring-brand-green transition-all cursor-pointer"
-          >
-            <option value="all">All Users</option>
-            <option value="active">Active Only</option>
-            <option value="inactive">Inactive / Suspended</option>
-          </select>
+          <div className="w-48">
+            <CustomSelect
+              value={statusFilter}
+              onChange={(val) => setStatusFilter(val)}
+              options={[
+                { value: 'all', label: 'All Users' },
+                { value: 'active', label: 'Active Only' },
+                { value: 'inactive', label: 'Inactive / Suspended' }
+              ]}
+              clearable
+            />
+          </div>
           <button
             onClick={openCreateDrawer}
             className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-brand-green hover:bg-primary-deep text-on-primary font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
