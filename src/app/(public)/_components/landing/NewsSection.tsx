@@ -51,18 +51,18 @@ export default function NewsSection({ news, notices }: { news: any[], notices?: 
   return (
     <section className="py-20 bg-canvas border-t border-hairline">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        
+
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-          
+
           {/* Left Column: Latest News */}
           <div className="lg:col-span-2">
             <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
               <h2 className="text-3xl font-bold text-ink">Latest News</h2>
-              <Link 
-                href="/news" 
+              <Link
+                href="/news"
                 className="text-sm font-semibold text-steel hover:text-teal-deep flex items-center gap-1 transition-colors group"
               >
-                View All News 
+                View All News
                 <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
@@ -79,7 +79,7 @@ export default function NewsSection({ news, notices }: { news: any[], notices?: 
                     {/* Image */}
                     <div className="relative w-full h-52 rounded-xl overflow-hidden mb-5 shrink-0 bg-surface flex items-center justify-center">
                       {imgUrl ? (
-                        <div 
+                        <div
                           className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
                           style={{ backgroundImage: `url('${imgUrl}')` }}
                         />
@@ -114,27 +114,27 @@ export default function NewsSection({ news, notices }: { news: any[], notices?: 
           {/* Right Column: Announcements & Events */}
           <div className="lg:col-span-1 flex flex-col">
             <h2 className="text-2xl font-bold text-ink mb-8">Announcements & Events</h2>
-            
+
             <div className="bg-surface border border-hairline rounded-2xl p-6 flex flex-col gap-6 flex-grow">
               {displayNotices.map((notice) => {
                 const isReal = !!notice.category;
                 const type = isReal ? notice.category.name : notice.type;
                 const title = isReal ? notice.title : notice.title;
                 const link = isReal ? `/news/${notice.slug}` : notice.link;
-                
+
                 // Use eventDate if it's an event, else publishedAt
                 let dateStr = notice.date;
                 if (isReal) {
                   const isEvent = notice.category?.slug?.toLowerCase() === 'event';
-                  const dateObj = isEvent && notice.metadata?.eventDate 
-                    ? new Date(notice.metadata.eventDate) 
+                  const dateObj = isEvent && notice.metadata?.eventDate
+                    ? new Date(notice.metadata.eventDate)
                     : new Date(notice.publishedAt || notice.createdAt);
                   dateStr = dateObj.toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" });
                 }
 
                 return (
-                  <Link 
-                    key={notice.id} 
+                  <Link
+                    key={notice.id}
                     href={link}
                     className="group flex gap-4 p-4 -mx-4 rounded-xl hover:bg-canvas hover:shadow-sm transition-all"
                   >
@@ -143,9 +143,8 @@ export default function NewsSection({ news, notices }: { news: any[], notices?: 
                     </div>
                     <div>
                       <div className="flex items-center gap-2 mb-1">
-                        <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-sm ${
-                          (type === "Event" || type?.toLowerCase() === "event") ? "bg-amber-100 text-amber-700" : "bg-blue-100 text-blue-700"
-                        }`}>
+                        <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-sm ${(type === "Event" || type?.toLowerCase() === "event") ? "bg-amber-100 text-amber-700" : "bg-blue-100 text-blue-700"
+                          }`}>
                           {type}
                         </span>
                         <span className="text-xs text-steel font-medium">{dateStr}</span>

@@ -1,10 +1,10 @@
 export default function StatsSection({ metrics }: { metrics: any[] }) {
   if (!metrics || metrics.length === 0) return null;
 
-  const displayStats = metrics.map(m => ({ 
-    value: m.metricValue, 
-    label: m.title, 
-    subLabel: m.description || "" 
+  const displayStats = metrics.map(m => ({
+    value: m.metricValue,
+    label: m.title,
+    subLabel: m.description || ""
   }));
 
   return (
