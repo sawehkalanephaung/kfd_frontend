@@ -138,12 +138,12 @@ export default function PagesListPage() {
 
         <div className="overflow-x-auto">
           <table className="w-full sm:min-w-[800px] text-left text-sm text-steel">
-            <thead className="bg-surface-soft text-steel font-medium border-b border-hairline">
+            <thead className="bg-surface-soft border-b border-hairline">
               <tr>
-                <th className="px-6 py-4">Page</th>
-                <th className="px-6 py-4 hidden sm:table-cell">Status</th>
-                <th className="px-6 py-4 hidden sm:table-cell">Last Updated</th>
-                <th className="px-6 py-4 text-right">Actions</th>
+                <th className="px-6 py-3 text-xs font-semibold text-muted uppercase tracking-wider">Page</th>
+                <th className="px-6 py-3 text-xs font-semibold text-muted uppercase tracking-wider hidden sm:table-cell">Status</th>
+                <th className="px-6 py-3 text-xs font-semibold text-muted uppercase tracking-wider hidden sm:table-cell">Last Updated</th>
+                <th className="px-6 py-3 text-xs font-semibold text-muted uppercase tracking-wider text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-hairline-soft">
@@ -168,7 +168,7 @@ export default function PagesListPage() {
                 </tr>
               ) : (
                 paginatedPages.map((page) => (
-                  <tr key={page.id} className="hover:bg-surface-soft transition-colors">
+                  <tr key={page.id} className="group hover:bg-surface-soft hover:-translate-y-0.5 hover:shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] transition-all duration-300">
                     <td className="px-6 py-4">
                       <div className="font-medium text-ink">{page.title}</div>
                       <div className="text-xs text-muted mt-0.5 hidden sm:block">/{page.slug}</div>
@@ -201,14 +201,14 @@ export default function PagesListPage() {
                       <div className="flex items-center justify-end gap-2">
                         <Link
                           href={`/dashboard/pages/${page.id}/edit`}
-                          className="p-2 text-muted hover:text-brand-green-dark hover:bg-brand-green-soft rounded-full transition-colors"
+                          className="p-2 text-muted hover:text-brand-green-dark hover:bg-brand-green-soft rounded-full transition-all duration-300 hover:scale-110 hover:rotate-[-5deg]"
                           title="Edit"
                         >
                           <Edit className="w-4 h-4" />
                         </Link>
                         <button
                           onClick={() => openDeleteModal(page)}
-                          className="p-2 text-muted hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                          className="p-2 text-muted hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-300 hover:scale-110 hover:rotate-6"
                           title="Delete"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -224,40 +224,28 @@ export default function PagesListPage() {
 
         {/* Pagination Controls */}
         {!loading && filteredPages.length > 0 && (
-          <div className="px-6 py-4 border-t border-hairline-soft bg-surface-soft flex items-center justify-between">
-            <span className="text-sm text-steel">
-              Showing <span className="font-medium text-ink">{(currentPage - 1) * itemsPerPage + 1}</span> to <span className="font-medium text-ink">{Math.min(currentPage * itemsPerPage, filteredPages.length)}</span> of <span className="font-medium text-ink">{filteredPages.length}</span> pages
-            </span>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                disabled={currentPage === 1}
-                className="p-1.5 rounded-lg border border-hairline-strong text-steel hover:bg-surface hover:text-ink disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </button>
-              <div className="flex items-center gap-1">
-                {Array.from({ length: totalPages }).map((_, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setCurrentPage(idx + 1)}
-                    className={`w-8 h-8 rounded-lg text-sm font-medium transition-colors ${currentPage === idx + 1
-                        ? 'bg-brand-green text-on-primary'
-                        : 'text-steel hover:bg-surface hover:text-ink'
-                      }`}
-                  >
-                    {idx + 1}
-                  </button>
-                ))}
-              </div>
-              <button
-                onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-                disabled={currentPage === totalPages}
-                className="p-1.5 rounded-lg border border-hairline-strong text-steel hover:bg-surface hover:text-ink disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-              >
-                <ChevronRight className="w-4 h-4" />
-              </button>
+          <div className="px-4 sm:px-6 py-4 border-t border-hairline flex flex-col sm:flex-row items-center justify-between gap-4 bg-canvas rounded-b-lg">
+            <button
+              onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+              className="flex items-center gap-2 px-3 py-2 rounded-lg border border-hairline-strong text-sm font-medium text-steel hover:bg-surface hover:text-ink disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover:shadow-sm w-full sm:w-auto justify-center"
+            >
+              <ChevronLeft className="w-4 h-4" />
+              Previous
+            </button>
+            
+            <div className="text-sm text-steel text-center">
+              Page <span className="font-medium text-ink">{currentPage}</span> of <span className="font-medium text-ink">{totalPages}</span>
             </div>
+            
+            <button
+              onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+              disabled={currentPage === totalPages}
+              className="flex items-center gap-2 px-3 py-2 rounded-lg border border-hairline-strong text-sm font-medium text-steel hover:bg-surface hover:text-ink disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover:shadow-sm w-full sm:w-auto justify-center"
+            >
+              Next
+              <ChevronRight className="w-4 h-4" />
+            </button>
           </div>
         )}
       </div>

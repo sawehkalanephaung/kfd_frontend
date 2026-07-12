@@ -204,13 +204,13 @@ export default function PostsListPage() {
       <div className="bg-canvas rounded-lg shadow-sm border border-hairline-soft overflow-hidden">
         <div className="overflow-x-auto w-full">
           <table className="w-full sm:min-w-[800px] text-left text-sm text-steel">
-            <thead className="bg-surface-soft text-steel font-medium border-b border-hairline">
+            <thead className="bg-surface-soft border-b border-hairline">
               <tr>
-                <th className="px-6 py-4">Title</th>
-                <th className="px-6 py-4 hidden sm:table-cell">Category</th>
-                <th className="px-6 py-4 hidden sm:table-cell">Status</th>
-                <th className="px-6 py-4 hidden md:table-cell">Last Updated</th>
-                <th className="px-6 py-4 text-right">Actions</th>
+                <th className="px-6 py-3 text-xs font-semibold text-muted uppercase tracking-wider">Title</th>
+                <th className="px-6 py-3 text-xs font-semibold text-muted uppercase tracking-wider hidden sm:table-cell">Category</th>
+                <th className="px-6 py-3 text-xs font-semibold text-muted uppercase tracking-wider hidden sm:table-cell">Status</th>
+                <th className="px-6 py-3 text-xs font-semibold text-muted uppercase tracking-wider hidden md:table-cell">Last Updated</th>
+                <th className="px-6 py-3 text-xs font-semibold text-muted uppercase tracking-wider text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-hairline-soft">
@@ -236,7 +236,7 @@ export default function PostsListPage() {
                 </tr>
               ) : (
                 posts.map((post) => (
-                  <tr key={post.id} className="hover:bg-surface-soft transition-colors">
+                  <tr key={post.id} className="group hover:bg-surface-soft hover:-translate-y-0.5 hover:shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] transition-all duration-300">
                     <td className="px-6 py-4 font-medium text-ink max-w-md">
                       <div className="truncate" title={post.title}>{post.title}</div>
                       <div className="text-xs text-muted font-normal mt-0.5 hidden sm:block">/{post.slug}</div>
@@ -292,14 +292,14 @@ export default function PostsListPage() {
                       <div className="flex items-center justify-end gap-2">
                         <Link
                           href={`/dashboard/posts/${post.id}/edit`}
-                          className="p-2 text-muted hover:text-brand-green-dark hover:bg-brand-green-soft rounded-full transition-colors"
-                          title="Edit"
+                          className="p-2 text-muted hover:text-brand-green-dark hover:bg-brand-green-soft rounded-full transition-all duration-300 hover:scale-110 hover:rotate-[-5deg]"
+                          title="Edit Post"
                         >
                           <Edit className="w-4 h-4" />
                         </Link>
                         <button
                           onClick={() => openDeleteModal(post)}
-                          className="p-2 text-muted hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                          className="p-2 text-muted hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-300 hover:scale-110 hover:rotate-6"
                           title={post.status === 'ARCHIVED' ? 'Permanently Delete' : 'Archive'}
                         >
                           <Trash2 className="w-4 h-4" />
@@ -315,29 +315,28 @@ export default function PostsListPage() {
         
         {/* Pagination Footer */}
         {totalElements > 0 && (
-          <div className="px-4 sm:px-6 py-4 border-t border-hairline flex flex-col md:flex-row items-center justify-between gap-4 bg-surface-soft">
-            <div className="text-sm text-steel text-center md:text-left">
-              Showing <span className="font-medium">{(currentPage - 1) * itemsPerPage + 1}</span> to <span className="font-medium">{Math.min(currentPage * itemsPerPage, totalElements)}</span> of <span className="font-medium">{totalElements}</span> results
+          <div className="px-4 sm:px-6 py-4 border-t border-hairline flex flex-col sm:flex-row items-center justify-between gap-4 bg-canvas rounded-b-lg">
+            <button
+              onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+              className="flex items-center gap-2 px-3 py-2 rounded-lg border border-hairline-strong text-sm font-medium text-steel hover:bg-surface hover:text-ink disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover:shadow-sm w-full sm:w-auto justify-center"
+            >
+              <ChevronLeft className="w-4 h-4" />
+              Previous
+            </button>
+            
+            <div className="text-sm text-steel text-center">
+              Page <span className="font-medium text-ink">{currentPage}</span> of <span className="font-medium text-ink">{totalPages}</span>
             </div>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                disabled={currentPage === 1}
-                className="p-2 rounded-lg border border-hairline-strong text-steel hover:bg-surface disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </button>
-              <div className="text-sm font-medium text-slate px-2">
-                Page {currentPage} of {totalPages}
-              </div>
-              <button
-                onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-                disabled={currentPage === totalPages}
-                className="p-2 rounded-lg border border-hairline-strong text-steel hover:bg-surface disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-              >
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </div>
+            
+            <button
+              onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+              disabled={currentPage === totalPages}
+              className="flex items-center gap-2 px-3 py-2 rounded-lg border border-hairline-strong text-sm font-medium text-steel hover:bg-surface hover:text-ink disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover:shadow-sm w-full sm:w-auto justify-center"
+            >
+              Next
+              <ChevronRight className="w-4 h-4" />
+            </button>
           </div>
         )}
       </div>

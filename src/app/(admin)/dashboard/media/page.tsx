@@ -177,13 +177,13 @@ export default function MediaLibraryPage() {
       <div className="bg-canvas rounded-lg shadow-sm border border-hairline-soft overflow-hidden">
         <div className="overflow-x-auto w-full">
           <table className="w-full min-w-[800px] text-left text-sm text-steel">
-            <thead className="bg-surface-soft text-steel font-medium border-b border-hairline">
+            <thead className="bg-surface-soft border-b border-hairline">
               <tr>
-                <th className="px-6 py-4">File Name</th>
-                <th className="px-6 py-4">Category</th>
-                <th className="px-6 py-4">Size</th>
-                <th className="px-6 py-4">Uploaded Date</th>
-                <th className="px-6 py-4 text-right">Actions</th>
+                <th className="px-6 py-3 text-xs font-semibold text-muted uppercase tracking-wider">File Name</th>
+                <th className="px-6 py-3 text-xs font-semibold text-muted uppercase tracking-wider">Category</th>
+                <th className="px-6 py-3 text-xs font-semibold text-muted uppercase tracking-wider">Size</th>
+                <th className="px-6 py-3 text-xs font-semibold text-muted uppercase tracking-wider">Uploaded Date</th>
+                <th className="px-6 py-3 text-xs font-semibold text-muted uppercase tracking-wider text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-hairline-soft">
@@ -274,29 +274,28 @@ export default function MediaLibraryPage() {
 
         {/* Pagination Footer */}
         {totalElements > 0 && (
-          <div className="px-4 sm:px-6 py-4 border-t border-hairline flex flex-col md:flex-row items-center justify-between gap-4 bg-surface-soft">
-            <div className="text-sm text-steel text-center md:text-left">
-              Showing <span className="font-medium">{(currentPage - 1) * itemsPerPage + 1}</span> to <span className="font-medium">{Math.min(currentPage * itemsPerPage, totalElements)}</span> of <span className="font-medium">{totalElements}</span> results
+          <div className="px-4 sm:px-6 py-4 border-t border-hairline flex flex-col sm:flex-row items-center justify-between gap-4 bg-canvas rounded-b-lg">
+            <button
+              onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+              className="flex items-center gap-2 px-3 py-2 rounded-lg border border-hairline-strong text-sm font-medium text-steel hover:bg-surface hover:text-ink disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover:shadow-sm w-full sm:w-auto justify-center"
+            >
+              <ChevronLeft className="w-4 h-4" />
+              Previous
+            </button>
+            
+            <div className="text-sm text-steel text-center">
+              Page <span className="font-medium text-ink">{currentPage}</span> of <span className="font-medium text-ink">{totalPages}</span>
             </div>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                disabled={currentPage === 1}
-                className="p-2 rounded-lg border border-hairline-strong text-steel hover:bg-surface disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </button>
-              <div className="text-sm font-medium text-slate px-2">
-                Page {currentPage} of {totalPages}
-              </div>
-              <button
-                onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-                disabled={currentPage === totalPages}
-                className="p-2 rounded-lg border border-hairline-strong text-steel hover:bg-surface disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-              >
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </div>
+            
+            <button
+              onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+              disabled={currentPage === totalPages}
+              className="flex items-center gap-2 px-3 py-2 rounded-lg border border-hairline-strong text-sm font-medium text-steel hover:bg-surface hover:text-ink disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover:shadow-sm w-full sm:w-auto justify-center"
+            >
+              Next
+              <ChevronRight className="w-4 h-4" />
+            </button>
           </div>
         )}
       </div>
