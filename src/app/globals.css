@@ -159,6 +159,22 @@ body {
 }
 
 /* ─────────────────────────────────────────────
+   Global Form Input Focus Animations
+   ───────────────────────────────────────────── */
+input:not([type="checkbox"]):not([type="radio"]), 
+textarea, 
+select {
+  transition: all 0.3s ease;
+}
+input:not([type="checkbox"]):not([type="radio"]):focus, 
+textarea:focus, 
+select:focus {
+  box-shadow: 0 0 0 4px rgba(0, 237, 100, 0.15) !important;
+  border-color: var(--color-brand-green) !important;
+  outline: none;
+}
+
+/* ─────────────────────────────────────────────
    Notification dropdown animation
    ───────────────────────────────────────────── */
 @keyframes slideDown {

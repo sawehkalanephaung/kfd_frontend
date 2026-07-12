@@ -214,7 +214,7 @@ export default function MediaLibraryPage() {
                 </tr>
               ) : (
                 media.map((asset) => (
-                  <tr key={asset.id} className="hover:bg-surface-soft transition-colors">
+                  <tr key={asset.id} className="group hover:bg-surface-soft hover:-translate-y-0.5 hover:shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] transition-all duration-300">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-lg bg-surface flex items-center justify-center shrink-0 overflow-hidden">
@@ -251,14 +251,14 @@ export default function MediaLibraryPage() {
                       <div className="flex items-center justify-end gap-2">
                         <Link
                           href={`/dashboard/media/${asset.id}/edit`}
-                          className="p-2 text-muted hover:text-brand-green-dark hover:bg-brand-green-soft rounded-full transition-colors"
+                          className="p-2 text-muted hover:text-brand-green-dark hover:bg-brand-green-soft rounded-full transition-all duration-300 hover:scale-110 hover:rotate-[-5deg]"
                           title="Edit Media"
                         >
                           <Edit className="w-4 h-4" />
                         </Link>
                         <button
                           onClick={() => openDeleteModal(asset)}
-                          className="p-2 text-muted hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                          className="p-2 text-muted hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-300 hover:scale-110 hover:rotate-6"
                           title="Delete Media"
                         >
                           <Trash2 className="w-4 h-4" />

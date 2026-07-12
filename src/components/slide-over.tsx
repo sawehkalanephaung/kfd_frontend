@@ -40,7 +40,7 @@ export default function SlideOver({ isOpen, onClose, title, children }: SlideOve
     <div className="fixed inset-0 z-50 overflow-hidden">
       {/* Background overlay */}
       <div 
-        className="absolute inset-0 bg-black/50 transition-opacity" 
+        className="absolute inset-0 bg-black/50 transition-opacity animate-in fade-in duration-300" 
         onClick={onClose}
         aria-hidden="true"
       />
@@ -48,7 +48,7 @@ export default function SlideOver({ isOpen, onClose, title, children }: SlideOve
       {/* Slide-over panel */}
       <div className="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-0 sm:pl-10">
         <div 
-          className="pointer-events-auto w-screen max-w-2xl transform transition-transform duration-300 ease-in-out sm:duration-500 translate-x-0"
+          className="pointer-events-auto w-screen max-w-2xl transform transition-transform duration-300 ease-out sm:duration-500 animate-in slide-in-from-right fade-in"
         >
           <div className="flex h-full flex-col overflow-y-scroll bg-canvas shadow-xl">
             {/* Header */}

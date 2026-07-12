@@ -162,7 +162,7 @@ export default function TagsListPage() {
                 </tr>
               ) : (
                 tags.map((tag) => (
-                  <tr key={tag.id} className="hover:bg-surface-soft transition-colors">
+                  <tr key={tag.id} className="group hover:bg-surface-soft hover:-translate-y-0.5 hover:shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] transition-all duration-300">
                     <td className="px-6 py-4 font-medium text-ink">
                       <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-surface rounded-lg text-sm text-slate">
                         <TagIcon className="w-3.5 h-3.5 text-steel" />
@@ -176,14 +176,14 @@ export default function TagsListPage() {
                       <div className="flex items-center justify-end gap-2">
                         <button
                           onClick={() => openEditDrawer(tag)}
-                          className="p-2 text-muted hover:text-brand-green-dark hover:bg-brand-green-soft rounded-full transition-colors"
+                          className="p-2 text-muted hover:text-brand-green-dark hover:bg-brand-green-soft rounded-full transition-all duration-300 hover:scale-110 hover:rotate-[-5deg]"
                           title="Edit Tag"
                         >
                           <Edit className="w-4 h-4" />
                         </button>
                         <button
                           onClick={() => openDeleteModal(tag)}
-                          className="p-2 text-muted hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                          className="p-2 text-muted hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-300 hover:scale-110 hover:rotate-6"
                           title="Delete Tag"
                         >
                           <Trash2 className="w-4 h-4" />
