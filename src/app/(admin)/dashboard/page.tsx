@@ -2,8 +2,9 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { PlusCircle, UploadCloud, UserPlus, FileText, CheckCircle2, Clock, Loader2 } from 'lucide-react';
+import { PlusCircle, UploadCloud, UserPlus, FileText, CheckCircle2, Clock, Loader2, Users, Image as ImageIcon, Building2, LayoutDashboard } from 'lucide-react';
 import DashboardCharts from '@/components/dashboard-charts';
+import CountUp from '@/components/ui/count-up';
 import api from '@/lib/api';
 
 export default function DashboardPage() {
@@ -88,10 +89,10 @@ export default function DashboardPage() {
   }, []);
 
   const kpiData = [
-    { label: 'Total Published Posts', value: stats.posts, trend: 'Live from Database' },
-    { label: 'Total Team Members', value: stats.teamMembers, trend: 'Active in System' },
-    { label: 'Total Media Assets', value: stats.media, trend: 'Images & Documents' },
-    { label: 'Active Department Branches', value: stats.departments, trend: 'Registered Branches' },
+    { label: 'Total Published Posts', value: stats.posts, trend: 'Live from Database', icon: FileText, color: 'text-brand-green-dark', bg: 'bg-brand-green-soft' },
+    { label: 'Total Team Members', value: stats.teamMembers, trend: 'Active in System', icon: Users, color: 'text-blue-700', bg: 'bg-blue-50' },
+    { label: 'Total Media Assets', value: stats.media, trend: 'Images & Documents', icon: ImageIcon, color: 'text-purple-700', bg: 'bg-purple-50' },
+    { label: 'Active Department Branches', value: stats.departments, trend: 'Registered Branches', icon: Building2, color: 'text-amber-700', bg: 'bg-amber-50' },
   ];
 
   const statusData = [
@@ -110,35 +111,57 @@ export default function DashboardPage() {
       </div>
 
       {/* Welcome Card */}
-      <div className="bg-canvas rounded-lg p-8 shadow-sm border border-hairline">
-        <h1 className="text-2xl font-bold text-ink">
-          Good morning, Admin!
-        </h1>
-        <p className="text-steel mt-1">
-          Here is your KFD command center overview for today.
-        </p>
+      <div className="bg-gradient-to-r from-brand-green-dark via-brand-green to-teal-deep rounded-xl p-8 shadow-md border border-brand-green overflow-hidden relative animate-gradient-x">
+        <div className="relative z-10">
+          <h1 className="text-3xl font-bold text-white mb-2 flex items-center gap-3">
+            <LayoutDashboard className="w-8 h-8 opacity-90" />
+            Good morning, Admin!
+          </h1>
+          <p className="text-brand-green-soft/90 max-w-xl text-lg">
+            Welcome to your KFD command center. Here is your overview for today.
+          </p>
+        </div>
+        {/* Decorative elements */}
+        <div className="absolute right-0 top-0 bottom-0 w-1/3 bg-gradient-to-l from-white/10 to-transparent pointer-events-none"></div>
+        <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-white/5 rounded-full blur-2xl pointer-events-none"></div>
       </div>
 
       {/* KPI Cards */}
       <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
-        {kpiData.map((kpi) => (
-          <div
-            key={kpi.label}
-            className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline flex flex-col justify-between"
-          >
-            <p className="text-sm font-medium text-steel">{kpi.label}</p>
-            <div className="mt-4">
-              {loading ? (
-                <Loader2 className="w-6 h-6 animate-spin text-brand-green" />
-              ) : (
-                <>
-                  <p className="text-3xl font-bold text-ink">{kpi.value}</p>
-                  <p className="text-xs text-brand-green-dark font-medium mt-1">{kpi.trend}</p>
-                </>
-              )}
+        {kpiData.map((kpi) => {
+          const Icon = kpi.icon;
+          return (
+            <div
+              key={kpi.label}
+              className="bg-canvas rounded-xl p-6 shadow-sm border border-hairline hover:-translate-y-1 hover:scale-[1.02] hover:shadow-lg hover:border-brand-green/30 transition-all duration-300 ease-out flex flex-col justify-between relative overflow-hidden group"
+            >
+              <div className="flex items-start justify-between mb-4 relative z-10">
+                <p className="text-sm font-semibold text-steel group-hover:text-ink transition-colors duration-300">{kpi.label}</p>
+                <div className={`w-10 h-10 rounded-full ${kpi.bg} flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-300`}>
+                  <Icon className={`w-5 h-5 ${kpi.color}`} />
+                </div>
+              </div>
+              <div className="relative z-10">
+                {loading ? (
+                  <Loader2 className="w-6 h-6 animate-spin text-brand-green" />
+                ) : (
+                  <>
+                    <p className="text-4xl font-bold text-ink tracking-tight">
+                      <CountUp end={kpi.value} />
+                    </p>
+                    <p className={`text-xs font-medium mt-2 ${kpi.color}`}>{kpi.trend}</p>
+                  </>
+                )}
+              </div>
+              
+              {/* Modern Glass/Shine Reflection Effect */}
+              <div className="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_ease-in-out] bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-[-20deg] pointer-events-none z-20"></div>
+
+              {/* Subtle background glow on hover */}
+              <div className={`absolute -bottom-6 -right-6 w-32 h-32 rounded-full ${kpi.bg} opacity-0 group-hover:opacity-60 transition-opacity duration-500 blur-2xl pointer-events-none z-0`}></div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Charts Section */}
@@ -182,13 +205,13 @@ export default function DashboardPage() {
                   recentPosts.map((item, idx) => (
                     <tr key={idx} className="group hover:bg-surface-soft transition-colors">
                       <td className="py-4">
-                        <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-lg bg-surface flex items-center justify-center text-muted group-hover:bg-canvas group-hover:shadow-sm transition-all">
-                            <FileText className="w-4 h-4" />
+                        <div className="flex items-center gap-4">
+                          <div className="w-10 h-10 rounded-xl bg-surface border border-hairline flex items-center justify-center text-muted group-hover:bg-brand-green-soft group-hover:text-brand-green group-hover:border-brand-green/30 transition-all shadow-sm">
+                            <FileText className="w-5 h-5" />
                           </div>
                           <div className="flex flex-col">
-                            <span className="font-medium text-ink truncate max-w-[300px]" title={item.title}>{item.title}</span>
-                            <span className="text-xs text-muted">/{item.slug}</span>
+                            <span className="font-semibold text-ink truncate max-w-[300px]" title={item.title}>{item.title}</span>
+                            <span className="text-xs text-steel mt-0.5">{item.category?.name || 'Uncategorized'}</span>
                           </div>
                         </div>
                       </td>
@@ -217,43 +240,43 @@ export default function DashboardPage() {
         {/* Quick Actions */}
         <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline">
           <h3 className="text-lg font-bold text-ink mb-6">Quick Actions</h3>
-          <div className="space-y-3">
+          <div className="space-y-4">
             <Link
               href="/dashboard/posts/create"
-              className="flex items-center gap-4 p-4 rounded-lg border border-hairline hover:border-brand-green/30 hover:bg-brand-green-soft hover:text-brand-green-dark transition-all group"
+              className="flex items-center gap-4 p-4 rounded-xl border border-hairline hover:border-brand-green/30 hover:bg-brand-green-soft hover:shadow-md hover:-translate-y-1 transition-all group duration-300"
             >
-              <div className="w-10 h-10 rounded-full bg-brand-green-soft/50 flex items-center justify-center text-brand-green-dark group-hover:bg-primary-deep group-hover:text-on-primary transition-colors">
-                <PlusCircle className="w-5 h-5" />
+              <div className="w-12 h-12 rounded-full bg-brand-green-soft/50 flex items-center justify-center text-brand-green-dark group-hover:bg-brand-green group-hover:text-white transition-colors shadow-sm">
+                <PlusCircle className="w-6 h-6" />
               </div>
               <div>
-                <p className="font-medium text-ink group-hover:text-brand-green-dark">Create New Post</p>
-                <p className="text-xs text-steel group-hover:text-brand-green-dark/70">Draft a new article or page</p>
+                <p className="font-bold text-ink group-hover:text-brand-green-dark transition-colors">Create New Post</p>
+                <p className="text-xs text-steel mt-0.5">Draft a new article or page</p>
               </div>
             </Link>
 
             <Link
               href="/dashboard/media/upload"
-              className="flex items-center gap-4 p-4 rounded-lg border border-hairline hover:border-blue-200 hover:bg-blue-50 hover:text-blue-700 transition-all group"
+              className="flex items-center gap-4 p-4 rounded-xl border border-hairline hover:border-blue-200 hover:bg-blue-50 hover:shadow-md hover:-translate-y-1 transition-all group duration-300"
             >
-              <div className="w-10 h-10 rounded-full bg-blue-100/50 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                <UploadCloud className="w-5 h-5" />
+              <div className="w-12 h-12 rounded-full bg-blue-100/50 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors shadow-sm">
+                <UploadCloud className="w-6 h-6" />
               </div>
               <div>
-                <p className="font-medium text-ink group-hover:text-blue-700">Upload Media</p>
-                <p className="text-xs text-steel group-hover:text-blue-600/70">Add photos or documents</p>
+                <p className="font-bold text-ink group-hover:text-blue-700 transition-colors">Upload Media</p>
+                <p className="text-xs text-steel mt-0.5">Add photos or documents</p>
               </div>
             </Link>
 
             <Link
               href="/dashboard/team/create"
-              className="flex items-center gap-4 p-4 rounded-lg border border-hairline hover:border-purple-200 hover:bg-purple-50 hover:text-purple-700 transition-all group"
+              className="flex items-center gap-4 p-4 rounded-xl border border-hairline hover:border-purple-200 hover:bg-purple-50 hover:shadow-md hover:-translate-y-1 transition-all group duration-300"
             >
-              <div className="w-10 h-10 rounded-full bg-purple-100/50 flex items-center justify-center text-purple-600 group-hover:bg-purple-600 group-hover:text-white transition-colors">
-                <UserPlus className="w-5 h-5" />
+              <div className="w-12 h-12 rounded-full bg-purple-100/50 flex items-center justify-center text-purple-600 group-hover:bg-purple-600 group-hover:text-white transition-colors shadow-sm">
+                <UserPlus className="w-6 h-6" />
               </div>
               <div>
-                <p className="font-medium text-ink group-hover:text-purple-700">Add Team Member</p>
-                <p className="text-xs text-steel group-hover:text-purple-600/70">Invite a new system user</p>
+                <p className="font-bold text-ink group-hover:text-purple-700 transition-colors">Add Team Member</p>
+                <p className="text-xs text-steel mt-0.5">Invite a new system user</p>
               </div>
             </Link>
           </div>
