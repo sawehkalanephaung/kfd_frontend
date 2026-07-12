@@ -6,58 +6,98 @@ import { ChevronDown, ChevronUp, ImageIcon } from 'lucide-react';
 interface AboutContentSectionProps {
   title: string;
   content: string;
-  bgVariant?: 'light' | 'dark' | 'white';
+  variant?: 'split' | 'fullbleed';
   imageUrl?: string;
   imageAlignment?: 'left' | 'right';
+  textAlignment?: 'left' | 'right';
   enableSeeMore?: boolean;
+  bgVariant?: 'light' | 'dark' | 'white';
 }
 
 export default function AboutContentSection({ 
   title, 
   content, 
+  variant = 'split',
   bgVariant = 'white',
   imageUrl,
   imageAlignment = 'right',
+  textAlignment = 'left',
   enableSeeMore = false
 }: AboutContentSectionProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   
-  // Set background and text colors based on variant
-  let bgClass = "bg-canvas text-ink";
-  let titleClass = "text-[#1a3626]";
-  let contentClass = "text-slate";
-
-  if (bgVariant === 'light') {
-    bgClass = "bg-[#f0f4f1] text-ink";
-    titleClass = "text-[#1a3626]";
-    contentClass = "text-slate";
-  } else if (bgVariant === 'dark') {
-    bgClass = "bg-teal-deep text-white";
-    titleClass = "text-on-dark-muted";
-    contentClass = "text-on-dark-muted/90";
-  }
-
-  // Fallback image if none provided
   const displayImage = imageUrl ? getMediaUrl(imageUrl) : null;
 
   const isLongContent = content.length > 500;
   const showSeeMoreButton = enableSeeMore && isLongContent;
 
+  // ── Full-bleed variant: image covers entire background, text floats over it ──
+  if (variant === 'fullbleed') {
+    return (
+      <section className="relative w-full min-h-[550px] lg:min-h-[600px] flex items-center overflow-hidden">
+        {/* Background Image */}
+        {displayImage ? (
+          <div 
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ backgroundImage: `url('${displayImage}')` }}
+          />
+        ) : (
+          <div className="absolute inset-0 bg-gradient-to-br from-[#0d1f15] to-[#1a3626]" />
+        )}
+        {/* Dark gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/60" />
+
+        <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
+          <div className={`flex ${textAlignment === 'right' ? 'justify-end' : 'justify-start'}`}>
+            <div className="max-w-xl lg:max-w-lg" data-aos="fade-up">
+              <h2 className="text-4xl md:text-5xl font-serif italic text-white mb-6 drop-shadow-lg">
+                {title}
+              </h2>
+              <div 
+                className="text-white/90 text-lg leading-relaxed prose prose-invert max-w-none prose-p:mb-4 drop-shadow-md"
+                dangerouslySetInnerHTML={{ __html: content }}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // ── Split variant: side-by-side image + text ──
+  let sectionBg = "bg-canvas";
+  let titleColor = "text-[#1a3626]";
+  let textColor = "text-steel";
+  let gradientFrom = "from-white";
+
+  if (bgVariant === 'light') {
+    sectionBg = "bg-[#f7f9f7]";
+    gradientFrom = "from-[#f7f9f7]";
+  } else if (bgVariant === 'dark') {
+    sectionBg = "bg-[#0d1f15]";
+    titleColor = "text-white";
+    textColor = "text-white/80";
+    gradientFrom = "from-[#0d1f15]";
+  }
+
   const contentBlock = (
-    <div className={`flex flex-col justify-center h-full ${imageAlignment === 'right' ? 'lg:pr-12' : 'lg:pl-12'}`}>
-      <h2 className={`text-4xl md:text-5xl font-serif mb-8 ${titleClass}`}>
+    <div 
+      className="flex flex-col justify-center h-full"
+      data-aos={imageAlignment === 'right' ? 'fade-right' : 'fade-left'}
+    >
+      <h2 className={`text-4xl md:text-5xl font-serif italic mb-8 ${titleColor}`}>
         {title}
       </h2>
       
       <div className="prose prose-lg max-w-none relative">
         <div 
-          className={`text-lg md:text-xl leading-relaxed transition-all duration-500 ease-in-out prose-p:mb-4 ${contentClass} ${showSeeMoreButton && !isExpanded ? 'line-clamp-[8]' : ''}`}
+          className={`text-lg leading-relaxed prose-p:mb-4 ${textColor} ${showSeeMoreButton && !isExpanded ? 'line-clamp-[8]' : ''}`}
           dangerouslySetInnerHTML={{ __html: content }}
         />
         
         {/* Gradient fade when collapsed */}
         {showSeeMoreButton && !isExpanded && (
-          <div className={`absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t to-transparent pointer-events-none ${bgVariant === 'dark' ? 'from-[#1a3626]' : bgVariant === 'light' ? 'from-[#f0f4f1]' : 'from-white'}`}></div>
+          <div className={`absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t to-transparent pointer-events-none ${gradientFrom}`}></div>
         )}
       </div>
 
@@ -65,16 +105,16 @@ export default function AboutContentSection({
         <div className="mt-8">
           <button 
             onClick={() => setIsExpanded(!isExpanded)}
-            className={`inline-flex items-center gap-2 font-medium px-6 py-3 rounded-full transition-all ${
+            className={`inline-flex items-center gap-2 font-medium px-6 py-3 rounded-full transition-all border ${
               bgVariant === 'dark' 
-                ? 'bg-canvas/10 hover:bg-canvas/20 text-white border border-white/20' 
-                : 'bg-teal-deep/10 hover:bg-teal-deep/20 text-[#1a3626]'
+                ? 'bg-white/10 hover:bg-white/20 text-white border-white/20' 
+                : 'bg-[#1a3626]/10 hover:bg-[#1a3626]/20 text-[#1a3626] border-[#1a3626]/20'
             }`}
           >
             {isExpanded ? (
               <>Show Less <ChevronUp className="w-4 h-4" /></>
             ) : (
-              <>See More <ChevronDown className="w-4 h-4" /></>
+              <>Read More <ChevronDown className="w-4 h-4" /></>
             )}
           </button>
         </div>
@@ -83,37 +123,38 @@ export default function AboutContentSection({
   );
 
   const imageBlock = (
-    <div className="relative h-[400px] lg:h-[600px] w-full rounded-3xl overflow-hidden shadow-2xl group bg-surface flex items-center justify-center">
+    <div 
+      className="relative h-[400px] lg:h-[550px] w-full overflow-hidden group bg-surface"
+      data-aos={imageAlignment === 'right' ? 'fade-left' : 'fade-right'}
+    >
       {displayImage ? (
         <>
           <div 
             className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
             style={{ backgroundImage: `url('${displayImage}')` }}
           />
-          {/* Subtle overlay to ensure the image looks premium and fits the brand */}
-          <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-700" />
         </>
       ) : (
-        <ImageIcon size={64} className="text-gray-300" />
+        <div className="absolute inset-0 flex items-center justify-center">
+          <ImageIcon size={64} className="text-gray-300" />
+        </div>
       )}
     </div>
   );
 
   return (
-    <section className={`py-20 lg:py-32 ${bgClass} overflow-hidden`}>
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
-          
-          {/* Mobile order: Image always first, then content. Desktop order alternates */}
-          <div className={`order-1 ${imageAlignment === 'right' ? 'lg:order-2' : 'lg:order-1'}`}>
-            {imageBlock}
-          </div>
-          
-          <div className={`order-2 ${imageAlignment === 'right' ? 'lg:order-1' : 'lg:order-2'}`}>
-            {contentBlock}
-          </div>
-
+    <section className={`${sectionBg} overflow-hidden`}>
+      <div className="grid grid-cols-1 lg:grid-cols-2 items-center">
+        
+        {/* Mobile: image first. Desktop: based on imageAlignment */}
+        <div className={`order-1 ${imageAlignment === 'right' ? 'lg:order-2' : 'lg:order-1'}`}>
+          {imageBlock}
         </div>
+        
+        <div className={`order-2 ${imageAlignment === 'right' ? 'lg:order-1' : 'lg:order-2'} py-16 lg:py-24 px-6 sm:px-10 lg:px-16 xl:px-24`}>
+          {contentBlock}
+        </div>
+
       </div>
     </section>
   );

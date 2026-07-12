@@ -103,47 +103,55 @@ export default async function AboutUsPage() {
 
   return (
     <main className="flex flex-col min-h-screen">
+      {/* Section 1: KFD Overview — Split layout, image RIGHT */}
       <AboutContentSection 
-        title={heroData?.title || "About KFD"} 
+        title={heroData?.title || "KFD Overview"} 
         content={heroData?.content || "Information about KFD will be updated soon."} 
         imageUrl={heroData?.heroImageUrl || heroData?.sliderImageUrls?.[0]}
+        variant="split"
         bgVariant="white"
         imageAlignment="right"
       />
       
-      <AboutContentSection 
-        title={historyData?.title || "History"} 
-        content={historyData?.content || "Information about our history will be updated soon."} 
-        imageUrl={historyData?.heroImageUrl || historyData?.sliderImageUrls?.[0]}
-        bgVariant="dark"
-        imageAlignment="left"
-        enableSeeMore={true}
-      />
-      
+      {/* Section 2: Our Mission — Split layout, image LEFT */}
       <AboutContentSection 
         title={missionData?.title || "Our Mission"} 
         content={missionData?.content || "Information about our mission will be updated soon."} 
         imageUrl={missionData?.heroImageUrl || missionData?.sliderImageUrls?.[0]}
+        variant="split"
         bgVariant="light"
-        imageAlignment="right"
+        imageAlignment="left"
       />
       
+      {/* Section 3: Our Vision — Full-bleed background image, text RIGHT */}
       <AboutContentSection 
         title={visionData?.title || "Our Vision"} 
         content={visionData?.content || "Information about our vision will be updated soon."} 
         imageUrl={visionData?.heroImageUrl || visionData?.sliderImageUrls?.[0]}
-        bgVariant="white"
-        imageAlignment="left"
+        variant="fullbleed"
+        textAlignment="right"
       />
       
+      {/* Section 4: KFD History — Full-bleed background image, text LEFT */}
       <AboutContentSection 
-        title={objectiveData?.title || "Our Objective"} 
+        title={historyData?.title || "KFD History"} 
+        content={historyData?.content || "Information about our history will be updated soon."} 
+        imageUrl={historyData?.heroImageUrl || historyData?.sliderImageUrls?.[0]}
+        variant="fullbleed"
+        textAlignment="left"
+        enableSeeMore={true}
+      />
+      
+      {/* Section 5: KFD Objective — Full-bleed background image, text RIGHT */}
+      <AboutContentSection 
+        title={objectiveData?.title || "KFD Objective"} 
         content={objectiveData?.content || "Information about our objective will be updated soon."} 
         imageUrl={objectiveData?.heroImageUrl || objectiveData?.sliderImageUrls?.[0]}
-        bgVariant="dark"
-        imageAlignment="right"
+        variant="fullbleed"
+        textAlignment="right"
       />
       
+      {/* Section 6: Chairman Card */}
       <AboutChairmanSection 
         chairmanData={formattedChairman} 
       />
