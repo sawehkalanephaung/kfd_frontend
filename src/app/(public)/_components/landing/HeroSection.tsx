@@ -35,9 +35,15 @@ export default function HeroSection({ siteIdentity, homeContent }: { siteIdentit
       {images.map((img, idx) => (
         <div 
           key={idx}
-          className={`absolute inset-0 z-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out ${idx === currentIndex ? 'opacity-100' : 'opacity-0'}`}
-          style={{ backgroundImage: `url('${getMediaUrl(img)}')` }}
+          className={`absolute inset-0 z-0 overflow-hidden transition-opacity duration-1000 ease-in-out ${idx === currentIndex ? 'opacity-100' : 'opacity-0'}`}
         >
+          <div 
+            className={`w-full h-full bg-cover bg-center transition-transform ease-out ${idx === currentIndex ? 'scale-105' : 'scale-100'}`}
+            style={{ 
+              backgroundImage: `url('${getMediaUrl(img)}')`, 
+              transitionDuration: idx === currentIndex ? '10000ms' : '0ms' 
+            }}
+          />
           <div className="absolute inset-0 bg-gradient-to-r from-teal-deep/90 via-teal-deep/70 to-transparent"></div>
         </div>
       ))}

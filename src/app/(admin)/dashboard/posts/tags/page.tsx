@@ -7,6 +7,7 @@ import api from '@/lib/api';
 import DeleteModal from '@/components/delete-modal';
 import SlideOver from '@/components/slide-over';
 import TagForm from '@/components/tag-form';
+import EmptyState from '@/components/ui/empty-state';
 
 interface Tag {
   id: string;
@@ -135,7 +136,6 @@ export default function TagsListPage() {
             <thead className="bg-surface-soft text-steel font-medium border-b border-hairline">
               <tr>
                 <th className="px-6 py-4">Tag Name</th>
-                <th className="px-6 py-4">URL Slug</th>
                 <th className="px-6 py-4">Created Date</th>
                 <th className="px-6 py-4 text-right">Actions</th>
               </tr>
@@ -143,15 +143,21 @@ export default function TagsListPage() {
             <tbody className="divide-y divide-hairline-soft">
               {loading ? (
                 <tr>
-                  <td colSpan={4} className="px-6 py-12 text-center text-muted">
+                  <td colSpan={3} className="px-6 py-12 text-center text-muted">
                     <Loader2 className="w-6 h-6 animate-spin mx-auto mb-2" />
                     Loading tags...
                   </td>
                 </tr>
               ) : tags.length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="px-6 py-12 text-center text-steel">
-                    No tags found. Create your first one to get started.
+                  <td colSpan={3} className="px-6 py-12">
+                    <EmptyState 
+                      title="No Tags Found"
+                      description="Create your first tag to better organize and categorize your posts."
+                      icon={TagIcon}
+                      actionLabel="Create Tag"
+                      onAction={openCreateDrawer}
+                    />
                   </td>
                 </tr>
               ) : (
@@ -162,9 +168,6 @@ export default function TagsListPage() {
                         <TagIcon className="w-3.5 h-3.5 text-steel" />
                         {tag.name}
                       </div>
-                    </td>
-                    <td className="px-6 py-4 text-steel">
-                      /{tag.slug}
                     </td>
                     <td className="px-6 py-4 text-steel">
                       {tag.created_at ? new Date(tag.created_at).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : '-'}

@@ -238,11 +238,10 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                 />
               </div>
 
-              <div>
+              <div className="hidden">
                 <label className="block text-sm font-semibold text-ink mb-2">URL Slug</label>
                 <input
                   type="text"
-                  required
                   value={formData.slug}
                   onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
                   className="w-full px-4 py-3 bg-surface border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"

@@ -7,6 +7,7 @@ import api from '@/lib/api';
 import DeleteModal from '@/components/delete-modal';
 import SlideOver from '@/components/slide-over';
 import RoleForm from '@/components/role-form';
+import EmptyState from '@/components/ui/empty-state';
 
 export default function RolesDirectoryPage() {
   const [roles, setRoles] = useState<any[]>([]);
@@ -147,8 +148,14 @@ export default function RolesDirectoryPage() {
                 </tr>
               ) : roles.length === 0 ? (
                 <tr>
-                  <td colSpan={3} className="px-6 py-12 text-center text-steel">
-                    No roles found.
+                  <td colSpan={3} className="px-6 py-12">
+                    <EmptyState 
+                      title="No Roles Found"
+                      description="Get started by creating a new role to manage system permissions."
+                      icon={Shield}
+                      actionLabel="Create Role"
+                      onAction={openCreateDrawer}
+                    />
                   </td>
                 </tr>
               ) : (
