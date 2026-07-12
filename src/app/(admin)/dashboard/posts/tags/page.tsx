@@ -19,7 +19,7 @@ export default function TagsListPage() {
   const [tags, setTags] = useState<Tag[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  
+
   // Delete Modal State
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [tagToDelete, setTagToDelete] = useState<Tag | null>(null);
@@ -38,7 +38,7 @@ export default function TagsListPage() {
     try {
       setLoading(true);
       const response = await api.get('/api/v1/admin/cms/tags');
-      
+
       const data = response.data?.data || response.data || [];
       console.log('Tags API Response:', data);
       setTags(Array.isArray(data) ? data : []);
@@ -58,9 +58,9 @@ export default function TagsListPage() {
   const confirmDelete = async () => {
     if (!tagToDelete) return;
 
-      await api.delete(`/api/v1/admin/cms/tags/${tagToDelete.id}`);
-      setTags((prev) => prev.filter((t) => t.id !== tagToDelete.id));
-    };
+    await api.delete(`/api/v1/admin/cms/tags/${tagToDelete.id}`);
+    setTags((prev) => prev.filter((t) => t.id !== tagToDelete.id));
+  };
 
   const openCreateDrawer = () => {
     setIsEditMode(false);
@@ -117,7 +117,7 @@ export default function TagsListPage() {
           className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-brand-green hover:bg-primary-deep text-on-primary font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
         >
           <Plus className="w-5 h-5" />
-          Create Tag
+          Create
         </button>
       </div>
 

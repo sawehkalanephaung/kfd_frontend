@@ -14,7 +14,7 @@ export default function UsersDirectoryPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
-  
+
   // Delete Modal State
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [userToDelete, setUserToDelete] = useState<any | null>(null);
@@ -64,10 +64,10 @@ export default function UsersDirectoryPage() {
   const confirmDelete = async () => {
     if (!userToDelete) return;
 
-      await api.delete(`/api/v1/admin/users/${userToDelete.id}`);
-      setUsers((prev) => prev.filter((u) => u.id !== userToDelete.id));
-      setDeleteModalOpen(false);
-    };
+    await api.delete(`/api/v1/admin/users/${userToDelete.id}`);
+    setUsers((prev) => prev.filter((u) => u.id !== userToDelete.id));
+    setDeleteModalOpen(false);
+  };
 
   const openCreateDrawer = () => {
     setIsEditMode(false);
@@ -148,7 +148,7 @@ export default function UsersDirectoryPage() {
             className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-brand-green hover:bg-primary-deep text-on-primary font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
           >
             <Plus className="w-5 h-5" />
-            Add System User
+            ADD
           </button>
         </div>
       </div>

@@ -73,7 +73,10 @@ export default function FAQSection({ faqs }: { faqs: any[] }) {
                 <div key={faq.id || index} className="w-full">
                   <button
                     onClick={() => toggleFAQ(index)}
-                    className="w-full text-left px-8 py-6 flex items-center justify-between hover:bg-surface transition-colors focus:outline-none"
+                    aria-expanded={openIndex === index}
+                    aria-controls={`faq-content-${index}`}
+                    id={`faq-button-${index}`}
+                    className="w-full text-left px-8 py-6 flex items-center justify-between hover:bg-surface transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green"
                   >
                     <span className="font-bold text-ink pr-8">{faq.question}</span>
                     <span className="text-[#1a3626] shrink-0">
@@ -83,6 +86,9 @@ export default function FAQSection({ faqs }: { faqs: any[] }) {
                   
                   {/* Expandable Content */}
                   <div 
+                    id={`faq-content-${index}`}
+                    role="region"
+                    aria-labelledby={`faq-button-${index}`}
                     className={`overflow-hidden transition-all duration-300 ease-in-out ${
                       openIndex === index ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
                     }`}

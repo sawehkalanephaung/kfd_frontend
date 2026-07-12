@@ -131,8 +131,8 @@ export default function UserForm({ initialData, isEdit, userId, isSlideOver, onS
         </div>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 space-y-6">
+      <div className="space-y-8">
+        <div className="space-y-6">
           <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft">
             <h2 className="text-lg font-bold text-ink mb-6 flex items-center gap-2">
               <UserCircle className="w-5 h-5 text-muted" />
@@ -172,8 +172,8 @@ export default function UserForm({ initialData, isEdit, userId, isSlideOver, onS
                   required
                   value={formData.email}
                   onChange={(e) => setFormData({...formData, email: e.target.value})}
-                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                  placeholder="e.g. admin@kfd.org"
+                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-ink/40 focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                  placeholder="e.g. name@company.com"
                 />
               </div>
 
@@ -186,8 +186,8 @@ export default function UserForm({ initialData, isEdit, userId, isSlideOver, onS
                   required={!isEdit}
                   value={formData.password}
                   onChange={(e) => setFormData({...formData, password: e.target.value})}
-                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                  placeholder="••••••••"
+                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-ink/40 focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                  placeholder="Enter password"
                 />
               </div>
             </div>

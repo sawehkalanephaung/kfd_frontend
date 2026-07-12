@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Loader2, Save, ArrowLeft, Shield, AlignLeft } from 'lucide-react';
+import { Loader2, Save, ArrowLeft, Shield, CheckSquare } from 'lucide-react';
 import Link from 'next/link';
 import api from '@/lib/api';
 import toast from 'react-hot-toast';
@@ -16,18 +16,29 @@ interface RoleFormProps {
   onCancel?: () => void;
 }
 
+const AVAILABLE_PERMISSIONS = [
+  { id: 'manage_users', label: 'Manage Users', description: 'Create, edit, and delete system users and roles.' },
+  { id: 'manage_content', label: 'Manage Content', description: 'Create, edit, and publish pages, FAQs, and posts.' },
+  { id: 'view_analytics', label: 'View Analytics', description: 'Access dashboard metrics and reports.' },
+  { id: 'manage_settings', label: 'Manage Settings', description: 'Modify global system settings and configurations.' },
+];
+
 export default function RoleForm({ initialData, isEdit, roleId, isSlideOver, onSuccess, onCancel }: RoleFormProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  let initialPerms = '[]';
+  let initialPermsObj: Record<string, boolean> = {};
   if (initialData?.permissions) {
     try {
-      // Format it nicely
-      initialPerms = JSON.stringify(JSON.parse(initialData.permissions), null, 2);
+      const parsed = typeof initialData.permissions === 'string' ? JSON.parse(initialData.permissions) : initialData.permissions;
+      if (Array.isArray(parsed)) {
+         parsed.forEach(p => { initialPermsObj[p] = true; });
+      } else if (typeof parsed === 'object' && parsed !== null) {
+         initialPermsObj = parsed;
+      }
     } catch {
-      initialPerms = initialData.permissions;
+      // Keep empty if parsing fails
     }
   }
 
@@ -39,23 +50,13 @@ export default function RoleForm({ initialData, isEdit, roleId, isSlideOver, onS
   const [formData, setFormData] = useState({
     name: formatForDisplay(initialData?.name || ''),
     description: initialData?.description || '',
-    permissions: initialPerms,
+    permissions: initialPermsObj,
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setLoading(true);
-
-    // Validate JSON
-    let parsedPerms;
-    try {
-      parsedPerms = formData.permissions ? JSON.parse(formData.permissions) : [];
-    } catch (err) {
-      setError('Permissions must be a valid JSON string (e.g. ["READ", "WRITE"]).');
-      setLoading(false);
-      return;
-    }
 
     const formattedName = formData.name.toUpperCase().startsWith('ROLE_') 
       ? formData.name.toUpperCase().replace(/\s+/g, '_')
@@ -64,7 +65,7 @@ export default function RoleForm({ initialData, isEdit, roleId, isSlideOver, onS
     const payload = {
       name: formattedName,
       description: formData.description,
-      permissions: JSON.stringify(parsedPerms),
+      permissions: JSON.stringify(formData.permissions),
     };
 
     try {
@@ -89,6 +90,16 @@ export default function RoleForm({ initialData, isEdit, roleId, isSlideOver, onS
     } finally {
       setLoading(false);
     }
+  };
+
+  const togglePermission = (permId: string) => {
+    setFormData(prev => ({
+      ...prev,
+      permissions: {
+        ...prev.permissions,
+        [permId]: !prev.permissions[permId]
+      }
+    }));
   };
 
   return (
@@ -133,7 +144,7 @@ export default function RoleForm({ initialData, isEdit, roleId, isSlideOver, onS
           Role Information
         </h2>
         
-        <div className="space-y-5">
+        <div className="space-y-6">
           <div>
             <label className="block text-sm font-semibold text-ink mb-2">Role Name</label>
             <input
@@ -158,19 +169,41 @@ export default function RoleForm({ initialData, isEdit, roleId, isSlideOver, onS
             ></textarea>
           </div>
 
-          <div>
-            <label className="block text-sm font-semibold text-ink mb-2 flex items-center gap-2">
-              <AlignLeft className="w-4 h-4 text-muted" />
-              Permissions (JSON Array)
+          <div className="pt-2">
+            <label className="block text-sm font-semibold text-ink mb-4 flex items-center gap-2">
+              <CheckSquare className="w-4 h-4 text-muted" />
+              Permissions
             </label>
-            <textarea
-              rows={5}
-              value={formData.permissions}
-              onChange={(e) => setFormData({...formData, permissions: e.target.value})}
-              className="w-full px-4 py-3 bg-surface border border-hairline-strong rounded-lg text-ink font-mono text-sm placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-              placeholder={'[\n  "POST_CREATE",\n  "POST_EDIT"\n]'}
-            ></textarea>
-            <p className="text-xs text-muted mt-2">Provide a valid JSON array or object for fine-grained permissions if your app uses them.</p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {AVAILABLE_PERMISSIONS.map((perm) => (
+                <label 
+                  key={perm.id} 
+                  className={`flex items-start gap-3 p-3 border rounded-xl cursor-pointer transition-all ${
+                    formData.permissions[perm.id] 
+                      ? 'border-brand-green/50 bg-brand-green/5' 
+                      : 'border-hairline-soft hover:bg-surface/50'
+                  }`}
+                >
+                  <div className="relative flex items-center justify-center mt-0.5">
+                    <input
+                      type="checkbox"
+                      checked={!!formData.permissions[perm.id]}
+                      onChange={() => togglePermission(perm.id)}
+                      className="peer appearance-none w-5 h-5 border border-hairline-strong rounded bg-canvas checked:bg-brand-green checked:border-brand-green transition-colors cursor-pointer"
+                    />
+                    <div className="absolute text-white opacity-0 peer-checked:opacity-100 pointer-events-none transition-opacity">
+                      <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-sm font-semibold text-ink leading-tight">{perm.label}</div>
+                    <div className="text-xs text-muted mt-1 leading-snug">{perm.description}</div>
+                  </div>
+                </label>
+              ))}
+            </div>
           </div>
         </div>
       </div>

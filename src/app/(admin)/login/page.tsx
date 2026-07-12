@@ -112,7 +112,7 @@ export default function AdminLogin() {
             <div className="space-y-1.5">
               <label className="text-sm font-semibold text-slate-900 ml-1">Email Address</label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <div className="absolute z-10 inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                   <Mail className={`h-5 w-5 ${emailError ? 'text-red-500' : 'text-slate-600'}`} />
                 </div>
                 <input
@@ -123,11 +123,11 @@ export default function AdminLogin() {
                     if (emailError) setEmailError('');
                     if (error) setError('');
                   }}
-                  className={`w-full pl-11 pr-4 py-3 bg-canvas/20 border rounded-xl text-slate-900 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:border-transparent transition-all backdrop-blur-md ${emailError
+                  className={`w-full pl-11 pr-4 py-3 bg-canvas/20 border rounded-xl text-slate-900 placeholder:text-slate-500/70 focus:outline-none focus:ring-2 focus:border-transparent transition-all backdrop-blur-md ${emailError
                     ? 'border-red-500/50 focus:ring-red-500'
                     : 'border-white/40 focus:ring-brand-green'
                     }`}
-                  placeholder="admin@kfd.org"
+                  placeholder="e.g. name@company.com"
                 />
               </div>
               {emailError && <p className="text-red-600 text-xs font-medium ml-1 mt-1 animate-in slide-in-from-top-1">{emailError}</p>}
@@ -137,7 +137,7 @@ export default function AdminLogin() {
             <div className="space-y-1.5">
               <label className="text-sm font-semibold text-slate-900 ml-1">Password</label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <div className="absolute z-10 inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                   <Lock className={`h-5 w-5 ${passwordError ? 'text-red-500' : 'text-slate-600'}`} />
                 </div>
                 <input
@@ -148,11 +148,11 @@ export default function AdminLogin() {
                     if (passwordError) setPasswordError('');
                     if (error) setError('');
                   }}
-                  className={`w-full pl-11 pr-12 py-3 bg-canvas/20 border rounded-xl text-slate-900 placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:border-transparent transition-all backdrop-blur-md ${passwordError
+                  className={`w-full pl-11 pr-12 py-3 bg-canvas/20 border rounded-xl text-slate-900 placeholder:text-slate-500/70 focus:outline-none focus:ring-2 focus:border-transparent transition-all backdrop-blur-md ${passwordError
                     ? 'border-red-500/50 focus:ring-red-500'
                     : 'border-white/40 focus:ring-brand-green'
                     }`}
-                  placeholder="••••••••"
+                  placeholder="Enter your password"
                 />
                 <button
                   type="button"

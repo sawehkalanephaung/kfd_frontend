@@ -22,7 +22,7 @@ export default function MediaLibraryPage() {
   const [media, setMedia] = useState<MediaAsset[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  
+
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -30,10 +30,10 @@ export default function MediaLibraryPage() {
   const [totalPages, setTotalPages] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
   const itemsPerPage = 10;
-  
+
   // Media categories (hardcoded or fetched)
   const categories = ['general', 'News', 'Hero', 'Documents'];
-  
+
   // Delete Modal State
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [mediaToDelete, setMediaToDelete] = useState<MediaAsset | null>(null);
@@ -67,7 +67,7 @@ export default function MediaLibraryPage() {
       if (selectedCategory) params.append('category', selectedCategory);
 
       const response = await api.get(`/api/v1/admin/media?${params.toString()}`);
-      
+
       const content = response.data?.content || response.data?.data?.content || response.data?.data || [];
       setMedia(Array.isArray(content) ? content : []);
       setTotalPages(response.data?.totalPages || 1);
@@ -88,9 +88,9 @@ export default function MediaLibraryPage() {
   const confirmDelete = async () => {
     if (!mediaToDelete) return;
 
-      await api.delete(`/api/v1/admin/media/${mediaToDelete.id}`);
-      setMedia((prev) => prev.filter((m) => m.id !== mediaToDelete.id));
-    };
+    await api.delete(`/api/v1/admin/media/${mediaToDelete.id}`);
+    setMedia((prev) => prev.filter((m) => m.id !== mediaToDelete.id));
+  };
 
   const getFileIcon = (fileType: string) => {
     if (!fileType) return <FileText className="w-5 h-5 text-muted" />;
@@ -134,7 +134,7 @@ export default function MediaLibraryPage() {
           className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-brand-green hover:bg-primary-deep text-on-primary font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
         >
           <UploadCloud className="w-5 h-5" />
-          Upload New
+          Upload
         </Link>
       </div>
 
@@ -159,7 +159,7 @@ export default function MediaLibraryPage() {
             className="w-full pl-10 pr-4 py-2.5 bg-surface border border-hairline-strong rounded-lg text-sm text-black focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
           />
         </div>
-        
+
         <div className="relative w-full md:w-1/4">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <Filter className="w-4 h-4 text-muted" />
@@ -274,7 +274,7 @@ export default function MediaLibraryPage() {
             </tbody>
           </table>
         </div>
-        
+
         {/* Pagination Footer */}
         {totalElements > 0 && (
           <div className="px-4 sm:px-6 py-4 border-t border-hairline flex flex-col md:flex-row items-center justify-between gap-4 bg-surface-soft">

@@ -12,7 +12,7 @@ export default function RolesDirectoryPage() {
   const [roles, setRoles] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  
+
   // Delete Modal State
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [roleToDelete, setRoleToDelete] = useState<any | null>(null);
@@ -49,10 +49,10 @@ export default function RolesDirectoryPage() {
   const confirmDelete = async () => {
     if (!roleToDelete) return;
 
-      await api.delete(`/api/v1/admin/roles/${roleToDelete.id}`);
-      setRoles((prev) => prev.filter((r) => r.id !== roleToDelete.id));
-      setDeleteModalOpen(false);
-    };
+    await api.delete(`/api/v1/admin/roles/${roleToDelete.id}`);
+    setRoles((prev) => prev.filter((r) => r.id !== roleToDelete.id));
+    setDeleteModalOpen(false);
+  };
 
   const openCreateDrawer = () => {
     setIsEditMode(false);
@@ -115,7 +115,7 @@ export default function RolesDirectoryPage() {
           className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-brand-green hover:bg-primary-deep text-on-primary font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
         >
           <Plus className="w-5 h-5" />
-          Create Role
+          ADD
         </button>
       </div>
 

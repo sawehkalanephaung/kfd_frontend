@@ -111,7 +111,7 @@ export default function ContactSettingsForm({ initialData }: ContactSettingsForm
           {error}
         </div>
       )}
-      
+
       {successMsg && (
         <div className="bg-brand-green-soft text-brand-green-dark p-4 rounded-full border border-brand-green/20 text-sm font-medium">
           {successMsg}
@@ -143,7 +143,7 @@ export default function ContactSettingsForm({ initialData }: ContactSettingsForm
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        
+
         {/* Left Column: General Contact Info */}
         <div className="space-y-6">
           <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft">
@@ -153,7 +153,7 @@ export default function ContactSettingsForm({ initialData }: ContactSettingsForm
             </h2>
             <div className="space-y-5">
               <div>
-                <label className="block text-sm font-semibold text-ink mb-2">Primary Contact Email</label>
+                <label className="block text-sm font-semibold text-ink mb-2">Email</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <Mail className="h-5 w-5 text-muted" />
@@ -162,7 +162,7 @@ export default function ContactSettingsForm({ initialData }: ContactSettingsForm
                     type="email"
                     required
                     value={formData.contactEmail}
-                    onChange={(e) => setFormData({...formData, contactEmail: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, contactEmail: e.target.value })}
                     className="w-full pl-10 pr-4 py-3 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
                     placeholder="contact@kfd.org"
                   />
@@ -174,7 +174,7 @@ export default function ContactSettingsForm({ initialData }: ContactSettingsForm
                 <textarea
                   rows={4}
                   value={formData.physicalAddress}
-                  onChange={(e) => setFormData({...formData, physicalAddress: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, physicalAddress: e.target.value })}
                   className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
                   placeholder="123 Organization Street, City, Country"
                 ></textarea>
@@ -189,7 +189,7 @@ export default function ContactSettingsForm({ initialData }: ContactSettingsForm
                   <textarea
                     rows={2}
                     value={formData.officeHours}
-                    onChange={(e) => setFormData({...formData, officeHours: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, officeHours: e.target.value })}
                     className="w-full pl-10 pr-4 py-3 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
                     placeholder="Monday - Friday:&#10;8:00 am - 5:00 pm"
                   ></textarea>
@@ -202,7 +202,7 @@ export default function ContactSettingsForm({ initialData }: ContactSettingsForm
 
         {/* Right Column: Dynamic Lists */}
         <div className="space-y-6">
-          
+
           {/* Phone Numbers List */}
           <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft">
             <div className="flex items-center justify-between mb-6">
@@ -219,7 +219,7 @@ export default function ContactSettingsForm({ initialData }: ContactSettingsForm
                 <Plus className="w-5 h-5" />
               </button>
             </div>
-            
+
             <div className="space-y-3">
               {phoneNumbers.map((phone, idx) => (
                 <div key={idx} className="flex items-center gap-2">
@@ -250,7 +250,7 @@ export default function ContactSettingsForm({ initialData }: ContactSettingsForm
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-lg font-bold text-ink flex items-center gap-2">
                 <ListChecks className="w-5 h-5 text-muted" />
-                Inquiry Types (Dropdown)
+                Inquiry Types
               </h2>
               <button
                 type="button"
@@ -261,7 +261,7 @@ export default function ContactSettingsForm({ initialData }: ContactSettingsForm
                 <Plus className="w-5 h-5" />
               </button>
             </div>
-            
+
             <p className="text-xs text-steel mb-4">
               These will appear as dropdown options on the public Contact Us form.
             </p>

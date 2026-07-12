@@ -17,8 +17,25 @@ const sourceCodePro = Source_Code_Pro({
 });
 
 export const metadata: Metadata = {
-  title: "KFD",
-  description: "Karen Forest Department Application",
+  title: {
+    default: "Kawthoolei Forestry Department",
+    template: "%s | KFD"
+  },
+  description: "The Kawthoolei Forest Department safeguards the interconnected webs of biodiversity and communities through conservation, enforcement, and community partnership.",
+  keywords: ["Kawthoolei", "Forestry Department", "Conservation", "Environment", "Karen", "KFD"],
+  openGraph: {
+    title: "Kawthoolei Forestry Department",
+    description: "Safeguarding biodiversity and communities through conservation, enforcement, and community partnership.",
+    url: "https://kfd-kawthoolei.org",
+    siteName: "Kawthoolei Forestry Department",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Kawthoolei Forestry Department",
+    description: "Safeguarding biodiversity and communities through conservation, enforcement, and community partnership.",
+  },
 };
 
 export default function RootLayout({

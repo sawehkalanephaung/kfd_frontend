@@ -7,9 +7,15 @@ export default function PublicLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen relative">
+      <a 
+        href="#main-content" 
+        className="absolute top-0 left-0 -translate-y-full focus:translate-y-0 bg-brand-green text-on-primary font-bold px-4 py-3 z-[100] transition-transform focus:outline-none focus:ring-4 focus:ring-brand-green-dark"
+      >
+        Skip to main content
+      </a>
       <div className="print:hidden"><Navbar /></div>
-      <main className="flex-1">{children}</main>
+      <main id="main-content" className="flex-1 focus:outline-none" tabIndex={-1}>{children}</main>
       <div className="print:hidden"><Footer /></div>
     </div>
   );

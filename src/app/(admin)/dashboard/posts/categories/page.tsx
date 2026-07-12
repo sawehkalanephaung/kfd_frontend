@@ -20,7 +20,7 @@ export default function CategoriesListPage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  
+
   // Delete Modal State
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [categoryToDelete, setCategoryToDelete] = useState<Category | null>(null);
@@ -39,7 +39,7 @@ export default function CategoriesListPage() {
     try {
       setLoading(true);
       const response = await api.get('/api/v1/admin/cms/categories');
-      
+
       // Category endpoint returns a direct List<PostCategoryDto>
       const data = response.data?.data || response.data || [];
       console.log('Categories API Response:', data);
@@ -60,9 +60,9 @@ export default function CategoriesListPage() {
   const confirmDelete = async () => {
     if (!categoryToDelete) return;
 
-      await api.delete(`/api/v1/admin/cms/categories/${categoryToDelete.id}`);
-      setCategories((prev) => prev.filter((c) => c.id !== categoryToDelete.id));
-    };
+    await api.delete(`/api/v1/admin/cms/categories/${categoryToDelete.id}`);
+    setCategories((prev) => prev.filter((c) => c.id !== categoryToDelete.id));
+  };
 
   const openCreateDrawer = () => {
     setIsEditMode(false);
@@ -119,7 +119,8 @@ export default function CategoriesListPage() {
           className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-brand-green hover:bg-primary-deep text-on-primary font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
         >
           <Plus className="w-5 h-5" />
-          Create Category
+          ADD
+
         </button>
       </div>
 
