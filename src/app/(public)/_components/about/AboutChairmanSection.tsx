@@ -2,6 +2,46 @@ import Link from "next/link";
 import { ArrowRight, User } from "lucide-react";
 import { getMediaUrl } from "@/lib/api";
 
+function toSentenceCaseHTML(html: string): string {
+  if (!html) return html;
+  let cleanHtml = html.replace(/&nbsp;/ig, ' ');
+  let isInsideTag = false;
+  let result = "";
+  let newSentence = true;
+
+  for (let i = 0; i < cleanHtml.length; i++) {
+    const char = cleanHtml[i];
+    if (char === '<') {
+      isInsideTag = true;
+      result += char;
+      continue;
+    }
+    if (char === '>') {
+      isInsideTag = false;
+      result += char;
+      continue;
+    }
+    if (isInsideTag) {
+      result += char;
+    } else {
+      if (/[a-zA-Z]/.test(char)) {
+        if (newSentence) {
+          result += char.toUpperCase();
+          newSentence = false;
+        } else {
+          result += char.toLowerCase();
+        }
+      } else {
+        result += char;
+        if (/[\.\!\?]/.test(char)) {
+          newSentence = true;
+        }
+      }
+    }
+  }
+  return result;
+}
+
 export default function AboutChairmanSection({ chairmanData }: { chairmanData?: any }) {
   if (!chairmanData) {
     return (
@@ -15,7 +55,8 @@ export default function AboutChairmanSection({ chairmanData }: { chairmanData?: 
   }
 
   const chairman = chairmanData;
-  const displayImage = chairman.image ? getMediaUrl(chairman.image) : null;
+  // Override with placeholder to remove fashion model
+  const displayImage = "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=600";
 
   return (
     <section id="chairman" className="py-24 bg-canvas" data-aos="fade-up">
@@ -45,8 +86,8 @@ export default function AboutChairmanSection({ chairmanData }: { chairmanData?: 
               )}
               {chairman.bio && (
                 <div 
-                  className="text-steel mb-8 text-base leading-relaxed line-clamp-5 prose prose-green max-w-none break-words overflow-hidden"
-                  dangerouslySetInnerHTML={{ __html: chairman.bio }}
+                  className="text-steel mb-8 text-base leading-relaxed line-clamp-5 prose prose-green max-w-none break-words whitespace-pre-wrap overflow-hidden [&_*]:!bg-transparent [&_*]:!text-inherit"
+                  dangerouslySetInnerHTML={{ __html: toSentenceCaseHTML(chairman.bio) }}
                 />
               )}
               {chairman.id && (

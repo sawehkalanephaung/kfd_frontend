@@ -14,9 +14,9 @@ interface AboutContentSectionProps {
   bgVariant?: 'light' | 'dark' | 'white';
 }
 
-export default function AboutContentSection({ 
-  title, 
-  content, 
+export default function AboutContentSection({
+  title,
+  content,
   variant = 'split',
   bgVariant = 'white',
   imageUrl,
@@ -25,10 +25,12 @@ export default function AboutContentSection({
   enableSeeMore = false
 }: AboutContentSectionProps) {
   const [isExpanded, setIsExpanded] = useState(false);
-  
+
   const displayImage = imageUrl ? getMediaUrl(imageUrl) : null;
 
-  const isLongContent = content.length > 500;
+  const sanitizedContent = content ? content.replace(/&nbsp;/g, ' ') : '';
+
+  const isLongContent = sanitizedContent.length > 500;
   const showSeeMoreButton = enableSeeMore && isLongContent;
 
   // ── Full-bleed variant: image covers entire background, text floats over it ──
@@ -37,25 +39,25 @@ export default function AboutContentSection({
       <section className="relative w-full min-h-[550px] lg:min-h-[600px] flex items-center overflow-hidden">
         {/* Background Image */}
         {displayImage ? (
-          <div 
+          <div
             className="absolute inset-0 bg-cover bg-center"
             style={{ backgroundImage: `url('${displayImage}')` }}
           />
         ) : (
           <div className="absolute inset-0 bg-gradient-to-br from-[#0d1f15] to-[#1a3626]" />
         )}
-        {/* Dark gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/60" />
+        {/* Lighter overlay to let the glassmorphism card stand out */}
+        <div className="absolute inset-0 bg-black/30" />
 
         <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
           <div className={`flex ${textAlignment === 'right' ? 'justify-end' : 'justify-start'}`}>
-            <div className="max-w-xl lg:max-w-lg" data-aos="fade-up">
+            <div className="max-w-xl lg:max-w-lg p-8 md:p-10 rounded-3xl bg-black/30 backdrop-blur-sm border border-white/5 shadow-2xl" data-aos="fade-up">
               <h2 className="text-4xl md:text-5xl font-serif italic text-white mb-6 drop-shadow-lg">
                 {title}
               </h2>
-              <div 
-                className="text-white/90 text-lg leading-relaxed prose prose-invert max-w-none prose-p:mb-4 drop-shadow-md"
-                dangerouslySetInnerHTML={{ __html: content }}
+              <div
+                className="text-white/90 text-lg leading-relaxed prose prose-invert max-w-none prose-p:mb-4 drop-shadow-md break-words whitespace-pre-wrap [&_*]:!bg-transparent [&_*]:!text-inherit"
+                dangerouslySetInnerHTML={{ __html: sanitizedContent }}
               />
             </div>
           </div>
@@ -81,20 +83,20 @@ export default function AboutContentSection({
   }
 
   const contentBlock = (
-    <div 
+    <div
       className="flex flex-col justify-center h-full"
       data-aos={imageAlignment === 'right' ? 'fade-right' : 'fade-left'}
     >
       <h2 className={`text-4xl md:text-5xl font-serif italic mb-8 ${titleColor}`}>
         {title}
       </h2>
-      
+
       <div className="prose prose-lg max-w-none relative">
-        <div 
-          className={`text-lg leading-relaxed prose-p:mb-4 ${textColor} ${showSeeMoreButton && !isExpanded ? 'line-clamp-[8]' : ''}`}
-          dangerouslySetInnerHTML={{ __html: content }}
+        <div
+          className={`text-lg leading-relaxed prose-p:mb-4 ${textColor} ${showSeeMoreButton && !isExpanded ? 'line-clamp-[8]' : ''} break-words whitespace-pre-wrap [&_*]:!bg-transparent [&_*]:!text-inherit`}
+          dangerouslySetInnerHTML={{ __html: sanitizedContent }}
         />
-        
+
         {/* Gradient fade when collapsed */}
         {showSeeMoreButton && !isExpanded && (
           <div className={`absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t to-transparent pointer-events-none ${gradientFrom}`}></div>
@@ -103,13 +105,12 @@ export default function AboutContentSection({
 
       {showSeeMoreButton && (
         <div className="mt-8">
-          <button 
+          <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className={`inline-flex items-center gap-2 font-medium px-6 py-3 rounded-full transition-all border ${
-              bgVariant === 'dark' 
-                ? 'bg-white/10 hover:bg-white/20 text-white border-white/20' 
-                : 'bg-[#1a3626]/10 hover:bg-[#1a3626]/20 text-[#1a3626] border-[#1a3626]/20'
-            }`}
+            className={`inline-flex items-center gap-2 font-medium px-6 py-3 rounded-full transition-all border ${bgVariant === 'dark'
+              ? 'bg-white/10 hover:bg-white/20 text-white border-white/20'
+              : 'bg-[#1a3626]/10 hover:bg-[#1a3626]/20 text-[#1a3626] border-[#1a3626]/20'
+              }`}
           >
             {isExpanded ? (
               <>Show Less <ChevronUp className="w-4 h-4" /></>
@@ -123,13 +124,13 @@ export default function AboutContentSection({
   );
 
   const imageBlock = (
-    <div 
+    <div
       className="relative h-[400px] lg:h-[550px] w-full overflow-hidden group bg-surface"
       data-aos={imageAlignment === 'right' ? 'fade-left' : 'fade-right'}
     >
       {displayImage ? (
         <>
-          <div 
+          <div
             className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
             style={{ backgroundImage: `url('${displayImage}')` }}
           />
@@ -145,13 +146,13 @@ export default function AboutContentSection({
   return (
     <section className={`${sectionBg} overflow-hidden`}>
       <div className="grid grid-cols-1 lg:grid-cols-2 items-center">
-        
+
         {/* Mobile: image first. Desktop: based on imageAlignment */}
-        <div className={`order-1 ${imageAlignment === 'right' ? 'lg:order-2' : 'lg:order-1'}`}>
+        <div className={`order-1 min-w-0 ${imageAlignment === 'right' ? 'lg:order-2' : 'lg:order-1'}`}>
           {imageBlock}
         </div>
-        
-        <div className={`order-2 ${imageAlignment === 'right' ? 'lg:order-1' : 'lg:order-2'} py-16 lg:py-24 px-6 sm:px-10 lg:px-16 xl:px-24`}>
+
+        <div className={`order-2 min-w-0 ${imageAlignment === 'right' ? 'lg:order-1' : 'lg:order-2'} py-16 lg:py-24 px-6 sm:px-10 lg:px-16 xl:px-24`}>
           {contentBlock}
         </div>
 
