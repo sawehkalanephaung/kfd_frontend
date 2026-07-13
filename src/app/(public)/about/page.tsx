@@ -122,7 +122,7 @@ export default async function AboutUsPage() {
       <AboutContentSection 
         title={historyData?.title || "KFD History"} 
         content={historyData?.content || "Information about our history will be updated soon."} 
-        imageUrl={historyData?.heroImageUrl || historyData?.sliderImageUrls?.[0] || "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?q=80&w=1600"}
+        imageUrl={historyData?.heroImageUrl || historyData?.sliderImageUrls?.[0]}
         variant="split"
         bgVariant="dark"
         imageAlignment="right"

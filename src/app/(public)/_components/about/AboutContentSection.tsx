@@ -34,8 +34,9 @@ export default function AboutContentSection({
 
   const sanitizedContent = content ? content.replace(/&nbsp;/g, ' ') : '';
 
-  const isLongContent = sanitizedContent.length > 500;
+  const isLongContent = sanitizedContent.length > 300;
   const showSeeMoreButton = enableSeeMore && isLongContent;
+  const shouldTruncate = (showSeeMoreButton && !isExpanded) || (!!buttonText && isLongContent);
 
   // ── Full-bleed variant: image covers entire background, text floats over it ──
   if (variant === 'fullbleed') {
@@ -97,12 +98,12 @@ export default function AboutContentSection({
 
       <div className="prose prose-lg max-w-none relative">
         <div
-          className={`text-base md:text-lg leading-relaxed prose-p:mb-4 ${textColor} ${showSeeMoreButton && !isExpanded ? 'line-clamp-[8]' : ''} break-words whitespace-pre-wrap [&_*]:!bg-transparent [&_*]:!text-inherit [&_ul]:list-[square] [&_li::marker]:text-[#1a3626] [&_li::marker]:text-sm`}
+          className={`text-base md:text-lg leading-relaxed prose-p:mb-4 ${textColor} ${shouldTruncate ? 'line-clamp-[6]' : ''} [&_img]:hidden break-words whitespace-pre-wrap [&_*]:!bg-transparent [&_*]:!text-inherit [&_ul]:list-[square] [&_li::marker]:text-[#1a3626] [&_li::marker]:text-sm`}
           dangerouslySetInnerHTML={{ __html: sanitizedContent }}
         />
 
         {/* Gradient fade when collapsed */}
-        {showSeeMoreButton && !isExpanded && (
+        {shouldTruncate && (
           <div className={`absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t to-transparent pointer-events-none ${gradientFrom}`}></div>
         )}
       </div>

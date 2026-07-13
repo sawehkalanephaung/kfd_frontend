@@ -5,13 +5,16 @@ interface CardData {
   title?: string;
   content?: string;
   imageUrl?: string;
+  heroImageUrl?: string;
+  sliderImageUrls?: string[];
 }
 
 export default function AboutMissionVisionSection({ missionData, visionData }: { missionData?: CardData, visionData?: CardData }) {
   const sanitize = (html?: string) => html ? html.replace(/&nbsp;/ig, ' ') : '';
 
-  const renderCard = (data?: CardData, defaultTitle = "Title", defaultImg = "") => {
-    const displayImage = data?.imageUrl ? getMediaUrl(data.imageUrl) : defaultImg;
+  const renderCard = (data?: CardData, defaultTitle = "Title") => {
+    const imageId = data?.heroImageUrl || data?.sliderImageUrls?.[0] || data?.imageUrl;
+    const displayImage = imageId ? getMediaUrl(imageId) : null;
     const content = sanitize(data?.content);
     
     return (
@@ -44,8 +47,8 @@ export default function AboutMissionVisionSection({ missionData, visionData }: {
     <section className="py-20 lg:py-28 bg-[#f4f4f4]">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 max-w-6xl mx-auto">
-          {renderCard(missionData, "Our Mission", "https://images.unsplash.com/photo-1511497584788-876760111969?q=80&w=1600")}
-          {renderCard(visionData, "Our Vision", "https://images.unsplash.com/photo-1448375240586-882707db888b?q=80&w=1600")}
+          {renderCard(missionData, "Our Mission")}
+          {renderCard(visionData, "Our Vision")}
         </div>
       </div>
     </section>

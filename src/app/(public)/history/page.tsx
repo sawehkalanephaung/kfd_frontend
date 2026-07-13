@@ -27,7 +27,7 @@ export default async function HistoryPage() {
 
   const title = historyData?.title || "KFD History";
   const content = historyData?.content || "Information about our history will be updated soon.";
-  const bgImage = historyData?.heroImageUrl || historyData?.sliderImageUrls?.[0] || "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?q=80&w=1600";
+  const bgImage = historyData?.heroImageUrl || historyData?.sliderImageUrls?.[0];
   const displayImage = bgImage ? getMediaUrl(bgImage) : null;
   const sanitizedContent = content ? content.replace(/&nbsp;/g, ' ') : '';
 

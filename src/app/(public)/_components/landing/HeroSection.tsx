@@ -8,15 +8,11 @@ export default function HeroSection({ siteIdentity, homeContent }: { siteIdentit
   const title = homeContent?.title || siteIdentity?.organizationName || "Protecting Kawthoolei's Forests for Future Generations";
   const description = homeContent?.content || siteIdentity?.tagline || "The Kawthoolei Forest Department safeguards the interconnected webs of biodiversity and communities through conservation, enforcement, and community partnership.";
 
-  const defaultImage = "https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&q=80";
-
   let images: string[] = [];
   if (homeContent?.sliderImageUrls && homeContent.sliderImageUrls.length > 0) {
     images = homeContent.sliderImageUrls;
   } else if (homeContent?.heroImageUrl) {
     images = [homeContent.heroImageUrl];
-  } else {
-    images = [defaultImage];
   }
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -32,21 +28,27 @@ export default function HeroSection({ siteIdentity, homeContent }: { siteIdentit
   return (
     <section className="relative w-full h-[600px] flex items-center overflow-hidden">
       {/* Background images slider */}
-      {images.map((img, idx) => (
-        <div
-          key={idx}
-          className={`absolute inset-0 z-0 overflow-hidden transition-opacity duration-1000 ease-in-out ${idx === currentIndex ? 'opacity-100' : 'opacity-0'}`}
-        >
+      {images.length > 0 ? (
+        images.map((img, idx) => (
           <div
-            className={`w-full h-full bg-cover bg-center transition-transform ease-out ${idx === currentIndex ? 'scale-105' : 'scale-100'}`}
-            style={{
-              backgroundImage: `url('${getMediaUrl(img)}')`,
-              transitionDuration: idx === currentIndex ? '10000ms' : '0ms'
-            }}
-          />
+            key={idx}
+            className={`absolute inset-0 z-0 overflow-hidden transition-opacity duration-1000 ease-in-out ${idx === currentIndex ? 'opacity-100' : 'opacity-0'}`}
+          >
+            <div
+              className={`w-full h-full bg-cover bg-center transition-transform ease-out ${idx === currentIndex ? 'scale-105' : 'scale-100'}`}
+              style={{
+                backgroundImage: `url('${getMediaUrl(img)}')`,
+                transitionDuration: idx === currentIndex ? '10000ms' : '0ms'
+              }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-teal-deep/90 via-teal-deep/70 to-transparent"></div>
+          </div>
+        ))
+      ) : (
+        <div className="absolute inset-0 z-0 bg-[#0d1f15]">
           <div className="absolute inset-0 bg-gradient-to-r from-teal-deep/90 via-teal-deep/70 to-transparent"></div>
         </div>
-      ))}
+      )}
 
       <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl">

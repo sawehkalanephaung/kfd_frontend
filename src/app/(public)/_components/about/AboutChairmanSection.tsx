@@ -55,8 +55,7 @@ export default function AboutChairmanSection({ chairmanData }: { chairmanData?: 
   }
 
   const chairman = chairmanData;
-  // Override with placeholder to remove fashion model
-  const displayImage = "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=600";
+  const displayImage = chairman?.image ? getMediaUrl(chairman.image) : null;
 
   return (
     <section id="chairman" className="py-20 lg:py-28 bg-[#fafafa]" data-aos="fade-up">

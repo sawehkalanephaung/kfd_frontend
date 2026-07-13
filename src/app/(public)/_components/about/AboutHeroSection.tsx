@@ -10,16 +10,22 @@ export default function AboutHeroSection({
   tagline?: string, 
   bgImage?: string 
 }) {
-  const displayImage = bgImage ? getMediaUrl(bgImage) : "https://images.unsplash.com/photo-1542224566-6e85f2e6772f?q=80&w=1600";
+  const displayImage = bgImage ? getMediaUrl(bgImage) : null;
   const sanitizedTagline = tagline ? tagline.replace(/&nbsp;/ig, ' ') : '';
   
   return (
     <section className="relative w-full min-h-[600px] flex items-center bg-[#0d1f15] overflow-hidden">
       {/* Background Image */}
-      <div 
-        className="absolute inset-0 z-0 bg-cover bg-center"
-        style={{ backgroundImage: `url('${displayImage}')` }}
-      />
+      {displayImage ? (
+        <div 
+          className="absolute inset-0 z-0 bg-cover bg-center"
+          style={{ backgroundImage: `url('${displayImage}')` }}
+        />
+      ) : (
+        <div className="absolute inset-0 z-0 flex items-center justify-center opacity-20">
+          <ImageIcon size={120} className="text-white" />
+        </div>
+      )}
       {/* Gradient Overlay for Left-Aligned Text */}
       <div className="absolute inset-0 z-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
 
