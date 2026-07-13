@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { Loader2, Save, ArrowLeft, FileText, AlignLeft, Settings, Image as ImageIcon, X } from 'lucide-react';
 import Link from 'next/link';
@@ -23,7 +23,8 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [selectorMode, setSelectorMode] = useState<'none' | 'slider'>('none');
+  const [selectorMode, setSelectorMode] = useState<'none' | 'slider' | 'quill-image'>('none');
+  const quillRef = useRef<any>(null);
 
   // Form State matching the Page entity
   const [formData, setFormData] = useState({
@@ -56,6 +57,23 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
       slug: !isEdit ? generateSlug(newTitle) : prev.slug, // Auto-generate slug only on create
     }));
   };
+
+  const modules = useMemo(() => ({
+    toolbar: {
+      container: [
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+        ['bold', 'italic', 'underline', 'strike'],
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+        ['link', 'image'],
+        ['clean']
+      ],
+      handlers: {
+        image: () => {
+          setSelectorMode('quill-image');
+        }
+      }
+    }
+  }), []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -156,9 +174,11 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
               Page Content
             </h2>
             <ReactQuill
+              ref={quillRef}
               theme="snow"
               value={formData.content}
               onChange={(val) => setFormData({...formData, content: val})}
+              modules={modules}
               className="h-[400px] mb-12 text-black"
               placeholder="Enter page content. HTML tags are supported."
             />
@@ -260,11 +280,20 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
           <MediaSelector 
             isOpen={selectorMode !== 'none'} 
             onClose={() => setSelectorMode('none')}
-            multiple={true}
-            title="Select Slider Images"
+            multiple={selectorMode === 'slider'}
+            title={selectorMode === 'quill-image' ? 'Insert Image' : 'Select Slider Images'}
             onSelect={(assets) => {
-              setFormData({...formData, sliderImageIds: assets.map(a => a.id).join(', ')});
-              setSliderPreviews(assets.map(a => ({ id: a.id, url: a.fileUrl })));
+              if (selectorMode === 'quill-image') {
+                const editor = quillRef.current?.getEditor();
+                if (editor && assets.length > 0) {
+                  const range = editor.getSelection(true);
+                  editor.insertEmbed(range.index, 'image', getMediaUrl(assets[0].fileUrl));
+                  editor.setSelection(range.index + 1);
+                }
+              } else if (selectorMode === 'slider') {
+                setFormData({...formData, sliderImageIds: assets.map(a => a.id).join(', ')});
+                setSliderPreviews(assets.map(a => ({ id: a.id, url: a.fileUrl })));
+              }
             }}
           />
 
