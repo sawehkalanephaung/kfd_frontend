@@ -6,12 +6,14 @@ import { ChevronDown, ChevronUp, ImageIcon } from 'lucide-react';
 interface AboutContentSectionProps {
   title: string;
   content: string;
-  variant?: 'split' | 'fullbleed';
+  variant?: 'split' | 'fullbleed' | 'text-only';
   imageUrl?: string;
   imageAlignment?: 'left' | 'right';
   textAlignment?: 'left' | 'right';
   enableSeeMore?: boolean;
   bgVariant?: 'light' | 'dark' | 'white';
+  buttonText?: string;
+  buttonLink?: string;
 }
 
 export default function AboutContentSection({
@@ -22,7 +24,9 @@ export default function AboutContentSection({
   imageUrl,
   imageAlignment = 'right',
   textAlignment = 'left',
-  enableSeeMore = false
+  enableSeeMore = false,
+  buttonText,
+  buttonLink
 }: AboutContentSectionProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -52,7 +56,7 @@ export default function AboutContentSection({
         <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
           <div className={`flex ${textAlignment === 'right' ? 'justify-end' : 'justify-start'}`}>
             <div className="max-w-xl lg:max-w-lg p-8 md:p-10 rounded-3xl bg-black/30 backdrop-blur-sm border border-white/5 shadow-2xl" data-aos="fade-up">
-              <h2 className="text-4xl md:text-5xl font-serif italic text-white mb-6 drop-shadow-lg">
+              <h2 className="text-4xl md:text-5xl font-bold font-sans text-white mb-6 drop-shadow-lg tracking-tight">
                 {title}
               </h2>
               <div
@@ -76,10 +80,10 @@ export default function AboutContentSection({
     sectionBg = "bg-[#f7f9f7]";
     gradientFrom = "from-[#f7f9f7]";
   } else if (bgVariant === 'dark') {
-    sectionBg = "bg-[#0d1f15]";
+    sectionBg = "bg-[#1a3626]";
     titleColor = "text-white";
     textColor = "text-white/80";
-    gradientFrom = "from-[#0d1f15]";
+    gradientFrom = "from-[#1a3626]";
   }
 
   const contentBlock = (
@@ -87,13 +91,13 @@ export default function AboutContentSection({
       className="flex flex-col justify-center h-full"
       data-aos={imageAlignment === 'right' ? 'fade-right' : 'fade-left'}
     >
-      <h2 className={`text-4xl md:text-5xl font-serif italic mb-8 ${titleColor}`}>
+      <h2 className={`text-3xl md:text-4xl font-bold font-sans tracking-tight mb-8 ${titleColor}`}>
         {title}
       </h2>
 
       <div className="prose prose-lg max-w-none relative">
         <div
-          className={`text-lg leading-relaxed prose-p:mb-4 ${textColor} ${showSeeMoreButton && !isExpanded ? 'line-clamp-[8]' : ''} break-words whitespace-pre-wrap [&_*]:!bg-transparent [&_*]:!text-inherit`}
+          className={`text-base md:text-lg leading-relaxed prose-p:mb-4 ${textColor} ${showSeeMoreButton && !isExpanded ? 'line-clamp-[8]' : ''} break-words whitespace-pre-wrap [&_*]:!bg-transparent [&_*]:!text-inherit [&_ul]:list-[square] [&_li::marker]:text-[#1a3626] [&_li::marker]:text-sm`}
           dangerouslySetInnerHTML={{ __html: sanitizedContent }}
         />
 
@@ -103,19 +107,31 @@ export default function AboutContentSection({
         )}
       </div>
 
-      {showSeeMoreButton && (
+      {buttonText ? (
+        <div className="mt-8">
+          <a
+            href={buttonLink || "#"}
+            className={`inline-flex items-center gap-2 font-bold px-6 py-3 transition-all border ${bgVariant === 'dark'
+              ? 'border-white/30 text-white hover:bg-white/10'
+              : 'border-[#1a3626]/30 text-[#1a3626] hover:bg-[#1a3626]/5'
+              } text-sm uppercase tracking-wider`}
+          >
+            {buttonText}
+          </a>
+        </div>
+      ) : showSeeMoreButton && (
         <div className="mt-8">
           <button
             onClick={() => setIsExpanded(!isExpanded)}
-            className={`inline-flex items-center gap-2 font-medium px-6 py-3 rounded-full transition-all border ${bgVariant === 'dark'
-              ? 'bg-white/10 hover:bg-white/20 text-white border-white/20'
-              : 'bg-[#1a3626]/10 hover:bg-[#1a3626]/20 text-[#1a3626] border-[#1a3626]/20'
-              }`}
+            className={`inline-flex items-center gap-2 font-bold px-6 py-3 transition-all border ${bgVariant === 'dark'
+              ? 'border-white/30 text-white hover:bg-white/10'
+              : 'border-[#1a3626]/30 text-[#1a3626] hover:bg-[#1a3626]/5'
+              } text-sm uppercase tracking-wider`}
           >
             {isExpanded ? (
-              <>Show Less <ChevronUp className="w-4 h-4" /></>
+              <>SHOW LESS <ChevronUp className="w-4 h-4" /></>
             ) : (
-              <>Read More <ChevronDown className="w-4 h-4" /></>
+              <>READ MORE <ChevronDown className="w-4 h-4" /></>
             )}
           </button>
         </div>
@@ -142,6 +158,18 @@ export default function AboutContentSection({
       )}
     </div>
   );
+
+  if (variant === 'text-only') {
+    return (
+      <section className={`${sectionBg} overflow-hidden py-16 lg:py-24`}>
+        <div className="container mx-auto px-6 sm:px-10 lg:px-16 xl:px-24">
+          <div className="max-w-4xl">
+            {contentBlock}
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className={`${sectionBg} overflow-hidden`}>
