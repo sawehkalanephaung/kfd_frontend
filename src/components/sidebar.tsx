@@ -93,17 +93,29 @@ export default function Sidebar() {
   // Auto-expand the section that contains the current route.
   // Runs only on the client to avoid SSR/hydration mismatch.
   useEffect(() => {
-    const active = menuItems
-      .filter(
-        (item) =>
-          item.subItems?.some((sub) =>
-            sub.href === '/dashboard'
-              ? pathname === '/dashboard'
-              : pathname.startsWith(sub.href)
-          )
-      )
-      .map((item) => item.label);
-    setExpandedMenus(active);
+    const checkPath = (href: string) => {
+      if (href === '/dashboard/team') {
+        return pathname === '/dashboard/team' ||
+          (pathname.startsWith('/dashboard/team/') &&
+            !pathname.startsWith('/dashboard/team/users') &&
+            !pathname.startsWith('/dashboard/team/roles'));
+      }
+      return pathname === href || pathname.startsWith(href + '/');
+    };
+
+    const activeItem = menuItems.find(item => {
+      if (item.href === '/dashboard') return pathname === '/dashboard';
+      if (item.subItems) {
+        return item.subItems.some(sub => checkPath(sub.href));
+      }
+      return checkPath(item.href);
+    });
+
+    if (activeItem) {
+      setExpandedMenus((prev) => 
+        prev.includes(activeItem.label) ? prev : [...prev, activeItem.label]
+      );
+    }
   }, [pathname]);
 
   const toggleMenu = (label: string) => {
