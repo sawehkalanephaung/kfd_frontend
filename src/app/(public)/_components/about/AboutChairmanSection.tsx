@@ -1,6 +1,16 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowRight, User } from "lucide-react";
 import { getMediaUrl } from "@/lib/api";
+import { useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger, useGSAP);
+}
 
 function toSentenceCaseHTML(html: string): string {
   if (!html) return html;
@@ -43,6 +53,45 @@ function toSentenceCaseHTML(html: string): string {
 }
 
 export default function AboutChairmanSection({ chairmanData }: { chairmanData?: any }) {
+  const sectionRef = useRef<HTMLElement>(null);
+  const portraitRef = useRef<HTMLDivElement>(null);
+  const bioRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    if (!sectionRef.current || !portraitRef.current || !bioRef.current) return;
+
+    gsap.fromTo(portraitRef.current,
+      { opacity: 0, x: -50 },
+      {
+        opacity: 1,
+        x: 0,
+        duration: 1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 80%",
+          once: true
+        }
+      }
+    );
+
+    gsap.fromTo(bioRef.current,
+      { opacity: 0, x: 50 },
+      {
+        opacity: 1,
+        x: 0,
+        duration: 1,
+        ease: "power3.out",
+        delay: 0.2,
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top 80%",
+          once: true
+        }
+      }
+    );
+  }, { scope: sectionRef });
+
   if (!chairmanData) {
     return (
       <section id="chairman" className="py-24 bg-canvas">
@@ -58,14 +107,14 @@ export default function AboutChairmanSection({ chairmanData }: { chairmanData?: 
   const displayImage = chairman?.image ? getMediaUrl(chairman.image) : null;
 
   return (
-    <section id="chairman" className="py-20 lg:py-28 bg-[#fafafa]" data-aos="fade-up">
+    <section ref={sectionRef} id="chairman" className="py-20 lg:py-28 bg-[#fafafa] overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 max-w-5xl mx-auto items-center">
           {/* Portrait */}
-          <div className="lg:col-span-4 w-full h-[400px] md:h-[500px] relative bg-[#e0e0e0]">
+          <div ref={portraitRef} className="lg:col-span-4 w-full h-[400px] md:h-[500px] relative bg-[#e0e0e0] overflow-hidden rounded-xl shadow-lg group">
             {displayImage ? (
-              <div 
-                className="absolute inset-0 bg-cover bg-center grayscale contrast-125"
+              <div
+                className="absolute inset-0 bg-cover bg-center grayscale contrast-125 transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105"
                 style={{ backgroundImage: `url('${displayImage}')` }}
               ></div>
             ) : (
@@ -76,7 +125,7 @@ export default function AboutChairmanSection({ chairmanData }: { chairmanData?: 
           </div>
 
           {/* Bio Content */}
-          <div className="lg:col-span-8 flex flex-col justify-center w-full min-w-0">
+          <div ref={bioRef} className="lg:col-span-8 flex flex-col justify-center w-full min-w-0">
             <h3 className="text-3xl md:text-4xl font-serif text-[#111] mb-2">{chairman.name}</h3>
             {chairman.title && (
               <p className="text-xs md:text-sm font-bold text-[#e5a93d] uppercase tracking-wider mb-6">
@@ -84,15 +133,15 @@ export default function AboutChairmanSection({ chairmanData }: { chairmanData?: 
               </p>
             )}
             {chairman.bio && (
-              <div 
+              <div
                 className="text-[#555] mb-8 text-sm md:text-base leading-relaxed line-clamp-6 prose prose-sm max-w-none break-words whitespace-pre-wrap overflow-hidden [&_*]:!bg-transparent [&_*]:!text-inherit"
                 dangerouslySetInnerHTML={{ __html: toSentenceCaseHTML(chairman.bio) }}
               />
             )}
             {chairman.id && (
-              <Link 
-                href={`/team/${chairman.id}`} 
-                className="inline-flex items-center gap-2 font-bold px-6 py-3 transition-all border border-[#1a3626]/30 text-[#1a3626] hover:bg-[#1a3626]/5 text-sm uppercase tracking-wider w-fit"
+              <Link
+                href={`/team/${chairman.id}`}
+                className="inline-flex items-center gap-2 font-bold px-6 py-3 transition-all border border-[#1a3626]/30 text-[#1a3626] hover:bg-[#1a3626]/5 text-sm uppercase tracking-wider w-fit rounded-md"
               >
                 READ FULL PROFILE
               </Link>

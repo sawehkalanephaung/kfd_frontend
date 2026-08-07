@@ -1,8 +1,16 @@
 'use client';
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { getMediaUrl } from "@/lib/api";
+
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger, useGSAP);
+}
 
 export default function HeroSection({ siteIdentity, homeContent }: { siteIdentity: any; homeContent?: any }) {
   const title = homeContent?.title || siteIdentity?.organizationName || "Protecting Kawthoolei's Forests for Future Generations";
@@ -25,33 +33,71 @@ export default function HeroSection({ siteIdentity, homeContent }: { siteIdentit
     return () => clearInterval(interval);
   }, [images.length]);
 
+  const sectionRef = useRef<HTMLElement>(null);
+  const bgRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    // Parallax background
+    if (bgRef.current && sectionRef.current) {
+      gsap.to(bgRef.current, {
+        yPercent: 30,
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+        }
+      });
+    }
+
+    // Staggered text entry
+    if (contentRef.current) {
+      const elements = contentRef.current.children;
+      gsap.fromTo(elements, 
+        { y: 50, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          stagger: 0.2,
+          ease: "power3.out",
+          delay: 0.2
+        }
+      );
+    }
+  }, { scope: sectionRef });
+
   return (
-    <section className="relative w-full h-[600px] flex items-center overflow-hidden">
-      {/* Background images slider */}
-      {images.length > 0 ? (
-        images.map((img, idx) => (
-          <div
-            key={idx}
-            className={`absolute inset-0 z-0 overflow-hidden transition-opacity duration-1000 ease-in-out ${idx === currentIndex ? 'opacity-100' : 'opacity-0'}`}
-          >
+    <section ref={sectionRef} className="relative w-full h-[600px] flex items-center overflow-hidden bg-[#0d1f15]">
+      {/* Background images slider with Parallax wrapper */}
+      <div ref={bgRef} className="absolute inset-0 z-0 w-full h-[130%] -top-[15%]">
+        {images.length > 0 ? (
+          images.map((img, idx) => (
             <div
-              className={`w-full h-full bg-cover bg-center transition-transform ease-out ${idx === currentIndex ? 'scale-105' : 'scale-100'}`}
-              style={{
-                backgroundImage: `url('${getMediaUrl(img)}')`,
-                transitionDuration: idx === currentIndex ? '10000ms' : '0ms'
-              }}
-            />
+              key={idx}
+              className={`absolute inset-0 z-0 overflow-hidden transition-opacity duration-1000 ease-in-out ${idx === currentIndex ? 'opacity-100' : 'opacity-0'}`}
+            >
+              <div
+                className={`w-full h-full bg-cover bg-center transition-transform ease-out ${idx === currentIndex ? 'scale-105' : 'scale-100'}`}
+                style={{
+                  backgroundImage: `url('${getMediaUrl(img)}')`,
+                  transitionDuration: idx === currentIndex ? '10000ms' : '0ms'
+                }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-teal-deep/90 via-teal-deep/70 to-transparent"></div>
+            </div>
+          ))
+        ) : (
+          <div className="absolute inset-0 z-0 bg-[#0d1f15]">
             <div className="absolute inset-0 bg-gradient-to-r from-teal-deep/90 via-teal-deep/70 to-transparent"></div>
           </div>
-        ))
-      ) : (
-        <div className="absolute inset-0 z-0 bg-[#0d1f15]">
-          <div className="absolute inset-0 bg-gradient-to-r from-teal-deep/90 via-teal-deep/70 to-transparent"></div>
-        </div>
-      )}
+        )}
+      </div>
 
       <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-2xl">
+        <div ref={contentRef} className="max-w-2xl">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
             {title}
           </h1>

@@ -1,7 +1,15 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { getMediaUrl } from '@/lib/api';
 import { ChevronDown, ChevronUp, ImageIcon } from 'lucide-react';
+
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger, useGSAP);
+}
 
 interface AboutContentSectionProps {
   title: string;
@@ -37,6 +45,50 @@ export default function AboutContentSection({
   const isLongContent = sanitizedContent.length > 300;
   const showSeeMoreButton = enableSeeMore && isLongContent;
   const shouldTruncate = (showSeeMoreButton && !isExpanded) || (!!buttonText && isLongContent);
+
+  const sectionRef = useRef<HTMLElement>(null);
+  const imageColRef = useRef<HTMLDivElement>(null);
+  const textContentRef = useRef<HTMLDivElement>(null);
+  const textOnlyRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    if (!sectionRef.current) return;
+
+    // Split variant pinning
+    if (variant === 'split' && imageColRef.current) {
+      ScrollTrigger.matchMedia({
+        // desktop
+        "(min-width: 1024px)": function() {
+          ScrollTrigger.create({
+            trigger: sectionRef.current,
+            start: "top top",
+            end: "bottom bottom",
+            pin: imageColRef.current,
+            pinSpacing: false
+          });
+        }
+      });
+    }
+
+    // Text-only variant scroll scrub reveal
+    if (variant === 'text-only' && textOnlyRef.current) {
+      gsap.fromTo(textOnlyRef.current, 
+        { clipPath: "inset(0% 100% 0% 0%)", opacity: 0.2 },
+        {
+          clipPath: "inset(0% 0% 0% 0%)",
+          opacity: 1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 75%",
+            end: "bottom 75%",
+            scrub: true,
+          }
+        }
+      );
+    }
+  }, { scope: sectionRef });
+
 
   // ── Full-bleed variant: image covers entire background, text floats over it ──
   if (variant === 'fullbleed') {
@@ -90,7 +142,6 @@ export default function AboutContentSection({
   const contentBlock = (
     <div
       className="flex flex-col justify-center h-full"
-      data-aos={imageAlignment === 'right' ? 'fade-right' : 'fade-left'}
     >
       <h2 className={`text-3xl md:text-4xl font-bold font-sans tracking-tight mb-8 ${titleColor}`}>
         {title}
@@ -98,6 +149,7 @@ export default function AboutContentSection({
 
       <div className="prose prose-lg max-w-none relative">
         <div
+          ref={variant === 'text-only' ? textOnlyRef : null}
           className={`text-base md:text-lg leading-relaxed prose-p:mb-4 ${textColor} ${shouldTruncate ? 'line-clamp-[6]' : ''} [&_img]:hidden break-words whitespace-pre-wrap [&_*]:!bg-transparent [&_*]:!text-inherit [&_ul]:list-[square] [&_li::marker]:text-[#1a3626] [&_li::marker]:text-sm`}
           dangerouslySetInnerHTML={{ __html: sanitizedContent }}
         />
@@ -115,7 +167,7 @@ export default function AboutContentSection({
             className={`inline-flex items-center gap-2 font-bold px-6 py-3 transition-all border ${bgVariant === 'dark'
               ? 'border-white/30 text-white hover:bg-white/10'
               : 'border-[#1a3626]/30 text-[#1a3626] hover:bg-[#1a3626]/5'
-              } text-sm uppercase tracking-wider`}
+              } text-sm uppercase tracking-wider rounded-md`}
           >
             {buttonText}
           </a>
@@ -127,7 +179,7 @@ export default function AboutContentSection({
             className={`inline-flex items-center gap-2 font-bold px-6 py-3 transition-all border ${bgVariant === 'dark'
               ? 'border-white/30 text-white hover:bg-white/10'
               : 'border-[#1a3626]/30 text-[#1a3626] hover:bg-[#1a3626]/5'
-              } text-sm uppercase tracking-wider`}
+              } text-sm uppercase tracking-wider rounded-md`}
           >
             {isExpanded ? (
               <>SHOW LESS <ChevronUp className="w-4 h-4" /></>
@@ -142,8 +194,8 @@ export default function AboutContentSection({
 
   const imageBlock = (
     <div
-      className="relative h-[400px] lg:h-[550px] w-full overflow-hidden group bg-surface"
-      data-aos={imageAlignment === 'right' ? 'fade-left' : 'fade-right'}
+      ref={imageColRef}
+      className="relative h-[400px] lg:h-screen w-full overflow-hidden group bg-surface"
     >
       {displayImage ? (
         <>
@@ -162,7 +214,7 @@ export default function AboutContentSection({
 
   if (variant === 'text-only') {
     return (
-      <section className={`${sectionBg} overflow-hidden py-16 lg:py-24`}>
+      <section ref={sectionRef} className={`${sectionBg} overflow-hidden py-16 lg:py-24`}>
         <div className="container mx-auto px-6 sm:px-10 lg:px-16 xl:px-24">
           <div className="max-w-4xl">
             {contentBlock}
@@ -173,8 +225,8 @@ export default function AboutContentSection({
   }
 
   return (
-    <section className={`${sectionBg} overflow-hidden`}>
-      <div className="grid grid-cols-1 lg:grid-cols-2 items-center">
+    <section ref={sectionRef} className={`${sectionBg} overflow-hidden`}>
+      <div className="grid grid-cols-1 lg:grid-cols-2">
 
         {/* Mobile: image first. Desktop: based on imageAlignment */}
         <div className={`order-1 min-w-0 ${imageAlignment === 'right' ? 'lg:order-2' : 'lg:order-1'}`}>

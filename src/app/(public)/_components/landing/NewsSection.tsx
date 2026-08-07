@@ -1,6 +1,16 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowRight, Bell, CalendarDays, ImageIcon } from "lucide-react";
 import { getMediaUrl } from "@/lib/api";
+import { useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger, useGSAP);
+}
 
 export default function NewsSection({ news, notices }: { news: any[], notices?: any[] }) {
   const defaultNews = [
@@ -48,8 +58,58 @@ export default function NewsSection({ news, notices }: { news: any[], notices?: 
 
   const displayNotices = notices && notices.length > 0 ? notices : defaultNoticeBoardItems;
 
+  const sectionRef = useRef<HTMLElement>(null);
+  const newsContainerRef = useRef<HTMLDivElement>(null);
+  const noticesContainerRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    if (!sectionRef.current) return;
+
+    // Animate News Cards
+    if (newsContainerRef.current) {
+      const newsCards = gsap.utils.toArray(".gs-news-card", newsContainerRef.current);
+      gsap.fromTo(newsCards,
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          stagger: 0.15,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: newsContainerRef.current,
+            start: "top 85%",
+            once: true
+          }
+        }
+      );
+    }
+
+    // Animate Notices List
+    if (noticesContainerRef.current) {
+      const noticeItems = gsap.utils.toArray(".gs-notice-item", noticesContainerRef.current);
+      gsap.fromTo(noticeItems,
+        { opacity: 0, x: 30 },
+        {
+          opacity: 1,
+          x: 0,
+          duration: 0.6,
+          stagger: 0.1,
+          ease: "power3.out",
+          delay: 0.3,
+          scrollTrigger: {
+            trigger: noticesContainerRef.current,
+            start: "top 85%",
+            once: true
+          }
+        }
+      );
+    }
+
+  }, { scope: sectionRef });
+
   return (
-    <section className="py-20 bg-canvas border-t border-hairline">
+    <section ref={sectionRef} className="py-20 bg-canvas border-t border-hairline overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
@@ -67,7 +127,7 @@ export default function NewsSection({ news, notices }: { news: any[], notices?: 
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+            <div ref={newsContainerRef} className="grid grid-cols-1 sm:grid-cols-2 gap-8">
               {displayNews.slice(0, 2).map((item, index) => {
                 const dateStr = item.publishedAt ? new Date(item.publishedAt).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }) : item.date;
                 const catName = item.category?.name || item.category;
@@ -75,7 +135,7 @@ export default function NewsSection({ news, notices }: { news: any[], notices?: 
                 const itemLink = item.slug ? `/news/${item.slug}` : item.link;
 
                 return (
-                  <div key={item.id || index} className="flex flex-col group h-full">
+                  <div key={item.id || index} className="flex flex-col group h-full gs-news-card">
                     {/* Image */}
                     <div className="relative w-full h-52 rounded-xl overflow-hidden mb-5 shrink-0 bg-surface flex items-center justify-center">
                       {imgUrl ? (
@@ -115,7 +175,7 @@ export default function NewsSection({ news, notices }: { news: any[], notices?: 
           <div className="lg:col-span-1 flex flex-col">
             <h2 className="text-2xl font-bold text-ink mb-8">Announcements & Events</h2>
 
-            <div className="bg-surface border border-hairline rounded-2xl p-6 flex flex-col gap-6 flex-grow">
+            <div ref={noticesContainerRef} className="bg-surface border border-hairline rounded-2xl p-6 flex flex-col gap-6 flex-grow">
               {displayNotices.map((notice) => {
                 const isReal = !!notice.category;
                 const type = isReal ? notice.category.name : notice.type;
@@ -136,7 +196,7 @@ export default function NewsSection({ news, notices }: { news: any[], notices?: 
                   <Link
                     key={notice.id}
                     href={link}
-                    className="group flex gap-4 p-4 -mx-4 rounded-xl hover:bg-canvas hover:shadow-sm transition-all"
+                    className="group flex gap-4 p-4 -mx-4 rounded-xl hover:bg-canvas hover:shadow-sm transition-all gs-notice-item"
                   >
                     <div className="w-10 h-10 rounded-full bg-canvas shadow-sm border border-hairline flex items-center justify-center shrink-0 group-hover:bg-surface-soft group-hover:border-green-100 group-hover:text-brand-green-dark transition-colors text-muted">
                       {(type === "Event" || type?.toLowerCase() === "event") ? <CalendarDays size={18} /> : <Bell size={18} />}
@@ -157,7 +217,7 @@ export default function NewsSection({ news, notices }: { news: any[], notices?: 
                 );
               })}
 
-              <div className="mt-auto pt-4 border-t border-hairline-strong/60 flex justify-between">
+              <div className="mt-auto pt-4 border-t border-hairline-strong/60 flex justify-between gs-notice-item">
                 <Link href="/news/announcements" className="text-xs font-semibold text-[#2a563c] hover:underline">
                   All Announcements
                 </Link>

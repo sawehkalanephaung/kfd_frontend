@@ -7,10 +7,10 @@ import AboutMissionVisionSection from "../_components/about/AboutMissionVisionSe
 async function getPageData(slug: string) {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
-    const res = await fetch(`${baseUrl}/api/v1/public/pages/${slug}`, { 
+    const res = await fetch(`${baseUrl}/api/v1/public/pages/${slug}`, {
       cache: 'no-store'
     });
-    
+
     if (!res.ok) {
       return null;
     }
@@ -26,10 +26,10 @@ async function getPageData(slug: string) {
 async function getTeamMembers() {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
-    const res = await fetch(`${baseUrl}/api/v1/public/team-members`, { 
+    const res = await fetch(`${baseUrl}/api/v1/public/team-members`, {
       cache: 'no-store'
     });
-    
+
     if (!res.ok) {
       return null;
     }
@@ -51,7 +51,7 @@ function parseI18nField(val: any): string {
         try {
           const inner = JSON.parse(parsed.richText);
           return inner.en || inner.text || Object.values(inner)[0] || parsed.richText;
-        } catch(e) {
+        } catch (e) {
           return parsed.richText;
         }
       }
@@ -106,22 +106,22 @@ export default async function AboutUsPage() {
   return (
     <main className="flex flex-col min-h-screen">
       {/* Section 1: KFD Overview — Hero layout */}
-      <AboutHeroSection 
+      <AboutHeroSection
         title={heroData?.title}
         tagline={heroData?.content}
         bgImage={heroData?.heroImageUrl || heroData?.sliderImageUrls?.[0]}
       />
-      
+
       {/* Section 2: Mission & Vision Cards */}
-      <AboutMissionVisionSection 
+      <AboutMissionVisionSection
         missionData={missionData}
         visionData={visionData}
       />
-      
+
       {/* Section 3: KFD History — Dark variant */}
-      <AboutContentSection 
-        title={historyData?.title || "KFD History"} 
-        content={historyData?.content || "Information about our history will be updated soon."} 
+      <AboutContentSection
+        title={historyData?.title || "KFD History"}
+        content={historyData?.content || "Information about our history will be updated soon."}
         imageUrl={historyData?.heroImageUrl || historyData?.sliderImageUrls?.[0]}
         variant="split"
         bgVariant="dark"
@@ -129,18 +129,18 @@ export default async function AboutUsPage() {
         buttonText="READ FULL HISTORY >"
         buttonLink="/history"
       />
-      
+
       {/* Section 4: KFD Objective — Text Only */}
-      <AboutContentSection 
-        title={objectiveData?.title || "Our Objectives"} 
-        content={objectiveData?.content || "Information about our objective will be updated soon."} 
+      <AboutContentSection
+        title={objectiveData?.title || "Our Objectives"}
+        content={objectiveData?.content || "Information about our objective will be updated soon."}
         variant="text-only"
         bgVariant="light"
       />
-      
+
       {/* Section 6: Chairman Card */}
-      <AboutChairmanSection 
-        chairmanData={formattedChairman} 
+      <AboutChairmanSection
+        chairmanData={formattedChairman}
       />
     </main>
   );

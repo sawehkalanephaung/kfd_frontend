@@ -1,16 +1,66 @@
+'use client';
+
 import Link from "next/link";
 import { ArrowRight, TreePine } from "lucide-react";
 import { getMediaUrl } from "@/lib/api";
+import { useRef } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger, useGSAP);
+}
 
 export default function DepartmentsSection({ departments }: { departments: any[] }) {
   const displayDepartments = departments || [];
+  const containerRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    if (!containerRef.current || !headerRef.current) return;
+
+    // Animate Header
+    gsap.fromTo(headerRef.current,
+      { opacity: 0, y: 30 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: headerRef.current,
+          start: "top 85%",
+          once: true
+        }
+      }
+    );
+
+    // Stagger Cards
+    const cards = containerRef.current.children;
+    gsap.fromTo(cards,
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        stagger: 0.15,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 85%",
+          once: true
+        }
+      }
+    );
+  }, { scope: containerRef });
 
   return (
     <section className="py-20 bg-surface">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Section Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
+        <div ref={headerRef} className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
           <h2 className="text-3xl font-bold text-black">Our Department Branches</h2>
           <Link
             href="/departments"
@@ -22,7 +72,7 @@ export default function DepartmentsSection({ departments }: { departments: any[]
         </div>
 
         {/* Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div ref={containerRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {displayDepartments.slice(0, 4).map((dept, index) => (
             <div
               key={dept.id || index}
@@ -31,8 +81,8 @@ export default function DepartmentsSection({ departments }: { departments: any[]
               {/* Image Section */}
               <div className="relative h-48 bg-surface flex-shrink-0 border-b border-hairline">
                 {dept.heroImageUrl ? (
-                  <div 
-                    className="absolute inset-0 bg-cover bg-center" 
+                  <div
+                    className="absolute inset-0 bg-cover bg-center transition-transform duration-700 hover:scale-105"
                     style={{ backgroundImage: `url('${getMediaUrl(dept.heroImageUrl)}')` }}
                   />
                 ) : (
