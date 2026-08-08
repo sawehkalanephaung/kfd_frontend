@@ -31,8 +31,6 @@ async function getPosts(page: number, categorySlug?: string): Promise<PaginatedP
     const params = new URLSearchParams({ page: String(page), size: "9" });
     if (categorySlug) {
       params.set("categorySlug", categorySlug);
-    } else {
-      params.set("size", "20"); // Fetch more to ensure we have enough after filtering
     }
     const res = await fetch(`${API}/api/v1/public/posts?${params}`, { cache: "no-store" });
     if (!res.ok) return null;
@@ -92,13 +90,7 @@ export default async function NewsPage({ searchParams }: PageProps) {
     getPosts(currentPage, activeCategory || undefined),
   ]);
 
-  let posts = paginatedData?.content ?? [];
-  if (!activeCategory) {
-    posts = posts.filter(post => {
-      const slug = post.category?.slug?.toLowerCase();
-      return slug !== 'announcement' && slug !== 'event';
-    });
-  }
+  const posts = paginatedData?.content ?? [];
 
   const featured = posts[0] ?? null;
   const gridPosts = posts.slice(1);
