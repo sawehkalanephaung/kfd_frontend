@@ -32,7 +32,7 @@ export default function FaqsListPage() {
     try {
       setLoading(true);
       // Fetching all FAQs (including drafts) for admin view
-      const response = await api.get('/api/faqs/admin');
+      const response = await api.get('/api/v1/admin/faqs');
       
       // FAQ endpoint returns a direct List<Faq> according to backend code
       const data = response.data?.data || response.data || [];
@@ -53,7 +53,7 @@ export default function FaqsListPage() {
   const confirmDelete = async () => {
     if (!faqToDelete) return;
 
-      await api.delete(`/api/faqs/${faqToDelete.id}`);
+      await api.delete(`/api/v1/admin/faqs/${faqToDelete.id}`);
       setFaqs((prev) => prev.filter((f) => f.id !== faqToDelete.id));
     };
 

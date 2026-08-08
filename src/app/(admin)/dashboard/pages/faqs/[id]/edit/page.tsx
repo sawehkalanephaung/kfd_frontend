@@ -17,7 +17,7 @@ export default function EditFaqPage() {
   useEffect(() => {
     const fetchFaq = async () => {
       try {
-        const res = await api.get(`/api/faqs/${id}`);
+        const res = await api.get(`/api/v1/admin/faqs/${id}`);
         setFaqData(res.data?.data || res.data);
       } catch (err: any) {
         console.error(err);

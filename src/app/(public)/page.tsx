@@ -50,7 +50,7 @@ async function fetchNews() {
 
 async function fetchFaqs() {
   try {
-    const res = await fetch(`${API}/api/faqs`, { next: { revalidate: 60 } });
+    const res = await fetch(`${API}/api/v1/public/faqs`, { next: { revalidate: 60 } });
     if (!res.ok) return [];
     const json = await res.json();
     return Array.isArray(json) ? json : (json.data || []);

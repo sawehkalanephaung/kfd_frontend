@@ -35,10 +35,10 @@ export default function FaqForm({ initialData, isEdit, faqId, onSave }: FaqFormP
 
     try {
       if (isEdit) {
-        await api.put(`/api/faqs/${faqId}`, formData);
+        await api.put(`/api/v1/admin/faqs/${faqId}`, formData);
         toast.success('Successfully updated FAQ!');
       } else {
-        await api.post('/api/faqs', formData);
+        await api.post('/api/v1/admin/faqs', formData);
         toast.success('Successfully created FAQ!');
       }
       if (onSave) {

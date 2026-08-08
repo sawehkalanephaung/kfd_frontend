@@ -24,7 +24,7 @@ async function getContactSettings(): Promise<ContactSettings | null> {
 
 async function getFaqs(): Promise<Faq[]> {
   try {
-    const res = await fetch(`${API}/api/faqs`, { cache: "no-store" });
+    const res = await fetch(`${API}/api/v1/public/faqs`, { cache: "no-store" });
     if (!res.ok) return [];
     const json = await res.json();
     return Array.isArray(json) ? json : (json.data || []);
