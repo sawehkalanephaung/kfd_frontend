@@ -2,17 +2,19 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Plus, Edit, Trash2, FolderTree, Loader2 } from 'lucide-react';
+import { Plus, Edit, Trash2, FolderTree, Loader2, Eye, EyeOff } from 'lucide-react';
 import api from '@/lib/api';
 import DeleteModal from '@/components/delete-modal';
 import SlideOver from '@/components/slide-over';
 import CategoryForm from '@/components/category-form';
+import toast from 'react-hot-toast';
 
 interface Category {
   id: string;
   name: string;
   slug: string;
   description: string;
+  show_in_public: boolean;
   created_at: string;
 }
 
@@ -20,6 +22,7 @@ export default function CategoriesListPage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [togglingId, setTogglingId] = useState<string | null>(null);
 
   // Delete Modal State
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -42,7 +45,6 @@ export default function CategoriesListPage() {
 
       // Category endpoint returns a direct List<PostCategoryDto>
       const data = response.data?.data || response.data || [];
-      console.log('Categories API Response:', data);
       setCategories(Array.isArray(data) ? data : []);
     } catch (err: any) {
       console.error(err);
@@ -59,7 +61,6 @@ export default function CategoriesListPage() {
 
   const confirmDelete = async () => {
     if (!categoryToDelete) return;
-
     await api.delete(`/api/v1/admin/cms/categories/${categoryToDelete.id}`);
     setCategories((prev) => prev.filter((c) => c.id !== categoryToDelete.id));
   };
@@ -92,13 +93,42 @@ export default function CategoriesListPage() {
     fetchCategories();
   };
 
+  /**
+   * Inline toggle: flips show_in_public and immediately PUTs the updated category.
+   */
+  const handleTogglePublic = async (category: Category) => {
+    setTogglingId(category.id);
+    const updated = { ...category, show_in_public: !category.show_in_public };
+    try {
+      await api.put(`/api/v1/admin/cms/categories/${category.id}`, {
+        name: category.name,
+        slug: category.slug,
+        description: category.description,
+        show_in_public: updated.show_in_public,
+      });
+      setCategories((prev) =>
+        prev.map((c) => (c.id === category.id ? updated : c))
+      );
+      toast.success(
+        updated.show_in_public
+          ? `"${category.name}" is now visible on the public site.`
+          : `"${category.name}" is now hidden from the public site.`
+      );
+    } catch (err: any) {
+      console.error(err);
+      toast.error('Failed to update visibility.');
+    } finally {
+      setTogglingId(null);
+    }
+  };
+
   return (
     <div>
       {/* Breadcrumb */}
       <div className="flex items-center gap-2 text-sm text-muted mb-6">
         <Link href="/dashboard" className="text-steel hover:text-ink transition-colors">Home</Link>
         <span>&gt;</span>
-        <span className="text-steel">Posts & News</span>
+        <span className="text-steel">Posts &amp; News</span>
         <span>&gt;</span>
         <span className="text-ink font-medium">Categories</span>
       </div>
@@ -120,7 +150,6 @@ export default function CategoriesListPage() {
         >
           <Plus className="w-5 h-5" />
           ADD
-
         </button>
       </div>
 
@@ -139,6 +168,7 @@ export default function CategoriesListPage() {
               <tr>
                 <th className="px-6 py-4">Category Name</th>
                 <th className="px-6 py-4">Description</th>
+                <th className="px-6 py-4">Public Visibility</th>
                 <th className="px-6 py-4">Created Date</th>
                 <th className="px-6 py-4 text-right">Actions</th>
               </tr>
@@ -146,30 +176,66 @@ export default function CategoriesListPage() {
             <tbody className="divide-y divide-hairline-soft">
               {loading ? (
                 <tr>
-                  <td colSpan={4} className="px-6 py-12 text-center text-muted">
+                  <td colSpan={5} className="px-6 py-12 text-center text-muted">
                     <Loader2 className="w-6 h-6 animate-spin mx-auto mb-2" />
                     Loading categories...
                   </td>
                 </tr>
               ) : categories.length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="px-6 py-12 text-center text-steel">
+                  <td colSpan={5} className="px-6 py-12 text-center text-steel">
                     No categories found. Create your first one to get started.
                   </td>
                 </tr>
               ) : (
                 categories.map((category) => (
                   <tr key={category.id} className="hover:bg-surface-soft transition-colors">
+                    {/* Name */}
                     <td className="px-6 py-4 font-medium text-ink">
                       <div className="truncate">{category.name}</div>
                       <div className="text-xs text-muted font-normal mt-0.5">/{category.slug}</div>
                     </td>
+
+                    {/* Description */}
                     <td className="px-6 py-4 text-steel max-w-sm truncate" title={category.description}>
                       {category.description || <span className="italic text-muted">No description</span>}
                     </td>
-                    <td className="px-6 py-4 text-steel text-sm">
-                      {category.created_at ? new Date(category.created_at).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : '-'}
+
+                    {/* Visibility Toggle */}
+                    <td className="px-6 py-4">
+                      <button
+                        onClick={() => handleTogglePublic(category)}
+                        disabled={togglingId === category.id}
+                        title={category.show_in_public ? 'Click to hide from public site' : 'Click to show on public site'}
+                        className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold border transition-all active:scale-95 disabled:opacity-60 ${
+                          category.show_in_public
+                            ? 'bg-green-50 text-green-700 border-green-200 hover:bg-green-100'
+                            : 'bg-gray-100 text-gray-500 border-gray-200 hover:bg-gray-200'
+                        }`}
+                      >
+                        {togglingId === category.id ? (
+                          <Loader2 className="w-3 h-3 animate-spin" />
+                        ) : category.show_in_public ? (
+                          <Eye className="w-3 h-3" />
+                        ) : (
+                          <EyeOff className="w-3 h-3" />
+                        )}
+                        {category.show_in_public ? 'Visible' : 'Hidden'}
+                      </button>
                     </td>
+
+                    {/* Date */}
+                    <td className="px-6 py-4 text-steel text-sm">
+                      {category.created_at
+                        ? new Date(category.created_at).toLocaleDateString(undefined, {
+                            year: 'numeric',
+                            month: 'short',
+                            day: 'numeric',
+                          })
+                        : '-'}
+                    </td>
+
+                    {/* Actions */}
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
                         <button

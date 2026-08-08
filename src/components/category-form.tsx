@@ -26,6 +26,7 @@ export default function CategoryForm({ initialData, isEdit, categoryId, isSlideO
     name: initialData?.name || '',
     slug: initialData?.slug || '',
     description: initialData?.description || '',
+    show_in_public: initialData?.show_in_public !== undefined ? initialData.show_in_public : true,
   });
 
   const generateSlug = (name: string) => {
@@ -148,6 +149,31 @@ export default function CategoryForm({ initialData, isEdit, categoryId, isSlideO
               className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
               placeholder="Provide a brief description of what this category is about..."
             ></textarea>
+          </div>
+
+          {/* Visibility Toggle */}
+          <div className="flex items-center justify-between p-4 bg-surface-soft rounded-lg border border-hairline">
+            <div>
+              <p className="text-sm font-semibold text-ink">Show on Public Site</p>
+              <p className="text-xs text-steel mt-0.5">
+                When enabled, this category appears in the public news filter bar.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setFormData((prev) => ({ ...prev, show_in_public: !prev.show_in_public }))}
+              className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-brand-green focus:ring-offset-2 ${
+                formData.show_in_public ? 'bg-brand-green' : 'bg-gray-300'
+              }`}
+              role="switch"
+              aria-checked={formData.show_in_public}
+            >
+              <span
+                className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                  formData.show_in_public ? 'translate-x-5' : 'translate-x-0'
+                }`}
+              />
+            </button>
           </div>
         </div>
       </div>
