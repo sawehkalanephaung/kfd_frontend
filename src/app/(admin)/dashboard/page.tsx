@@ -72,8 +72,7 @@ export default function DashboardPage() {
           Array.isArray(top)
             ? top.map(p => ({
               name: p.title.length > 20 ? p.title.substring(0, 20) + '...' : p.title,
-              // Fallback to a mock random number if views are 0 so we can preview the chart's look and feel
-              views: p.viewCount && p.viewCount > 0 ? p.viewCount : Math.floor(Math.random() * 500) + 50
+              views: p.viewCount || 0
             }))
             : []
         );

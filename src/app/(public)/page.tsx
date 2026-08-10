@@ -9,7 +9,8 @@ const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
 async function fetchSiteIdentity() {
   try {
-    const res = await fetch(`${API}/api/v1/public/site-identity`, { next: { revalidate: 60 } });
+    // Site identity rarely changes — cache for 1 hour
+    const res = await fetch(`${API}/api/v1/public/site-identity`, { next: { revalidate: 3600 } });
     if (!res.ok) return null;
     return (await res.json())?.data || null;
   } catch {
@@ -19,7 +20,8 @@ async function fetchSiteIdentity() {
 
 async function fetchMetrics() {
   try {
-    const res = await fetch(`${API}/api/v1/public/metrics`, { next: { revalidate: 60 } });
+    // Metrics (stats counters) rarely change — cache for 1 hour
+    const res = await fetch(`${API}/api/v1/public/metrics`, { next: { revalidate: 3600 } });
     if (!res.ok) return [];
     return (await res.json())?.data || [];
   } catch {
@@ -40,7 +42,8 @@ async function fetchDepartments() {
 
 async function fetchNews() {
   try {
-    const res = await fetch(`${API}/api/v1/public/posts?page=0&size=3`, { next: { revalidate: 60 } });
+    // Posts are editorial content — no-store for instant publish feedback
+    const res = await fetch(`${API}/api/v1/public/posts?page=0&size=3`, { cache: 'no-store' });
     if (!res.ok) return [];
     return (await res.json())?.data?.content || [];
   } catch {
@@ -50,7 +53,8 @@ async function fetchNews() {
 
 async function fetchFaqs() {
   try {
-    const res = await fetch(`${API}/api/v1/public/faqs`, { next: { revalidate: 60 } });
+    // FAQs are editorial content — no-store so admin changes reflect instantly
+    const res = await fetch(`${API}/api/v1/public/faqs`, { cache: 'no-store' });
     if (!res.ok) return [];
     const json = await res.json();
     return Array.isArray(json) ? json : (json.data || []);
@@ -61,7 +65,8 @@ async function fetchFaqs() {
 
 async function fetchHomeContent() {
   try {
-    const res = await fetch(`${API}/api/v1/public/pages/home`, { next: { revalidate: 60 } });
+    // Home page static content rarely changes — cache for 1 hour
+    const res = await fetch(`${API}/api/v1/public/pages/home`, { next: { revalidate: 3600 } });
     if (!res.ok) return null;
     return (await res.json())?.data || null;
   } catch {
@@ -71,9 +76,10 @@ async function fetchHomeContent() {
 
 async function fetchNotices() {
   try {
+    // Notices (events/announcements) are editorial — no-store for instant updates
     const [eventsRes, announcementsRes] = await Promise.all([
-      fetch(`${API}/api/v1/public/posts?page=0&size=2&categorySlug=event`, { next: { revalidate: 60 } }),
-      fetch(`${API}/api/v1/public/posts?page=0&size=2&categorySlug=announcement`, { next: { revalidate: 60 } })
+      fetch(`${API}/api/v1/public/posts?page=0&size=2&categorySlug=event`, { cache: 'no-store' }),
+      fetch(`${API}/api/v1/public/posts?page=0&size=2&categorySlug=announcement`, { cache: 'no-store' })
     ]);
     
     const events = eventsRes.ok ? (await eventsRes.json())?.data?.content || [] : [];

@@ -13,30 +13,7 @@ if (typeof window !== "undefined") {
 }
 
 export default function FAQSection({ faqs }: { faqs: any[] }) {
-  const defaultFaqs = [
-    {
-      question: "How do I apply for a community forest protection permit?",
-      answer: "You can apply for a permit by contacting your local KFD district office or submitting an initial request through our online portal. Our officers will guide you through the required documentation and assessment process."
-    },
-    {
-      question: "What are the rules and regulations within protected areas?",
-      answer: "Protected areas strictly prohibit commercial logging, hunting of endangered species, and unauthorized land clearing. Limited subsistence gathering may be allowed under specific community forestry agreements."
-    },
-    {
-      question: "How can NGOs and external entities partner with KFD?",
-      answer: "We welcome partnerships that align with our conservation goals. Interested organizations should submit a proposal detailing the project scope, intended outcomes, and community benefits to our central headquarters."
-    },
-    {
-      question: "Where can I report illegal logging or wildlife poaching?",
-      answer: "Reports can be submitted anonymously through our Contact page, or directly to our hotline. Our rangers are on duty 24/7 to respond to verified reports."
-    },
-    {
-      question: "Is KFD's forest data publicly accessible?",
-      answer: "Yes, we publish annual reports and certain datasets related to forest cover and biodiversity. Detailed mapping data may require a formal request for academic or conservation research purposes."
-    }
-  ];
-
-  const displayFaqs = faqs && faqs.length > 0 ? faqs : defaultFaqs;
+  const displayFaqs = faqs || [];
 
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 

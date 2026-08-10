@@ -13,50 +13,8 @@ if (typeof window !== "undefined") {
 }
 
 export default function NewsSection({ news, notices }: { news: any[], notices?: any[] }) {
-  const defaultNews = [
-    {
-      category: "Report",
-      date: "Aug 02, 2024",
-      title: "Annual Deforestation Rates Drop by 14% in Protected Zones",
-      excerpt: "This year's forest cover analysis indicates a substantial reduction in illegal logging activities within our most vulnerable zones.",
-      link: "/news/2"
-    },
-    {
-      category: "Wildlife",
-      date: "Jul 28, 2024",
-      title: "2024 Biodiversity Assessment Confirms Increase in Tiger Population",
-      excerpt: "Recent camera trap surveys conducted by KFD conservationists reveal a promising rise in the region's tiger numbers.",
-      link: "/news/3"
-    }
-  ];
-
-  const displayNews = news && news.length > 0 ? news : defaultNews;
-
-  const defaultNoticeBoardItems = [
-    {
-      id: 1,
-      type: "Announcement",
-      title: "New Policy on Forest Access during Dry Season",
-      date: "Sep 01, 2024",
-      link: "/news/announcements"
-    },
-    {
-      id: 2,
-      type: "Event",
-      title: "Annual Community Tree Planting Day",
-      date: "Sep 15, 2024",
-      link: "/news/events"
-    },
-    {
-      id: 3,
-      type: "Announcement",
-      title: "Deadline for Regional Forestry Permits Extended",
-      date: "Aug 28, 2024",
-      link: "/news/announcements"
-    }
-  ];
-
-  const displayNotices = notices && notices.length > 0 ? notices : defaultNoticeBoardItems;
+  const displayNews = news || [];
+  const displayNotices = notices || [];
 
   const sectionRef = useRef<HTMLElement>(null);
   const newsContainerRef = useRef<HTMLDivElement>(null);

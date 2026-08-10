@@ -31,8 +31,21 @@ export default function MediaLibraryPage() {
   const [totalElements, setTotalElements] = useState(0);
   const itemsPerPage = 10;
 
-  // Media categories (hardcoded or fetched)
-  const categories = ['general', 'News', 'Hero', 'Documents'];
+  const [categories, setCategories] = useState<string[]>([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await api.get('/api/v1/admin/cms/categories').catch(() => ({ data: [] }));
+        const data = res.data?.content || res.data?.data?.content || res.data?.data || res.data || [];
+        const cats = Array.isArray(data) ? data.map((c: any) => c.name) : [];
+        setCategories(cats);
+      } catch (err) {
+        console.error('Failed to load categories', err);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   // Delete Modal State
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
