@@ -1,3 +1,11 @@
+/**
+ * Public Home Page (Server-Side Rendered)
+ * 
+ * This page aggregates data from multiple backend endpoints to construct the landing page.
+ * It uses Next.js fetch caching strategies tailored to the volatility of each data type:
+ * - Static/Slow-changing data (Site Identity, Metrics, Home Content): Cached for 1 hour (`revalidate: 3600`).
+ * - Editorial data (News, Events, FAQs): Fetched dynamically (`cache: 'no-store'`) so admin updates reflect instantly.
+ */
 import React from 'react';
 import HeroSection from './_components/landing/HeroSection';
 import StatsSection from './_components/landing/StatsSection';
