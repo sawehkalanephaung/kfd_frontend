@@ -173,15 +173,20 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
               <AlignLeft className="w-5 h-5 text-muted" />
               Page Content
             </h2>
-            <ReactQuill
-              ref={quillRef as any}
-              theme="snow"
-              value={formData.content}
-              onChange={(val) => setFormData({...formData, content: val})}
-              modules={modules}
-              className="h-[400px] mb-12 text-black"
-              placeholder="Enter page content. HTML tags are supported."
-            />
+            {(() => {
+              const QuillComponent = ReactQuill as any;
+              return (
+                <QuillComponent
+                  ref={quillRef}
+                  theme="snow"
+                  value={formData.content}
+                  onChange={(val: string) => setFormData({...formData, content: val})}
+                  modules={modules}
+                  className="h-[400px] mb-12 text-black"
+                  placeholder="Enter page content. HTML tags are supported."
+                />
+              );
+            })()}
           </div>
 
         </div>
