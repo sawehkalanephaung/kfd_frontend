@@ -174,7 +174,7 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
               Page Content
             </h2>
             <ReactQuill
-              ref={quillRef}
+              ref={quillRef as any}
               theme="snow"
               value={formData.content}
               onChange={(val) => setFormData({...formData, content: val})}
