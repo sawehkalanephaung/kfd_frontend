@@ -1,8 +1,13 @@
 import axios from 'axios';
 
+// Use relative URL in browser to trigger Next.js rewrites and avoid Mixed Content (HTTPS -> HTTP).
+// Use direct backend URL on the server (SSR) since Node.js has no Mixed Content restrictions.
+const isServer = typeof window === 'undefined';
+const baseURL = isServer ? (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080') : '';
+
 // Create an Axios instance with base configuration
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080',
+  baseURL: baseURL,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
@@ -53,7 +58,10 @@ api.interceptors.response.use(
 export const getMediaUrl = (url: string | null | undefined) => {
   if (!url) return '';
   if (url.startsWith('http://') || url.startsWith('https://')) return url;
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+  
+  const isServer = typeof window === 'undefined';
+  const baseUrl = isServer ? (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080') : '';
+  
   return `${baseUrl}${url.startsWith('/') ? '' : '/'}${url}`;
 };
 
