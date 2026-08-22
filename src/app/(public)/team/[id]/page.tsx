@@ -3,22 +3,21 @@ import { User, ChevronLeft, Building2 } from "lucide-react";
 import { getMediaUrl } from "@/lib/api";
 import { notFound } from "next/navigation";
 
+/**
+ * Returns null only when the member does not exist (404). Any other failure
+ * throws so error.tsx renders a retry instead of a misleading "not found".
+ */
 async function getTeamMember(id: string) {
-  try {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
-    const res = await fetch(`${baseUrl}/api/v1/public/team-members/${id}`, {
-      cache: 'no-store'
-    });
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
+  const res = await fetch(`${baseUrl}/api/v1/public/team-members/${id}`, {
+    cache: 'no-store'
+  });
 
-    if (!res.ok) {
-      return null;
-    }
-    const data = await res.json();
-    return data?.data || null;
-  } catch (error) {
-    console.error(`Error fetching team member ${id}:`, error);
-    return null;
-  }
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`Failed to load team member "${id}": ${res.status}`);
+
+  const data = await res.json();
+  return data?.data || null;
 }
 
 function parseI18nField(val: any): string {

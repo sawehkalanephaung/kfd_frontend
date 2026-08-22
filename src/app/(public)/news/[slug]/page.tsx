@@ -13,27 +13,38 @@ interface PageProps {
 
 // ── Data fetcher ───────────────────────────────────────────────
 
+/**
+ * Returns null when the post genuinely does not exist (404), and throws on any
+ * other failure so error.tsx can offer a retry. Returning null for both would
+ * tell readers the article was removed when the API was simply unreachable.
+ */
 async function getPost(slug: string): Promise<NewsPostDetail | null> {
-  try {
-    const res = await fetch(`${API}/api/v1/public/posts/${slug}`, { cache: "no-store" });
-    if (!res.ok) return null;
-    const json = await res.json();
-    return json.data || null;
-  } catch {
-    return null;
-  }
+  const res = await fetch(`${API}/api/v1/public/posts/${slug}`, { cache: "no-store" });
+
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`Failed to load post "${slug}": ${res.status}`);
+
+  const json = await res.json();
+  return json.data || null;
 }
 
 // ── Metadata ───────────────────────────────────────────────────
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = await getPost(slug);
-  if (!post) return { title: "News - KFD" };
-  return {
-    title: `${post.title} - KFD`,
-    description: post.excerpt || "",
-  };
+  // Metadata must never be the reason a readable page fails to render, so a
+  // fetch problem here degrades to the generic title. The page body below does
+  // the real error handling.
+  try {
+    const post = await getPost(slug);
+    if (!post) return { title: "News - KFD" };
+    return {
+      title: `${post.title} - KFD`,
+      description: post.excerpt || "",
+    };
+  } catch {
+    return { title: "News - KFD" };
+  }
 }
 
 // ── Helpers ────────────────────────────────────────────────────
