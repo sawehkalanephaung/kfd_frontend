@@ -4,8 +4,10 @@ import { ArrowRight, MapPin, Phone, Mail, Clock } from "lucide-react";
 import logoImg from "@/assets/logo-2.png";
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
 import NewsletterForm from "./NewsletterForm";
+import { getSiteIdentity } from "@/lib/site-identity";
 
 export default async function Footer() {
+  const { organizationName, footerCopyright } = await getSiteIdentity();
   let contactSettings: any = null;
   let socialMediaLinks: any[] = [];
 
@@ -53,7 +55,7 @@ export default async function Footer() {
                 />
               </div>
               <div className="flex flex-col gap-1">
-                <span className="font-bold text-lg leading-tight tracking-tight text-white">Kawthoolei Forestry Department</span>
+                <span className="font-bold text-lg leading-tight tracking-tight text-white">{organizationName}</span>
                 <span className="font-medium mt-1 mb-1 text-sm text-white">ကီၢ်သူလ့ၤသ့ၣ်ပှၢ်ဝဲၤကျိၤ</span>
               </div>
             </Link>
@@ -123,7 +125,8 @@ export default async function Footer() {
         {/* Bottom Bar */}
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
           <p className="text-sm text-on-dark-muted">
-            Copyright © {new Date().getFullYear()} Kawthoolei Forestry Department, All rights reserved.
+            {footerCopyright
+              || `Copyright © ${new Date().getFullYear()} ${organizationName}, All rights reserved.`}
           </p>
           <div className="flex flex-wrap items-center justify-center md:justify-end gap-x-6 gap-y-3">
             <Link href="/privacy-policy" className="text-sm text-on-dark-muted hover:text-white transition-colors py-2 md:py-0">Privacy Policy</Link>
