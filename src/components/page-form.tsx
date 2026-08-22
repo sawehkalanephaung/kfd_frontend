@@ -11,7 +11,28 @@ import dynamic from 'next/dynamic';
 import { CustomSelect } from '@/components/ui/custom-select';
 import 'react-quill-new/dist/quill.snow.css';
 
-const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
+/**
+ * next/dynamic returns a component that does not forward refs, so passing `ref`
+ * to it is a type error and the underlying editor instance is unreachable. The
+ * editor is needed here to insert images at the cursor, so the import is wrapped
+ * in a component that relays a normal prop onto the real ReactQuill ref.
+ */
+const ReactQuill = dynamic(
+  async () => {
+    const { default: RQ } = await import('react-quill-new');
+
+    const ForwardedQuill = ({
+      forwardedRef,
+      ...props
+    }: React.ComponentProps<typeof RQ> & { forwardedRef?: React.Ref<any> }) => (
+      <RQ ref={forwardedRef} {...props} />
+    );
+    ForwardedQuill.displayName = 'ForwardedQuill';
+
+    return ForwardedQuill;
+  },
+  { ssr: false }
+);
 
 interface PageFormProps {
   initialData?: any;
@@ -174,7 +195,7 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
               Page Content
             </h2>
             <ReactQuill
-              ref={quillRef}
+              forwardedRef={quillRef}
               theme="snow"
               value={formData.content}
               onChange={(val) => setFormData({...formData, content: val})}
