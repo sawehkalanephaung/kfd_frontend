@@ -27,7 +27,8 @@ interface MenuItem {
   label: string;
   icon: React.ReactNode;
   href: string;
-  subItems?: { label: string; href: string }[];
+  subItems?: { label: string; href: string; allowedRoles?: string[] }[];
+  allowedRoles?: string[];
 }
 
 const menuItems: MenuItem[] = [
@@ -40,35 +41,38 @@ const menuItems: MenuItem[] = [
     label: 'Content',
     icon: <Layers className="w-5 h-5" />,
     href: '/dashboard/content-management', // This acts as a grouping identifier for active state
+    allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'],
     subItems: [
-      { label: 'All Pages', href: '/dashboard/pages' },
-      { label: 'FAQs', href: '/dashboard/pages/faqs' },
-      { label: 'All Posts', href: '/dashboard/posts' },
-      { label: 'Categories', href: '/dashboard/posts/categories' },
-      { label: 'Tags', href: '/dashboard/posts/tags' },
-      { label: 'Resources (Library)', href: '/dashboard/media' },
-      { label: ' Newsletter Subscribers', href: '/dashboard/newsletter' },
+      { label: 'All Pages', href: '/dashboard/pages', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'] },
+      { label: 'FAQs', href: '/dashboard/pages/faqs', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'] },
+      { label: 'All Posts', href: '/dashboard/posts', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'] },
+      { label: 'Categories', href: '/dashboard/posts/categories', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'] },
+      { label: 'Tags', href: '/dashboard/posts/tags', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'] },
+      { label: 'Resources (Library)', href: '/dashboard/media', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'] },
+      { label: 'Newsletter Subscribers', href: '/dashboard/newsletter', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'] },
     ],
   },
   {
     label: 'Organization',
     icon: <Building2 className="w-5 h-5" />,
     href: '/dashboard/org-management', // Grouping identifier
+    allowedRoles: ['manage_content', 'manage_settings', 'view_analytics', 'ROLE_SUPER_ADMIN'],
     subItems: [
-      { label: 'Department Branches', href: '/dashboard/organization/departments' },
-      { label: 'Team Members', href: '/dashboard/team' },
-      { label: 'Global Contact Info', href: '/dashboard/contact' },
-      { label: 'Global Metrics', href: '/dashboard/organization/metrics' },
+      { label: 'Department Branches', href: '/dashboard/organization/departments', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'] },
+      { label: 'Team Members', href: '/dashboard/team', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'] },
+      { label: 'Global Contact Info', href: '/dashboard/contact', allowedRoles: ['manage_settings', 'ROLE_SUPER_ADMIN'] },
+      { label: 'Global Metrics', href: '/dashboard/organization/metrics', allowedRoles: ['view_analytics', 'ROLE_SUPER_ADMIN'] },
     ],
   },
   {
     label: 'Administration',
     icon: <Shield className="w-5 h-5" />,
     href: '/dashboard/admin-access', // Grouping identifier
+    allowedRoles: ['manage_users', 'manage_settings', 'ROLE_SUPER_ADMIN'],
     subItems: [
-      { label: 'System Users', href: '/dashboard/team/users' },
-      { label: 'Roles & Access', href: '/dashboard/team/roles' },
-      { label: 'System Settings', href: '/dashboard/settings' },
+      { label: 'System Users', href: '/dashboard/team/users', allowedRoles: ['manage_users', 'ROLE_SUPER_ADMIN'] },
+      { label: 'Roles & Access', href: '/dashboard/team/roles', allowedRoles: ['manage_users', 'ROLE_SUPER_ADMIN'] },
+      { label: 'System Settings', href: '/dashboard/settings', allowedRoles: ['manage_settings', 'ROLE_SUPER_ADMIN'] },
     ],
   }
 ];
@@ -78,6 +82,19 @@ export default function Sidebar() {
   const router = useRouter();
   const [expandedMenus, setExpandedMenus] = useState<string[]>([]);
   const { isOpen, setIsOpen, isCollapsed } = useSidebar();
+  const [userRoles, setUserRoles] = useState<string[]>([]);
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('kfd_user');
+      if (stored) {
+        const parsedUser = JSON.parse(stored);
+        setUserRoles(parsedUser.roles || []);
+      }
+    } catch (e) {
+      console.error('Failed to parse user info', e);
+    }
+  }, []);
 
   const handleLogout = () => {
     // Clear JWT token
@@ -148,6 +165,29 @@ export default function Sidebar() {
     return checkPath(item.href);
   };
 
+  // Filter menu items based on user roles
+  const filteredMenuItems = menuItems.filter(item => {
+    if (item.allowedRoles && item.allowedRoles.length > 0) {
+      const hasAccess = item.allowedRoles.some(role => userRoles.includes(role));
+      if (!hasAccess) return false;
+    }
+    return true;
+  }).map(item => {
+    // Also filter subItems
+    if (item.subItems) {
+      return {
+        ...item,
+        subItems: item.subItems.filter(sub => {
+          if (sub.allowedRoles && sub.allowedRoles.length > 0) {
+            return sub.allowedRoles.some(role => userRoles.includes(role));
+          }
+          return true;
+        })
+      };
+    }
+    return item;
+  });
+
   return (
     <>
       {/* Mobile Backdrop */}
@@ -201,7 +241,7 @@ export default function Sidebar() {
 
         {/* Navigation */}
         <nav className={`flex-1 px-3 pb-4 space-y-1.5 ${isCollapsed ? 'overflow-visible' : 'overflow-y-auto'}`}>
-          {menuItems.map((item) => {
+          {filteredMenuItems.map((item) => {
             const active = isActive(item);
             const expanded = expandedMenus.includes(item.label);
             const hasSubItems = item.subItems && item.subItems.length > 0;

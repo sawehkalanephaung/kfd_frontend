@@ -8,6 +8,7 @@ import DeleteModal from '@/components/delete-modal';
 import SlideOver from '@/components/slide-over';
 import UserForm from '@/components/user-form';
 import { CustomSelect } from '@/components/ui/custom-select';
+import { toast } from 'sonner';
 
 export default function UsersDirectoryPage() {
   const [users, setUsers] = useState<any[]>([]);
@@ -64,9 +65,18 @@ export default function UsersDirectoryPage() {
   const confirmDelete = async () => {
     if (!userToDelete) return;
 
-    await api.delete(`/api/v1/admin/users/${userToDelete.id}`);
-    setUsers((prev) => prev.filter((u) => u.id !== userToDelete.id));
-    setDeleteModalOpen(false);
+    try {
+      await api.delete(`/api/v1/admin/users/${userToDelete.id}`);
+      setUsers((prev) => prev.filter((u) => u.id !== userToDelete.id));
+      setDeleteModalOpen(false);
+      toast.success('User deleted.');
+    } catch (err: any) {
+      // A 409 here means the API refused to remove the last active Super Admin.
+      // Keep the modal open so the message stays next to the action that caused it.
+      toast.error(
+        err?.response?.data?.message || 'Could not delete this user. Please try again.'
+      );
+    }
   };
 
   const openCreateDrawer = () => {
