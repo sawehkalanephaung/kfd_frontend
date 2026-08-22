@@ -266,3 +266,60 @@ select {
     }
   }
 }
+
+/* ─────────────────────────────────────────────
+   Rich text (admin-authored HTML)
+   ─────────────────────────────────────────────
+   Applied alongside Tailwind's `prose` classes wherever we render content that
+   an administrator typed into the editor. Prose handles typography; these rules
+   handle containment, which prose does not.
+
+   Nothing here clips content — long words wrap, and genuinely wide elements
+   (tables, code blocks) scroll inside their own box rather than pushing the
+   page sideways. */
+.rich-text {
+  /* Long URLs and unbroken strings wrap instead of widening the container.
+     `anywhere` (not `break-word`) also stops such a word from expanding the
+     element's intrinsic min-content width. */
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.rich-text img,
+.rich-text video,
+.rich-text canvas,
+.rich-text svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Embeds (YouTube, maps) keep their aspect ratio and never exceed the column. */
+.rich-text iframe {
+  max-width: 100%;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  border: 0;
+}
+
+/* Wide tables and code scroll within themselves. `display: block` is what makes
+   overflow-x apply to a table element at all. */
+.rich-text table,
+.rich-text pre {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Table cells should still wrap rather than force an enormous scroll width. */
+.rich-text td,
+.rich-text th {
+  word-break: normal;
+  overflow-wrap: anywhere;
+}
+
+/* Inline code is a common source of long unbroken tokens. */
+.rich-text code {
+  overflow-wrap: anywhere;
+}
