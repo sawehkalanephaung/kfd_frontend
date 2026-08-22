@@ -24,9 +24,9 @@ const ReactQuill = dynamic(
     const ForwardedQuill = ({
       forwardedRef,
       ...props
-    }: React.ComponentProps<typeof RQ> & { forwardedRef?: React.Ref<any> }) => (
-      <RQ ref={forwardedRef} {...props} />
-    );
+    }: React.ComponentProps<typeof RQ> & {
+      forwardedRef?: React.Ref<React.ComponentRef<typeof RQ>>;
+    }) => <RQ ref={forwardedRef} {...props} />;
     ForwardedQuill.displayName = 'ForwardedQuill';
 
     return ForwardedQuill;
