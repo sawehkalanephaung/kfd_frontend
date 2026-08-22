@@ -2,8 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Settings, Bell, ShieldAlert, Mail, FileText, Check } from 'lucide-react';
+import { Settings, Bell, ShieldAlert, Mail, FileText, Check, Building2 } from 'lucide-react';
 import { toast } from 'sonner';
+import SiteIdentityForm from '@/components/site-identity-form';
 
 type PreferenceKey = 'notifyNewSubscriber' | 'notifyFailedLogin' | 'notifyPendingReview';
 
@@ -117,6 +118,22 @@ export default function SystemSettingsPage() {
 
       {/* Settings Grid */}
       <div className="grid grid-cols-1 gap-6">
+
+        {/* Organization Identity Panel */}
+        <div className="bg-canvas rounded-lg border border-hairline overflow-hidden shadow-sm">
+          <div className="p-6 border-b border-hairline-soft bg-surface-soft flex items-center gap-3">
+            <Building2 className="w-5 h-5 text-steel" />
+            <div>
+              <h2 className="text-lg font-bold text-ink">Organization Identity</h2>
+              <p className="text-sm text-steel">
+                The name, tagline and logo shown across the public website.
+              </p>
+            </div>
+          </div>
+          <div className="p-6">
+            <SiteIdentityForm />
+          </div>
+        </div>
 
         {/* Notification Settings Panel */}
         <div className="bg-canvas rounded-lg border border-hairline overflow-hidden shadow-sm">

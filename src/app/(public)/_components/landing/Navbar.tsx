@@ -3,8 +3,10 @@ import Link from "next/link";
 import { Search, ChevronDown, Globe } from "lucide-react";
 import logoImg from "@/assets/logo-2.png";
 import MobileMenu from "./MobileMenu";
+import { getSiteIdentity } from "@/lib/site-identity";
 
 export default async function Navbar() {
+  const { organizationName } = await getSiteIdentity();
   let departments = [];
 
   try {
@@ -69,7 +71,7 @@ export default async function Navbar() {
             />
           </div>
           <div className="flex flex-col">
-            <span className="font-bold text-lg leading-none text-[#1a3626] tracking-tight">Kawthoolei Forestry Department</span>
+            <span className="font-bold text-lg leading-none text-[#1a3626] tracking-tight">{organizationName}</span>
             <span className="font-medium text-sm mt-1 text-[#1a3626]">ကီၢ်သူလ့ၤသ့ၣ်ပှၢ်ဝဲၤကျိၤ</span>
           </div>
         </Link>

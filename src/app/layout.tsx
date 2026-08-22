@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans, Source_Code_Pro } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "react-hot-toast";
+import { getSiteIdentity } from "@/lib/site-identity";
 
 const jakartaSans = Plus_Jakarta_Sans({
   variable: "--font-jakarta",
@@ -16,27 +17,38 @@ const sourceCodePro = Source_Code_Pro({
   weight: ["400", "500"],
 });
 
-export const metadata: Metadata = {
-  title: {
-    default: "Kawthoolei Forestry Department",
-    template: "%s | KFD"
-  },
-  description: "The Kawthoolei Forest Department safeguards the interconnected webs of biodiversity and communities through conservation, enforcement, and community partnership.",
-  keywords: ["Kawthoolei", "Forestry Department", "Conservation", "Environment", "Karen", "KFD"],
-  openGraph: {
-    title: "Kawthoolei Forestry Department",
-    description: "Safeguarding biodiversity and communities through conservation, enforcement, and community partnership.",
-    url: "https://kfd-kawthoolei.org",
-    siteName: "Kawthoolei Forestry Department",
-    locale: "en_US",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Kawthoolei Forestry Department",
-    description: "Safeguarding biodiversity and communities through conservation, enforcement, and community partnership.",
-  },
-};
+/**
+ * Site-wide metadata.
+ *
+ * The organization name is read from the admin-managed site identity so a rename
+ * reaches the browser tab and social cards without a code change. Descriptions
+ * and keywords stay as authored copy — they are editorial, not branding.
+ */
+export async function generateMetadata(): Promise<Metadata> {
+  const { organizationName } = await getSiteIdentity();
+
+  return {
+    title: {
+      default: organizationName,
+      template: `%s | ${organizationName}`,
+    },
+    description: "The Kawthoolei Forest Department safeguards the interconnected webs of biodiversity and communities through conservation, enforcement, and community partnership.",
+    keywords: ["Kawthoolei", "Forestry Department", "Conservation", "Environment", "Karen", "KFD"],
+    openGraph: {
+      title: organizationName,
+      description: "Safeguarding biodiversity and communities through conservation, enforcement, and community partnership.",
+      url: "https://kfd-kawthoolei.org",
+      siteName: organizationName,
+      locale: "en_US",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: organizationName,
+      description: "Safeguarding biodiversity and communities through conservation, enforcement, and community partnership.",
+    },
+  };
+}
 
 export default function RootLayout({
   children,
