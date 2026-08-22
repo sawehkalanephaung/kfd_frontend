@@ -58,6 +58,7 @@ const menuItems: MenuItem[] = [
     href: '/dashboard/org-management', // Grouping identifier
     allowedRoles: ['manage_content', 'manage_settings', 'view_analytics', 'ROLE_SUPER_ADMIN'],
     subItems: [
+      { label: 'Organization Identity', href: '/dashboard/organization/identity', allowedRoles: ['manage_settings', 'ROLE_SUPER_ADMIN'] },
       { label: 'Department Branches', href: '/dashboard/organization/departments', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'] },
       { label: 'Team Members', href: '/dashboard/team', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'] },
       { label: 'Global Contact Info', href: '/dashboard/contact', allowedRoles: ['manage_settings', 'ROLE_SUPER_ADMIN'] },
