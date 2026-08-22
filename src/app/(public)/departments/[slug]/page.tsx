@@ -35,23 +35,25 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function DepartmentPage({ params }: PageProps) {
   const { slug } = await params;
-  let departmentData = null;
-  
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"}/api/v1/public/departments/${slug}`, {
-      cache: "no-store"
-    });
-    
-    if (!res.ok) {
-      notFound();
-    }
-    
-    const json = await res.json();
-    departmentData = json.data;
-  } catch (error) {
-    console.error("Failed to fetch department", error);
+
+  // Fetch failures and missing records are different problems and must not be
+  // conflated: a network/server error is re-thrown so error.tsx can offer a retry,
+  // while a genuinely absent department still renders the 404 page.
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"}/api/v1/public/departments/${slug}`,
+    { cache: "no-store" }
+  );
+
+  if (res.status === 404) {
     notFound();
   }
+
+  if (!res.ok) {
+    throw new Error(`Failed to load department "${slug}": ${res.status}`);
+  }
+
+  const json = await res.json();
+  const departmentData = json.data;
 
   if (!departmentData) {
     notFound();
