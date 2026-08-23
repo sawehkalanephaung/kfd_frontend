@@ -12,19 +12,10 @@ import StatsSection from './_components/landing/StatsSection';
 import DepartmentsSection from './_components/landing/DepartmentsSection';
 import NewsSection from './_components/landing/NewsSection';
 import FAQSection from './_components/landing/FAQSection';
+import { getSiteIdentity } from '@/lib/site-identity';
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
-async function fetchSiteIdentity() {
-  try {
-    // Site identity rarely changes — cache for 1 hour
-    const res = await fetch(`${API}/api/v1/public/site-identity`, { next: { revalidate: 3600 } });
-    if (!res.ok) return null;
-    return (await res.json())?.data || null;
-  } catch {
-    return null;
-  }
-}
 
 async function fetchMetrics() {
   try {
@@ -108,7 +99,7 @@ async function fetchNotices() {
 
 export default async function PublicHome() {
   const [siteIdentity, metrics, departments, news, faqs, homeContent, notices] = await Promise.all([
-    fetchSiteIdentity(),
+    getSiteIdentity(),
     fetchMetrics(),
     fetchDepartments(),
     fetchNews(),

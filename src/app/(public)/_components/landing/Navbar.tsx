@@ -6,7 +6,7 @@ import MobileMenu from "./MobileMenu";
 import { getSiteIdentity } from "@/lib/site-identity";
 
 export default async function Navbar() {
-  const { organizationName } = await getSiteIdentity();
+  const { organizationName, organizationNameKaren } = await getSiteIdentity();
   let departments = [];
 
   try {
@@ -72,7 +72,9 @@ export default async function Navbar() {
           </div>
           <div className="flex flex-col">
             <span className="font-bold text-lg leading-none text-[#1a3626] tracking-tight">{organizationName}</span>
-            <span className="font-medium text-sm mt-1 text-[#1a3626]">ကီၢ်သူလ့ၤသ့ၣ်ပှၢ်ဝဲၤကျိၤ</span>
+            {organizationNameKaren && (
+              <span className="font-medium text-sm mt-1 text-[#1a3626]">{organizationNameKaren}</span>
+            )}
           </div>
         </Link>
 
