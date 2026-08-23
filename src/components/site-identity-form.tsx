@@ -10,9 +10,11 @@ import {
   Image as ImageIcon,
   Copyright,
   ExternalLink,
-  X
+  X,
+  UploadCloud
 } from 'lucide-react';
 import api, { getMediaUrl } from '@/lib/api';
+import { SITE_IDENTITY_UPDATED_EVENT } from '@/lib/site-identity';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -61,6 +63,36 @@ export default function SiteIdentityForm() {
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
 
+  const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (logoFile) {
+      const url = URL.createObjectURL(logoFile);
+      setPreviewUrl(url);
+      return () => URL.revokeObjectURL(url);
+    } else {
+      setPreviewUrl(null);
+    }
+  }, [logoFile]);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const selectedFile = e.target.files[0];
+      if (selectedFile.size > 15 * 1024 * 1024) {
+        setError('File size must be less than 15MB');
+        return;
+      }
+      setError('');
+      setLogoFile(selectedFile);
+      
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    }
+  };
+
   // Fetch on mount
   useEffect(() => {
     const fetch = async () => {
@@ -97,14 +129,32 @@ export default function SiteIdentityForm() {
     setSuccessMsg('');
     setSaving(true);
     try {
+      let finalLogoUrl = formData.logoUrl;
+
+      // 1. Upload new image if selected
+      if (logoFile) {
+        const mediaFormData = new FormData();
+        mediaFormData.append('file', logoFile);
+        mediaFormData.append('category', 'brand');
+        
+        const uploadRes = await api.post('/api/v1/admin/media/upload', mediaFormData, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
+        
+        finalLogoUrl = uploadRes.data?.data?.fileUrl || uploadRes.data?.fileUrl || '';
+      }
+
       const payload = {
         organizationName: formData.organizationName.trim(),
         organizationNameKaren: formData.organizationNameKaren.trim(),
         tagline: formData.tagline.trim(),
-        logoUrl: formData.logoUrl.trim(),
+        logoUrl: finalLogoUrl.trim(),
         footerCopyright: formData.footerCopyright.trim(),
       };
       await api.put('/api/v1/admin/site-identity', payload);
+      setFormData((prev) => ({ ...prev, logoUrl: finalLogoUrl }));
+      setLogoFile(null); // Clear file since it's uploaded
+      window.dispatchEvent(new Event(SITE_IDENTITY_UPDATED_EVENT));
       setSuccessMsg('Site identity saved successfully!');
       setTimeout(() => setSuccessMsg(''), 3000);
     } catch (err: any) {
@@ -251,63 +301,62 @@ export default function SiteIdentityForm() {
             </h3>
             <div className="space-y-4">
               <Field
-                label="Logo URL"
-                hint="Paste the full URL or relative path to your logo image (PNG, SVG, WebP recommended)."
+                label="Brand Logo"
+                hint="Upload a PNG, SVG, or WebP image for your organization's logo."
               >
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <ImageIcon className="h-5 w-5 text-muted" />
-                  </div>
-                  <input
-                    type="text"
-                    value={formData.logoUrl}
-                    onChange={(e) => set('logoUrl')(e.target.value)}
-                    placeholder="https://... or /media/logo.png"
-                    className="w-full pl-10 pr-4 py-3 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
-                  />
-                </div>
-              </Field>
-
-              {/* Logo preview */}
-              {resolvedLogo ? (
-                <div className="group relative rounded-xl overflow-hidden border border-hairline-strong aspect-square bg-canvas flex items-center justify-center p-4">
-                  <img
-                    src={resolvedLogo}
-                    alt="Logo preview"
-                    className="w-full h-full object-contain"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src = 'https://via.placeholder.com/400x300?text=Invalid+Image';
-                    }}
-                  />
+                <div className="w-full aspect-video bg-surface border border-hairline-strong rounded-xl overflow-hidden relative group flex items-center justify-center p-4">
+                  {(previewUrl || formData.logoUrl) ? (
+                    <img 
+                      src={previewUrl || getMediaUrl(formData.logoUrl)} 
+                      alt="Logo Preview" 
+                      className="w-full h-full object-contain" 
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = 'https://via.placeholder.com/400x300?text=Invalid+Image';
+                      }}
+                    />
+                  ) : (
+                    <div className="flex flex-col items-center gap-2 text-center">
+                      <ImageIcon className="w-8 h-8 text-gray-200" />
+                      <p className="text-sm text-muted">No logo uploaded</p>
+                      <p className="text-xs text-muted max-w-[150px]">Click the icon to select a file</p>
+                    </div>
+                  )}
+                  
+                  {/* Overlay for change/upload */}
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
-                    <a
-                      href={resolvedLogo}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="bg-canvas text-slate p-3 rounded-full hover:bg-surface hover:scale-110 transition-transform shadow-sm flex items-center justify-center"
-                      title="Open Image"
-                    >
-                      <ExternalLink className="w-5 h-5" />
-                    </a>
                     <button
                       type="button"
-                      onClick={() => set('logoUrl')('')}
-                      className="bg-canvas text-red-500 p-3 rounded-full hover:bg-red-50 hover:scale-110 transition-transform shadow-sm"
-                      title="Remove Image"
+                      onClick={() => fileInputRef.current?.click()}
+                      className="bg-canvas text-slate p-3 rounded-full hover:bg-surface hover:scale-110 transition-transform shadow-sm"
+                      title={(previewUrl || formData.logoUrl) ? "Change Logo" : "Upload Logo"}
                     >
-                      <X className="w-5 h-5" />
+                      <UploadCloud className="w-5 h-5" />
                     </button>
+                    {(previewUrl || formData.logoUrl) && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setLogoFile(null);
+                          setFormData({...formData, logoUrl: ''});
+                          if (fileInputRef.current) fileInputRef.current.value = '';
+                        }}
+                        className="bg-canvas text-red-500 p-3 rounded-full hover:bg-red-50 hover:scale-110 transition-transform shadow-sm"
+                        title="Remove Logo"
+                      >
+                        <X className="w-5 h-5" />
+                      </button>
+                    )}
                   </div>
                 </div>
-              ) : (
-                <div className="rounded-lg border-2 border-dashed border-hairline bg-surface flex items-center justify-center aspect-square p-4">
-                  <div className="flex flex-col items-center gap-2 text-center">
-                    <ImageIcon className="w-8 h-8 text-gray-200" />
-                    <p className="text-sm text-muted">Logo preview</p>
-                    <p className="text-xs text-muted max-w-[150px]">Enter a URL above to preview</p>
-                  </div>
-                </div>
-              )}
+
+                <input 
+                  type="file" 
+                  ref={fileInputRef} 
+                  onChange={handleFileChange} 
+                  accept="image/*"
+                  className="hidden" 
+                />
+              </Field>
             </div>
           </div>
 

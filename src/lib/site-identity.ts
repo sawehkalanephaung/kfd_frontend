@@ -1,4 +1,13 @@
 import { cache } from 'react';
+import { getMediaUrl } from '@/lib/api';
+
+/**
+ * Fired on `window` after a successful admin save, so already-mounted client
+ * components (e.g. the dashboard sidebar) can refetch without waiting for a
+ * full page navigation. Server components don't need this — they refetch on
+ * every request anyway.
+ */
+export const SITE_IDENTITY_UPDATED_EVENT = 'kfd:site-identity-updated';
 
 export interface SiteIdentity {
   id: string | null;
@@ -6,7 +15,10 @@ export interface SiteIdentity {
   /** S'gaw Karen name, shown beneath the English one in the header and footer. */
   organizationNameKaren: string | null;
   tagline: string | null;
+  /** Raw path as stored by the API (e.g. `/uploads/brand/logo.png`), not directly loadable. */
   logoUrl: string | null;
+  /** `logoUrl` resolved to an absolute, browser-loadable URL. Use this for rendering. */
+  resolvedLogoUrl: string | null;
   footerCopyright: string | null;
 }
 
@@ -24,6 +36,7 @@ const FALLBACK: SiteIdentity = {
   organizationNameKaren: 'ကီၢ်သူလ့ၤသ့ၣ်ပှၢ်ဝဲၤကျိၤ',
   tagline: null,
   logoUrl: null,
+  resolvedLogoUrl: null,
   footerCopyright: null,
 };
 
@@ -53,12 +66,15 @@ export const getSiteIdentity = cache(async (): Promise<SiteIdentity> => {
 
     if (!identity?.organizationName) return FALLBACK;
 
+    const logoUrl = identity.logoUrl ?? null;
+
     return {
       id: identity.id ?? null,
       organizationName: identity.organizationName,
       organizationNameKaren: identity.organizationNameKaren ?? null,
       tagline: identity.tagline ?? null,
-      logoUrl: identity.logoUrl ?? null,
+      logoUrl,
+      resolvedLogoUrl: logoUrl ? getMediaUrl(logoUrl) : null,
       footerCopyright: identity.footerCopyright ?? null,
     };
   } catch {

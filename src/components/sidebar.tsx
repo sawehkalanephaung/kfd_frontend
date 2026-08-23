@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 
 import logoImg from "@/assets/logo-2.png";
+import api, { getMediaUrl } from '@/lib/api';
 import {
   LayoutDashboard,
   Building2,
@@ -22,6 +23,7 @@ import {
   Layers
 } from 'lucide-react';
 import { useSidebar } from '@/components/sidebar-context';
+import { SITE_IDENTITY_UPDATED_EVENT } from '@/lib/site-identity';
 
 interface MenuItem {
   label: string;
@@ -62,7 +64,7 @@ const menuItems: MenuItem[] = [
       { label: 'Department Branches', href: '/dashboard/organization/departments', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'] },
       { label: 'Team Members', href: '/dashboard/team', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'] },
       { label: 'Global Contact Info', href: '/dashboard/contact', allowedRoles: ['manage_settings', 'ROLE_SUPER_ADMIN'] },
-      { label: 'Global Metrics', href: '/dashboard/organization/metrics', allowedRoles: ['view_analytics', 'ROLE_SUPER_ADMIN'] },
+      { label: 'Statistics Metrics', href: '/dashboard/organization/metrics', allowedRoles: ['view_analytics', 'ROLE_SUPER_ADMIN'] },
     ],
   },
   {
@@ -84,6 +86,11 @@ export default function Sidebar() {
   const [expandedMenus, setExpandedMenus] = useState<string[]>([]);
   const { isOpen, setIsOpen, isCollapsed } = useSidebar();
   const [userRoles, setUserRoles] = useState<string[]>([]);
+  const [orgIdentity, setOrgIdentity] = useState<{
+    organizationName: string;
+    organizationNameKaren: string | null;
+    logoUrl: string | null;
+  } | null>(null);
 
   useEffect(() => {
     try {
@@ -96,6 +103,24 @@ export default function Sidebar() {
       console.error('Failed to parse user info', e);
     }
   }, []);
+
+  // Branding shown here comes from the same admin-managed site identity as the
+  // public site. Public endpoint on purpose: every dashboard role sees the
+  // sidebar, but only manage_settings/ROLE_SUPER_ADMIN can hit the admin one.
+  useEffect(() => {
+    const fetchIdentity = () => {
+      api.get('/api/v1/public/site-identity')
+        .then((res) => setOrgIdentity(res.data))
+        .catch((e) => console.error('Failed to load site identity', e));
+    };
+    fetchIdentity();
+    window.addEventListener(SITE_IDENTITY_UPDATED_EVENT, fetchIdentity);
+    return () => window.removeEventListener(SITE_IDENTITY_UPDATED_EVENT, fetchIdentity);
+  }, []);
+
+  const displayName = orgIdentity?.organizationName || 'Kawthoolei Forestry Department';
+  const displayNameKaren = orgIdentity?.organizationNameKaren ?? 'ကီၢ်သူလ့ၤသ့ၣ်ပှၢ်ဝဲၤကျိၤ';
+  const resolvedLogoUrl = orgIdentity?.logoUrl ? getMediaUrl(orgIdentity.logoUrl) : null;
 
   const handleLogout = () => {
     // Clear JWT token
@@ -130,7 +155,7 @@ export default function Sidebar() {
     });
 
     if (activeItem) {
-      setExpandedMenus((prev) => 
+      setExpandedMenus((prev) =>
         prev.includes(activeItem.label) ? prev : [...prev, activeItem.label]
       );
     }
@@ -210,22 +235,33 @@ export default function Sidebar() {
         <div className={`flex items-center ${isCollapsed ? 'justify-center px-0' : 'justify-between px-4'} py-6 min-h-[88px] min-w-0`}>
           <div className="flex items-center gap-3 min-w-0">
             <div className={`relative w-10 h-10 flex-shrink-0 ${isCollapsed ? 'mx-auto' : ''}`}>
-              <Image
-                src={logoImg}
-                alt="KFD Logo"
-                fill
-                sizes="40px"
-                className="object-contain"
-              />
+              {resolvedLogoUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={resolvedLogoUrl}
+                  alt={`${displayName} Logo`}
+                  className="absolute inset-0 w-full h-full object-contain"
+                />
+              ) : (
+                <Image
+                  src={logoImg}
+                  alt={`${displayName} Logo`}
+                  fill
+                  sizes="40px"
+                  className="object-contain"
+                />
+              )}
             </div>
             {!isCollapsed && (
               <div className="flex flex-col min-w-0">
                 <h1 className="text-[13px] font-bold text-on-dark tracking-tight leading-tight truncate">
-                  Kawthoolei Forestry Department
+                  {displayName}
                 </h1>
-                <span className="text-[11px] text-on-dark-muted font-medium mt-0.5 truncate">
-                  ကီၢ်သူလ့ၤသ့ၣ်ပှၢ်ဝဲၤကျိၤ
-                </span>
+                {displayNameKaren && (
+                  <span className="text-[11px] text-on-dark-muted font-medium mt-0.5 truncate">
+                    {displayNameKaren}
+                  </span>
+                )}
               </div>
             )}
           </div>

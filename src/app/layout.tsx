@@ -25,7 +25,7 @@ const sourceCodePro = Source_Code_Pro({
  * and keywords stay as authored copy — they are editorial, not branding.
  */
 export async function generateMetadata(): Promise<Metadata> {
-  const { organizationName } = await getSiteIdentity();
+  const { organizationName, resolvedLogoUrl } = await getSiteIdentity();
 
   return {
     title: {
@@ -34,6 +34,8 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     description: "The Kawthoolei Forest Department safeguards the interconnected webs of biodiversity and communities through conservation, enforcement, and community partnership.",
     keywords: ["Kawthoolei", "Forestry Department", "Conservation", "Environment", "Karen", "KFD"],
+    // Falls back to the src/app/icon.png file convention when no logo has been uploaded.
+    icons: resolvedLogoUrl ? { icon: resolvedLogoUrl } : undefined,
     openGraph: {
       title: organizationName,
       description: "Safeguarding biodiversity and communities through conservation, enforcement, and community partnership.",

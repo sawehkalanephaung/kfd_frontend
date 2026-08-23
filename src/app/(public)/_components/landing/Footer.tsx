@@ -7,7 +7,7 @@ import NewsletterForm from "./NewsletterForm";
 import { getSiteIdentity } from "@/lib/site-identity";
 
 export default async function Footer() {
-  const { organizationName, organizationNameKaren, footerCopyright } = await getSiteIdentity();
+  const { organizationName, organizationNameKaren, footerCopyright, resolvedLogoUrl } = await getSiteIdentity();
   let contactSettings: any = null;
   let socialMediaLinks: any[] = [];
 
@@ -46,13 +46,22 @@ export default async function Footer() {
           <div className="space-y-6">
             <Link href="/" className="flex items-center gap-3">
               <div className="relative w-12 h-12  p-1 flex-shrink-0">
-                <Image
-                  src={logoImg}
-                  alt="KFD Logo"
-                  fill
-                  sizes="48px"
-                  className="object-contain"
-                />
+                {resolvedLogoUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={resolvedLogoUrl}
+                    alt={`${organizationName} Logo`}
+                    className="absolute inset-0 w-full h-full object-contain"
+                  />
+                ) : (
+                  <Image
+                    src={logoImg}
+                    alt={`${organizationName} Logo`}
+                    fill
+                    sizes="48px"
+                    className="object-contain"
+                  />
+                )}
               </div>
               <div className="flex flex-col gap-1">
                 <span className="font-bold text-lg leading-tight tracking-tight text-white">{organizationName}</span>
