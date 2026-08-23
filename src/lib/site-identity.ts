@@ -3,6 +3,8 @@ import { cache } from 'react';
 export interface SiteIdentity {
   id: string | null;
   organizationName: string;
+  /** S'gaw Karen name, shown beneath the English one in the header and footer. */
+  organizationNameKaren: string | null;
   tagline: string | null;
   logoUrl: string | null;
   footerCopyright: string | null;
@@ -19,6 +21,7 @@ export interface SiteIdentity {
 const FALLBACK: SiteIdentity = {
   id: null,
   organizationName: 'Kawthoolei Forestry Department',
+  organizationNameKaren: 'ကီၢ်သူလ့ၤသ့ၣ်ပှၢ်ဝဲၤကျိၤ',
   tagline: null,
   logoUrl: null,
   footerCopyright: null,
@@ -53,6 +56,7 @@ export const getSiteIdentity = cache(async (): Promise<SiteIdentity> => {
     return {
       id: identity.id ?? null,
       organizationName: identity.organizationName,
+      organizationNameKaren: identity.organizationNameKaren ?? null,
       tagline: identity.tagline ?? null,
       logoUrl: identity.logoUrl ?? null,
       footerCopyright: identity.footerCopyright ?? null,

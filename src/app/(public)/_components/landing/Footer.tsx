@@ -7,7 +7,7 @@ import NewsletterForm from "./NewsletterForm";
 import { getSiteIdentity } from "@/lib/site-identity";
 
 export default async function Footer() {
-  const { organizationName, footerCopyright } = await getSiteIdentity();
+  const { organizationName, organizationNameKaren, footerCopyright } = await getSiteIdentity();
   let contactSettings: any = null;
   let socialMediaLinks: any[] = [];
 
@@ -56,7 +56,9 @@ export default async function Footer() {
               </div>
               <div className="flex flex-col gap-1">
                 <span className="font-bold text-lg leading-tight tracking-tight text-white">{organizationName}</span>
-                <span className="font-medium mt-1 mb-1 text-sm text-white">ကီၢ်သူလ့ၤသ့ၣ်ပှၢ်ဝဲၤကျိၤ</span>
+                {organizationNameKaren && (
+                  <span className="font-medium mt-1 mb-1 text-sm text-white">{organizationNameKaren}</span>
+                )}
               </div>
             </Link>
             <div className="flex flex-wrap items-center gap-4">

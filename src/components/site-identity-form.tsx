@@ -6,6 +6,7 @@ import {
   Save,
   Building2,
   Type,
+  Languages,
   Image as ImageIcon,
   Copyright,
   ExternalLink,
@@ -18,6 +19,7 @@ import api, { getMediaUrl } from '@/lib/api';
 interface SiteIdentityData {
   id?: string;
   organizationName: string;
+  organizationNameKaren: string;
   tagline: string;
   logoUrl: string;
   footerCopyright: string;
@@ -48,6 +50,7 @@ function Field({
 export default function SiteIdentityForm() {
   const [formData, setFormData] = useState<SiteIdentityData>({
     organizationName: '',
+    organizationNameKaren: '',
     tagline: '',
     logoUrl: '',
     footerCopyright: '',
@@ -67,6 +70,7 @@ export default function SiteIdentityForm() {
         setFormData({
           id: d.id,
           organizationName: d.organizationName || '',
+          organizationNameKaren: d.organizationNameKaren || '',
           tagline: d.tagline || '',
           logoUrl: d.logoUrl || '',
           footerCopyright: d.footerCopyright || '',
@@ -95,6 +99,7 @@ export default function SiteIdentityForm() {
     try {
       const payload = {
         organizationName: formData.organizationName.trim(),
+        organizationNameKaren: formData.organizationNameKaren.trim(),
         tagline: formData.tagline.trim(),
         logoUrl: formData.logoUrl.trim(),
         footerCopyright: formData.footerCopyright.trim(),
@@ -173,6 +178,25 @@ export default function SiteIdentityForm() {
                     value={formData.organizationName}
                     onChange={(e) => set('organizationName')(e.target.value)}
                     placeholder="e.g. Kaung Foundation"
+                    className="w-full pl-10 pr-4 py-3 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
+                  />
+                </div>
+              </Field>
+
+              <Field
+                label="Organisation Name (Karen)"
+                hint="Shown beneath the English name in the site header and footer. Leave blank to hide it."
+              >
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <Languages className="h-5 w-5 text-muted" />
+                  </div>
+                  <input
+                    type="text"
+                    lang="ksw"
+                    value={formData.organizationNameKaren}
+                    onChange={(e) => set('organizationNameKaren')(e.target.value)}
+                    placeholder="ကီၢ်သူလ့ၤသ့ၣ်ပှၢ်ဝဲၤကျိၤ"
                     className="w-full pl-10 pr-4 py-3 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
                   />
                 </div>
