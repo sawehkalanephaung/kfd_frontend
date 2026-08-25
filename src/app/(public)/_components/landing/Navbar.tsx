@@ -35,7 +35,7 @@ export default async function Navbar() {
       href: "/about",
       dropdown: [
         { name: "About KFD", href: "/about" },
-        { name: "Our Chairman", href: "/about/chairman" },
+        { name: "Our Chairman", href: "/team" },
       ]
     },
     {

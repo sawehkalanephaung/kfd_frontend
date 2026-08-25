@@ -49,9 +49,9 @@ export default async function TeamDirectoryPage() {
       <section className="bg-teal-deep text-white py-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('/pattern.svg')] opacity-10"></div>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">Our Team</h1>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">Our Chairman</h1>
           <p className="text-xl text-on-dark-muted max-w-2xl mx-auto">
-            Meet the dedicated leadership and Chairman of the Kawthoolei Forestry Department.
+            Meet the dedicated leadership and Chairmen of the Kawthoolei Forestry Department.
           </p>
         </div>
       </section>
