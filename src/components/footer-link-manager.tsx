@@ -302,6 +302,7 @@ function LinkRow({
 
   const handleDelete = async () => {
     await api.delete(`/api/v1/admin/footer-links/links/${link.id}`);
+    toast.success(`"${link.label}" was deleted.`);
     onRefresh();
   };
 
@@ -380,6 +381,7 @@ function SectionCard({
 
   const handleDeleteSection = async () => {
     await api.delete(`/api/v1/admin/footer-links/sections/${section.id}`);
+    toast.success(`Section "${section.title}" was deleted.`);
     onRefresh();
   };
 

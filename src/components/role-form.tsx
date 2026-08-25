@@ -86,7 +86,6 @@ export default function RoleForm({ initialData, isEdit, roleId, isSlideOver, onS
       console.error(err);
       const msg = err.response?.data?.message || 'Failed to save role.';
       setError(msg);
-      toast.error(msg);
     } finally {
       setLoading(false);
     }

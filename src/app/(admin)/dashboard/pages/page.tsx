@@ -7,7 +7,7 @@ import api from '@/lib/api';
 import DeleteModal from '@/components/delete-modal';
 import CreateButton from '@/components/create-button';
 import PageHeader from '@/components/page-header';
-import { toast } from 'sonner';
+import toast from 'react-hot-toast';
 
 interface Page {
   id: string;

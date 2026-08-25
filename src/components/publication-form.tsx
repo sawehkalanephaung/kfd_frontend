@@ -173,7 +173,6 @@ export default function PublicationForm({ initialData, isEdit, publicationId }: 
       console.error(err);
       const msg = err.response?.data?.message || 'Failed to save publication.';
       setError(msg);
-      toast.error(msg);
     } finally {
       setLoading(false);
     }

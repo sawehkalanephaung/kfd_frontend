@@ -183,7 +183,6 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
       console.error(err);
       const msg = err.response?.data?.message || 'Failed to save page.';
       setError(msg);
-      toast.error(msg);
     } finally {
       setLoading(false);
     }

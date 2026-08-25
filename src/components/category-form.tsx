@@ -82,7 +82,6 @@ export default function CategoryForm({
       console.error(err);
       const msg = err.response?.data?.message || 'Failed to save category.';
       setError(msg);
-      toast.error(msg);
     } finally {
       setLoading(false);
     }

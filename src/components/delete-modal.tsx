@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react';
 import { AlertTriangle, Loader2 } from 'lucide-react';
-import toast from 'react-hot-toast';
 
 interface DeleteModalProps {
   isOpen: boolean;
@@ -44,7 +43,8 @@ export default function DeleteModal({
     setErrorMsg(null);
     try {
       await onConfirm();
-      toast.success('Successfully deleted!');
+      // No toast here: the caller owns the success message, since only it knows
+      // what was deleted. Toasting from both produced two popups per delete.
       onClose(); // Automatically close after confirm
     } catch (err: any) {
       console.error(err);

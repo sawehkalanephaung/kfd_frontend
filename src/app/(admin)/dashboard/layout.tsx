@@ -2,7 +2,6 @@ import Sidebar from '@/components/sidebar';
 import Header from '@/components/header';
 import { SidebarProvider } from '@/components/sidebar-context';
 import DashboardLayoutWrapper from '@/components/dashboard-layout-wrapper';
-import { Toaster } from 'sonner';
 import { getSiteIdentity } from '@/lib/site-identity';
 
 /**
@@ -29,7 +28,8 @@ export default async function DashboardLayout({
           {children}
         </DashboardLayoutWrapper>
       </div>
-      <Toaster position="bottom-right" richColors />
+      {/* No Toaster here — the root layout mounts the single app-wide one.
+          A second one meant admin actions popped a toast in two corners. */}
     </SidebarProvider>
   );
 }

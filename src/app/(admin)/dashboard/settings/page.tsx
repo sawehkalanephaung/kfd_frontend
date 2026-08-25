@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Settings, Bell, ShieldAlert, Mail, FileText, Check } from 'lucide-react';
-import { toast } from 'sonner';
+import toast from 'react-hot-toast';
 import PageHeader from '@/components/page-header';
 
 type PreferenceKey = 'notifyNewSubscriber' | 'notifyFailedLogin' | 'notifyPendingReview';

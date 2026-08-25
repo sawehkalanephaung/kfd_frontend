@@ -50,7 +50,6 @@ export default function MetricForm({ initialData, isEdit, metricId, onSave }: Me
       console.error(err);
       const msg = err.response?.data?.message || 'Failed to save metric.';
       setError(msg);
-      toast.error(msg);
     } finally {
       setLoading(false);
     }

@@ -307,7 +307,6 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
       console.error(err);
       const msg = err.response?.data?.message || 'Failed to save department.';
       setError(msg);
-      toast.error(msg);
     } finally {
       setLoading(false);
     }

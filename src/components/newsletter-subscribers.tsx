@@ -13,6 +13,7 @@ import {
   CalendarDays,
 } from 'lucide-react';
 import api from '@/lib/api';
+import toast from 'react-hot-toast';
 import DeleteModal from '@/components/delete-modal';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -94,6 +95,7 @@ export default function NewsletterSubscribers() {
   const handleDelete = async () => {
     if (!deleteTarget) return;
     await api.delete(`/api/v1/admin/newsletter/subscribers/${deleteTarget.id}`);
+    toast.success(`"${deleteTarget.email}" was removed.`);
     setDeleteTarget(null);
     fetchSubscribers();
   };

@@ -7,7 +7,7 @@ import api, { getMediaUrl } from '@/lib/api';
 import DeleteModal from '@/components/delete-modal';
 import CreateButton from '@/components/create-button';
 import PageHeader from '@/components/page-header';
-import { toast } from 'sonner';
+import toast from 'react-hot-toast';
 import { formatTenureYears, calculateExactDuration } from '@/lib/date-utils';
 
 export default function TeamDirectoryPage() {

@@ -170,7 +170,6 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
       console.error(err);
       const msg = err.response?.data?.message || 'Failed to save post.';
       setError(msg);
-      toast.error(msg);
     } finally {
       setLoading(false);
     }

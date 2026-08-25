@@ -50,7 +50,6 @@ export default function FaqForm({ initialData, isEdit, faqId, onSave }: FaqFormP
       console.error(err);
       const msg = err.response?.data?.message || 'Failed to save FAQ.';
       setError(msg);
-      toast.error(msg);
     } finally {
       setLoading(false);
     }

@@ -89,7 +89,6 @@ export default function UserForm({ initialData, isEdit, userId, isSlideOver, onS
       console.error(err);
       const msg = err.response?.data?.message || 'Failed to save user.';
       setError(msg);
-      toast.error(msg);
     } finally {
       setLoading(false);
     }

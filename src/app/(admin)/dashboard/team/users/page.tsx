@@ -9,7 +9,7 @@ import SlideOver from '@/components/slide-over';
 import UserForm from '@/components/user-form';
 import PageHeader from '@/components/page-header';
 import { CustomSelect } from '@/components/ui/custom-select';
-import { toast } from 'sonner';
+import toast from 'react-hot-toast';
 
 export default function UsersDirectoryPage() {
   const [users, setUsers] = useState<any[]>([]);

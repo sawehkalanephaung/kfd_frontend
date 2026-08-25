@@ -62,7 +62,6 @@ export default function TagForm({ initialData, isEdit, tagId, isSlideOver, onSuc
       console.error(err);
       const msg = err.response?.data?.message || 'Failed to save tag.';
       setError(msg);
-      toast.error(msg);
     } finally {
       setLoading(false);
     }

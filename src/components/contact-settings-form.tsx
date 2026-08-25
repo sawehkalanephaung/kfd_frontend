@@ -15,7 +15,6 @@ export default function ContactSettingsForm({ initialData }: ContactSettingsForm
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [successMsg, setSuccessMsg] = useState('');
 
   // Form State
   const [formData, setFormData] = useState({
@@ -50,7 +49,6 @@ export default function ContactSettingsForm({ initialData }: ContactSettingsForm
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    setSuccessMsg('');
     setLoading(true);
 
     // Clean up empty strings
@@ -77,17 +75,13 @@ export default function ContactSettingsForm({ initialData }: ContactSettingsForm
         await api.post('/api/v1/admin/contact-settings', payload);
         toast.success('Successfully saved contact settings!');
       }
-      setSuccessMsg('Contact settings updated successfully!');
       router.refresh();
     } catch (err: any) {
       console.error(err);
       const msg = err.response?.data?.message || 'Failed to save settings.';
       setError(msg);
-      toast.error(msg);
     } finally {
       setLoading(false);
-      // Auto dismiss success message
-      setTimeout(() => setSuccessMsg(''), 3000);
     }
   };
 
@@ -109,12 +103,6 @@ export default function ContactSettingsForm({ initialData }: ContactSettingsForm
       {error && (
         <div className="bg-red-50 text-red-600 p-4 rounded-xl border border-red-100 text-sm">
           {error}
-        </div>
-      )}
-
-      {successMsg && (
-        <div className="bg-brand-green-soft text-brand-green-dark p-4 rounded-full border border-brand-green/20 text-sm font-medium">
-          {successMsg}
         </div>
       )}
 
