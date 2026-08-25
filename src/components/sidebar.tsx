@@ -70,7 +70,7 @@ const menuItems: MenuItem[] = [
     subItems: [
       { label: 'Organization Identity', href: '/dashboard/organization/identity', allowedRoles: ['manage_settings', 'ROLE_SUPER_ADMIN'] },
       { label: 'Department Branches', href: '/dashboard/organization/departments', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'] },
-      { label: 'Team Members', href: '/dashboard/team', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'] },
+      { label: 'Chairman', href: '/dashboard/team', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'] },
       { label: 'Contact', href: '/dashboard/contact', allowedRoles: ['manage_settings', 'ROLE_SUPER_ADMIN'] },
       { label: 'Statistics Metrics', href: '/dashboard/organization/metrics', allowedRoles: ['view_analytics', 'ROLE_SUPER_ADMIN'] },
     ],
@@ -198,7 +198,7 @@ export default function Sidebar({ initialOrgIdentity }: { initialOrgIdentity?: S
     if (item.href === '/dashboard') return pathname === '/dashboard';
 
     const checkPath = (href: string) => {
-      // Special case for Team Members to prevent it from highlighting when on Users or Roles
+      // Special case for Chairman to prevent it from highlighting when on Users or Roles
       if (href === '/dashboard/team') {
         return pathname === '/dashboard/team' ||
           (pathname.startsWith('/dashboard/team/') &&

@@ -165,7 +165,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
       const data = res.data?.content || res.data?.data || res.data || [];
       setTeamMembers(Array.isArray(data) ? data : []);
     } catch (err) {
-      console.error('Failed to load team members', err);
+      console.error('Failed to load Chairman', err);
     } finally {
       setFetchingMembers(false);
     }

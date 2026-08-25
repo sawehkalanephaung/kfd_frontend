@@ -153,7 +153,7 @@ export default function PublicLoading() {
           </div>
         </div>
 
-        {/* Generic Grid Skeleton (looks good for team members, news cards, or gallery) */}
+        {/* Generic Grid Skeleton (looks good for Chairman, news cards, or gallery) */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {[1, 2, 3].map((i) => (
             <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden h-[380px] flex flex-col">

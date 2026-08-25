@@ -53,7 +53,7 @@ export default function EditTeamMemberPage() {
     <div>
       <PageHeader
         icon={Users}
-        title="Edit Team Member"
+        title="Edit Chairman"
         description={`Update profile information for ${member.firstName} ${member.lastName}.`}
       />
       <TeamMemberForm initialData={member} isEdit={true} memberId={params.id as string} />

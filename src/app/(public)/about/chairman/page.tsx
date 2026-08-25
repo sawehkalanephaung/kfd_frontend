@@ -20,7 +20,7 @@ async function getTeamMembers() {
     cache: 'no-store'
   });
 
-  if (!res.ok) throw new Error(`Failed to load team members: ${res.status}`);
+  if (!res.ok) throw new Error(`Failed to load Chairman: ${res.status}`);
   const data = await res.json();
   return data?.data || null;
 }

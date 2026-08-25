@@ -126,7 +126,7 @@ export default function DashboardPage() {
 
   const kpiData = [
     { label: 'Total Published Posts', value: stats.posts, trend: 'Live from Database', icon: FileText, color: 'text-brand-green-dark', bg: 'bg-brand-green-soft' },
-    { label: 'Total Team Members', value: stats.teamMembers, trend: 'Active in System', icon: Users, color: 'text-blue-700', bg: 'bg-blue-50' },
+    { label: 'Total Chairman', value: stats.teamMembers, trend: 'Active in System', icon: Users, color: 'text-blue-700', bg: 'bg-blue-50' },
     { label: 'Total Media Assets', value: stats.media, trend: 'Images & Documents', icon: ImageIcon, color: 'text-purple-700', bg: 'bg-purple-50' },
     { label: 'Active Department Branches', value: stats.departments, trend: 'Registered Branches', icon: Building2, color: 'text-amber-700', bg: 'bg-amber-50' },
   ];

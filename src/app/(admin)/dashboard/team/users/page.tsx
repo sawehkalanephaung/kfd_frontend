@@ -125,7 +125,7 @@ export default function UsersDirectoryPage() {
       <div className="flex items-center gap-2 text-sm text-muted mb-6">
         <Link href="/dashboard" className="text-steel hover:text-ink transition-colors">Home</Link>
         <span>&gt;</span>
-        <Link href="/dashboard/team" className="text-steel hover:text-ink transition-colors">Team Members</Link>
+        <Link href="/dashboard/team" className="text-steel hover:text-ink transition-colors">Chairman</Link>
         <span>&gt;</span>
         <span className="text-ink font-medium">System Users</span>
       </div>

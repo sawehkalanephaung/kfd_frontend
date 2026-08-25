@@ -36,7 +36,7 @@ export default function TeamDirectoryPage() {
       setMembers(Array.isArray(data) ? data : []);
     } catch (err: any) {
       console.error(err);
-      setError('Failed to load team members.');
+      setError('Failed to load Chairman.');
     } finally {
       setLoading(false);
     }
@@ -99,12 +99,12 @@ export default function TeamDirectoryPage() {
         <span>&gt;</span>
         <span className="text-steel">Organization</span>
         <span>&gt;</span>
-        <span className="text-ink font-medium">Team Members</span>
+        <span className="text-ink font-medium">Chairman</span>
       </div>
 
       <PageHeader
         icon={Users}
-        title="Team Members"
+        title="Chairman"
         description="Manage KFD's team roster, including the Chairman and department staff profiles."
         action={<CreateButton href="/dashboard/team/create" />}
       />

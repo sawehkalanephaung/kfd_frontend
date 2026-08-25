@@ -39,7 +39,7 @@ async function getPageData(slug: string, { throwOnError = false } = {}) {
   }
 }
 
-// Helper function to fetch team members from backend
+// Helper function to fetch  Chairman from backend
 async function getTeamMembers() {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
@@ -53,7 +53,7 @@ async function getTeamMembers() {
     const data = await res.json();
     return data?.data || null;
   } catch (error) {
-    console.error("Error fetching team members:", error);
+    console.error("Error fetching Chairman:", error);
     return null;
   }
 }
@@ -101,7 +101,7 @@ export default async function AboutUsPage() {
   // Removed parseContent as we now expect plain text
 
 
-  // Extract Chairman from Team Members
+  // Extract Chairman from Chairman
   let chairman = null;
   if (teamMembers && teamMembers.length > 0) {
     chairman = teamMembers.find((m: any) => m.isKfdChairman === true);
