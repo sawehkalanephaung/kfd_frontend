@@ -6,11 +6,13 @@ import { PlusCircle, UploadCloud, UserPlus, FileText, CheckCircle2, Clock, Loade
 import DashboardCharts from '@/components/dashboard-charts';
 import CountUp from '@/components/ui/count-up';
 import api from '@/lib/api';
+import { getRandomQuote } from './actions';
 
 export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [name, setName] = useState('Admin');
   const [greeting, setGreeting] = useState('Welcome');
+  const [subtitle, setSubtitle] = useState('Welcome to your KFD command center. Here is your overview for today.');
 
   const [stats, setStats] = useState({
     posts: 0,
@@ -29,6 +31,19 @@ export default function DashboardPage() {
     if (hour < 12) setGreeting('Good morning');
     else if (hour < 18) setGreeting('Good afternoon');
     else setGreeting('Good evening');
+
+    const fetchQuote = async () => {
+      try {
+        const data = await getRandomQuote();
+        if (data && data.quote) {
+          setSubtitle(`${data.quote} by ${data.author}`);
+        }
+      } catch (error) {
+        // Silently catch the error. Using console.error triggers Next.js error overlays.
+        console.warn('Quote API unreachable, using default subtitle.');
+      }
+    };
+    fetchQuote();
 
     try {
       const stored = localStorage.getItem('kfd_user');
@@ -139,7 +154,7 @@ export default function DashboardPage() {
             {greeting}, {name}
           </h1>
           <p className="text-brand-green-soft/90 max-w-xl text-lg">
-            Welcome to your KFD command center. Here is your overview for today.
+            {subtitle}
           </p>
         </div>
         {/* Decorative elements */}
