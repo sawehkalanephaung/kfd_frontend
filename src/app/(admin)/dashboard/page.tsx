@@ -9,6 +9,8 @@ import api from '@/lib/api';
 
 export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
+  const [name, setName] = useState('Admin');
+  const [greeting, setGreeting] = useState('Welcome');
 
   const [stats, setStats] = useState({
     posts: 0,
@@ -23,6 +25,26 @@ export default function DashboardPage() {
   const [topPosts, setTopPosts] = useState<{ name: string, views: number }[]>([]);
 
   useEffect(() => {
+    const hour = new Date().getHours();
+    if (hour < 12) setGreeting('Good morning');
+    else if (hour < 18) setGreeting('Good afternoon');
+    else setGreeting('Good evening');
+
+    try {
+      const stored = localStorage.getItem('kfd_user');
+      if (stored) {
+        const parsedUser = JSON.parse(stored);
+        const fullName = `${parsedUser.firstName || ''} ${parsedUser.lastName || ''}`.trim();
+        if (fullName) {
+          setName(fullName);
+        } else if (parsedUser.name || parsedUser.username) {
+          setName(parsedUser.name || parsedUser.username);
+        }
+      }
+    } catch (e) {
+      console.error('Failed to parse user info', e);
+    }
+
     const fetchDashboardData = async () => {
       try {
         setLoading(true);
@@ -114,7 +136,7 @@ export default function DashboardPage() {
         <div className="relative z-10">
           <h1 className="text-3xl font-bold text-white mb-2 flex items-center gap-3">
             <LayoutDashboard className="w-8 h-8 opacity-90" />
-            Good morning, Admin!
+            {greeting}, {name}
           </h1>
           <p className="text-brand-green-soft/90 max-w-xl text-lg">
             Welcome to your KFD command center. Here is your overview for today.
@@ -152,7 +174,7 @@ export default function DashboardPage() {
                   </>
                 )}
               </div>
-              
+
               {/* Modern Glass/Shine Reflection Effect */}
               <div className="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_ease-in-out] bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-[-20deg] pointer-events-none z-20"></div>
 
