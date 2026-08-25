@@ -1,24 +1,24 @@
 import Link from "next/link";
-import { User, ChevronLeft, Building2 } from "lucide-react";
+import { User, ChevronRight } from "lucide-react";
 import { getMediaUrl } from "@/lib/api";
+import { formatFullDate, formatTenureYears } from "@/lib/date-utils";
 import { notFound } from "next/navigation";
 
+/**
+ * Returns null only when the member does not exist (404). Any other failure
+ * throws so error.tsx renders a retry instead of a misleading "not found".
+ */
 async function getTeamMember(id: string) {
-  try {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
-    const res = await fetch(`${baseUrl}/api/v1/public/team-members/${id}`, {
-      cache: 'no-store'
-    });
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
+  const res = await fetch(`${baseUrl}/api/v1/public/team-members/${id}`, {
+    cache: 'no-store'
+  });
 
-    if (!res.ok) {
-      return null;
-    }
-    const data = await res.json();
-    return data?.data || null;
-  } catch (error) {
-    console.error(`Error fetching team member ${id}:`, error);
-    return null;
-  }
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`Failed to load team member "${id}": ${res.status}`);
+
+  const data = await res.json();
+  return data?.data || null;
 }
 
 function parseI18nField(val: any): string {
@@ -43,6 +43,33 @@ function parseI18nField(val: any): string {
   return String(val);
 }
 
+function Breadcrumb({ name }: { name: string }) {
+  return (
+    <div className="border-b border-[#e1e5e8] bg-[#f8faf9]">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-wrap items-center gap-2 py-4 text-sm font-medium text-[#5c6c7a]">
+          <Link href="/" className="transition-colors hover:text-[#1a3626]">Home</Link>
+          <ChevronRight size={14} className="text-[#a8b3bc]" />
+          <Link href="/team" className="transition-colors hover:text-[#1a3626]">Team</Link>
+          <ChevronRight size={14} className="text-[#a8b3bc]" />
+          <span className="text-[#1a3626]">{name}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function HeroFact({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <dt className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#4ade80]">
+        {label}
+      </dt>
+      <dd className="mt-1.5 text-[15px] font-semibold text-white">{value}</dd>
+    </div>
+  );
+}
+
 export default async function TeamMemberProfilePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const member = await getTeamMember(id);
@@ -51,71 +78,85 @@ export default async function TeamMemberProfilePage({ params }: { params: Promis
     notFound();
   }
 
-  const imageUrl = member.headshotUrl || member.headshot_url || member.imageUrl;
+  const imageUrl = member.headshotUrl || member.headshot_url || member.imageUrl || member.avatarUrl;
   const displayImage = imageUrl ? getMediaUrl(imageUrl) : null;
-  const name = `${member.firstName || ''} ${member.lastName || ''}`.trim();
-  const position = parseI18nField(member.title) || member.role || 'Team Member';
-  const bio = parseI18nField(member.bio || member.description);
+  const fullName = `${member.firstName || member.first_name || member.name || ''} ${member.lastName || member.last_name || ''}`.trim() || 'Team Member';
+  const finalTitle = parseI18nField(member.title) || member.role || member.position || 'Team Member';
+  const bio = parseI18nField(member.bio || member.description) || '';
 
   return (
-    <main className="min-h-screen bg-[#faf9f6] pt-32 pb-24 overflow-x-hidden">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <main className="min-h-screen bg-white">
+      <Breadcrumb name={fullName} />
 
-        {/* Back Link */}
-        <div className="mb-12">
-          <Link href="/team" className="inline-flex items-center gap-2 text-muted hover:text-ink transition-colors font-medium text-sm">
-            <ChevronLeft size={16} />
-            Back to Team Directory
-          </Link>
-        </div>
+      <section className="relative overflow-hidden bg-[#0b1f14] pb-14 pt-14 lg:pb-24">
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
+            backgroundSize: '32px 32px',
+          }}
+        />
+        <div className="pointer-events-none absolute -right-20 -top-20 h-[600px] w-[600px] rounded-full bg-[#1a4a2e]/20 blur-[100px]" />
 
-        {/* Profile Header */}
-        <div className="text-center mb-10">
-          <h1 className="text-5xl md:text-6xl font-black text-[#111827] uppercase tracking-tight mb-4 font-sans">
-            {name}
-          </h1>
-          <p className="text-xl md:text-2xl text-steel font-light">
-            {position}
-          </p>
-        </div>
+        <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col items-center gap-10 text-center md:flex-row md:gap-14 md:text-left lg:gap-20">
+            <div className="relative h-[340px] w-[280px] shrink-0 overflow-hidden rounded-t-full rounded-b-md bg-[#12271b] shadow-2xl shadow-black/40 ring-1 ring-white/[0.08] sm:h-[365px] sm:w-[300px] lg:h-[393px] lg:w-[323px]">
+              {displayImage ? (
+                <img
+                  src={displayImage}
+                  alt={`${fullName}, ${finalTitle}`}
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center">
+                  <User size={96} className="text-white/20" aria-hidden="true" />
+                </div>
+              )}
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+            </div>
 
-        {/* Circular Avatar */}
-        <div className="flex justify-center mb-8">
-          <div className="w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-4 border-white shadow-xl bg-gray-200 relative">
-            {displayImage ? (
-              <img src={displayImage} alt={name} className="w-full h-full object-cover" />
-            ) : (
-              <div className="absolute inset-0 flex items-center justify-center bg-surface">
-                <User size={80} className="text-gray-300" />
-              </div>
-            )}
-          </div>
-        </div>
+            <div className="min-w-0 text-white">
+              <h1 className="font-serif text-5xl font-bold tracking-tight lg:text-6xl">
+                {fullName}
+              </h1>
+              <p className="mt-3 text-xl text-[#9ca3af] lg:text-2xl">
+                {finalTitle}
+              </p>
 
-
-
-        {/* Department Badge (Optional) */}
-        {/* {member.departmentName && (
-          <div className="flex justify-center mb-12">
-            <div className="flex items-center gap-2 text-steel bg-canvas px-5 py-2.5 rounded-full shadow-sm border border-hairline">
-              <Building2 size={16} className="text-muted" />
-              <span className="font-medium text-sm tracking-wide uppercase">{member.departmentName}</span>
+              {member.termStartDate && (
+                <dl className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-6 md:justify-start">
+                  <HeroFact label="First Appointed" value={formatFullDate(member.termStartDate)} />
+                  <div className="hidden h-10 w-px bg-white/15 sm:block" aria-hidden="true" />
+                  <HeroFact
+                    label="Tenure Period"
+                    value={formatTenureYears(member.termStartDate, member.termEndDate)}
+                  />
+                </dl>
+              )}
             </div>
           </div>
-        )} */}
+        </div>
+      </section>
 
-        {/* Bio Content */}
-        <div className="max-w-2xl mx-auto w-full px-4 sm:px-0">
-          <div className="prose prose-lg prose-gray text-steel leading-relaxed font-light w-full break-words [&_*]:!whitespace-normal [&_*]:!break-words [&_*]:max-w-full">
+      <section className="bg-white pb-28 pt-24 lg:pb-36 lg:pt-28">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-[840px]">
+            <h2 className="text-3xl font-bold tracking-tight text-[#001e2b]">Biography</h2>
+            <div className="mt-6 h-px w-full bg-[#e1e5e8]" />
+
             {bio ? (
-              <div dangerouslySetInnerHTML={{ __html: bio }} />
+              <div
+                className="rich-text prose prose-slate mt-10 max-w-none text-[#3d4f5b] md:text-justify [&_*]:!bg-transparent [&_*]:!text-inherit"
+                dangerouslySetInnerHTML={{ __html: bio }}
+              />
             ) : (
-              <p className="text-center italic text-muted">No biography information available.</p>
+              <p className="mt-10 italic text-[#5c6c7a]">
+                Detailed biography is currently being updated.
+              </p>
             )}
           </div>
         </div>
-
-      </div>
+      </section>
     </main>
   );
 }

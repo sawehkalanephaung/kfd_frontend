@@ -38,8 +38,15 @@ api.interceptors.response.use(
   },
   (error) => {
     if (error.response) {
+      // Ensure error.response.data exists as an object so we can safely inject messages
+      if (!error.response.data || typeof error.response.data !== 'object') {
+        error.response.data = {};
+      }
+
+      const status = error.response.status;
+
       // Handle 401 Unauthorized globally
-      if (error.response.status === 401) {
+      if (status === 401) {
         if (typeof window !== 'undefined') {
           localStorage.removeItem('token');
           
@@ -50,6 +57,30 @@ api.interceptors.response.use(
           }
         }
       }
+      // Handle 413 Payload Too Large (often returned by Nginx or AWS before hitting backend)
+      else if (status === 413) {
+        error.response.data.message = 'The file is too large. Please keep uploads under 15MB.';
+      }
+      // Handle 403 Forbidden (RBAC permissions)
+      else if (status === 403) {
+        error.response.data.message = error.response.data.message || 'You do not have permission to perform this action.';
+      }
+      // Handle 429 Too Many Requests (auth endpoint rate limiting)
+      else if (status === 429) {
+        error.response.data.message =
+          error.response.data.message || 'Too many attempts. Please wait a few minutes and try again.';
+      }
+      // Handle 500+ Server Errors
+      else if (status >= 500) {
+        error.response.data.message = 'The server encountered a problem. Please try again later.';
+      }
+    } else if (error.request) {
+      // Network error (no response received from server)
+      error.response = { 
+        data: { 
+          message: 'Network error. Please check your internet connection.' 
+        } 
+      };
     }
     return Promise.reject(error);
   }

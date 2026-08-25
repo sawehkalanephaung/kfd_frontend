@@ -6,6 +6,7 @@ import { Plus, Edit, Trash2, BarChart2, Loader2, Eye, EyeOff } from 'lucide-reac
 import api from '@/lib/api';
 import DeleteModal from '@/components/delete-modal';
 import CreateButton from '@/components/create-button';
+import PageHeader from '@/components/page-header';
 
 interface GlobalMetric {
   id: string;
@@ -21,7 +22,7 @@ export default function GlobalMetricsPage() {
   const [metrics, setMetrics] = useState<GlobalMetric[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  
+
   // Delete Modal State
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [metricToDelete, setMetricToDelete] = useState<GlobalMetric | null>(null);
@@ -39,7 +40,7 @@ export default function GlobalMetricsPage() {
       setMetrics(Array.isArray(data) ? data : []);
     } catch (err: any) {
       console.error(err);
-      setError('Failed to load global metrics. Ensure the backend is running.');
+      setError('Failed to load statistics metrics. Ensure the backend is running.');
     } finally {
       setLoading(false);
     }
@@ -53,9 +54,9 @@ export default function GlobalMetricsPage() {
   const confirmDelete = async () => {
     if (!metricToDelete) return;
 
-      await api.delete(`/api/v1/admin/metrics/${metricToDelete.id}`);
-      setMetrics((prev) => prev.filter((m) => m.id !== metricToDelete.id));
-    };
+    await api.delete(`/api/v1/admin/metrics/${metricToDelete.id}`);
+    setMetrics((prev) => prev.filter((m) => m.id !== metricToDelete.id));
+  };
 
   return (
     <div>
@@ -65,22 +66,15 @@ export default function GlobalMetricsPage() {
         <span>&gt;</span>
         <span className="text-steel">Organization</span>
         <span>&gt;</span>
-        <span className="text-ink font-medium">Global Metrics</span>
+        <span className="text-ink font-medium">Metrics</span>
       </div>
 
-      {/* Header Section */}
-      <div className="bg-canvas rounded-lg p-8 shadow-sm border border-hairline-soft flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-        <div>
-          <h1 className="text-2xl font-bold text-ink flex items-center gap-3">
-            <BarChart2 className="w-6 h-6 text-brand-green" />
-            Global Metrics
-          </h1>
-          <p className="text-steel mt-1">
-            Manage the high-level statistics and metrics displayed across the platform.
-          </p>
-        </div>
-        <CreateButton href="/dashboard/organization/metrics/create" />
-      </div>
+      <PageHeader
+        icon={BarChart2}
+        title="Metrics"
+        description="Manage the key statistics displayed across your public website."
+        action={<CreateButton href="/dashboard/organization/metrics/create" />}
+      />
 
       {/* Error State */}
       {error && (

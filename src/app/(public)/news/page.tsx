@@ -26,19 +26,20 @@ async function getCategories(): Promise<PostCategory[]> {
   }
 }
 
+/**
+ * The post list is this page's primary content, so a real backend failure
+ * throws (→ `(public)/error.tsx` retry UI) instead of rendering an empty
+ * grid indistinguishable from "no posts published yet."
+ */
 async function getPosts(page: number, categorySlug?: string): Promise<PaginatedPosts | null> {
-  try {
-    const params = new URLSearchParams({ page: String(page), size: "9" });
-    if (categorySlug) {
-      params.set("categorySlug", categorySlug);
-    }
-    const res = await fetch(`${API}/api/v1/public/posts?${params}`, { cache: "no-store" });
-    if (!res.ok) return null;
-    const json = await res.json();
-    return json.data || null;
-  } catch {
-    return null;
+  const params = new URLSearchParams({ page: String(page), size: "9" });
+  if (categorySlug) {
+    params.set("categorySlug", categorySlug);
   }
+  const res = await fetch(`${API}/api/v1/public/posts?${params}`, { cache: "no-store" });
+  if (!res.ok) throw new Error(`Failed to load posts: ${res.status}`);
+  const json = await res.json();
+  return json.data || null;
 }
 
 // ── Helpers ────────────────────────────────────────────────────

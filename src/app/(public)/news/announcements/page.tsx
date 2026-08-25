@@ -5,16 +5,13 @@ import { NewsPost, PaginatedPosts } from "../types";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
+/** Sole content of this page — a real failure throws so error.tsx offers a retry. */
 async function getAnnouncements(): Promise<PaginatedPosts | null> {
-  try {
-    const params = new URLSearchParams({ page: "0", size: "20", categorySlug: "announcement" });
-    const res = await fetch(`${API}/api/v1/public/posts?${params}`, { cache: "no-store" });
-    if (!res.ok) return null;
-    const json = await res.json();
-    return json.data || null;
-  } catch {
-    return null;
-  }
+  const params = new URLSearchParams({ page: "0", size: "20", categorySlug: "announcement" });
+  const res = await fetch(`${API}/api/v1/public/posts?${params}`, { cache: "no-store" });
+  if (!res.ok) throw new Error(`Failed to load announcements: ${res.status}`);
+  const json = await res.json();
+  return json.data || null;
 }
 
 function formatDate(dateStr: string) {

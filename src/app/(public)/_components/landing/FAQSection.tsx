@@ -7,12 +7,13 @@ import { Plus, Minus, ArrowRight } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { ContentFallback } from "@/components/content-fallback";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger, useGSAP);
 }
 
-export default function FAQSection({ faqs }: { faqs: any[] }) {
+export default function FAQSection({ faqs, status }: { faqs: any[]; status: 'ok' | 'empty' | 'error' }) {
   const displayFaqs = faqs || [];
 
   const [openIndex, setOpenIndex] = useState<number | null>(0);
@@ -26,7 +27,7 @@ export default function FAQSection({ faqs }: { faqs: any[] }) {
   const rightColRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    if (!leftColRef.current || !rightColRef.current || !sectionRef.current) return;
+    if (status === 'empty' || !leftColRef.current || !rightColRef.current || !sectionRef.current) return;
 
     gsap.fromTo(leftColRef.current,
       { opacity: 0, x: -30 },
@@ -60,6 +61,8 @@ export default function FAQSection({ faqs }: { faqs: any[] }) {
     );
   }, { scope: sectionRef });
 
+  if (status === 'empty') return null;
+
   return (
     <section ref={sectionRef} className="py-24 bg-surface overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -92,6 +95,11 @@ export default function FAQSection({ faqs }: { faqs: any[] }) {
 
           {/* Right Column: Accordion */}
           <div ref={rightColRef} className="lg:col-span-7">
+            {status === 'error' ? (
+              <div className="bg-canvas border border-hairline shadow-sm rounded-xl overflow-hidden">
+                <ContentFallback variant="error" title="FAQs unavailable" message="We couldn't load frequently asked questions right now." />
+              </div>
+            ) : (
             <div className="bg-canvas border border-hairline shadow-sm rounded-xl overflow-hidden divide-y divide-hairline">
               {displayFaqs.map((faq, index) => (
                 <div key={faq.id || index} className="w-full">
@@ -123,6 +131,7 @@ export default function FAQSection({ faqs }: { faqs: any[] }) {
                 </div>
               ))}
             </div>
+            )}
           </div>
 
         </div>

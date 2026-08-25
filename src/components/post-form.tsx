@@ -2,11 +2,12 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { Loader2, Save, ArrowLeft, FileText, AlignLeft, Settings, ImageIcon, Tag as TagIcon, FolderTree, ChevronDown, X, UploadCloud, FolderOpen, Trash2 } from 'lucide-react';
+import { Loader2, Save, ArrowLeft, FileText, AlignLeft, Settings, ImageIcon, Tag as TagIcon, FolderTree, ChevronDown, X, FolderOpen } from 'lucide-react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import api, { getMediaUrl } from '@/lib/api';
 import MediaSelector from '@/components/media-selector';
+import ImageUploadField from '@/components/image-upload-field';
 import 'react-quill-new/dist/quill.snow.css';
 import toast from 'react-hot-toast';
 import { CustomSelect } from '@/components/ui/custom-select';
@@ -477,64 +478,15 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                 className="hidden"
               />
 
-              {formData.featuredImageUrl && formData.featuredImageUrl.trim().length > 0 ? (
-                <div className="relative group aspect-video rounded-xl overflow-hidden border border-hairline-strong bg-surface flex items-center justify-center">
-                  <img
-                    src={getMediaUrl(formData.featuredImageUrl)}
-                    alt="Featured preview"
-                    className="w-full h-full object-cover"
-                    onError={(e) => { (e.target as HTMLImageElement).src = 'https://via.placeholder.com/400x300?text=Invalid+Image+URL'; }}
-                  />
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
-                    <button
-                      type="button"
-                      onClick={() => setIsMediaSelectorOpen(true)}
-                      className="bg-canvas text-slate p-3 rounded-full hover:bg-surface hover:scale-110 transition-transform shadow-sm"
-                      title="Change Image"
-                    >
-                      <ImageIcon className="w-5 h-5" />
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setFormData({ ...formData, featuredImageUrl: '' })}
-                      className="bg-canvas text-red-500 p-3 rounded-full hover:bg-red-50 hover:scale-110 transition-transform shadow-sm"
-                      title="Remove Image"
-                    >
-                      <X className="w-5 h-5" />
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <div className="border-2 border-dashed border-hairline-strong rounded-lg p-8 flex flex-col items-center justify-center text-center gap-4 bg-surface-soft">
-                  <div className="w-12 h-12 bg-canvas rounded-full shadow-sm flex items-center justify-center border border-hairline">
-                    {uploadingImage ? <Loader2 className="w-6 h-6 text-brand-green animate-spin" /> : <ImageIcon className="w-6 h-6 text-muted" />}
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-ink mb-1">No featured image selected</p>
-                    <p className="text-xs text-steel max-w-[200px] mx-auto">Upload an image or choose one from your library.</p>
-                  </div>
-                  <div className="flex flex-col w-full gap-2 mt-2">
-                    <button
-                      type="button"
-                      onClick={() => fileInputRef.current?.click()}
-                      disabled={uploadingImage}
-                      className="w-full py-2.5 bg-canvas border border-hairline-strong hover:border-emerald-500 hover:text-brand-green-dark text-slate text-sm font-medium rounded-xl transition-colors flex items-center justify-center gap-2 shadow-sm"
-                    >
-                      {uploadingImage ? <Loader2 className="w-4 h-4 animate-spin" /> : <UploadCloud className="w-4 h-4" />}
-                      {uploadingImage ? 'Uploading...' : 'Upload Image'}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setIsMediaSelectorOpen(true)}
-                      disabled={uploadingImage}
-                      className="w-full py-2.5 bg-surface hover:bg-gray-200 text-slate text-sm font-medium rounded-xl transition-colors flex items-center justify-center gap-2"
-                    >
-                      <FolderOpen className="w-4 h-4" />
-                      Choose from Library
-                    </button>
-                  </div>
-                </div>
-              )}
+              <ImageUploadField
+                previewUrl={formData.featuredImageUrl?.trim() ? getMediaUrl(formData.featuredImageUrl) : null}
+                uploading={uploadingImage}
+                onUploadClick={() => fileInputRef.current?.click()}
+                onLibraryClick={() => setIsMediaSelectorOpen(true)}
+                onRemoveClick={() => setFormData({ ...formData, featuredImageUrl: '' })}
+                alt="Featured preview"
+                emptyLabel="No featured image selected"
+              />
             </div>
           </div>
 

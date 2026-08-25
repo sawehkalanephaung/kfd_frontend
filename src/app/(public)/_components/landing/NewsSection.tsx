@@ -7,12 +7,25 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { ContentFallback } from "@/components/content-fallback";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger, useGSAP);
 }
 
-export default function NewsSection({ news, notices }: { news: any[], notices?: any[] }) {
+type SectionStatus = 'ok' | 'empty' | 'error';
+
+export default function NewsSection({
+  news,
+  notices,
+  newsStatus,
+  noticesStatus,
+}: {
+  news: any[];
+  notices?: any[];
+  newsStatus: SectionStatus;
+  noticesStatus: SectionStatus;
+}) {
   const displayNews = news || [];
   const displayNotices = notices || [];
 
@@ -21,7 +34,7 @@ export default function NewsSection({ news, notices }: { news: any[], notices?: 
   const noticesContainerRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    if (!sectionRef.current) return;
+    if ((newsStatus === 'empty' && noticesStatus === 'empty') || !sectionRef.current) return;
 
     // Animate News Cards
     if (newsContainerRef.current) {
@@ -66,6 +79,9 @@ export default function NewsSection({ news, notices }: { news: any[], notices?: 
 
   }, { scope: sectionRef });
 
+  // Both columns render independently — one feed failing shouldn't hide the other.
+  if (newsStatus === 'empty' && noticesStatus === 'empty') return null;
+
   return (
     <section ref={sectionRef} className="py-20 bg-canvas border-t border-hairline overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -85,6 +101,11 @@ export default function NewsSection({ news, notices }: { news: any[], notices?: 
               </Link>
             </div>
 
+            {newsStatus === 'error' ? (
+              <ContentFallback variant="error" title="News unavailable" message="We couldn't load the latest news right now." />
+            ) : newsStatus === 'empty' ? (
+              <ContentFallback variant="empty" title="No news yet" message="Check back soon for updates." />
+            ) : (
             <div ref={newsContainerRef} className="grid grid-cols-1 sm:grid-cols-2 gap-8">
               {displayNews.slice(0, 2).map((item, index) => {
                 const dateStr = item.publishedAt ? new Date(item.publishedAt).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }) : item.date;
@@ -127,12 +148,22 @@ export default function NewsSection({ news, notices }: { news: any[], notices?: 
                 );
               })}
             </div>
+            )}
           </div>
 
           {/* Right Column: Announcements & Events */}
           <div className="lg:col-span-1 flex flex-col">
             <h2 className="text-2xl font-bold text-ink mb-8">Announcements & Events</h2>
 
+            {noticesStatus === 'error' ? (
+              <div className="bg-surface border border-hairline rounded-2xl flex-grow flex items-center">
+                <ContentFallback variant="error" title="Unavailable" message="We couldn't load announcements or events right now." className="py-8" />
+              </div>
+            ) : noticesStatus === 'empty' ? (
+              <div className="bg-surface border border-hairline rounded-2xl flex-grow flex items-center">
+                <ContentFallback variant="empty" title="Nothing scheduled" message="No announcements or events right now." className="py-8" />
+              </div>
+            ) : (
             <div ref={noticesContainerRef} className="bg-surface border border-hairline rounded-2xl p-6 flex flex-col gap-6 flex-grow">
               {displayNotices.map((notice) => {
                 const isReal = !!notice.category;
@@ -184,6 +215,7 @@ export default function NewsSection({ news, notices }: { news: any[], notices?: 
                 </Link>
               </div>
             </div>
+            )}
 
           </div>
 

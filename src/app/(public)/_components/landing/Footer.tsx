@@ -4,8 +4,10 @@ import { ArrowRight, MapPin, Phone, Mail, Clock } from "lucide-react";
 import logoImg from "@/assets/logo-2.png";
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaYoutube } from "react-icons/fa";
 import NewsletterForm from "./NewsletterForm";
+import { getSiteIdentity } from "@/lib/site-identity";
 
 export default async function Footer() {
+  const { organizationName, organizationNameKaren, footerCopyright, resolvedLogoUrl } = await getSiteIdentity();
   let contactSettings: any = null;
   let socialMediaLinks: any[] = [];
 
@@ -44,55 +46,73 @@ export default async function Footer() {
           <div className="space-y-6">
             <Link href="/" className="flex items-center gap-3">
               <div className="relative w-12 h-12  p-1 flex-shrink-0">
-                <Image
-                  src={logoImg}
-                  alt="KFD Logo"
-                  fill
-                  sizes="48px"
-                  className="object-contain"
-                />
+                {resolvedLogoUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={resolvedLogoUrl}
+                    alt={`${organizationName} Logo`}
+                    className="absolute inset-0 w-full h-full object-contain"
+                  />
+                ) : (
+                  <Image
+                    src={logoImg}
+                    alt={`${organizationName} Logo`}
+                    fill
+                    sizes="48px"
+                    className="object-contain"
+                  />
+                )}
               </div>
               <div className="flex flex-col gap-1">
-                <span className="font-bold text-lg leading-tight tracking-tight text-white">Kawthoolei Forestry Department</span>
-                <span className="font-medium mt-1 mb-1 text-sm text-white">ကီၢ်သူလ့ၤသ့ၣ်ပှၢ်ဝဲၤကျိၤ</span>
+                <span className="font-bold text-lg leading-tight tracking-tight text-white">{organizationName}</span>
+                {organizationNameKaren && (
+                  <span className="font-medium mt-1 mb-1 text-sm text-white">{organizationNameKaren}</span>
+                )}
               </div>
             </Link>
-            <div className="flex flex-wrap items-center gap-4">
-              {socialMediaLinks && socialMediaLinks.map((link) => (
-                <a
-                  key={link.id}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-8 h-8 rounded-full bg-canvas/10 flex items-center justify-center hover:bg-canvas/20 transition-colors"
-                >
-                  {renderSocialIcon(link.platformName)}
-                </a>
-              ))}
-              {(!socialMediaLinks || socialMediaLinks.length === 0) && (
-                <a href="#" className="w-8 h-8 rounded-full bg-canvas/10 flex items-center justify-center hover:bg-canvas/20 transition-colors">
-                  <FaFacebook size={16} />
-                </a>
-              )}
-            </div>
-            <div className="flex flex-col gap-5 text-sm text-on-dark-muted pt-2">
-              <div className="flex items-start gap-3">
-                <Phone className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                <span>{contactSettings?.phoneNumbers?.[0] || "+66 123 456 789"}</span>
+            {socialMediaLinks && socialMediaLinks.length > 0 && (
+              <div className="flex flex-wrap items-center gap-4">
+                {socialMediaLinks.map((link) => (
+                  <a
+                    key={link.id}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-8 h-8 rounded-full bg-canvas/10 flex items-center justify-center hover:bg-canvas/20 transition-colors"
+                  >
+                    {renderSocialIcon(link.platformName)}
+                  </a>
+                ))}
               </div>
-              <div className="flex items-start gap-3">
-                <Mail className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                <span>{contactSettings?.contactEmail || "info@kfd-kawthoolei.org"}</span>
+            )}
+            {(contactSettings?.phoneNumbers?.[0] || contactSettings?.contactEmail || contactSettings?.physicalAddress || contactSettings?.officeHours) && (
+              <div className="flex flex-col gap-5 text-sm text-on-dark-muted pt-2">
+                {contactSettings?.phoneNumbers?.[0] && (
+                  <div className="flex items-start gap-3">
+                    <Phone className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                    <span>{contactSettings.phoneNumbers[0]}</span>
+                  </div>
+                )}
+                {contactSettings?.contactEmail && (
+                  <div className="flex items-start gap-3">
+                    <Mail className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                    <span>{contactSettings.contactEmail}</span>
+                  </div>
+                )}
+                {contactSettings?.physicalAddress && (
+                  <div className="flex items-start gap-3">
+                    <MapPin className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                    <span className="leading-relaxed">{contactSettings.physicalAddress}</span>
+                  </div>
+                )}
+                {contactSettings?.officeHours && (
+                  <div className="flex items-start gap-3">
+                    <Clock className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                    <span className="leading-relaxed whitespace-pre-line">{contactSettings.officeHours}</span>
+                  </div>
+                )}
               </div>
-              <div className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                <span className="leading-relaxed">{contactSettings?.physicalAddress || "KNU Headquarters"}</span>
-              </div>
-              <div className="flex items-start gap-3">
-                <Clock className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                <span className="leading-relaxed whitespace-pre-line">{contactSettings?.officeHours || "Monday - Friday:\n8:00 am - 5:00 pm"}</span>
-              </div>
-            </div>
+            )}
 
           </div>
 
@@ -123,7 +143,8 @@ export default async function Footer() {
         {/* Bottom Bar */}
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
           <p className="text-sm text-on-dark-muted">
-            Copyright © {new Date().getFullYear()} Kawthoolei Forestry Department, All rights reserved.
+            {footerCopyright
+              || `Copyright © ${new Date().getFullYear()} ${organizationName}, All rights reserved.`}
           </p>
           <div className="flex flex-wrap items-center justify-center md:justify-end gap-x-6 gap-y-3">
             <Link href="/privacy-policy" className="text-sm text-on-dark-muted hover:text-white transition-colors py-2 md:py-0">Privacy Policy</Link>

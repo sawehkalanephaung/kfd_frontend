@@ -6,18 +6,20 @@ import { Users, Plus, Edit, Trash2, CheckCircle2, XCircle, Search, ChevronLeft, 
 import api, { getMediaUrl } from '@/lib/api';
 import DeleteModal from '@/components/delete-modal';
 import CreateButton from '@/components/create-button';
+import PageHeader from '@/components/page-header';
 import { toast } from 'sonner';
+import { formatTenureYears, calculateExactDuration } from '@/lib/date-utils';
 
 export default function TeamDirectoryPage() {
   const [members, setMembers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  
+
   // Search and Pagination State
   const [searchQuery, setSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
-  
+
   // Delete Modal State
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [memberToDelete, setMemberToDelete] = useState<any | null>(null);
@@ -78,7 +80,7 @@ export default function TeamDirectoryPage() {
   }, [members, searchQuery]);
 
   const totalPages = Math.ceil(filteredMembers.length / itemsPerPage);
-  
+
   const paginatedMembers = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     return filteredMembers.slice(startIndex, startIndex + itemsPerPage);
@@ -95,22 +97,17 @@ export default function TeamDirectoryPage() {
       <div className="flex items-center gap-2 text-sm text-muted mb-6">
         <Link href="/dashboard" className="text-steel hover:text-ink transition-colors">Home</Link>
         <span>&gt;</span>
-        <span className="text-ink font-medium">Team Directory</span>
+        <span className="text-steel">Organization</span>
+        <span>&gt;</span>
+        <span className="text-ink font-medium">Team Members</span>
       </div>
 
-      {/* Header Section */}
-      <div className="bg-canvas rounded-lg p-8 shadow-sm border border-hairline-soft flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-        <div>
-          <h1 className="text-2xl font-bold text-ink flex items-center gap-3">
-            <Users className="w-6 h-6 text-brand-green" />
-            Team Directory
-          </h1>
-          <p className="text-steel mt-1">
-            Manage all profiles and bios for your organization's members.
-          </p>
-        </div>
-        <CreateButton href="/dashboard/team/create" />
-      </div>
+      <PageHeader
+        icon={Users}
+        title="Team Members"
+        description="Manage KFD's team roster, including the Chairman and department staff profiles."
+        action={<CreateButton href="/dashboard/team/create" />}
+      />
 
       {/* Error State */}
       {error && (
@@ -121,14 +118,14 @@ export default function TeamDirectoryPage() {
 
       {/* Table Section */}
       <div className="bg-canvas rounded-lg shadow-sm border border-hairline-soft overflow-hidden">
-        
+
         {/* Search Bar */}
         <div className="p-4 border-b border-hairline-soft bg-surface-soft">
           <div className="relative max-w-sm">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted" />
-            <input 
-              type="text" 
-              placeholder="Search by name or title..." 
+            <input
+              type="text"
+              placeholder="Search by name or title..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-2 bg-canvas border border-hairline-strong rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-green/20 focus:border-emerald-500 transition-all placeholder:text-muted text-ink"
@@ -140,9 +137,12 @@ export default function TeamDirectoryPage() {
           <table className="w-full sm:min-w-[800px] text-left text-sm text-steel">
             <thead className="bg-surface-soft text-steel font-medium border-b border-hairline">
               <tr>
+                <th className="px-6 py-4 w-12 text-center hidden sm:table-cell">NO.</th>
                 <th className="px-6 py-4">Member Info</th>
                 <th className="px-6 py-4 hidden sm:table-cell">Job Title</th>
                 <th className="px-6 py-4 hidden sm:table-cell">Department</th>
+                <th className="px-6 py-4 hidden sm:table-cell">Tenure</th>
+                <th className="px-6 py-4 hidden sm:table-cell">Duration</th>
                 <th className="px-6 py-4 hidden sm:table-cell">Status</th>
                 <th className="px-6 py-4 hidden sm:table-cell">Order</th>
                 <th className="px-6 py-4 text-right">Actions</th>
@@ -153,6 +153,7 @@ export default function TeamDirectoryPage() {
                 // Skeleton Loaders
                 Array.from({ length: 5 }).map((_, idx) => (
                   <tr key={idx} className="animate-pulse">
+                    <td className="px-6 py-4 hidden sm:table-cell"><div className="h-4 bg-gray-200 rounded w-6 mx-auto"></div></td>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full bg-gray-200 shrink-0"></div>
@@ -161,6 +162,8 @@ export default function TeamDirectoryPage() {
                     </td>
                     <td className="px-6 py-4"><div className="h-4 bg-gray-200 rounded w-24"></div></td>
                     <td className="px-6 py-4"><div className="h-4 bg-gray-200 rounded w-20"></div></td>
+                    <td className="px-6 py-4"><div className="h-4 bg-gray-200 rounded w-24"></div></td>
+                    <td className="px-6 py-4"><div className="h-4 bg-gray-200 rounded w-24"></div></td>
                     <td className="px-6 py-4"><div className="h-6 bg-gray-200 rounded-full w-16"></div></td>
                     <td className="px-6 py-4"><div className="h-4 bg-gray-200 rounded w-8"></div></td>
                     <td className="px-6 py-4 text-right"><div className="h-8 bg-gray-200 rounded w-16 ml-auto"></div></td>
@@ -168,13 +171,16 @@ export default function TeamDirectoryPage() {
                 ))
               ) : filteredMembers.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="px-6 py-12 text-center text-steel">
+                  <td colSpan={9} className="px-6 py-12 text-center text-steel">
                     {searchQuery ? "No members found matching your search." : "No members found. Add your first team member to get started."}
                   </td>
                 </tr>
               ) : (
-                paginatedMembers.map((member) => (
+                paginatedMembers.map((member, idx) => (
                   <tr key={member.id} className="hover:bg-surface-soft transition-colors">
+                    <td className="px-6 py-4 text-center hidden sm:table-cell text-steel">
+                      {(currentPage - 1) * itemsPerPage + idx + 1}
+                    </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 rounded-full bg-brand-green-soft text-brand-green-dark flex items-center justify-center shrink-0 overflow-hidden border border-brand-green/30">
@@ -217,6 +223,12 @@ export default function TeamDirectoryPage() {
                     <td className="px-6 py-4 text-steel hidden sm:table-cell">
                       {member.departmentName || <span className="text-muted italic">None</span>}
                     </td>
+                    <td className="px-6 py-4 text-steel hidden sm:table-cell whitespace-nowrap">
+                      {member.termStartDate ? formatTenureYears(member.termStartDate, member.termEndDate) : '-'}
+                    </td>
+                    <td className="px-6 py-4 text-steel hidden sm:table-cell">
+                      {member.termStartDate ? calculateExactDuration(member.termStartDate, member.termEndDate) : '-'}
+                    </td>
                     <td className="px-6 py-4 hidden sm:table-cell">
                       {member.isActive ? (
                         <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-brand-green-soft text-brand-green-dark border border-brand-green/20">
@@ -257,7 +269,7 @@ export default function TeamDirectoryPage() {
             </tbody>
           </table>
         </div>
-        
+
         {/* Pagination Controls */}
         {!loading && filteredMembers.length > 0 && (
           <div className="px-6 py-4 border-t border-hairline-soft bg-surface-soft flex items-center justify-between">
@@ -265,7 +277,7 @@ export default function TeamDirectoryPage() {
               Showing <span className="font-medium text-ink">{(currentPage - 1) * itemsPerPage + 1}</span> to <span className="font-medium text-ink">{Math.min(currentPage * itemsPerPage, filteredMembers.length)}</span> of <span className="font-medium text-ink">{filteredMembers.length}</span> members
             </span>
             <div className="flex items-center gap-2">
-              <button 
+              <button
                 onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
                 className="p-1.5 rounded-lg border border-hairline-strong text-steel hover:bg-surface hover:text-ink disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
@@ -274,20 +286,19 @@ export default function TeamDirectoryPage() {
               </button>
               <div className="flex items-center gap-1">
                 {Array.from({ length: totalPages }).map((_, idx) => (
-                  <button 
+                  <button
                     key={idx}
                     onClick={() => setCurrentPage(idx + 1)}
-                    className={`w-8 h-8 rounded-lg text-sm font-medium transition-colors ${
-                      currentPage === idx + 1 
-                        ? 'bg-brand-green text-on-primary' 
-                        : 'text-steel hover:bg-surface hover:text-ink'
-                    }`}
+                    className={`w-8 h-8 rounded-lg text-sm font-medium transition-colors ${currentPage === idx + 1
+                      ? 'bg-brand-green text-on-primary'
+                      : 'text-steel hover:bg-surface hover:text-ink'
+                      }`}
                   >
                     {idx + 1}
                   </button>
                 ))}
               </div>
-              <button 
+              <button
                 onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
                 className="p-1.5 rounded-lg border border-hairline-strong text-steel hover:bg-surface hover:text-ink disabled:opacity-50 disabled:cursor-not-allowed transition-colors"

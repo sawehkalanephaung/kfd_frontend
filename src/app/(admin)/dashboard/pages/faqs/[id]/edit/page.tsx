@@ -2,8 +2,9 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { Loader2 } from 'lucide-react';
+import { Loader2, MessageCircleQuestion } from 'lucide-react';
 import FaqForm from '@/components/faq-form';
+import PageHeader from '@/components/page-header';
 import api from '@/lib/api';
 
 export default function EditFaqPage() {
@@ -52,13 +53,12 @@ export default function EditFaqPage() {
 
   return (
     <div>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-ink">Edit FAQ</h1>
-        <p className="text-steel mt-1">
-          Update the question, answer, and display settings for this FAQ.
-        </p>
-      </div>
-      
+      <PageHeader
+        icon={MessageCircleQuestion}
+        title="Edit FAQ"
+        description="Update the question, answer, and display settings for this FAQ."
+      />
+
       <FaqForm isEdit={true} initialData={faqData} faqId={id} />
     </div>
   );

@@ -4,6 +4,7 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { ContentFallback } from "@/components/content-fallback";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -61,8 +62,18 @@ function AnimatedStat({ valueStr, label, subLabel, delay = 0 }: { valueStr: stri
   );
 }
 
-export default function StatsSection({ metrics }: { metrics: any[] }) {
-  if (!metrics || metrics.length === 0) return null;
+export default function StatsSection({ metrics, status }: { metrics: any[]; status: 'ok' | 'empty' | 'error' }) {
+  if (status === 'empty') return null;
+
+  if (status === 'error') {
+    return (
+      <section className="bg-[#132a1c] text-white py-12 border-t border-[#1a3626]">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <ContentFallback variant="error" tone="dark" title="Statistics unavailable" message="We couldn't load the latest figures right now." />
+        </div>
+      </section>
+    );
+  }
 
   const displayStats = metrics.map(m => ({
     value: m.metricValue,

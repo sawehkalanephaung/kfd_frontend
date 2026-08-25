@@ -14,9 +14,27 @@ interface CategoryFormProps {
   isSlideOver?: boolean;
   onSuccess?: () => void;
   onCancel?: () => void;
+  /** Admin CRUD endpoint for this category type. */
+  apiBasePath?: string;
+  /** List page to return to / redirect after a non-slide-over save. */
+  backHref?: string;
+  namePlaceholder?: string;
+  /** Shown under the "Show on Public Site" toggle — names where the category surfaces publicly. */
+  visibilityHint?: string;
 }
 
-export default function CategoryForm({ initialData, isEdit, categoryId, isSlideOver, onSuccess, onCancel }: CategoryFormProps) {
+export default function CategoryForm({
+  initialData,
+  isEdit,
+  categoryId,
+  isSlideOver,
+  onSuccess,
+  onCancel,
+  apiBasePath = '/api/v1/admin/cms/categories',
+  backHref = '/dashboard/posts/categories',
+  namePlaceholder = 'e.g. Wildlife Protection',
+  visibilityHint = 'When enabled, this category appears in the public news filter bar.',
+}: CategoryFormProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -49,16 +67,16 @@ export default function CategoryForm({ initialData, isEdit, categoryId, isSlideO
 
     try {
       if (isEdit) {
-        await api.put(`/api/v1/admin/cms/categories/${categoryId}`, formData);
+        await api.put(`${apiBasePath}/${categoryId}`, formData);
         toast.success('Successfully updated category!');
       } else {
-        await api.post('/api/v1/admin/cms/categories', formData);
+        await api.post(apiBasePath, formData);
         toast.success('Successfully created category!');
       }
       if (onSuccess) {
         onSuccess();
       } else {
-        router.push('/dashboard/posts/categories');
+        router.push(backHref);
       }
     } catch (err: any) {
       console.error(err);
@@ -76,7 +94,7 @@ export default function CategoryForm({ initialData, isEdit, categoryId, isSlideO
       <div className="flex items-center justify-between">
         {!isSlideOver ? (
           <Link
-            href="/dashboard/posts/categories"
+            href={backHref}
             className="inline-flex items-center gap-2 text-sm font-medium text-steel hover:text-ink transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
@@ -124,7 +142,7 @@ export default function CategoryForm({ initialData, isEdit, categoryId, isSlideO
                 value={formData.name}
                 onChange={handleNameChange}
                 className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
-                placeholder="e.g. Wildlife Protection"
+                placeholder={namePlaceholder}
               />
             </div>
 
@@ -156,7 +174,7 @@ export default function CategoryForm({ initialData, isEdit, categoryId, isSlideO
             <div>
               <p className="text-sm font-semibold text-ink">Show on Public Site</p>
               <p className="text-xs text-steel mt-0.5">
-                When enabled, this category appears in the public news filter bar.
+                {visibilityHint}
               </p>
             </div>
             <button

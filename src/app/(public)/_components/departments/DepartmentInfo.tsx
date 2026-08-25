@@ -15,7 +15,7 @@ export default function DepartmentInfo({ data }: { data: DepartmentData }) {
   const timeline = data.timeline || [];
 
   // Strip HTML to see if there's actual content
-  const hasOverview = overview && overview.replace(/<[^>]*>?/gm, '').trim().length > 0;
+  const hasOverview = overview && overview.replace(/<[^>]*>/gm, '').trim().length > 0;
 
   return (
     <div className="py-8">
@@ -24,9 +24,9 @@ export default function DepartmentInfo({ data }: { data: DepartmentData }) {
       </h2>
 
       {hasOverview && (
-        <div className="mb-12">
+        <div className="mb-12 min-w-0">
           <div
-            className="text-slate leading-relaxed text-sm prose prose-sm max-w-none prose-green"
+            className="rich-text text-slate leading-relaxed text-sm prose prose-sm max-w-none prose-green"
             dangerouslySetInnerHTML={{ __html: overview }}
           />
         </div>

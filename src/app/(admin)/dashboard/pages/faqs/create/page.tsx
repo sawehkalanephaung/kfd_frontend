@@ -1,15 +1,16 @@
+import { MessageCircleQuestion } from 'lucide-react';
 import FaqForm from '@/components/faq-form';
+import PageHeader from '@/components/page-header';
 
 export default function CreateFaqPage() {
   return (
     <div>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-ink">Create New FAQ</h1>
-        <p className="text-steel mt-1">
-          Add a new Frequently Asked Question to the knowledge base.
-        </p>
-      </div>
-      
+      <PageHeader
+        icon={MessageCircleQuestion}
+        title="Create New FAQ"
+        description="Add a new Frequently Asked Question to the knowledge base."
+      />
+
       <FaqForm isEdit={false} />
     </div>
   );

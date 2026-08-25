@@ -1,15 +1,16 @@
+import { BarChart2 } from 'lucide-react';
 import MetricForm from '@/components/metric-form';
+import PageHeader from '@/components/page-header';
 
 export default function CreateMetricPage() {
   return (
     <div>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-ink">Create Global Metric</h1>
-        <p className="text-steel mt-1">
-          Add a new global statistic to display across the KFD portal.
-        </p>
-      </div>
-      
+      <PageHeader
+        icon={BarChart2}
+        title="Create Global Metric"
+        description="Add a new global statistic to display across the KFD portal."
+      />
+
       <MetricForm isEdit={false} />
     </div>
   );

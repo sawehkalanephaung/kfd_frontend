@@ -2,21 +2,38 @@ import AboutContentSection from "../_components/about/AboutContentSection";
 import AboutChairmanSection from "../_components/about/AboutChairmanSection";
 import AboutHeroSection from "../_components/about/AboutHeroSection";
 import AboutMissionVisionSection from "../_components/about/AboutMissionVisionSection";
+import { RESERVED_PAGE_SLUGS } from "@/lib/reserved-pages";
 
-// Helper function to fetch page data from backend
-async function getPageData(slug: string) {
+/**
+ * `about-us` is this page's primary content (pass throwOnError: true) so a
+ * real backend failure surfaces the site's `error.tsx` retry UI instead of
+ * quietly rendering a blank hero. The other sections fetched with this same
+ * helper (history/mission/vision/objective) are supplementary — they keep
+ * degrading to their own existing "will be updated soon" copy.
+ *
+ * A 404 is deliberately NOT treated as a throwOnError failure: it means the
+ * page genuinely doesn't exist yet (e.g. never created, or deleted by an
+ * admin) — not that the backend is broken. Retrying wouldn't help, so it
+ * degrades to null like any other "not configured yet" case, matching the
+ * 404-vs-real-error split already used by departments/[slug]/page.tsx and
+ * team/[id]/page.tsx.
+ */
+async function getPageData(slug: string, { throwOnError = false } = {}) {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
     const res = await fetch(`${baseUrl}/api/v1/public/pages/${slug}`, {
       cache: 'no-store'
     });
 
+    if (res.status === 404) return null;
     if (!res.ok) {
+      if (throwOnError) throw new Error(`Failed to load page "${slug}": ${res.status}`);
       return null;
     }
     const data = await res.json();
     return data?.data || null;
   } catch (error) {
+    if (throwOnError) throw error;
     console.error(`Error fetching page ${slug}:`, error);
     return null;
   }
@@ -73,11 +90,11 @@ export default async function AboutUsPage() {
     objectiveData,
     teamMembers
   ] = await Promise.all([
-    getPageData("about-us"),
-    getPageData("history"),
-    getPageData("mission"),
-    getPageData("vision"),
-    getPageData("objective"),
+    getPageData(RESERVED_PAGE_SLUGS.ABOUT_US, { throwOnError: true }),
+    getPageData(RESERVED_PAGE_SLUGS.HISTORY),
+    getPageData(RESERVED_PAGE_SLUGS.MISSION),
+    getPageData(RESERVED_PAGE_SLUGS.VISION),
+    getPageData(RESERVED_PAGE_SLUGS.OBJECTIVE),
     getTeamMembers()
   ]);
 
@@ -100,7 +117,9 @@ export default async function AboutUsPage() {
     name: `${chairman.firstName || chairman.first_name || chairman.name || ''} ${chairman.lastName || chairman.last_name || ''}`.trim() || 'Chairman',
     title: finalTitle,
     bio: parseI18nField(chairman.bio || chairman.description),
-    image: chairman.headshot_url || chairman.headshotUrl || chairman.imageUrl || chairman.avatarUrl || null
+    image: chairman.headshot_url || chairman.headshotUrl || chairman.imageUrl || chairman.avatarUrl || null,
+    termStartDate: chairman.termStartDate,
+    termEndDate: chairman.termEndDate
   } : undefined;
 
   return (
@@ -126,7 +145,7 @@ export default async function AboutUsPage() {
         variant="split"
         bgVariant="dark"
         imageAlignment="right"
-        buttonText="READ FULL HISTORY >"
+        buttonText="READ FULL HISTORY"
         buttonLink="/history"
       />
 

@@ -7,6 +7,7 @@ import Link from 'next/link';
 import api from '@/lib/api';
 import toast from 'react-hot-toast';
 import { CustomSelect } from '@/components/ui/custom-select';
+import PageHeader from '@/components/page-header';
 
 export default function UploadMediaPage() {
   const router = useRouter();
@@ -116,12 +117,11 @@ export default function UploadMediaPage() {
 
   return (
     <div>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-ink">Upload Media</h1>
-        <p className="text-steel mt-1">
-          Upload new files, images, or documents to your library.
-        </p>
-      </div>
+      <PageHeader
+        icon={UploadCloud}
+        title="Upload Media"
+        description="Upload new files, images, or documents to your library."
+      />
 
       <form onSubmit={handleSubmit} className="space-y-6 max-w-4xl">
         <div className="flex items-center justify-between">

@@ -2,22 +2,20 @@ import Link from "next/link";
 import { User, ArrowRight } from "lucide-react";
 import { getMediaUrl } from "@/lib/api";
 
+/**
+ * This page's whole purpose is the team roster, so a fetch failure throws
+ * (→ `(public)/error.tsx` retry UI) instead of quietly rendering an empty
+ * grid indistinguishable from "no team members added yet."
+ */
 async function getTeamMembers() {
-  try {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
-    const res = await fetch(`${baseUrl}/api/v1/public/team-members`, { 
-      cache: 'no-store'
-    });
-    
-    if (!res.ok) {
-      return [];
-    }
-    const data = await res.json();
-    return data?.data || [];
-  } catch (error) {
-    console.error("Error fetching team members:", error);
-    return [];
-  }
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
+  const res = await fetch(`${baseUrl}/api/v1/public/team-members`, {
+    cache: 'no-store'
+  });
+
+  if (!res.ok) throw new Error(`Failed to load team members: ${res.status}`);
+  const data = await res.json();
+  return data?.data || [];
 }
 
 function parseI18nField(val: any): string {

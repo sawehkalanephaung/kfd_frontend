@@ -7,7 +7,9 @@ import api from '@/lib/api';
 import DeleteModal from '@/components/delete-modal';
 import SlideOver from '@/components/slide-over';
 import UserForm from '@/components/user-form';
+import PageHeader from '@/components/page-header';
 import { CustomSelect } from '@/components/ui/custom-select';
+import { toast } from 'sonner';
 
 export default function UsersDirectoryPage() {
   const [users, setUsers] = useState<any[]>([]);
@@ -64,9 +66,18 @@ export default function UsersDirectoryPage() {
   const confirmDelete = async () => {
     if (!userToDelete) return;
 
-    await api.delete(`/api/v1/admin/users/${userToDelete.id}`);
-    setUsers((prev) => prev.filter((u) => u.id !== userToDelete.id));
-    setDeleteModalOpen(false);
+    try {
+      await api.delete(`/api/v1/admin/users/${userToDelete.id}`);
+      setUsers((prev) => prev.filter((u) => u.id !== userToDelete.id));
+      setDeleteModalOpen(false);
+      toast.success('User deleted.');
+    } catch (err: any) {
+      // A 409 here means the API refused to remove the last active Super Admin.
+      // Keep the modal open so the message stays next to the action that caused it.
+      toast.error(
+        err?.response?.data?.message || 'Could not delete this user. Please try again.'
+      );
+    }
   };
 
   const openCreateDrawer = () => {
@@ -114,44 +125,39 @@ export default function UsersDirectoryPage() {
       <div className="flex items-center gap-2 text-sm text-muted mb-6">
         <Link href="/dashboard" className="text-steel hover:text-ink transition-colors">Home</Link>
         <span>&gt;</span>
-        <Link href="/dashboard/team" className="text-steel hover:text-ink transition-colors">Team Directory</Link>
+        <Link href="/dashboard/team" className="text-steel hover:text-ink transition-colors">Team Members</Link>
         <span>&gt;</span>
         <span className="text-ink font-medium">System Users</span>
       </div>
 
-      {/* Header Section */}
-      <div className="bg-canvas rounded-lg p-8 shadow-sm border border-hairline-soft flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-        <div>
-          <h1 className="text-2xl font-bold text-ink flex items-center gap-3">
-            <Users className="w-6 h-6 text-brand-green" />
-            System Users
-          </h1>
-          <p className="text-steel mt-1">
-            Manage administrative users who have access to this dashboard.
-          </p>
-        </div>
-        <div className="flex items-center gap-4">
-          <div className="w-48">
-            <CustomSelect
-              value={statusFilter}
-              onChange={(val) => setStatusFilter(val)}
-              options={[
-                { value: 'all', label: 'All Users' },
-                { value: 'active', label: 'Active Only' },
-                { value: 'inactive', label: 'Inactive / Suspended' }
-              ]}
-              clearable
-            />
+      <PageHeader
+        icon={Users}
+        title="System Users"
+        description="Manage administrative users who have access to this dashboard."
+        action={
+          <div className="flex items-center gap-4">
+            <div className="w-48">
+              <CustomSelect
+                value={statusFilter}
+                onChange={(val) => setStatusFilter(val)}
+                options={[
+                  { value: 'all', label: 'All Users' },
+                  { value: 'active', label: 'Active Only' },
+                  { value: 'inactive', label: 'Inactive / Suspended' }
+                ]}
+                clearable
+              />
+            </div>
+            <button
+              onClick={openCreateDrawer}
+              className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-brand-green hover:bg-primary-deep text-on-primary font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
+            >
+              <Plus className="w-5 h-5" />
+              ADD
+            </button>
           </div>
-          <button
-            onClick={openCreateDrawer}
-            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-brand-green hover:bg-primary-deep text-on-primary font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
-          >
-            <Plus className="w-5 h-5" />
-            ADD
-          </button>
-        </div>
-      </div>
+        }
+      />
 
       {/* Error State */}
       {error && (

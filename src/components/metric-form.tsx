@@ -65,7 +65,7 @@ export default function MetricForm({ initialData, isEdit, metricId, onSave }: Me
           className="inline-flex items-center gap-2 text-sm font-medium text-steel hover:text-ink transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
-          Back to Global Metrics
+          Back to Statistics Metrics
         </Link>
         <button
           type="submit"
@@ -86,7 +86,7 @@ export default function MetricForm({ initialData, isEdit, metricId, onSave }: Me
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Main Content Column */}
         <div className="lg:col-span-2 space-y-6">
-          
+
           {/* Basic Info Card */}
           <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft">
             <h2 className="text-lg font-bold text-ink mb-6 flex items-center gap-2">
@@ -100,7 +100,7 @@ export default function MetricForm({ initialData, isEdit, metricId, onSave }: Me
                   type="text"
                   required
                   value={formData.title}
-                  onChange={(e) => setFormData({...formData, title: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                   className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
                   placeholder="e.g. Protected Forest Area"
                 />
@@ -113,7 +113,7 @@ export default function MetricForm({ initialData, isEdit, metricId, onSave }: Me
                     type="text"
                     required
                     value={formData.metricValue}
-                    onChange={(e) => setFormData({...formData, metricValue: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, metricValue: e.target.value })}
                     className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
                     placeholder="e.g. 200,000 Acres"
                   />
@@ -123,7 +123,7 @@ export default function MetricForm({ initialData, isEdit, metricId, onSave }: Me
                   <input
                     type="text"
                     value={formData.icon}
-                    onChange={(e) => setFormData({...formData, icon: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
                     className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
                     placeholder="e.g. TreePine (Lucide Icon name)"
                   />
@@ -137,7 +137,7 @@ export default function MetricForm({ initialData, isEdit, metricId, onSave }: Me
 
         {/* Sidebar Column */}
         <div className="space-y-6">
-          
+
           {/* Settings Card */}
           <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft">
             <h2 className="text-lg font-bold text-ink mb-6 flex items-center gap-2">
@@ -150,19 +150,17 @@ export default function MetricForm({ initialData, isEdit, metricId, onSave }: Me
                 <div className="flex items-center gap-3 bg-surface p-1.5 rounded-xl border border-hairline-strong">
                   <button
                     type="button"
-                    onClick={() => setFormData({...formData, isActive: true})}
-                    className={`flex-1 py-2 text-sm font-medium rounded-lg transition-colors ${
-                      formData.isActive ? 'bg-canvas text-brand-green-dark shadow-sm border border-brand-green/20' : 'text-steel hover:text-ink'
-                    }`}
+                    onClick={() => setFormData({ ...formData, isActive: true })}
+                    className={`flex-1 py-2 text-sm font-medium rounded-lg transition-colors ${formData.isActive ? 'bg-canvas text-brand-green-dark shadow-sm border border-brand-green/20' : 'text-steel hover:text-ink'
+                      }`}
                   >
                     Active
                   </button>
                   <button
                     type="button"
-                    onClick={() => setFormData({...formData, isActive: false})}
-                    className={`flex-1 py-2 text-sm font-medium rounded-lg transition-colors ${
-                      !formData.isActive ? 'bg-canvas text-ink shadow-sm border border-hairline-strong' : 'text-steel hover:text-ink'
-                    }`}
+                    onClick={() => setFormData({ ...formData, isActive: false })}
+                    className={`flex-1 py-2 text-sm font-medium rounded-lg transition-colors ${!formData.isActive ? 'bg-canvas text-ink shadow-sm border border-hairline-strong' : 'text-steel hover:text-ink'
+                      }`}
                   >
                     Hidden
                   </button>
@@ -173,7 +171,7 @@ export default function MetricForm({ initialData, isEdit, metricId, onSave }: Me
                 <input
                   type="number"
                   value={formData.displayOrder}
-                  onChange={(e) => setFormData({...formData, displayOrder: parseInt(e.target.value) || 0})}
+                  onChange={(e) => setFormData({ ...formData, displayOrder: parseInt(e.target.value) || 0 })}
                   className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                 />
                 <p className="text-xs text-muted mt-2">Determines display order (lower = first)</p>

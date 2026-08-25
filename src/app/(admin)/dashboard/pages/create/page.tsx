@@ -1,16 +1,27 @@
+import { FileText } from 'lucide-react';
 import PageForm from '@/components/page-form';
+import PageHeader from '@/components/page-header';
 
-export default function CreatePage() {
+interface CreatePageProps {
+  // Populated when arriving from the "well-known pages" shortcut on the
+  // Pages list (?slug=mission&title=Mission), so the slug is prefilled and
+  // locked rather than left to auto-generate from whatever title ends up
+  // being typed.
+  searchParams: Promise<{ slug?: string; title?: string }>;
+}
+
+export default async function CreatePage({ searchParams }: CreatePageProps) {
+  const { slug, title } = await searchParams;
+
   return (
     <div>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-ink">Create New Page</h1>
-        <p className="text-steel mt-1">
-          Add a new content page to the KFD platform.
-        </p>
-      </div>
-      
-      <PageForm isEdit={false} />
+      <PageHeader
+        icon={FileText}
+        title="Create New Page"
+        description="Add a new content page to the KFD platform."
+      />
+
+      <PageForm isEdit={false} initialData={slug ? { slug, title: title || '' } : undefined} />
     </div>
   );
 }

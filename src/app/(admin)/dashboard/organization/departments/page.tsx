@@ -6,6 +6,7 @@ import { Plus, Edit, Trash2, Building2, MoreVertical, Loader2 } from 'lucide-rea
 import api from '@/lib/api';
 import DeleteModal from '@/components/delete-modal';
 import CreateButton from '@/components/create-button';
+import PageHeader from '@/components/page-header';
 
 interface Department {
   id: string;
@@ -74,19 +75,12 @@ export default function DepartmentsPage() {
         <span className="text-ink font-medium">Departments</span>
       </div>
 
-      {/* Header Section */}
-      <div className="bg-canvas rounded-lg p-8 shadow-sm border border-hairline-soft flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-        <div>
-          <h1 className="text-2xl font-bold text-ink flex items-center gap-3">
-            <Building2 className="w-6 h-6 text-brand-green" />
-            Department Branches
-          </h1>
-          <p className="text-steel mt-1">
-            Manage the operational units and organizational structure of KFD.
-          </p>
-        </div>
-        <CreateButton href="/dashboard/organization/departments/create" />
-      </div>
+      <PageHeader
+        icon={Building2}
+        title="Department Branches"
+        description="Manage the operational units and organizational structure of KFD."
+        action={<CreateButton href="/dashboard/organization/departments/create" />}
+      />
 
       {/* Error State */}
       {error && (

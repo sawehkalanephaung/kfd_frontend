@@ -3,8 +3,10 @@ import Link from "next/link";
 import { Search, ChevronDown, Globe } from "lucide-react";
 import logoImg from "@/assets/logo-2.png";
 import MobileMenu from "./MobileMenu";
+import { getSiteIdentity } from "@/lib/site-identity";
 
 export default async function Navbar() {
+  const { organizationName, organizationNameKaren, resolvedLogoUrl } = await getSiteIdentity();
   let departments = [];
 
   try {
@@ -33,7 +35,7 @@ export default async function Navbar() {
       href: "/about",
       dropdown: [
         { name: "About KFD", href: "/about" },
-        { name: "Our Teams", href: "/team" },
+        { name: "Our Chairman", href: "/about/chairman" },
       ]
     },
     {
@@ -60,17 +62,28 @@ export default async function Navbar() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3">
           <div className="relative w-12 h-12 flex-shrink-0">
-            <Image
-              src={logoImg}
-              alt="KFD Logo"
-              fill
-              sizes="48px"
-              className="object-contain"
-            />
+            {resolvedLogoUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={resolvedLogoUrl}
+                alt={`${organizationName} Logo`}
+                className="absolute inset-0 w-full h-full object-contain"
+              />
+            ) : (
+              <Image
+                src={logoImg}
+                alt={`${organizationName} Logo`}
+                fill
+                sizes="48px"
+                className="object-contain"
+              />
+            )}
           </div>
           <div className="flex flex-col">
-            <span className="font-bold text-lg leading-none text-[#1a3626] tracking-tight">Kawthoolei Forestry Department</span>
-            <span className="font-medium text-sm mt-1 text-[#1a3626]">ကီၢ်သူလ့ၤသ့ၣ်ပှၢ်ဝဲၤကျိၤ</span>
+            <span className="font-bold text-lg leading-none text-[#1a3626] tracking-tight">{organizationName}</span>
+            {organizationNameKaren && (
+              <span className="font-medium text-sm mt-1 text-[#1a3626]">{organizationNameKaren}</span>
+            )}
           </div>
         </Link>
 

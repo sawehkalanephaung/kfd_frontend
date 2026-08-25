@@ -2,11 +2,12 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Loader2, Save, ArrowLeft, User, AlignLeft, Settings, Image as ImageIcon, Building2, UploadCloud, X } from 'lucide-react';
+import { Loader2, Save, ArrowLeft, User, AlignLeft, Settings, Image as ImageIcon, Building2 } from 'lucide-react';
 import Link from 'next/link';
 import api, { getMediaUrl } from '@/lib/api';
 import dynamic from 'next/dynamic';
 import MediaSelector from '@/components/media-selector';
+import ImageUploadField from '@/components/image-upload-field';
 import toast from 'react-hot-toast';
 import { CustomSelect } from '@/components/ui/custom-select';
 import 'react-quill-new/dist/quill.snow.css';
@@ -58,11 +59,14 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
     displayOrder: initialData?.displayOrder || 0,
     isActive: initialData?.isActive ?? true,
     isKfdChairman: initialData?.isKfdChairman ?? false,
+    termStartDate: initialData?.termStartDate || '',
+    termEndDate: initialData?.termEndDate || '',
   });
 
   const [headshotFile, setHeadshotFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  
+  const [isMediaSelectorOpen, setIsMediaSelectorOpen] = useState(false);
+
   // Cropper State
   const [cropModalOpen, setCropModalOpen] = useState(false);
   const [imageToCrop, setImageToCrop] = useState<string | null>(null);
@@ -118,6 +122,18 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
     }
   };
 
+  /**
+   * A library asset is already uploaded (and presumably already sized
+   * appropriately), so it's applied directly and skips the crop step that
+   * a freshly-picked file goes through — same immediate-apply behavior as
+   * every other form's library selection.
+   */
+  const handleLibrarySelect = (assets: { fileUrl: string }[]) => {
+    if (assets.length === 0) return;
+    setHeadshotFile(null);
+    setFormData((prev) => ({ ...prev, headshotUrl: assets[0].fileUrl }));
+  };
+
   useEffect(() => {
     fetchDepartments();
   }, []);
@@ -163,6 +179,8 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
         bio: JSON.stringify({ richText: formData.bio }),
         departmentId: formData.departmentId || null,
         isKfdChairman: formData.isKfdChairman,
+        termStartDate: formData.termStartDate || null,
+        termEndDate: formData.termEndDate || null,
       };
 
       if (isEdit) {
@@ -278,6 +296,28 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
                   )}
                 </div>
               </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
+                <div>
+                  <label className="block text-sm font-semibold text-ink mb-2">Term Start Date</label>
+                  <input
+                    type="date"
+                    value={formData.termStartDate}
+                    onChange={(e) => setFormData({...formData, termStartDate: e.target.value})}
+                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-ink mb-2">Term End Date</label>
+                  <input
+                    type="date"
+                    value={formData.termEndDate}
+                    onChange={(e) => setFormData({...formData, termEndDate: e.target.value})}
+                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                  />
+                  <p className="text-[10px] text-muted mt-1">Leave empty if currently active.</p>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -359,55 +399,29 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
               Headshot Image
             </h2>
             <div className="space-y-4">
-              <div className="w-full aspect-square bg-surface border border-hairline-strong rounded-lg overflow-hidden relative group flex items-center justify-center">
-                {(previewUrl || formData.headshotUrl) ? (
-                  <img 
-                    src={previewUrl || getMediaUrl(formData.headshotUrl)} 
-                    alt="Headshot Preview" 
-                    className="w-full h-full object-cover" 
-                  />
-                ) : (
-                  <User className="w-16 h-16 text-muted" />
-                )}
-                
-                {/* Overlay for change/upload */}
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
-                  <button
-                    type="button"
-                    onClick={() => fileInputRef.current?.click()}
-                    className="bg-canvas text-slate p-3 rounded-full hover:bg-surface hover:scale-110 transition-transform shadow-sm"
-                    title={(previewUrl || formData.headshotUrl) ? "Change Image" : "Upload Image"}
-                  >
-                    <UploadCloud className="w-5 h-5" />
-                  </button>
-                  {(previewUrl || formData.headshotUrl) && (
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setHeadshotFile(null);
-                        setFormData({...formData, headshotUrl: ''});
-                        if (fileInputRef.current) fileInputRef.current.value = '';
-                      }}
-                      className="bg-canvas text-red-500 p-3 rounded-full hover:bg-red-50 hover:scale-110 transition-transform shadow-sm"
-                      title="Remove Image"
-                    >
-                      <X className="w-5 h-5" />
-                    </button>
-                  )}
-                </div>
-              </div>
-
-              <input 
-                type="file" 
-                ref={fileInputRef} 
-                onChange={handleFileChange} 
-                accept="image/*"
-                className="hidden" 
+              <ImageUploadField
+                previewUrl={previewUrl || (formData.headshotUrl ? getMediaUrl(formData.headshotUrl) : null)}
+                onUploadClick={() => fileInputRef.current?.click()}
+                onLibraryClick={() => setIsMediaSelectorOpen(true)}
+                onRemoveClick={() => {
+                  setHeadshotFile(null);
+                  setFormData({ ...formData, headshotUrl: '' });
+                  if (fileInputRef.current) fileInputRef.current.value = '';
+                }}
+                alt="Headshot preview"
+                aspect="square"
+                emptyIcon={<User className="w-6 h-6 text-muted" />}
+                emptyLabel="No headshot selected"
+                emptyHint="Upload a square image or choose one from your library."
               />
-              
-              {!previewUrl && !formData.headshotUrl && (
-                <p className="text-xs text-steel text-center mt-2">Click the icon to upload a square image.</p>
-              )}
+
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                accept="image/*"
+                className="hidden"
+              />
             </div>
           </div>
 
@@ -422,6 +436,14 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
           onClose={handleCropClose}
         />
       )}
+
+      <MediaSelector
+        isOpen={isMediaSelectorOpen}
+        onClose={() => setIsMediaSelectorOpen(false)}
+        onSelect={handleLibrarySelect}
+        multiple={false}
+        title="Select Headshot Image"
+      />
     </form>
   );
 }
