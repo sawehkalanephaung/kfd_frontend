@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Settings, Bell, ShieldAlert, Mail, FileText, Check } from 'lucide-react';
 import { toast } from 'sonner';
+import PageHeader from '@/components/page-header';
 
 type PreferenceKey = 'notifyNewSubscriber' | 'notifyFailedLogin' | 'notifyPendingReview';
 
@@ -104,16 +105,11 @@ export default function SystemSettingsPage() {
         <span className="text-ink font-medium">System Settings</span>
       </div>
 
-      {/* Header Section */}
-      <div className="bg-canvas rounded-lg p-8 shadow-sm border border-hairline-soft mb-6">
-        <h1 className="text-2xl font-bold text-ink flex items-center gap-3">
-          <Settings className="w-6 h-6 text-brand-green" />
-          System Settings
-        </h1>
-        <p className="text-steel mt-1">
-          Manage your personal dashboard preferences and notification alerts.
-        </p>
-      </div>
+      <PageHeader
+        icon={Settings}
+        title="System Settings"
+        description="Manage your personal dashboard preferences and notification alerts."
+      />
 
       {/* Settings Grid */}
       <div className="grid grid-cols-1 gap-6">

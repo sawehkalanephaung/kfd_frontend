@@ -6,9 +6,11 @@ import { Loader2, Save, ArrowLeft, FileText, AlignLeft, Settings, Image as Image
 import Link from 'next/link';
 import api, { getMediaUrl } from '@/lib/api';
 import MediaSelector from '@/components/media-selector';
+import ImageUploadField from '@/components/image-upload-field';
 import toast from 'react-hot-toast';
 import dynamic from 'next/dynamic';
 import { CustomSelect } from '@/components/ui/custom-select';
+import { RESERVED_PAGES } from '@/lib/reserved-pages';
 import 'react-quill-new/dist/quill.snow.css';
 
 /**
@@ -44,7 +46,7 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [selectorMode, setSelectorMode] = useState<'none' | 'slider' | 'quill-image'>('none');
+  const [selectorMode, setSelectorMode] = useState<'none' | 'hero' | 'slider' | 'quill-image'>('none');
   const quillRef = useRef<any>(null);
 
   // Form State matching the Page entity
@@ -52,9 +54,29 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
     title: initialData?.title || '',
     slug: initialData?.slug || '',
     content: initialData?.content || '',
+    heroImageId: initialData?.heroImageId || '',
     sliderImageIds: initialData?.sliderImageIds?.join(', ') || '',
     status: initialData?.status || 'DRAFT',
   });
+
+  // Hero/Featured image — a single image (distinct from the slider gallery
+  // below), matching the same "Upload Image" + "Choose from Library" widget
+  // every other admin form uses. This field already existed on the backend
+  // (heroImageId/heroImageUrl) but had no UI at all until now.
+  const [heroUrl, setHeroUrl] = useState(initialData?.heroImageUrl || '');
+  const [uploadingHero, setUploadingHero] = useState(false);
+  const heroInputRef = useRef<HTMLInputElement>(null);
+
+  /**
+   * Slug auto-follows the title while creating a freeform page — but only
+   * until the admin sets it deliberately (by typing into the Slug field
+   * directly, or by arriving here pre-filled from the "well-known pages"
+   * shortcut on the Pages list). Without this guard, editing the title
+   * after picking a slug silently regenerates and overwrites it, breaking
+   * pages the public site depends on by exact slug (e.g. "mission").
+   */
+  const [slugManuallyEdited, setSlugManuallyEdited] = useState(() => Boolean(initialData?.slug));
+  const reservedPage = RESERVED_PAGES.find((p) => p.slug === initialData?.slug);
 
   const [sliderPreviews, setSliderPreviews] = useState<{id: string, url: string}[]>(() => {
     if (initialData?.sliderImageIds && initialData?.sliderImageUrls) {
@@ -75,8 +97,49 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
     setFormData((prev) => ({
       ...prev,
       title: newTitle,
-      slug: !isEdit ? generateSlug(newTitle) : prev.slug, // Auto-generate slug only on create
+      // Auto-follow the slug only while creating AND only until the admin
+      // has set it deliberately — see slugManuallyEdited above.
+      slug: (!isEdit && !slugManuallyEdited) ? generateSlug(newTitle) : prev.slug,
     }));
+  };
+
+  const handleSlugChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSlugManuallyEdited(true);
+    setFormData((prev) => ({ ...prev, slug: e.target.value }));
+  };
+
+  const handleHeroUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 15 * 1024 * 1024) {
+      setError('File size must be less than 15MB');
+      return;
+    }
+
+    setUploadingHero(true);
+    try {
+      const mediaFormData = new FormData();
+      mediaFormData.append('file', file);
+
+      const uploadRes = await api.post('/api/v1/admin/media/upload', mediaFormData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      });
+
+      const url = uploadRes.data?.data?.fileUrl || uploadRes.data?.fileUrl;
+      const id = uploadRes.data?.data?.id || uploadRes.data?.id;
+
+      if (id && url) {
+        setFormData((prev) => ({ ...prev, heroImageId: id }));
+        setHeroUrl(url);
+      }
+    } catch (err: any) {
+      console.error(err);
+      toast.error(err.response?.data?.message || 'Failed to upload image.');
+    } finally {
+      setUploadingHero(false);
+      if (heroInputRef.current) heroInputRef.current.value = '';
+    }
   };
 
   const modules = useMemo(() => ({
@@ -103,6 +166,7 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
 
     const payload = {
       ...formData,
+      heroImageId: formData.heroImageId || null,
       sliderImageIds: formData.sliderImageIds.split(',').map((s: string) => s.trim()).filter((s: string) => s.length > 0),
     };
 
@@ -175,15 +239,32 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
                 />
               </div>
 
-              <div className="hidden">
+              <div>
                 <label className="block text-sm font-semibold text-ink mb-2">URL Slug</label>
                 <input
                   type="text"
+                  list="system-slugs"
                   value={formData.slug}
-                  onChange={(e) => setFormData({...formData, slug: e.target.value})}
-                  className="w-full px-4 py-3 bg-surface border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                  placeholder="about-us"
+                  onChange={handleSlugChange}
+                  readOnly={Boolean(reservedPage)}
+                  className={`w-full px-4 py-3 border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all ${reservedPage ? 'bg-surface-soft text-steel cursor-not-allowed' : 'bg-surface'}`}
+                  placeholder="e.g. about-us or custom-page"
                 />
+                <datalist id="system-slugs">
+                  {RESERVED_PAGES.map((p) => (
+                    <option key={p.slug} value={p.slug}>{p.label}</option>
+                  ))}
+                </datalist>
+                {reservedPage ? (
+                  <p className="text-xs text-brand-green-dark mt-2">
+                    This page is wired to the <strong>{reservedPage.label}</strong> section ({reservedPage.usedIn}) —
+                    the slug is fixed so that link keeps working. Edit the title and content freely.
+                  </p>
+                ) : (
+                  <p className="text-xs text-muted mt-2">
+                    Select a required system slug from the dropdown, or type a new one for a custom page.
+                  </p>
+                )}
               </div>
             </div>
           </div>
@@ -240,8 +321,32 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
             </h2>
             <div className="space-y-6">
               <div>
+                <label className="block text-sm font-semibold text-ink mb-2">Hero / Featured Image</label>
+                <input
+                  type="file"
+                  ref={heroInputRef}
+                  onChange={handleHeroUpload}
+                  accept="image/*"
+                  className="hidden"
+                />
+                <ImageUploadField
+                  previewUrl={heroUrl ? getMediaUrl(heroUrl) : null}
+                  uploading={uploadingHero}
+                  onUploadClick={() => heroInputRef.current?.click()}
+                  onLibraryClick={() => setSelectorMode('hero')}
+                  onRemoveClick={() => {
+                    setFormData((prev) => ({ ...prev, heroImageId: '' }));
+                    setHeroUrl('');
+                  }}
+                  alt="Hero preview"
+                  emptyLabel="No hero image selected"
+                  emptyHint="Shown as the page's main background image, if the layout uses one."
+                />
+              </div>
+
+              <div>
                 <label className="block text-sm font-semibold text-ink mb-2 flex items-center justify-between">
-                  Slider Images (Hero Section)
+                  Slider Images (Gallery)
                   {sliderPreviews.length > 0 && (
                     <button 
                       type="button" 
@@ -298,11 +403,15 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
             </div>
           </div>
 
-          <MediaSelector 
-            isOpen={selectorMode !== 'none'} 
+          <MediaSelector
+            isOpen={selectorMode !== 'none'}
             onClose={() => setSelectorMode('none')}
             multiple={selectorMode === 'slider'}
-            title={selectorMode === 'quill-image' ? 'Insert Image' : 'Select Slider Images'}
+            title={
+              selectorMode === 'quill-image' ? 'Insert Image'
+              : selectorMode === 'hero' ? 'Select Hero Image'
+              : 'Select Slider Images'
+            }
             onSelect={(assets) => {
               if (selectorMode === 'quill-image') {
                 const editor = quillRef.current?.getEditor();
@@ -310,6 +419,11 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
                   const range = editor.getSelection(true);
                   editor.insertEmbed(range.index, 'image', getMediaUrl(assets[0].fileUrl));
                   editor.setSelection(range.index + 1);
+                }
+              } else if (selectorMode === 'hero') {
+                if (assets.length > 0) {
+                  setFormData((prev) => ({ ...prev, heroImageId: assets[0].id }));
+                  setHeroUrl(assets[0].fileUrl);
                 }
               } else if (selectorMode === 'slider') {
                 setFormData({...formData, sliderImageIds: assets.map(a => a.id).join(', ')});

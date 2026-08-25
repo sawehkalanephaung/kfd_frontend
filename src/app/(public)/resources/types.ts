@@ -1,28 +1,39 @@
-export interface MediaAsset {
+// Publications page TypeScript types
+export interface PublicationCategory {
   id: string;
-  fileName: string;
-  fileUrl: string;
-  fileType: string;
-  fileSizeKb: number;
-  mediaCategory: string;
-  language: string;
-  departmentId: string | null;
-  uploadedBy: string | null;
-  createdAt: string;
+  name: string;
+  slug: string;
+  description?: string;
 }
 
-export interface PaginatedMedia {
-  content: MediaAsset[];
+export interface PublicationItem {
+  id: string;
+  title: string;
+  slug: string;
+  summary: string | null;
+  category: PublicationCategory | null;
+  publishedDate: string;
+  issuedBy: string | null;
+  departmentId: string | null;
+  language: string | null;
+  referenceNo: string | null;
+  documentUrl: string | null;
+  documentFileName: string | null;
+  documentFileType: string | null;
+  documentFileSizeKb: number | null;
+  thumbnailUrl: string | null;
+  status: string;
+  downloadCount: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface PaginatedPublications {
+  content: PublicationItem[];
   totalElements: number;
   totalPages: number;
-  size: number;
   number: number;
+  size: number;
   first: boolean;
   last: boolean;
-  empty: boolean;
-}
-
-export interface MediaCategoryCount {
-  category: string;
-  count: number;
 }

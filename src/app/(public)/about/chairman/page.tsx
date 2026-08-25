@@ -1,29 +1,28 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { ChevronRight, Quote, User, FileText, ArrowLeft } from "lucide-react";
+import { ChevronRight, User } from "lucide-react";
 import { getMediaUrl } from "@/lib/api";
+import { formatFullDate, formatTenureYears } from "@/lib/date-utils";
 
 export const metadata: Metadata = {
   title: "Chairman - Kawthoolei Forestry Department",
   description: "Message and biography of the Chairman of the Kawthoolei Forestry Department.",
 };
 
+/**
+ * This is the page's only content fetch, so a real backend failure throws
+ * (→ `(public)/error.tsx` retry UI) rather than silently rendering the
+ * "will be updated soon" copy meant for a genuinely-unset chairman.
+ */
 async function getTeamMembers() {
-  try {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
-    const res = await fetch(`${baseUrl}/api/v1/public/team-members`, { 
-      cache: 'no-store'
-    });
-    
-    if (!res.ok) {
-      return null;
-    }
-    const data = await res.json();
-    return data?.data || null;
-  } catch (error) {
-    console.error("Error fetching team members:", error);
-    return null;
-  }
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
+  const res = await fetch(`${baseUrl}/api/v1/public/team-members`, {
+    cache: 'no-store'
+  });
+
+  if (!res.ok) throw new Error(`Failed to load team members: ${res.status}`);
+  const data = await res.json();
+  return data?.data || null;
 }
 
 function parseI18nField(val: any): string {
@@ -48,6 +47,36 @@ function parseI18nField(val: any): string {
   return String(val);
 }
 
+/** Shared by the populated page and the "not published yet" state so both sit
+ *  under the same navigation. */
+function Breadcrumb() {
+  return (
+    <div className="border-b border-[#e1e5e8] bg-[#f8faf9]">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center gap-2 py-4 text-sm font-medium text-[#5c6c7a]">
+          <Link href="/" className="transition-colors hover:text-[#1a3626]">Home</Link>
+          <ChevronRight size={14} className="text-[#a8b3bc]" />
+          <Link href="/about" className="transition-colors hover:text-[#1a3626]">About Us</Link>
+          <ChevronRight size={14} className="text-[#a8b3bc]" />
+          <span className="text-[#1a3626]">Chairman</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/** One "FIRST APPOINTED / March 15, 2021" pair in the hero. */
+function HeroFact({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <dt className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#4ade80]">
+        {label}
+      </dt>
+      <dd className="mt-1.5 text-[15px] font-semibold text-white">{value}</dd>
+    </div>
+  );
+}
+
 export default async function ChairmanPage() {
   const teamMembers = await getTeamMembers();
 
@@ -58,21 +87,11 @@ export default async function ChairmanPage() {
 
   if (!chairman) {
     return (
-      <main className="min-h-screen bg-canvas pt-20">
-        <div className="bg-[#f8faf9] border-b border-hairline py-4">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center gap-2 text-sm text-steel font-medium">
-              <Link href="/" className="hover:text-teal-deep transition-colors">Home</Link>
-              <ChevronRight size={14} />
-              <Link href="/about" className="hover:text-teal-deep transition-colors">About Us</Link>
-              <ChevronRight size={14} />
-              <span className="text-[#1a3626]">Chairman</span>
-            </div>
-          </div>
-        </div>
+      <main className="min-h-screen bg-white">
+        <Breadcrumb />
         <div className="container mx-auto px-4 py-32 text-center">
-          <h1 className="text-4xl font-bold text-ink mb-4">Chairman Details</h1>
-          <p className="text-steel">Chairman details will be updated soon.</p>
+          <h1 className="mb-4 font-serif text-4xl font-bold text-[#001e2b]">Chairman</h1>
+          <p className="text-[#5c6c7a]">Chairman details will be updated soon.</p>
         </div>
       </main>
     );
@@ -80,99 +99,105 @@ export default async function ChairmanPage() {
 
   const data = chairman;
   const fullName = `${data.firstName || data.first_name || data.name || ''} ${data.lastName || data.last_name || ''}`.trim() || 'Chairman';
-  
-  let finalTitle = parseI18nField(data.title) || data.role || data.position || 'Chairman';
+
+  const finalTitle = parseI18nField(data.title) || data.role || data.position || 'Chairman';
   const bio = parseI18nField(data.bio || data.description) || '';
   const rawImage = data.headshot_url || data.headshotUrl || data.imageUrl || data.avatarUrl;
   const displayImage = rawImage ? getMediaUrl(rawImage) : null;
 
+  /* Colours here are literals rather than theme tokens on purpose. The public
+     site is a light-only design with no theme switch, but ThemeProvider still
+     runs with `enableSystem`, so a visitor whose OS prefers dark gets `.dark`
+     on <html> — which would flip `text-ink` to white against these hard-coded
+     white bands and erase the copy. Pinning the palette keeps the page as
+     designed for every visitor. */
   return (
-    <main className="min-h-screen bg-canvas pt-20">
-      
-      {/* ── Breadcrumb & Navigation ──────────────────────────────────── */}
-      <div className="bg-[#f8faf9] border-b border-hairline py-4">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-2 text-sm text-steel font-medium">
-            <Link href="/" className="hover:text-teal-deep transition-colors">Home</Link>
-            <ChevronRight size={14} />
-            <Link href="/about" className="hover:text-teal-deep transition-colors">About Us</Link>
-            <ChevronRight size={14} />
-            <span className="text-[#1a3626]">Chairman</span>
-          </div>
-        </div>
-      </div>
+    <main className="min-h-screen bg-white">
 
-      {/* ── Official Hero Section ───────────────────────────────────── */}
-      <section className="relative bg-[#0f2318] pt-16 pb-24 lg:pt-24 lg:pb-32 overflow-hidden">
-        {/* Subtle background patterns */}
-        <div className="absolute inset-0 opacity-5 pointer-events-none" 
-             style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '40px 40px' }}>
-        </div>
-        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-[600px] h-[600px] bg-green-900/30 blur-3xl rounded-full pointer-events-none"></div>
+      <Breadcrumb />
 
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <Link href="/about" className="inline-flex items-center gap-2 text-on-dark-muted hover:text-white mb-10 transition-colors text-sm font-semibold uppercase tracking-wider group">
-            <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
-            Back to About KFD
-          </Link>
-          
-          <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-center">
-            
-            {/* Portrait Frame (Left) */}
-            <div className="w-full lg:w-1/3 flex justify-center lg:justify-end shrink-0">
-              <div className="relative w-64 h-80 md:w-80 md:h-96 rounded-t-full rounded-b-xl overflow-hidden border-[6px] border-[#1a3626] shadow-2xl bg-surface flex items-center justify-center">
-                {displayImage ? (
-                  <div 
-                    className="absolute inset-0 bg-cover bg-center"
-                    style={{ backgroundImage: `url('${displayImage}')` }}
-                  />
-                ) : (
-                  <User size={100} className="text-gray-300" />
-                )}
-                {/* Formal gradient overlay at bottom */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-              </div>
+      {/* ── Official Hero ─────────────────────────────────────────────
+          Portrait and identity sit side by side on a deep forest band; the
+          whole block stacks and centres below `md`. */}
+      <section className="relative overflow-hidden bg-[#0b1f14] pb-14 pt-14 lg:pb-24">
+        {/* Barely-there dot grid keeps the flat green from reading as a slab. */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
+            backgroundSize: '32px 32px',
+          }}
+        />
+        <div className="pointer-events-none absolute -right-20 -top-20 h-[600px] w-[600px] rounded-full bg-[#1a4a2e]/20 blur-[100px]" />
+
+        <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col items-center gap-10 text-center md:flex-row md:gap-14 md:text-left lg:gap-20">
+
+            {/* Portrait — arched top, the department's house shape for officials */}
+            <div className="relative h-[340px] w-[280px] shrink-0 overflow-hidden rounded-t-full rounded-b-md bg-[#12271b] shadow-2xl shadow-black/40 ring-1 ring-white/[0.08] sm:h-[365px] sm:w-[300px] lg:h-[393px] lg:w-[323px]">
+              {displayImage ? (
+                <img
+                  src={displayImage}
+                  alt={`${fullName}, ${finalTitle}`}
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center">
+                  <User size={96} className="text-white/20" aria-hidden="true" />
+                </div>
+              )}
+              {/* Grounds the portrait against the band instead of letting it float. */}
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
             </div>
 
-            {/* Title & Introduction (Right) */}
-            <div className="w-full lg:w-2/3 text-center lg:text-left text-white">
-              <div className="inline-block bg-canvas/10 border border-white/20 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs font-bold tracking-widest text-green-300 uppercase mb-6">
-                Kawthoolei Forestry Department
-              </div>
-              <h1 className="text-5xl md:text-6xl font-serif font-bold mb-4 tracking-tight drop-shadow-md">
+            {/* Identity */}
+            <div className="min-w-0 text-white">
+              <h1 className="font-serif text-5xl font-bold tracking-tight lg:text-6xl">
                 {fullName}
               </h1>
-              <p className="text-xl md:text-2xl text-on-dark-muted font-medium tracking-wide mb-8">
+              <p className="mt-3 text-xl text-[#9ca3af] lg:text-2xl">
                 {finalTitle}
               </p>
-              
-              <div className="w-16 h-1 bg-green-500 mx-auto lg:mx-0 mb-8 rounded-full"></div>
+
+              {data.termStartDate && (
+                <dl className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-6 md:justify-start">
+                  <HeroFact label="First Appointed" value={formatFullDate(data.termStartDate)} />
+                  <div className="hidden h-10 w-px bg-white/15 sm:block" aria-hidden="true" />
+                  <HeroFact
+                    label="Tenure Period"
+                    value={formatTenureYears(data.termStartDate, data.termEndDate)}
+                  />
+                </dl>
+              )}
             </div>
 
           </div>
         </div>
       </section>
 
-      {/* ── Biography & Message Section ──────────────────────────────── */}
-      <section className="py-20 lg:py-32 bg-canvas relative">
+      {/* ── Biography ─────────────────────────────────────────────────
+          A single measured column — the reading width is deliberately
+          narrower than the hero so long official text stays legible. */}
+      <section className="bg-white pb-28 pt-24 lg:pb-36 lg:pt-28">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto">
-            
-            {/* Bio Content */}
-            <div className="prose prose-lg md:prose-xl prose-green max-w-none text-slate">
-              <h2 className="text-3xl font-bold text-ink mb-8 border-b border-hairline pb-4">Biography</h2>
-              
-              {bio ? (
-                <div 
-                  className="whitespace-pre-wrap leading-loose"
-                  dangerouslySetInnerHTML={{ __html: bio }}
-                />
-              ) : (
-                <p className="italic text-steel">
-                  Detailed biography is currently being updated.
-                </p>
-              )}
-            </div>
+          <div className="mx-auto max-w-[840px]">
+
+            <h2 className="text-3xl font-bold tracking-tight text-[#001e2b]">Biography</h2>
+            <div className="mt-6 h-px w-full bg-[#e1e5e8]" />
+
+            {bio ? (
+              /* `rich-text` contains admin-authored HTML (wide tables, long URLs);
+                 the `!bg-transparent`/`!text-inherit` overrides drop the inline
+                 colours the editor pastes in, which otherwise fight this page. */
+              <div
+                className="rich-text prose prose-slate mt-10 max-w-none text-[#3d4f5b] md:text-justify [&_*]:!bg-transparent [&_*]:!text-inherit"
+                dangerouslySetInnerHTML={{ __html: bio }}
+              />
+            ) : (
+              <p className="mt-10 italic text-[#5c6c7a]">
+                Detailed biography is currently being updated.
+              </p>
+            )}
 
           </div>
         </div>

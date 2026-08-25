@@ -2,28 +2,28 @@ import React from 'react';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { getMediaUrl } from '@/lib/api';
+import { RESERVED_PAGE_SLUGS } from '@/lib/reserved-pages';
 
-// Helper function to fetch page data from backend
+/**
+ * Sole content of this page — a real failure throws so error.tsx offers a
+ * retry. A 404 means the page just hasn't been created yet (or was
+ * deleted) — that's not a backend failure, so it degrades to null like any
+ * other "not configured" case instead of hard-erroring the route.
+ */
 async function getPageData(slug: string) {
-  try {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
-    const res = await fetch(`${baseUrl}/api/v1/public/pages/${slug}`, { 
-      cache: 'no-store'
-    });
-    
-    if (!res.ok) {
-      return null;
-    }
-    const data = await res.json();
-    return data?.data || null;
-  } catch (error) {
-    console.error(`Error fetching page ${slug}:`, error);
-    return null;
-  }
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
+  const res = await fetch(`${baseUrl}/api/v1/public/pages/${slug}`, {
+    cache: 'no-store'
+  });
+
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`Failed to load page "${slug}": ${res.status}`);
+  const data = await res.json();
+  return data?.data || null;
 }
 
 export default async function HistoryPage() {
-  const historyData = await getPageData("history");
+  const historyData = await getPageData(RESERVED_PAGE_SLUGS.HISTORY);
 
   const title = historyData?.title || "KFD History";
   const content = historyData?.content || "Information about our history will be updated soon.";

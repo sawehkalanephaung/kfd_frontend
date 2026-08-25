@@ -2,8 +2,9 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { Loader2 } from 'lucide-react';
+import { Loader2, BarChart2 } from 'lucide-react';
 import MetricForm from '@/components/metric-form';
+import PageHeader from '@/components/page-header';
 import api from '@/lib/api';
 
 export default function EditMetricPage() {
@@ -52,13 +53,12 @@ export default function EditMetricPage() {
 
   return (
     <div>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-ink">Edit Global Metric</h1>
-        <p className="text-steel mt-1">
-          Update the value or display settings for this metric.
-        </p>
-      </div>
-      
+      <PageHeader
+        icon={BarChart2}
+        title="Edit Global Metric"
+        description="Update the value or display settings for this metric."
+      />
+
       <MetricForm isEdit={true} initialData={metric} metricId={id} />
     </div>
   );

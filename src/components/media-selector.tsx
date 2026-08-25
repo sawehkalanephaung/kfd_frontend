@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { X, Check, Loader2, Image as ImageIcon, UploadCloud } from 'lucide-react';
+import { X, Check, Loader2, Image as ImageIcon, UploadCloud, FileText } from 'lucide-react';
 import api, { getMediaUrl } from '@/lib/api';
 import toast from 'react-hot-toast';
 
@@ -16,14 +16,17 @@ interface MediaSelectorProps {
   onSelect: (selectedAssets: MediaAsset[]) => void;
   multiple?: boolean;
   title?: string;
+  /** 'image' (default) shows only images, as a visual grid. 'all' shows every file type, including documents, as a list. */
+  accept?: 'image' | 'all';
 }
 
-export default function MediaSelector({ 
-  isOpen, 
-  onClose, 
-  onSelect, 
+export default function MediaSelector({
+  isOpen,
+  onClose,
+  onSelect,
   multiple = false,
-  title = "Select Media"
+  title = "Select Media",
+  accept = 'image',
 }: MediaSelectorProps) {
   const [media, setMedia] = useState<MediaAsset[]>([]);
   const [loading, setLoading] = useState(false);
@@ -49,9 +52,8 @@ export default function MediaSelector({
       setLoading(true);
       const response = await api.get('/api/v1/admin/media?size=100');
       const data = response.data?.content || response.data?.data?.content || response.data?.data || [];
-      // Only show images
-      const imagesOnly = (Array.isArray(data) ? data : []).filter(m => m.fileType?.startsWith('image/'));
-      setMedia(imagesOnly);
+      const all = Array.isArray(data) ? data : [];
+      setMedia(accept === 'image' ? all.filter(m => m.fileType?.startsWith('image/')) : all);
     } catch (err) {
       console.error('Failed to load media', err);
     } finally {
@@ -145,37 +147,68 @@ export default function MediaSelector({
           ) : media.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-64 text-muted">
               <ImageIcon className="w-12 h-12 mb-4 text-muted" />
-              <p>No images found. Please upload some in the Media Library.</p>
+              <p>No {accept === 'image' ? 'images' : 'files'} found. Please upload some in the Media Library.</p>
             </div>
-          ) : (
+          ) : accept === 'image' ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
               {media.map((asset) => {
                 const isSelected = selectedIds.has(asset.id);
                 return (
-                  <div 
+                  <div
                     key={asset.id}
                     onClick={() => toggleSelection(asset.id)}
                     className={`relative aspect-square rounded-xl overflow-hidden cursor-pointer group border-2 transition-all ${isSelected ? 'border-emerald-500 shadow-md scale-95' : 'border-transparent hover:border-brand-green/30'}`}
                   >
-                    <img 
-                      src={getMediaUrl(asset.fileUrl)} 
-                      alt={asset.fileName} 
+                    <img
+                      src={getMediaUrl(asset.fileUrl)}
+                      alt={asset.fileName}
                       className="w-full h-full object-cover"
                     />
                     {/* Overlay */}
                     <div className={`absolute inset-0 transition-opacity duration-200 ${isSelected ? 'bg-brand-green/20' : 'bg-black/0 group-hover:bg-black/10'}`}></div>
-                    
+
                     {/* Checkbox Icon */}
                     {isSelected && (
                       <div className="absolute top-2 right-2 w-6 h-6 bg-brand-green rounded-full flex items-center justify-center text-on-primary shadow-sm transform scale-100 animate-in zoom-in">
                         <Check className="w-3.5 h-3.5 font-bold" />
                       </div>
                     )}
-                    
+
                     {/* Filename banner */}
                     <div className="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/70 to-transparent">
                       <p className="text-white text-xs truncate drop-shadow-md">{asset.fileName}</p>
                     </div>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="flex flex-col gap-2">
+              {media.map((asset) => {
+                const isSelected = selectedIds.has(asset.id);
+                const isImage = asset.fileType?.startsWith('image/');
+                return (
+                  <div
+                    key={asset.id}
+                    onClick={() => toggleSelection(asset.id)}
+                    className={`flex items-center gap-4 p-3 rounded-xl cursor-pointer border-2 transition-all ${isSelected ? 'border-emerald-500 bg-brand-green-soft' : 'border-transparent bg-canvas hover:border-brand-green/30'}`}
+                  >
+                    <div className="w-12 h-12 rounded-lg overflow-hidden bg-surface flex items-center justify-center flex-shrink-0">
+                      {isImage ? (
+                        <img src={getMediaUrl(asset.fileUrl)} alt={asset.fileName} className="w-full h-full object-cover" />
+                      ) : (
+                        <FileText className="w-6 h-6 text-muted" />
+                      )}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-ink truncate">{asset.fileName}</p>
+                      <p className="text-xs text-steel">{asset.fileType || 'Unknown type'}</p>
+                    </div>
+                    {isSelected && (
+                      <div className="w-6 h-6 bg-brand-green rounded-full flex items-center justify-center text-on-primary shadow-sm flex-shrink-0">
+                        <Check className="w-3.5 h-3.5 font-bold" />
+                      </div>
+                    )}
                   </div>
                 );
               })}

@@ -44,9 +44,9 @@ export default function DepartmentHero({ data }: { data: DepartmentData }) {
         )}
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10 flex items-center gap-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 relative z-10 flex flex-col sm:flex-row items-center sm:items-center gap-6 sm:gap-8 text-center sm:text-left">
         {/* Logo */}
-        <div className="w-24 flex-shrink-0 flex items-center justify-center relative">
+        <div className="w-20 sm:w-24 flex-shrink-0 flex items-center justify-center relative">
           {logoUrl ? (
             <img src={logoUrl} alt={`${data.name} logo`} className="w-full h-auto object-contain" />
           ) : (
@@ -58,24 +58,24 @@ export default function DepartmentHero({ data }: { data: DepartmentData }) {
         </div>
 
         {/* Info */}
-        <div className="flex flex-col gap-4 max-w-2xl">
-          <h1 className="text-4xl font-bold text-ink tracking-tight">{data.name}</h1>
-          
-          <div className="flex flex-wrap items-center gap-4 text-sm font-medium text-[#1a3626]">
+        <div className="flex flex-col gap-4 max-w-2xl min-w-0">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-ink tracking-tight break-words">{data.name}</h1>
+
+          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4 text-sm font-medium text-[#1a3626]">
             {headName && (
               <div className="flex items-center gap-1.5 bg-green-50 px-3 py-1.5 rounded-full border border-green-100">
                 <User size={14} />
                 <span>{headName}</span>
               </div>
             )}
-            
+
             {address && (
               <div className="flex items-center gap-1.5 bg-green-50 px-3 py-1.5 rounded-full border border-green-100">
                 <MapPin size={14} />
                 <span className="truncate max-w-[200px]">{address}</span>
               </div>
             )}
-            
+
             {officeHours && (
               <div className="flex items-center gap-1.5 bg-green-50 px-3 py-1.5 rounded-full border border-green-100">
                 <Clock size={14} />

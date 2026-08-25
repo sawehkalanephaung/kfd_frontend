@@ -2,8 +2,9 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Building2 } from 'lucide-react';
 import DepartmentForm from '@/components/department-form';
+import PageHeader from '@/components/page-header';
 import api from '@/lib/api';
 
 export default function EditDepartmentPage() {
@@ -52,13 +53,12 @@ export default function EditDepartmentPage() {
 
   return (
     <div>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-ink">Edit Department</h1>
-        <p className="text-steel mt-1">
-          Update information for {department.name}.
-        </p>
-      </div>
-      
+      <PageHeader
+        icon={Building2}
+        title="Edit Department"
+        description={`Update information for ${department.name}.`}
+      />
+
       <DepartmentForm isEdit={true} initialData={department} departmentId={id} />
     </div>
   );

@@ -23,7 +23,13 @@ import {
   Layers
 } from 'lucide-react';
 import { useSidebar } from '@/components/sidebar-context';
-import { SITE_IDENTITY_UPDATED_EVENT } from '@/lib/site-identity';
+import { SITE_IDENTITY_UPDATED_EVENT, type SiteIdentity } from '@/lib/site-identity';
+
+interface OrgIdentityDisplay {
+  organizationName: string;
+  organizationNameKaren: string | null;
+  resolvedLogoUrl: string | null;
+}
 
 interface MenuItem {
   label: string;
@@ -50,6 +56,8 @@ const menuItems: MenuItem[] = [
       { label: 'All Posts', href: '/dashboard/posts', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'] },
       { label: 'Categories', href: '/dashboard/posts/categories', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'] },
       { label: 'Tags', href: '/dashboard/posts/tags', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'] },
+      { label: 'All Publications', href: '/dashboard/publications', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'] },
+      { label: 'Publication Categories', href: '/dashboard/publications/categories', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'] },
       { label: 'Resources (Library)', href: '/dashboard/media', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'] },
       { label: 'Newsletter Subscribers', href: '/dashboard/newsletter', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'] },
     ],
@@ -63,7 +71,7 @@ const menuItems: MenuItem[] = [
       { label: 'Organization Identity', href: '/dashboard/organization/identity', allowedRoles: ['manage_settings', 'ROLE_SUPER_ADMIN'] },
       { label: 'Department Branches', href: '/dashboard/organization/departments', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'] },
       { label: 'Team Members', href: '/dashboard/team', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'] },
-      { label: 'Global Contact Info', href: '/dashboard/contact', allowedRoles: ['manage_settings', 'ROLE_SUPER_ADMIN'] },
+      { label: 'Contact', href: '/dashboard/contact', allowedRoles: ['manage_settings', 'ROLE_SUPER_ADMIN'] },
       { label: 'Statistics Metrics', href: '/dashboard/organization/metrics', allowedRoles: ['view_analytics', 'ROLE_SUPER_ADMIN'] },
     ],
   },
@@ -73,24 +81,28 @@ const menuItems: MenuItem[] = [
     href: '/dashboard/admin-access', // Grouping identifier
     allowedRoles: ['manage_users', 'manage_settings', 'ROLE_SUPER_ADMIN'],
     subItems: [
-      { label: 'System Users', href: '/dashboard/team/users', allowedRoles: ['manage_users', 'ROLE_SUPER_ADMIN'] },
+      { label: 'Accounts', href: '/dashboard/team/users', allowedRoles: ['manage_users', 'ROLE_SUPER_ADMIN'] },
       { label: 'Roles & Access', href: '/dashboard/team/roles', allowedRoles: ['manage_users', 'ROLE_SUPER_ADMIN'] },
-      { label: 'System Settings', href: '/dashboard/settings', allowedRoles: ['manage_settings', 'ROLE_SUPER_ADMIN'] },
+      { label: 'Settings', href: '/dashboard/settings', allowedRoles: ['manage_settings', 'ROLE_SUPER_ADMIN'] },
     ],
   }
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ initialOrgIdentity }: { initialOrgIdentity?: SiteIdentity }) {
   const pathname = usePathname();
   const router = useRouter();
   const [expandedMenus, setExpandedMenus] = useState<string[]>([]);
   const { isOpen, setIsOpen, isCollapsed } = useSidebar();
   const [userRoles, setUserRoles] = useState<string[]>([]);
-  const [orgIdentity, setOrgIdentity] = useState<{
-    organizationName: string;
-    organizationNameKaren: string | null;
-    logoUrl: string | null;
-  } | null>(null);
+  const [orgIdentity, setOrgIdentity] = useState<OrgIdentityDisplay | null>(
+    initialOrgIdentity
+      ? {
+        organizationName: initialOrgIdentity.organizationName,
+        organizationNameKaren: initialOrgIdentity.organizationNameKaren,
+        resolvedLogoUrl: initialOrgIdentity.resolvedLogoUrl,
+      }
+      : null
+  );
 
   useEffect(() => {
     try {
@@ -105,22 +117,35 @@ export default function Sidebar() {
   }, []);
 
   // Branding shown here comes from the same admin-managed site identity as the
-  // public site. Public endpoint on purpose: every dashboard role sees the
-  // sidebar, but only manage_settings/ROLE_SUPER_ADMIN can hit the admin one.
+  // public site, seeded from `initialOrgIdentity` (fetched server-side by the
+  // layout) so the first paint is already correct. This effect only needs to
+  // run again after a save on the identity page (via the event listener) —
+  // it deliberately does NOT run unconditionally on mount, which would
+  // re-flash stale defaults while the request is in flight.
   useEffect(() => {
     const fetchIdentity = () => {
       api.get('/api/v1/public/site-identity')
-        .then((res) => setOrgIdentity(res.data))
+        .then((res) => {
+          // The public endpoint returns the DTO directly, but tolerate a wrapped shape
+          // (matches the unwrap in src/lib/site-identity.ts).
+          const identity = res.data?.data ?? res.data;
+          if (!identity?.organizationName) return;
+          setOrgIdentity({
+            organizationName: identity.organizationName,
+            organizationNameKaren: identity.organizationNameKaren ?? null,
+            resolvedLogoUrl: identity.logoUrl ? getMediaUrl(identity.logoUrl) : null,
+          });
+        })
         .catch((e) => console.error('Failed to load site identity', e));
     };
-    fetchIdentity();
+    if (!initialOrgIdentity) fetchIdentity();
     window.addEventListener(SITE_IDENTITY_UPDATED_EVENT, fetchIdentity);
     return () => window.removeEventListener(SITE_IDENTITY_UPDATED_EVENT, fetchIdentity);
-  }, []);
+  }, [initialOrgIdentity]);
 
   const displayName = orgIdentity?.organizationName || 'Kawthoolei Forestry Department';
   const displayNameKaren = orgIdentity?.organizationNameKaren ?? 'ကီၢ်သူလ့ၤသ့ၣ်ပှၢ်ဝဲၤကျိၤ';
-  const resolvedLogoUrl = orgIdentity?.logoUrl ? getMediaUrl(orgIdentity.logoUrl) : null;
+  const resolvedLogoUrl = orgIdentity?.resolvedLogoUrl ?? null;
 
   const handleLogout = () => {
     // Clear JWT token
@@ -277,7 +302,7 @@ export default function Sidebar() {
         </div>
 
         {/* Navigation */}
-        <nav className={`flex-1 px-3 pb-4 space-y-1.5 ${isCollapsed ? 'overflow-visible' : 'overflow-y-auto'}`}>
+        <nav className={`flex-1 px-3 pb-4 space-y-1.5 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ${isCollapsed ? 'overflow-visible' : 'overflow-y-auto'}`}>
           {filteredMenuItems.map((item) => {
             const active = isActive(item);
             const expanded = expandedMenus.includes(item.label);

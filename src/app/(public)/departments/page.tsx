@@ -10,11 +10,11 @@ import {
   Users,
   FileText,
   Activity,
-  ChevronRight,
-  ImageIcon,
 } from "lucide-react";
 import { DepartmentData } from "./types";
 import { getMediaUrl } from "@/lib/api";
+import { extractPlainExcerpt } from "@/lib/rich-text";
+import { ContentFallback } from "@/components/content-fallback";
 
 export const metadata: Metadata = {
   title: "Departments - Kawthoolei Forestry Department",
@@ -25,70 +25,38 @@ export const metadata: Metadata = {
 // Always fetch fresh data (no cache)
 export const dynamic = "force-dynamic";
 
+/**
+ * This page's whole purpose is the department list, so a fetch failure
+ * throws (→ `(public)/error.tsx` retry UI) instead of quietly rendering an
+ * empty grid that looks identical to "no departments configured."
+ */
 async function getDepartments(): Promise<DepartmentData[]> {
-  try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"}/api/v1/public/departments`,
-      { cache: "no-store" }
-    );
-    if (!res.ok) return [];
-    const json = await res.json();
-    return json.data || [];
-  } catch {
-    return [];
-  }
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"}/api/v1/public/departments`,
+    { cache: "no-store" }
+  );
+  if (!res.ok) throw new Error(`Failed to load departments: ${res.status}`);
+  const json = await res.json();
+  return json.data || [];
 }
 
+/** Purely visual theming (icon/color) by slug — not content, safe to keep static. */
 function getDeptMeta(slug: string): {
   icon: React.ElementType;
   color: string;
   bg: string;
   accent: string;
-  description: string;
 } {
   const color = "text-brand-green-dark";
   const bg = "bg-brand-green-soft";
   const accent = "bg-brand-green";
 
-  if (slug.includes("survey") || slug.includes("documentation")) {
-    return {
-      icon: BookOpen, color, bg, accent,
-      description:
-        "Conducting comprehensive land surveys and documentation to map and preserve forest territories across Kawthoolei.",
-    };
-  }
-  if (slug.includes("awareness") || slug.includes("training")) {
-    return {
-      icon: Users, color, bg, accent,
-      description:
-        "Building forest stewardship through community education, public awareness campaigns, and capacity-building training programs.",
-    };
-  }
-  if (slug.includes("protection") || slug.includes("land")) {
-    return {
-      icon: Shield, color, bg, accent,
-      description:
-        "Safeguarding forest boundaries and land rights through active patrol, enforcement, and legal documentation efforts.",
-    };
-  }
-  if (slug.includes("nursery") || slug.includes("restoration") || slug.includes("plantation")) {
-    return {
-      icon: Sprout, color, bg, accent,
-      description:
-        "Growing native seedlings and leading large-scale reforestation programs to restore degraded forest ecosystems.",
-    };
-  }
-  if (slug.includes("project")) {
-    return {
-      icon: Briefcase, color, bg, accent,
-      description:
-        "Coordinating multi-stakeholder conservation projects, grants, and partnerships for sustainable forest management.",
-    };
-  }
-  return {
-    icon: TreePine, color, bg, accent,
-    description: "A specialized unit within the Kawthoolei Forestry Department.",
-  };
+  if (slug.includes("survey") || slug.includes("documentation")) return { icon: BookOpen, color, bg, accent };
+  if (slug.includes("awareness") || slug.includes("training")) return { icon: Users, color, bg, accent };
+  if (slug.includes("protection") || slug.includes("land")) return { icon: Shield, color, bg, accent };
+  if (slug.includes("nursery") || slug.includes("restoration") || slug.includes("plantation")) return { icon: Sprout, color, bg, accent };
+  if (slug.includes("project")) return { icon: Briefcase, color, bg, accent };
+  return { icon: TreePine, color, bg, accent };
 }
 
 export default async function DepartmentsPage() {
@@ -131,16 +99,12 @@ export default async function DepartmentsPage() {
       {/* ── Department Grid ──────────────────────────────── */}
       <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
         {departments.length === 0 ? (
-          /* Fallback when backend is offline */
-          <div className="text-center py-24">
-            <div className="w-16 h-16 rounded-full bg-surface flex items-center justify-center mx-auto mb-4">
-              <TreePine size={28} className="text-muted" />
-            </div>
-            <h2 className="text-xl font-semibold text-slate mb-2">No departments found</h2>
-            <p className="text-steel text-sm">
-              Please ensure the backend server is running.
-            </p>
-          </div>
+          <ContentFallback
+            variant="empty"
+            icon={TreePine}
+            title="No departments yet"
+            message="Department branches will appear here once they're added."
+          />
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
             {departments.map((dept, idx) => {
@@ -192,7 +156,7 @@ export default async function DepartmentsPage() {
                     </h2>
 
                     <p className="text-sm text-steel leading-relaxed mb-5 line-clamp-3 flex-1">
-                      {meta.description}
+                      {extractPlainExcerpt(dept.bodyContent) || "A specialized unit within the Kawthoolei Forestry Department."}
                     </p>
 
                     {/* Meta row */}

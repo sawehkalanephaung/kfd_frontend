@@ -2,9 +2,10 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { UploadCloud, Trash2, Edit, FileText, Image as ImageIcon, Loader2, Video, Search, Filter, ChevronLeft, ChevronRight } from 'lucide-react';
+import { UploadCloud, Trash2, Edit, FileText, Image as ImageIcon, Images, Loader2, Video, Search, Filter, ChevronLeft, ChevronRight } from 'lucide-react';
 import api, { getMediaUrl } from '@/lib/api';
 import DeleteModal from '@/components/delete-modal';
+import PageHeader from '@/components/page-header';
 import { CustomSelect } from '@/components/ui/custom-select';
 
 interface MediaAsset {
@@ -131,25 +132,20 @@ export default function MediaLibraryPage() {
         <span className="text-ink font-medium">Library</span>
       </div>
 
-      {/* Header Section */}
-      <div className="bg-canvas rounded-lg p-8 shadow-sm border border-hairline-soft flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-        <div>
-          <h1 className="text-2xl font-bold text-ink flex items-center gap-3">
-            <UploadCloud className="w-6 h-6 text-brand-green" />
-            Media Library
-          </h1>
-          <p className="text-steel mt-1">
-            Manage all your uploaded images, videos, and documents.
-          </p>
-        </div>
-        <Link
-          href="/dashboard/media/upload"
-          className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-brand-green hover:bg-primary-deep text-on-primary font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
-        >
-          <UploadCloud className="w-5 h-5" />
-          Upload
-        </Link>
-      </div>
+      <PageHeader
+        icon={Images}
+        title="Media Library"
+        description="Manage all your uploaded images, videos, and documents."
+        action={
+          <Link
+            href="/dashboard/media/upload"
+            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-brand-green hover:bg-primary-deep text-on-primary font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
+          >
+            <UploadCloud className="w-5 h-5" />
+            Upload
+          </Link>
+        }
+      />
 
       {/* Error State */}
       {error && (

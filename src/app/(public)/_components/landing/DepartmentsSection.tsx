@@ -3,22 +3,24 @@
 import Link from "next/link";
 import { ArrowRight, TreePine } from "lucide-react";
 import { getMediaUrl } from "@/lib/api";
+import { extractPlainExcerpt } from "@/lib/rich-text";
 import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { ContentFallback } from "@/components/content-fallback";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger, useGSAP);
 }
 
-export default function DepartmentsSection({ departments }: { departments: any[] }) {
+export default function DepartmentsSection({ departments, status }: { departments: any[]; status: 'ok' | 'empty' | 'error' }) {
   const displayDepartments = departments || [];
   const containerRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    if (!containerRef.current || !headerRef.current) return;
+    if (status === 'empty' || !containerRef.current || !headerRef.current) return;
 
     // Animate Header
     gsap.fromTo(headerRef.current,
@@ -55,6 +57,8 @@ export default function DepartmentsSection({ departments }: { departments: any[]
     );
   }, { scope: containerRef });
 
+  if (status === 'empty') return null;
+
   return (
     <section className="py-20 bg-surface">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -72,6 +76,9 @@ export default function DepartmentsSection({ departments }: { departments: any[]
         </div>
 
         {/* Cards Grid */}
+        {status === 'error' ? (
+          <ContentFallback variant="error" title="Departments unavailable" message="We couldn't load department branches right now." />
+        ) : (
         <div ref={containerRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {displayDepartments.slice(0, 4).map((dept, index) => (
             <div
@@ -96,7 +103,7 @@ export default function DepartmentsSection({ departments }: { departments: any[]
               <div className="p-8 flex flex-col flex-grow">
                 <h3 className="text-lg font-bold text-[#1a3626] mb-4">{dept.title || dept.name}</h3>
                 <p className="text-sm text-steel leading-relaxed flex-grow mb-8 line-clamp-4">
-                  {dept.description || dept.shortDescription}
+                  {extractPlainExcerpt(dept.bodyContent) || "A specialized unit within the Kawthoolei Forestry Department."}
                 </p>
                 <Link
                   href={`/departments/${dept.slug}`}
@@ -109,6 +116,7 @@ export default function DepartmentsSection({ departments }: { departments: any[]
             </div>
           ))}
         </div>
+        )}
 
       </div>
     </section>

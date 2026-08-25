@@ -2,10 +2,11 @@
 
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { Loader2, Save, ArrowLeft, Image as ImageIcon, Building2, Tag, UploadCloud, X } from 'lucide-react';
+import { Loader2, Save, ArrowLeft, Image as ImageIcon, Images, Building2, Tag, UploadCloud, X } from 'lucide-react';
 import Link from 'next/link';
 import api, { getMediaUrl } from '@/lib/api';
 import { CustomSelect } from '@/components/ui/custom-select';
+import PageHeader from '@/components/page-header';
 
 export default function EditMediaPage() {
   const params = useParams();
@@ -124,12 +125,11 @@ export default function EditMediaPage() {
 
   return (
     <div>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-ink">Edit Media Details</h1>
-        <p className="text-steel mt-1">
-          Update the file or metadata classification for this asset.
-        </p>
-      </div>
+      <PageHeader
+        icon={Images}
+        title="Edit Media Details"
+        description="Update the file or metadata classification for this asset."
+      />
 
       <form onSubmit={handleSubmit} className="space-y-6 max-w-4xl">
         <div className="flex items-center justify-between">

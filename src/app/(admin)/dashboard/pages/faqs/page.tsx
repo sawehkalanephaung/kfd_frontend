@@ -6,6 +6,7 @@ import { Plus, Edit, Trash2, MessageCircleQuestion, Loader2, Eye, EyeOff } from 
 import api from '@/lib/api';
 import DeleteModal from '@/components/delete-modal';
 import CreateButton from '@/components/create-button';
+import PageHeader from '@/components/page-header';
 
 interface Faq {
   id: string;
@@ -68,19 +69,12 @@ export default function FaqsListPage() {
         <span className="text-ink font-medium">FAQs</span>
       </div>
 
-      {/* Header Section */}
-      <div className="bg-canvas rounded-lg p-8 shadow-sm border border-hairline-soft flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-        <div>
-          <h1 className="text-2xl font-bold text-ink flex items-center gap-3">
-            <MessageCircleQuestion className="w-6 h-6 text-brand-green" />
-            Frequently Asked Questions
-          </h1>
-          <p className="text-steel mt-1">
-            Manage the FAQs displayed to users on the public portal.
-          </p>
-        </div>
-        <CreateButton href="/dashboard/pages/faqs/create" />
-      </div>
+      <PageHeader
+        icon={MessageCircleQuestion}
+        title="FAQs"
+        description="Manage the FAQs displayed to users on the public portal."
+        action={<CreateButton href="/dashboard/pages/faqs/create" />}
+      />
 
       {/* Error State */}
       {error && (

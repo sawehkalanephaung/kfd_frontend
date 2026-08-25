@@ -13,8 +13,12 @@ if (typeof window !== "undefined") {
 }
 
 export default function HeroSection({ siteIdentity, homeContent }: { siteIdentity: any; homeContent?: any }) {
-  const title = homeContent?.title || siteIdentity?.organizationName || "Protecting Kawthoolei's Forests for Future Generations";
-  const description = homeContent?.content || siteIdentity?.tagline || "The Kawthoolei Forest Department safeguards the interconnected webs of biodiversity and communities through conservation, enforcement, and community partnership.";
+  // organizationName is always non-empty (lib/site-identity.ts guarantees a
+  // fallback), so there's no reachable case where title needs its own
+  // hardcoded string. description has no such guarantee — omit the
+  // paragraph rather than show fabricated mission copy when it's unset.
+  const title = homeContent?.title || siteIdentity?.organizationName;
+  const description = homeContent?.content || siteIdentity?.tagline || "";
 
   let images: string[] = [];
   if (homeContent?.sliderImageUrls && homeContent.sliderImageUrls.length > 0) {
@@ -102,10 +106,12 @@ export default function HeroSection({ siteIdentity, homeContent }: { siteIdentit
             {title}
           </h1>
 
-          <div
-            className="text-lg text-on-dark-muted mb-10 max-w-xl leading-relaxed"
-            dangerouslySetInnerHTML={{ __html: description }}
-          />
+          {description && (
+            <div
+              className="text-lg text-on-dark-muted mb-10 max-w-xl leading-relaxed rich-text whitespace-normal"
+              dangerouslySetInnerHTML={{ __html: typeof description === 'string' ? description.replace(/&nbsp;/g, ' ') : description }}
+            />
+          )}
 
           <div className="flex flex-wrap items-center gap-4">
             <Link

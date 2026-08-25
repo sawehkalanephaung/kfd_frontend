@@ -70,42 +70,49 @@ export default async function Footer() {
                 )}
               </div>
             </Link>
-            <div className="flex flex-wrap items-center gap-4">
-              {socialMediaLinks && socialMediaLinks.map((link) => (
-                <a
-                  key={link.id}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-8 h-8 rounded-full bg-canvas/10 flex items-center justify-center hover:bg-canvas/20 transition-colors"
-                >
-                  {renderSocialIcon(link.platformName)}
-                </a>
-              ))}
-              {(!socialMediaLinks || socialMediaLinks.length === 0) && (
-                <a href="#" className="w-8 h-8 rounded-full bg-canvas/10 flex items-center justify-center hover:bg-canvas/20 transition-colors">
-                  <FaFacebook size={16} />
-                </a>
-              )}
-            </div>
-            <div className="flex flex-col gap-5 text-sm text-on-dark-muted pt-2">
-              <div className="flex items-start gap-3">
-                <Phone className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                <span>{contactSettings?.phoneNumbers?.[0] || "+66 123 456 789"}</span>
+            {socialMediaLinks && socialMediaLinks.length > 0 && (
+              <div className="flex flex-wrap items-center gap-4">
+                {socialMediaLinks.map((link) => (
+                  <a
+                    key={link.id}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-8 h-8 rounded-full bg-canvas/10 flex items-center justify-center hover:bg-canvas/20 transition-colors"
+                  >
+                    {renderSocialIcon(link.platformName)}
+                  </a>
+                ))}
               </div>
-              <div className="flex items-start gap-3">
-                <Mail className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                <span>{contactSettings?.contactEmail || "info@kfd-kawthoolei.org"}</span>
+            )}
+            {(contactSettings?.phoneNumbers?.[0] || contactSettings?.contactEmail || contactSettings?.physicalAddress || contactSettings?.officeHours) && (
+              <div className="flex flex-col gap-5 text-sm text-on-dark-muted pt-2">
+                {contactSettings?.phoneNumbers?.[0] && (
+                  <div className="flex items-start gap-3">
+                    <Phone className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                    <span>{contactSettings.phoneNumbers[0]}</span>
+                  </div>
+                )}
+                {contactSettings?.contactEmail && (
+                  <div className="flex items-start gap-3">
+                    <Mail className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                    <span>{contactSettings.contactEmail}</span>
+                  </div>
+                )}
+                {contactSettings?.physicalAddress && (
+                  <div className="flex items-start gap-3">
+                    <MapPin className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                    <span className="leading-relaxed">{contactSettings.physicalAddress}</span>
+                  </div>
+                )}
+                {contactSettings?.officeHours && (
+                  <div className="flex items-start gap-3">
+                    <Clock className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                    <span className="leading-relaxed whitespace-pre-line">{contactSettings.officeHours}</span>
+                  </div>
+                )}
               </div>
-              <div className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                <span className="leading-relaxed">{contactSettings?.physicalAddress || "KNU Headquarters"}</span>
-              </div>
-              <div className="flex items-start gap-3">
-                <Clock className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                <span className="leading-relaxed whitespace-pre-line">{contactSettings?.officeHours || "Monday - Friday:\n8:00 am - 5:00 pm"}</span>
-              </div>
-            </div>
+            )}
 
           </div>
 

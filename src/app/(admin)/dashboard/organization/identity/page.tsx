@@ -2,8 +2,9 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Building2 } from 'lucide-react';
+import { Landmark } from 'lucide-react';
 import SiteIdentityForm from '@/components/site-identity-form';
+import PageHeader from '@/components/page-header';
 
 /**
  * Organization identity — the brand name, tagline, logo and footer line used
@@ -25,17 +26,11 @@ export default function OrganizationIdentityPage() {
         <span className="text-ink font-medium">Organization Identity</span>
       </div>
 
-      {/* Header Section */}
-      <div className="bg-canvas rounded-lg p-8 shadow-sm border border-hairline-soft mb-6">
-        <h1 className="text-2xl font-bold text-ink flex items-center gap-3">
-          <Building2 className="w-6 h-6 text-brand-green" />
-          Organization Identity
-        </h1>
-        <p className="text-steel mt-1">
-          Manage the organization&apos;s name, tagline, logo and footer copyright.
-          These appear in the site header, footer and browser tab across the public website.
-        </p>
-      </div>
+      <PageHeader
+        icon={Landmark}
+        title="Organization Identity"
+        description="Manage the organization's name, tagline, logo and footer copyright. These appear in the site header, footer and browser tab across the public website."
+      />
 
       <SiteIdentityForm />
     </div>

@@ -2,9 +2,10 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Users } from 'lucide-react';
 import api from '@/lib/api';
 import TeamMemberForm from '@/components/team-member-form';
+import PageHeader from '@/components/page-header';
 
 export default function EditTeamMemberPage() {
   const params = useParams();
@@ -50,12 +51,11 @@ export default function EditTeamMemberPage() {
 
   return (
     <div>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-ink">Edit Team Member</h1>
-        <p className="text-steel mt-1">
-          Update profile information for {member.firstName} {member.lastName}.
-        </p>
-      </div>
+      <PageHeader
+        icon={Users}
+        title="Edit Team Member"
+        description={`Update profile information for ${member.firstName} ${member.lastName}.`}
+      />
       <TeamMemberForm initialData={member} isEdit={true} memberId={params.id as string} />
     </div>
   );

@@ -2,7 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { Loader2 } from 'lucide-react';
+import { Loader2, FileText } from 'lucide-react';
+import PageHeader from '@/components/page-header';
 import PageForm from '@/components/page-form';
 import api from '@/lib/api';
 
@@ -52,13 +53,12 @@ export default function EditPage() {
 
   return (
     <div>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-ink">Edit Page</h1>
-        <p className="text-steel mt-1">
-          Update the content and settings for this page.
-        </p>
-      </div>
-      
+      <PageHeader
+        icon={FileText}
+        title="Edit Page"
+        description="Update the content and settings for this page."
+      />
+
       <PageForm isEdit={true} initialData={pageData} pageId={id} />
     </div>
   );

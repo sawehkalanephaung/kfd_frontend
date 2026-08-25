@@ -82,10 +82,12 @@ export default function AboutHeroSection({
             className="text-5xl md:text-6xl font-bold text-white leading-tight mb-6 drop-shadow-md font-sans tracking-tight"
             dangerouslySetInnerHTML={{ __html: title || "About KFD" }}
           />
-          <div
-            className="text-base md:text-lg text-white/90 leading-relaxed font-normal drop-shadow-md prose prose-invert prose-p:mb-0 max-w-none break-words whitespace-pre-wrap overflow-hidden [&_*]:!bg-transparent [&_*]:!text-inherit"
-            dangerouslySetInnerHTML={{ __html: sanitizedTagline || "Protecting and sustainably managing the forests of Kawthoolei for present and future generations." }}
-          />
+          {sanitizedTagline && (
+            <div
+              className="text-base md:text-lg text-white/90 leading-relaxed font-normal drop-shadow-md prose prose-invert prose-p:mb-0 max-w-none break-words whitespace-pre-wrap overflow-hidden [&_*]:!bg-transparent [&_*]:!text-inherit"
+              dangerouslySetInnerHTML={{ __html: sanitizedTagline }}
+            />
+          )}
         </div>
       </div>
     </section>

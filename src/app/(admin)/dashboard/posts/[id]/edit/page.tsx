@@ -2,8 +2,9 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Newspaper } from 'lucide-react';
 import PostForm from '@/components/post-form';
+import PageHeader from '@/components/page-header';
 import api from '@/lib/api';
 
 export default function EditPostPage() {
@@ -52,13 +53,12 @@ export default function EditPostPage() {
 
   return (
     <div>
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-ink">Edit Post</h1>
-        <p className="text-steel mt-1">
-          Update the content, category, tags, and publishing status for this post.
-        </p>
-      </div>
-      
+      <PageHeader
+        icon={Newspaper}
+        title="Edit Post"
+        description="Update the content, category, tags, and publishing status for this post."
+      />
+
       <PostForm isEdit={true} initialData={postData} postId={id} />
     </div>
   );

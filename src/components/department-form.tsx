@@ -2,10 +2,11 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import { Loader2, Save, ArrowLeft, Building2, Contact, AlignLeft, Settings, Image as ImageIcon, UploadCloud, FolderOpen, Trash2, Plus, X } from 'lucide-react';
+import { Loader2, Save, ArrowLeft, Building2, Contact, AlignLeft, Settings, Image as ImageIcon, Plus, X } from 'lucide-react';
 import Link from 'next/link';
 import api, { getMediaUrl } from '@/lib/api';
 import MediaSelector from '@/components/media-selector';
+import ImageUploadField from '@/components/image-upload-field';
 import toast from 'react-hot-toast';
 import dynamic from 'next/dynamic';
 import { CustomSelect } from '@/components/ui/custom-select';
@@ -413,58 +414,17 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                     accept="image/*"
                     className="hidden"
                   />
-                  {logoUrl ? (
-                    <div className="group relative rounded-xl overflow-hidden border border-hairline-strong h-56 sm:h-64 bg-surface flex flex-col">
-                      <img
-                        src={getMediaUrl(logoUrl)}
-                        alt="Logo preview"
-                        className="w-full h-full object-cover"
-                        onError={(e) => { (e.target as HTMLImageElement).src = 'https://via.placeholder.com/400x300?text=Invalid+Image'; }}
-                      />
-                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
-                        <button
-                          type="button"
-                          onClick={() => setIsLogoSelectorOpen(true)}
-                          className="bg-canvas text-slate p-3 rounded-full hover:bg-surface hover:scale-110 transition-transform shadow-sm"
-                          title="Change Image"
-                        >
-                          <ImageIcon className="w-5 h-5" />
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => { setFormData({ ...formData, logoId: '' }); setLogoUrl(''); }}
-                          className="bg-canvas text-red-500 p-3 rounded-full hover:bg-red-50 hover:scale-110 transition-transform shadow-sm"
-                          title="Remove Image"
-                        >
-                          <X className="w-5 h-5" />
-                        </button>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="border-2 border-dashed border-hairline-strong rounded-lg p-6 flex flex-col items-center justify-center text-center gap-4 bg-surface-soft h-56 sm:h-64">
-                      <div className="w-10 h-10 bg-canvas rounded-full shadow-sm flex items-center justify-center border border-hairline">
-                        {uploadingLogo ? <Loader2 className="w-5 h-5 text-brand-green animate-spin" /> : <ImageIcon className="w-5 h-5 text-muted" />}
-                      </div>
-                      <div className="flex flex-col w-full gap-2">
-                        <button
-                          type="button"
-                          onClick={() => logoInputRef.current?.click()}
-                          disabled={uploadingLogo}
-                          className="w-full py-2 bg-canvas border border-hairline-strong hover:border-emerald-500 hover:text-brand-green-dark text-slate text-xs font-medium rounded-lg transition-colors flex items-center justify-center gap-2 shadow-sm"
-                        >
-                          {uploadingLogo ? 'Uploading...' : 'Upload Image'}
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setIsLogoSelectorOpen(true)}
-                          disabled={uploadingLogo}
-                          className="w-full py-2 bg-surface hover:bg-gray-200 text-slate text-xs font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
-                        >
-                          Library
-                        </button>
-                      </div>
-                    </div>
-                  )}
+                  <ImageUploadField
+                    previewUrl={logoUrl ? getMediaUrl(logoUrl) : null}
+                    uploading={uploadingLogo}
+                    onUploadClick={() => logoInputRef.current?.click()}
+                    onLibraryClick={() => setIsLogoSelectorOpen(true)}
+                    onRemoveClick={() => { setFormData({ ...formData, logoId: '' }); setLogoUrl(''); }}
+                    alt="Logo preview"
+                    fit="contain"
+                    emptyLabel="No logo selected"
+                    emptyHint="Upload an image or choose one from your library."
+                  />
                 </div>
 
                 {/* Hero Image Selection */}
@@ -480,58 +440,16 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                     accept="image/*"
                     className="hidden"
                   />
-                  {heroUrl ? (
-                    <div className="group relative rounded-xl overflow-hidden border border-hairline-strong h-56 sm:h-64 bg-surface flex flex-col">
-                      <img
-                        src={getMediaUrl(heroUrl)}
-                        alt="Hero preview"
-                        className="w-full h-full object-cover"
-                        onError={(e) => { (e.target as HTMLImageElement).src = 'https://via.placeholder.com/400x300?text=Invalid+Image'; }}
-                      />
-                      <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
-                        <button
-                          type="button"
-                          onClick={() => setIsHeroSelectorOpen(true)}
-                          className="bg-canvas text-slate p-3 rounded-full hover:bg-surface hover:scale-110 transition-transform shadow-sm"
-                          title="Change Image"
-                        >
-                          <ImageIcon className="w-5 h-5" />
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => { setFormData({ ...formData, heroImageId: '' }); setHeroUrl(''); }}
-                          className="bg-canvas text-red-500 p-3 rounded-full hover:bg-red-50 hover:scale-110 transition-transform shadow-sm"
-                          title="Remove Image"
-                        >
-                          <X className="w-5 h-5" />
-                        </button>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="border-2 border-dashed border-hairline-strong rounded-lg p-6 flex flex-col items-center justify-center text-center gap-4 bg-surface-soft h-56 sm:h-64">
-                      <div className="w-10 h-10 bg-canvas rounded-full shadow-sm flex items-center justify-center border border-hairline">
-                        {uploadingHero ? <Loader2 className="w-5 h-5 text-brand-green animate-spin" /> : <ImageIcon className="w-5 h-5 text-muted" />}
-                      </div>
-                      <div className="flex flex-col w-full gap-2">
-                        <button
-                          type="button"
-                          onClick={() => heroInputRef.current?.click()}
-                          disabled={uploadingHero}
-                          className="w-full py-2 bg-canvas border border-hairline-strong hover:border-emerald-500 hover:text-brand-green-dark text-slate text-xs font-medium rounded-lg transition-colors flex items-center justify-center gap-2 shadow-sm"
-                        >
-                          {uploadingHero ? 'Uploading...' : 'Upload Image'}
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setIsHeroSelectorOpen(true)}
-                          disabled={uploadingHero}
-                          className="w-full py-2 bg-surface hover:bg-gray-200 text-slate text-xs font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
-                        >
-                          Library
-                        </button>
-                      </div>
-                    </div>
-                  )}
+                  <ImageUploadField
+                    previewUrl={heroUrl ? getMediaUrl(heroUrl) : null}
+                    uploading={uploadingHero}
+                    onUploadClick={() => heroInputRef.current?.click()}
+                    onLibraryClick={() => setIsHeroSelectorOpen(true)}
+                    onRemoveClick={() => { setFormData({ ...formData, heroImageId: '' }); setHeroUrl(''); }}
+                    alt="Hero preview"
+                    emptyLabel="No hero image selected"
+                    emptyHint="Upload an image or choose one from your library."
+                  />
                 </div>
               </div>
             </div>

@@ -8,6 +8,7 @@ import DeleteModal from '@/components/delete-modal';
 import SlideOver from '@/components/slide-over';
 import RoleForm from '@/components/role-form';
 import EmptyState from '@/components/ui/empty-state';
+import PageHeader from '@/components/page-header';
 
 export default function RolesDirectoryPage() {
   const [roles, setRoles] = useState<any[]>([]);
@@ -95,30 +96,25 @@ export default function RolesDirectoryPage() {
       <div className="flex items-center gap-2 text-sm text-muted mb-6">
         <Link href="/dashboard" className="text-steel hover:text-ink transition-colors">Home</Link>
         <span>&gt;</span>
-        <Link href="/dashboard/team" className="text-steel hover:text-ink transition-colors">Team Directory</Link>
+        <Link href="/dashboard/team" className="text-steel hover:text-ink transition-colors">Team Members</Link>
         <span>&gt;</span>
         <span className="text-ink font-medium">Roles & Access</span>
       </div>
 
-      {/* Header Section */}
-      <div className="bg-canvas rounded-lg p-8 shadow-sm border border-hairline-soft flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-        <div>
-          <h1 className="text-2xl font-bold text-ink flex items-center gap-3">
-            <Shield className="w-6 h-6 text-brand-green" />
-            Roles & Access
-          </h1>
-          <p className="text-steel mt-1">
-            Manage system roles, permissions, and access levels.
-          </p>
-        </div>
-        <button
-          onClick={openCreateDrawer}
-          className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-brand-green hover:bg-primary-deep text-on-primary font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
-        >
-          <Plus className="w-5 h-5" />
-          ADD
-        </button>
-      </div>
+      <PageHeader
+        icon={Shield}
+        title="Roles & Access"
+        description="Manage system roles, permissions, and access levels."
+        action={
+          <button
+            onClick={openCreateDrawer}
+            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-brand-green hover:bg-primary-deep text-on-primary font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
+          >
+            <Plus className="w-5 h-5" />
+            ADD
+          </button>
+        }
+      />
 
       {/* Error State */}
       {error && (

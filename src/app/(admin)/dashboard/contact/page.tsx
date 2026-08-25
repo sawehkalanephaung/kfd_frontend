@@ -2,10 +2,11 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Settings, Loader2, Globe } from 'lucide-react';
+import { Settings, Loader2, Contact as ContactIcon } from 'lucide-react';
 import api from '@/lib/api';
 import ContactSettingsForm from '@/components/contact-settings-form';
 import SocialMediaManager from '@/components/social-media-manager';
+import PageHeader from '@/components/page-header';
 
 export default function ContactSettingsPage() {
   const [settings, setSettings] = useState<any>(null);
@@ -41,20 +42,14 @@ export default function ContactSettingsPage() {
         <span>&gt;</span>
         <span className="text-steel">Organization Management</span>
         <span>&gt;</span>
-        <span className="text-ink font-medium">Global Contact Info</span>
+        <span className="text-ink font-medium">Contact Information</span>
       </div>
 
-      {/* Header Section */}
-      <div className="bg-canvas rounded-lg p-8 shadow-sm border border-hairline-soft mb-6">
-        <h1 className="text-2xl font-bold text-ink flex items-center gap-3">
-          <Globe className="w-6 h-6 text-brand-green" />
-          Global Contact Settings
-        </h1>
-        <p className="text-steel mt-1">
-          Manage the organization's physical address, emails, phone numbers, and social media links.
-          These details are displayed globally across the public application.
-        </p>
-      </div>
+      <PageHeader
+        icon={ContactIcon}
+        title="Contact Information"
+        description="Manage the organization's physical address, emails, phone numbers, and social media links. These details are displayed globally across the public application."
+      />
 
       {loading ? (
         <div className="flex items-center justify-center py-20 bg-canvas rounded-lg shadow-sm border border-hairline-soft">

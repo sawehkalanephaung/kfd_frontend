@@ -15,7 +15,7 @@ export default function DepartmentInfo({ data }: { data: DepartmentData }) {
   const timeline = data.timeline || [];
 
   // Strip HTML to see if there's actual content
-  const hasOverview = overview && overview.replace(/<[^>]*>?/gm, '').trim().length > 0;
+  const hasOverview = overview && overview.replace(/<[^>]*>/gm, '').trim().length > 0;
 
   return (
     <div className="py-8">
