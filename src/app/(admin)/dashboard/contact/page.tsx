@@ -48,7 +48,7 @@ export default function ContactSettingsPage() {
       <PageHeader
         icon={ContactIcon}
         title="Contact Information"
-        description="Manage the organization's physical address, emails, phone numbers, and social media links. These details are displayed globally across the public application."
+        description="Manage the organization's physical address, emails, phone numbers, and social media links."
       />
 
       {loading ? (

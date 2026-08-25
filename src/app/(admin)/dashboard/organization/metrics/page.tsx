@@ -7,6 +7,7 @@ import api from '@/lib/api';
 import DeleteModal from '@/components/delete-modal';
 import CreateButton from '@/components/create-button';
 import PageHeader from '@/components/page-header';
+import toast from 'react-hot-toast';
 
 interface GlobalMetric {
   id: string;
@@ -54,8 +55,16 @@ export default function GlobalMetricsPage() {
   const confirmDelete = async () => {
     if (!metricToDelete) return;
 
-    await api.delete(`/api/v1/admin/metrics/${metricToDelete.id}`);
-    setMetrics((prev) => prev.filter((m) => m.id !== metricToDelete.id));
+    try {
+      await api.delete(`/api/v1/admin/metrics/${metricToDelete.id}`);
+      setMetrics((prev) => prev.filter((m) => m.id !== metricToDelete.id));
+      toast.success(`"${metricToDelete.title}" was successfully deleted.`);
+    } catch (err: any) {
+      toast.error(err?.response?.data?.message || 'Failed to delete metric.');
+    } finally {
+      setDeleteModalOpen(false);
+      setMetricToDelete(null);
+    }
   };
 
   return (
@@ -66,12 +75,12 @@ export default function GlobalMetricsPage() {
         <span>&gt;</span>
         <span className="text-steel">Organization</span>
         <span>&gt;</span>
-        <span className="text-ink font-medium">Metrics</span>
+        <span className="text-ink font-medium">Statistics Metrics</span>
       </div>
 
       <PageHeader
         icon={BarChart2}
-        title="Metrics"
+        title="Statistics Metrics"
         description="Manage the key statistics displayed across your public website."
         action={<CreateButton href="/dashboard/organization/metrics/create" />}
       />

@@ -157,9 +157,6 @@ export default function PublicationsListPage() {
 
         <div className="flex w-full md:w-3/5 gap-4">
           <div className="relative w-full md:w-1/2">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Filter className="w-4 h-4 text-muted" />
-            </div>
             <div className="w-full pl-8">
               <CustomSelect
                 value={selectedCategory}
@@ -172,9 +169,6 @@ export default function PublicationsListPage() {
           </div>
 
           <div className="relative w-full md:w-1/2">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Eye className="w-4 h-4 text-muted" />
-            </div>
             <div className="w-full pl-8">
               <CustomSelect
                 value={selectedStatus}
@@ -240,13 +234,12 @@ export default function PublicationsListPage() {
                             {publication.category.name}
                           </span>
                         ) : null}
-                        <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-medium ${
-                          publication.status === 'PUBLISHED'
+                        <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-medium ${publication.status === 'PUBLISHED'
                             ? 'bg-brand-green-soft text-brand-green-dark border border-brand-green/20'
                             : publication.status === 'DRAFT'
-                            ? 'bg-amber-50 text-amber-700 border border-amber-200'
-                            : 'bg-surface text-slate border border-hairline-strong'
-                        }`}>
+                              ? 'bg-amber-50 text-amber-700 border border-amber-200'
+                              : 'bg-surface text-slate border border-hairline-strong'
+                          }`}>
                           {publication.status === 'PUBLISHED' ? <Eye className="w-3 h-3" /> : publication.status === 'DRAFT' ? <EyeOff className="w-3 h-3" /> : <Archive className="w-3 h-3" />}
                           {publication.status}
                         </span>
@@ -263,16 +256,15 @@ export default function PublicationsListPage() {
                       )}
                     </td>
                     <td className="px-6 py-4 hidden sm:table-cell">
-                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${
-                        publication.status === 'PUBLISHED'
+                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${publication.status === 'PUBLISHED'
                           ? 'bg-brand-green-soft text-brand-green-dark border border-brand-green/20'
                           : publication.status === 'DRAFT'
-                          ? 'bg-amber-50 text-amber-700 border border-amber-200'
-                          : 'bg-surface text-slate border border-hairline-strong'
-                      }`}>
+                            ? 'bg-amber-50 text-amber-700 border border-amber-200'
+                            : 'bg-surface text-slate border border-hairline-strong'
+                        }`}>
                         {publication.status === 'PUBLISHED' ? <Eye className="w-3.5 h-3.5" /> : publication.status === 'DRAFT' ? <EyeOff className="w-3.5 h-3.5" /> : <Archive className="w-3.5 h-3.5" />}
-                         {publication.status}
-                       </span>
+                        {publication.status}
+                      </span>
                     </td>
                     <td className="px-6 py-4 text-steel text-sm hidden md:table-cell">
                       <div className="flex items-center gap-1.5">

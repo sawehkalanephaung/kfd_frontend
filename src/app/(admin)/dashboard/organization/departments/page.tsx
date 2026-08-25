@@ -7,6 +7,7 @@ import api from '@/lib/api';
 import DeleteModal from '@/components/delete-modal';
 import CreateButton from '@/components/create-button';
 import PageHeader from '@/components/page-header';
+import toast from 'react-hot-toast';
 
 interface Department {
   id: string;
@@ -60,8 +61,16 @@ export default function DepartmentsPage() {
   const confirmDelete = async () => {
     if (!departmentToDelete) return;
 
-    await api.delete(`/api/v1/admin/departments/${departmentToDelete.id}`);
-    setDepartments((prev) => prev.filter((d) => d.id !== departmentToDelete.id));
+    try {
+      await api.delete(`/api/v1/admin/departments/${departmentToDelete.id}`);
+      setDepartments((prev) => prev.filter((d) => d.id !== departmentToDelete.id));
+      toast.success(`"${departmentToDelete.name}" was successfully deleted.`);
+    } catch (err: any) {
+      toast.error(err?.response?.data?.message || 'Failed to delete department. It may still be referenced by posts, team members, or other content.');
+    } finally {
+      setDeleteModalOpen(false);
+      setDepartmentToDelete(null);
+    }
   };
 
   return (

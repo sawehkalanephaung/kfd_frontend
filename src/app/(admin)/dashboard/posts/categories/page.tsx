@@ -62,8 +62,16 @@ export default function CategoriesListPage() {
 
   const confirmDelete = async () => {
     if (!categoryToDelete) return;
-    await api.delete(`/api/v1/admin/cms/categories/${categoryToDelete.id}`);
-    setCategories((prev) => prev.filter((c) => c.id !== categoryToDelete.id));
+    try {
+      await api.delete(`/api/v1/admin/cms/categories/${categoryToDelete.id}`);
+      setCategories((prev) => prev.filter((c) => c.id !== categoryToDelete.id));
+      toast.success(`"${categoryToDelete.name}" was successfully deleted.`);
+    } catch (err: any) {
+      toast.error(err?.response?.data?.message || 'Failed to delete category.');
+    } finally {
+      setDeleteModalOpen(false);
+      setCategoryToDelete(null);
+    }
   };
 
   const openCreateDrawer = () => {

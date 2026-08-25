@@ -26,7 +26,7 @@ export default function PostsListPage() {
   const [categories, setCategories] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  
+
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -70,7 +70,7 @@ export default function PostsListPage() {
       if (selectedStatus) params.append('status', selectedStatus);
 
       const response = await api.get(`/api/v1/admin/cms/posts?${params.toString()}`);
-      
+
       const content = response.data?.content || response.data?.data || response.data || [];
       setPosts(Array.isArray(content) ? content : []);
       setTotalPages(response.data?.totalPages || 1);
@@ -156,12 +156,9 @@ export default function PostsListPage() {
             className="w-full pl-10 pr-4 py-2.5 bg-surface border border-hairline-strong rounded-lg text-sm text-black focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
           />
         </div>
-        
+
         <div className="flex w-full md:w-3/5 gap-4">
           <div className="relative w-full md:w-1/2">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Filter className="w-4 h-4 text-muted" />
-            </div>
             <div className="w-full pl-8">
               <CustomSelect
                 value={selectedCategory}
@@ -174,9 +171,7 @@ export default function PostsListPage() {
           </div>
 
           <div className="relative w-full md:w-1/2">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Eye className="w-4 h-4 text-muted" />
-            </div>
+
             <div className="w-full pl-8">
               <CustomSelect
                 value={selectedStatus}
@@ -242,13 +237,12 @@ export default function PostsListPage() {
                             {post.category.name}
                           </span>
                         ) : null}
-                        <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-medium ${
-                          post.status === 'PUBLISHED' 
-                            ? 'bg-brand-green-soft text-brand-green-dark border border-brand-green/20' 
+                        <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-medium ${post.status === 'PUBLISHED'
+                            ? 'bg-brand-green-soft text-brand-green-dark border border-brand-green/20'
                             : post.status === 'DRAFT'
-                            ? 'bg-amber-50 text-amber-700 border border-amber-200'
-                            : 'bg-surface text-slate border border-hairline-strong'
-                        }`}>
+                              ? 'bg-amber-50 text-amber-700 border border-amber-200'
+                              : 'bg-surface text-slate border border-hairline-strong'
+                          }`}>
                           {post.status === 'PUBLISHED' ? <Eye className="w-3 h-3" /> : post.status === 'DRAFT' ? <EyeOff className="w-3 h-3" /> : <Archive className="w-3 h-3" />}
                           {post.status}
                         </span>
@@ -265,16 +259,15 @@ export default function PostsListPage() {
                       )}
                     </td>
                     <td className="px-6 py-4 hidden sm:table-cell">
-                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${
-                        post.status === 'PUBLISHED' 
-                          ? 'bg-brand-green-soft text-brand-green-dark border border-brand-green/20' 
+                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${post.status === 'PUBLISHED'
+                          ? 'bg-brand-green-soft text-brand-green-dark border border-brand-green/20'
                           : post.status === 'DRAFT'
-                          ? 'bg-amber-50 text-amber-700 border border-amber-200'
-                          : 'bg-surface text-slate border border-hairline-strong'
-                      }`}>
+                            ? 'bg-amber-50 text-amber-700 border border-amber-200'
+                            : 'bg-surface text-slate border border-hairline-strong'
+                        }`}>
                         {post.status === 'PUBLISHED' ? <Eye className="w-3.5 h-3.5" /> : post.status === 'DRAFT' ? <EyeOff className="w-3.5 h-3.5" /> : <Archive className="w-3.5 h-3.5" />}
                         {post.status}
-                       </span>
+                      </span>
                     </td>
                     <td className="px-6 py-4 text-steel text-sm hidden md:table-cell">
                       <div className="flex items-center gap-1.5">
@@ -306,7 +299,7 @@ export default function PostsListPage() {
             </tbody>
           </table>
         </div>
-        
+
         {/* Pagination Footer */}
         {totalElements > 0 && (
           <div className="px-4 sm:px-6 py-4 border-t border-hairline flex flex-col sm:flex-row items-center justify-between gap-4 bg-canvas rounded-b-lg">
@@ -318,11 +311,11 @@ export default function PostsListPage() {
               <ChevronLeft className="w-4 h-4" />
               Previous
             </button>
-            
+
             <div className="text-sm text-steel text-center">
               Page <span className="font-medium text-ink">{currentPage}</span> of <span className="font-medium text-ink">{totalPages}</span>
             </div>
-            
+
             <button
               onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
               disabled={currentPage === totalPages}
@@ -340,8 +333,8 @@ export default function PostsListPage() {
         onClose={() => setDeleteModalOpen(false)}
         onConfirm={confirmDelete}
         title={postToDelete?.status === 'ARCHIVED' ? "Permanently Delete Post?" : "Archive Post?"}
-        description={postToDelete?.status === 'ARCHIVED' 
-          ? "This will permanently delete the post and cannot be undone." 
+        description={postToDelete?.status === 'ARCHIVED'
+          ? "This will permanently delete the post and cannot be undone."
           : "This will move the post to the ARCHIVED status. You can delete it permanently later."}
         itemName={`the '${postToDelete?.title}' post`}
       />

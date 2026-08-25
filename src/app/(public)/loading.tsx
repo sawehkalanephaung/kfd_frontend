@@ -17,10 +17,10 @@ export default function PublicLoading() {
             <div className="max-w-2xl">
               <Skeleton className="h-14 w-full sm:w-3/4 mb-6 !bg-zinc-800/50" />
               <Skeleton className="h-14 w-1/2 mb-6 !bg-zinc-800/50" />
-              
+
               <Skeleton className="h-6 w-full max-w-xl mb-3 !bg-zinc-800/50" />
               <Skeleton className="h-6 w-4/5 max-w-xl mb-10 !bg-zinc-800/50" />
-              
+
               <div className="flex flex-wrap items-center gap-4">
                 <Skeleton className="h-12 w-40 rounded-full !bg-zinc-800/50" />
                 <Skeleton className="h-12 w-32 rounded-full !bg-zinc-800/50" />

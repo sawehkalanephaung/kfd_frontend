@@ -9,6 +9,7 @@ import SlideOver from '@/components/slide-over';
 import RoleForm from '@/components/role-form';
 import EmptyState from '@/components/ui/empty-state';
 import PageHeader from '@/components/page-header';
+import toast from 'react-hot-toast';
 
 export default function RolesDirectoryPage() {
   const [roles, setRoles] = useState<any[]>([]);
@@ -51,9 +52,16 @@ export default function RolesDirectoryPage() {
   const confirmDelete = async () => {
     if (!roleToDelete) return;
 
-    await api.delete(`/api/v1/admin/roles/${roleToDelete.id}`);
-    setRoles((prev) => prev.filter((r) => r.id !== roleToDelete.id));
-    setDeleteModalOpen(false);
+    try {
+      await api.delete(`/api/v1/admin/roles/${roleToDelete.id}`);
+      setRoles((prev) => prev.filter((r) => r.id !== roleToDelete.id));
+      toast.success(`"${roleToDelete.name}" was successfully deleted.`);
+    } catch (err: any) {
+      toast.error(err?.response?.data?.message || 'Failed to delete role. It may still be assigned to users.');
+    } finally {
+      setDeleteModalOpen(false);
+      setRoleToDelete(null);
+    }
   };
 
   const openCreateDrawer = () => {
@@ -96,7 +104,7 @@ export default function RolesDirectoryPage() {
       <div className="flex items-center gap-2 text-sm text-muted mb-6">
         <Link href="/dashboard" className="text-steel hover:text-ink transition-colors">Home</Link>
         <span>&gt;</span>
-        <Link href="/dashboard/team" className="text-steel hover:text-ink transition-colors">Team Members</Link>
+        <Link href="/dashboard/team" className="text-steel hover:text-ink transition-colors">Chairman</Link>
         <span>&gt;</span>
         <span className="text-ink font-medium">Roles & Access</span>
       </div>
@@ -145,7 +153,7 @@ export default function RolesDirectoryPage() {
               ) : roles.length === 0 ? (
                 <tr>
                   <td colSpan={3} className="px-6 py-12">
-                    <EmptyState 
+                    <EmptyState
                       title="No Roles Found"
                       description="Get started by creating a new role to manage system permissions."
                       icon={Shield}

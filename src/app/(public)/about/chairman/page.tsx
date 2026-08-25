@@ -35,7 +35,7 @@ function parseI18nField(val: any): string {
         try {
           const inner = JSON.parse(parsed.richText);
           return inner.en || inner.text || Object.values(inner)[0] || parsed.richText;
-        } catch(e) {
+        } catch (e) {
           return parsed.richText;
         }
       }

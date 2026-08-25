@@ -7,6 +7,7 @@ import api from '@/lib/api';
 import DeleteModal from '@/components/delete-modal';
 import CreateButton from '@/components/create-button';
 import PageHeader from '@/components/page-header';
+import toast from 'react-hot-toast';
 
 interface Faq {
   id: string;
@@ -54,9 +55,17 @@ export default function FaqsListPage() {
   const confirmDelete = async () => {
     if (!faqToDelete) return;
 
+    try {
       await api.delete(`/api/v1/admin/faqs/${faqToDelete.id}`);
       setFaqs((prev) => prev.filter((f) => f.id !== faqToDelete.id));
-    };
+      toast.success('FAQ was successfully deleted.');
+    } catch (err: any) {
+      toast.error(err?.response?.data?.message || 'Failed to delete FAQ.');
+    } finally {
+      setDeleteModalOpen(false);
+      setFaqToDelete(null);
+    }
+  };
 
   return (
     <div>

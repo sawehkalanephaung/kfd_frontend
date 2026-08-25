@@ -5,7 +5,7 @@ import { getMediaUrl } from "@/lib/api";
 /**
  * This page's whole purpose is the team roster, so a fetch failure throws
  * (→ `(public)/error.tsx` retry UI) instead of quietly rendering an empty
- * grid indistinguishable from "no team members added yet."
+ * grid indistinguishable from "no Chairman added yet."
  */
 async function getTeamMembers() {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
@@ -13,7 +13,7 @@ async function getTeamMembers() {
     cache: 'no-store'
   });
 
-  if (!res.ok) throw new Error(`Failed to load team members: ${res.status}`);
+  if (!res.ok) throw new Error(`Failed to load Chairman: ${res.status}`);
   const data = await res.json();
   return data?.data || [];
 }
@@ -28,7 +28,7 @@ function parseI18nField(val: any): string {
         try {
           const inner = JSON.parse(parsed.richText);
           return inner.en || inner.text || Object.values(inner)[0] || parsed.richText;
-        } catch(e) {
+        } catch (e) {
           return parsed.richText;
         }
       }
@@ -51,7 +51,7 @@ export default async function TeamDirectoryPage() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">Our Team</h1>
           <p className="text-xl text-on-dark-muted max-w-2xl mx-auto">
-            Meet the dedicated leadership and team members of the Kawthoolei Forestry Department.
+            Meet the dedicated leadership and Chairman of the Kawthoolei Forestry Department.
           </p>
         </div>
       </section>
@@ -61,7 +61,7 @@ export default async function TeamDirectoryPage() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           {members.length === 0 ? (
             <div className="text-center py-20 bg-canvas rounded-2xl shadow-sm border border-hairline">
-              <h3 className="text-xl text-steel font-medium">Team members will be updated soon.</h3>
+              <h3 className="text-xl text-steel font-medium">Chairman will be updated soon.</h3>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
@@ -76,7 +76,7 @@ export default async function TeamDirectoryPage() {
                     {/* Image */}
                     <div className="aspect-[4/5] bg-surface relative overflow-hidden">
                       {displayImage ? (
-                        <div 
+                        <div
                           className="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
                           style={{ backgroundImage: `url('${displayImage}')` }}
                         ></div>
@@ -87,12 +87,12 @@ export default async function TeamDirectoryPage() {
                       )}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     </div>
-                    
+
                     {/* Content */}
                     <div className="p-6 flex flex-col flex-1 relative">
                       <h3 className="text-xl font-bold text-ink mb-1 group-hover:text-teal-deep transition-colors">{name}</h3>
                       <p className="text-[#2a563c] font-medium text-sm mb-4">{position}</p>
-                      
+
                       {member.departmentName && (
                         <p className="text-steel text-xs mb-4 uppercase tracking-wider">{member.departmentName}</p>
                       )}

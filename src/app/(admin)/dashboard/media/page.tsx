@@ -6,6 +6,7 @@ import { UploadCloud, Trash2, Edit, FileText, Image as ImageIcon, Images, Loader
 import api, { getMediaUrl } from '@/lib/api';
 import DeleteModal from '@/components/delete-modal';
 import PageHeader from '@/components/page-header';
+import toast from 'react-hot-toast';
 import { CustomSelect } from '@/components/ui/custom-select';
 
 interface MediaAsset {
@@ -102,8 +103,16 @@ export default function MediaLibraryPage() {
   const confirmDelete = async () => {
     if (!mediaToDelete) return;
 
-    await api.delete(`/api/v1/admin/media/${mediaToDelete.id}`);
-    setMedia((prev) => prev.filter((m) => m.id !== mediaToDelete.id));
+    try {
+      await api.delete(`/api/v1/admin/media/${mediaToDelete.id}`);
+      setMedia((prev) => prev.filter((m) => m.id !== mediaToDelete.id));
+      toast.success(`"${mediaToDelete.fileName}" was successfully deleted.`);
+    } catch (err: any) {
+      toast.error(err?.response?.data?.message || 'Failed to delete file. It may still be referenced by a post or page.');
+    } finally {
+      setDeleteModalOpen(false);
+      setMediaToDelete(null);
+    }
   };
 
   const getFileIcon = (fileType: string) => {

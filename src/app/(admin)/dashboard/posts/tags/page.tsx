@@ -9,6 +9,7 @@ import SlideOver from '@/components/slide-over';
 import TagForm from '@/components/tag-form';
 import EmptyState from '@/components/ui/empty-state';
 import PageHeader from '@/components/page-header';
+import toast from 'react-hot-toast';
 
 interface Tag {
   id: string;
@@ -59,8 +60,16 @@ export default function TagsListPage() {
   const confirmDelete = async () => {
     if (!tagToDelete) return;
 
-    await api.delete(`/api/v1/admin/cms/tags/${tagToDelete.id}`);
-    setTags((prev) => prev.filter((t) => t.id !== tagToDelete.id));
+    try {
+      await api.delete(`/api/v1/admin/cms/tags/${tagToDelete.id}`);
+      setTags((prev) => prev.filter((t) => t.id !== tagToDelete.id));
+      toast.success(`"${tagToDelete.name}" was successfully deleted.`);
+    } catch (err: any) {
+      toast.error(err?.response?.data?.message || 'Failed to delete tag.');
+    } finally {
+      setDeleteModalOpen(false);
+      setTagToDelete(null);
+    }
   };
 
   const openCreateDrawer = () => {

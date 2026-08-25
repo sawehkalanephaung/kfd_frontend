@@ -352,24 +352,26 @@ export default function Sidebar({ initialOrgIdentity }: { initialOrgIdentity?: S
                 {/* Sub-items (Expanded Mode) */}
                 {!isCollapsed && hasSubItems && (
                   <div
-                    className={`overflow-hidden transition-all duration-200 ease-in-out ${expanded ? 'max-h-80 opacity-100 mt-1' : 'max-h-0 opacity-0'}`}
+                    className={`grid transition-all duration-200 ease-in-out ${expanded ? 'grid-rows-[1fr] opacity-100 mt-1' : 'grid-rows-[0fr] opacity-0'}`}
                   >
-                    <div className="ml-[22px] pl-4 border-l-[1.5px] border-white/15 space-y-0.5 my-1">
-                      {item.subItems!.map((sub) => (
-                        <Link
-                          key={sub.href}
-                          href={sub.href}
-                          onClick={() => setIsOpen(false)}
-                          className={
-                            "block px-3 py-2 rounded-lg text-[13px] font-medium transition-all duration-300 truncate " +
-                            (pathname === sub.href
-                              ? "text-brand-green bg-canvas/10 font-semibold"
-                              : "text-on-dark-muted hover:text-on-dark hover:bg-canvas/5 hover:translate-x-1")
-                          }
-                        >
-                          {sub.label}
-                        </Link>
-                      ))}
+                    <div className="overflow-hidden">
+                      <div className="ml-[22px] pl-4 border-l-[1.5px] border-white/15 space-y-0.5 my-1">
+                        {item.subItems!.map((sub) => (
+                          <Link
+                            key={sub.href}
+                            href={sub.href}
+                            onClick={() => setIsOpen(false)}
+                            className={
+                              "block px-3 py-2 rounded-lg text-[13px] font-medium transition-all duration-300 truncate " +
+                              (pathname === sub.href
+                                ? "text-brand-green bg-canvas/10 font-semibold"
+                                : "text-on-dark-muted hover:text-on-dark hover:bg-canvas/5 hover:translate-x-1")
+                            }
+                          >
+                            {sub.label}
+                          </Link>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 )}

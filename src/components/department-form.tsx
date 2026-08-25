@@ -87,7 +87,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
           }
         }
       } catch (e) { console.error("Failed to load logo", e); }
-      
+
       try {
         if (initialData?.heroImageId) {
           const res = await api.get(`/api/v1/admin/media/${initialData.heroImageId}`);
@@ -194,14 +194,14 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
     try {
       const mediaFormData = new FormData();
       mediaFormData.append('file', file);
-      
+
       const uploadRes = await api.post('/api/v1/admin/media/upload', mediaFormData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
       const url = uploadRes.data?.data?.fileUrl || uploadRes.data?.fileUrl;
       const id = uploadRes.data?.data?.id || uploadRes.data?.id;
-      
+
       if (id && url) {
         if (type === 'logo') {
           setFormData(prev => ({ ...prev, logoId: id }));
@@ -343,7 +343,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
         {/* Main Content Column */}
         <div className="xl:col-span-2 space-y-6">
-          
+
           {/* Basic Info Card */}
           <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft">
             <h2 className="text-lg font-bold text-ink mb-6 flex items-center gap-2">
@@ -369,7 +369,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                   <input
                     type="text"
                     value={formData.slug}
-                    onChange={(e) => setFormData({...formData, slug: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
                     className="w-full px-4 py-3 bg-surface border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                     placeholder="survey-unit"
                   />
@@ -379,13 +379,13 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                   <div className="relative">
                     <CustomSelect
                       value={formData.headMemberId}
-                      onChange={(val) => setFormData({...formData, headMemberId: val})}
+                      onChange={(val) => setFormData({ ...formData, headMemberId: val })}
                       placeholder="Select a team member..."
                       disabled={fetchingMembers}
                       options={teamMembers.map((member: any) => ({
                         value: member.id.toString(),
-                        label: member.firstName || member.lastName 
-                          ? `${member.firstName || ''} ${member.lastName || ''}`.trim() 
+                        label: member.firstName || member.lastName
+                          ? `${member.firstName || ''} ${member.lastName || ''}`.trim()
                           : member.name || 'Member'
                       }))}
                       clearable
@@ -462,7 +462,8 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
               Description (Rich Text)
             </h2>
             <div className="bg-canvas rounded-xl overflow-hidden border border-hairline-strong">
-              <style dangerouslySetInnerHTML={{__html: `
+              <style dangerouslySetInnerHTML={{
+                __html: `
                 .ql-editor {
                   color: #000000 !important;
                 }
@@ -481,7 +482,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                     [{ 'header': [1, 2, 3, false] }],
                     ['bold', 'italic', 'underline', 'strike', 'blockquote'],
                     [{ 'color': [] }, { 'background': [] }],
-                    [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
+                    [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
                     ['link', 'image', 'video'],
                     ['clean']
                   ],
@@ -496,7 +497,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
 
         {/* Sidebar Column */}
         <div className="space-y-6">
-          
+
           {/* Settings Card */}
           <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft">
             <h2 className="text-lg font-bold text-ink mb-6 flex items-center gap-2">
@@ -508,7 +509,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                 <label className="block text-sm font-semibold text-ink mb-2">Status</label>
                 <CustomSelect
                   value={formData.status}
-                  onChange={(val) => setFormData({...formData, status: val})}
+                  onChange={(val) => setFormData({ ...formData, status: val })}
                   options={[
                     { value: 'ACTIVE', label: 'Active' },
                     { value: 'INACTIVE', label: 'Inactive' }
@@ -520,7 +521,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                 <input
                   type="number"
                   value={formData.orderIndex}
-                  onChange={(e) => setFormData({...formData, orderIndex: parseInt(e.target.value) || 0})}
+                  onChange={(e) => setFormData({ ...formData, orderIndex: parseInt(e.target.value) || 0 })}
                   className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                 />
                 <p className="text-xs text-muted mt-2">Determines display order (lower = first)</p>
@@ -540,7 +541,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                 <input
                   type="email"
                   value={contactInfo.email}
-                  onChange={(e) => setContactInfo({...contactInfo, email: e.target.value})}
+                  onChange={(e) => setContactInfo({ ...contactInfo, email: e.target.value })}
                   className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                   placeholder="contact@dept.org"
                 />
@@ -550,7 +551,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                 <input
                   type="text"
                   value={contactInfo.phone}
-                  onChange={(e) => setContactInfo({...contactInfo, phone: e.target.value})}
+                  onChange={(e) => setContactInfo({ ...contactInfo, phone: e.target.value })}
                   className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                   placeholder="+1 (555) 000-0000"
                 />
@@ -560,7 +561,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                 <textarea
                   rows={2}
                   value={contactInfo.address}
-                  onChange={(e) => setContactInfo({...contactInfo, address: e.target.value})}
+                  onChange={(e) => setContactInfo({ ...contactInfo, address: e.target.value })}
                   className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                   placeholder="123 Office St."
                 ></textarea>
@@ -570,7 +571,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                 <input
                   type="text"
                   value={contactInfo.officeHours}
-                  onChange={(e) => setContactInfo({...contactInfo, officeHours: e.target.value})}
+                  onChange={(e) => setContactInfo({ ...contactInfo, officeHours: e.target.value })}
                   className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                   placeholder="Mon-Fri, 9am - 5pm"
                 />
@@ -580,7 +581,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                 <input
                   type="url"
                   value={contactInfo.website}
-                  onChange={(e) => setContactInfo({...contactInfo, website: e.target.value})}
+                  onChange={(e) => setContactInfo({ ...contactInfo, website: e.target.value })}
                   className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                   placeholder="https://example.com"
                 />
