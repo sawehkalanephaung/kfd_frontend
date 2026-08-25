@@ -139,12 +139,12 @@ export default function CategoriesListPage() {
         <span>&gt;</span>
         <span className="text-steel">Posts &amp; News</span>
         <span>&gt;</span>
-        <span className="text-ink font-medium">Categories</span>
+        <span className="text-ink font-medium">Post Categories</span>
       </div>
 
       <PageHeader
         icon={FolderTree}
-        title="Categories"
+        title="Post Categories"
         description="Organize your posts and news articles into structured topics."
         action={
           <button
@@ -270,7 +270,7 @@ export default function CategoriesListPage() {
         isOpen={deleteModalOpen}
         onClose={() => setDeleteModalOpen(false)}
         onConfirm={confirmDelete}
-        title="Delete Category?"
+        title="Delete Post Category?"
         description="This will permanently delete the category. Note: If posts are attached to this category, it may fail depending on database constraints."
         itemName={`the '${categoryToDelete?.name}' category`}
       />
@@ -278,7 +278,7 @@ export default function CategoriesListPage() {
       <SlideOver
         isOpen={drawerOpen}
         onClose={() => setDrawerOpen(false)}
-        title={isEditMode ? 'Edit Category' : 'Create New Category'}
+        title={isEditMode ? 'Edit Post Category' : 'Create New Post Category'}
       >
         {fetchingDetails ? (
           <div className="flex flex-col items-center justify-center py-20 text-steel">

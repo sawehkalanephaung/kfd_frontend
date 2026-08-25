@@ -132,7 +132,7 @@ export default function PublicationCategoriesListPage() {
         <span>&gt;</span>
         <span className="text-steel">Publications</span>
         <span>&gt;</span>
-        <span className="text-ink font-medium">Categories</span>
+        <span className="text-ink font-medium">Publication Categories</span>
       </div>
 
       <PageHeader
@@ -258,7 +258,7 @@ export default function PublicationCategoriesListPage() {
         isOpen={deleteModalOpen}
         onClose={() => setDeleteModalOpen(false)}
         onConfirm={confirmDelete}
-        title="Delete Category?"
+        title="Delete Publication Category?"
         description="This will permanently delete the category. Note: If publications are attached to this category, it may fail depending on database constraints."
         itemName={`the '${categoryToDelete?.name}' category`}
       />
@@ -266,7 +266,7 @@ export default function PublicationCategoriesListPage() {
       <SlideOver
         isOpen={drawerOpen}
         onClose={() => setDrawerOpen(false)}
-        title={isEditMode ? 'Edit Category' : 'Create New Category'}
+        title={isEditMode ? 'Edit Publication Category' : 'Create New Publication Category'}
       >
         {fetchingDetails ? (
           <div className="flex flex-col items-center justify-center py-20 text-steel">

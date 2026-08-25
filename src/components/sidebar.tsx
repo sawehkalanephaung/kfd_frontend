@@ -31,11 +31,20 @@ interface OrgIdentityDisplay {
   resolvedLogoUrl: string | null;
 }
 
+interface SubMenuItem {
+  label: string;
+  href: string;
+  allowedRoles?: string[];
+  // Adjacent items sharing a `group` collapse into their own nested dropdown.
+  // Items without one render directly under the parent menu.
+  group?: string;
+}
+
 interface MenuItem {
   label: string;
   icon: React.ReactNode;
   href: string;
-  subItems?: { label: string; href: string; allowedRoles?: string[] }[];
+  subItems?: SubMenuItem[];
   allowedRoles?: string[];
 }
 
@@ -51,15 +60,15 @@ const menuItems: MenuItem[] = [
     href: '/dashboard/content-management', // This acts as a grouping identifier for active state
     allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'],
     subItems: [
-      { label: 'All Pages', href: '/dashboard/pages', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'] },
-      { label: 'FAQs', href: '/dashboard/pages/faqs', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'] },
-      { label: 'All Posts', href: '/dashboard/posts', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'] },
-      { label: 'Categories', href: '/dashboard/posts/categories', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'] },
-      { label: 'Tags', href: '/dashboard/posts/tags', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'] },
-      { label: 'All Publications', href: '/dashboard/publications', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'] },
-      { label: 'Publication Categories', href: '/dashboard/publications/categories', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'] },
-      { label: 'Resources (Library)', href: '/dashboard/media', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'] },
-      { label: 'Newsletter Subscribers', href: '/dashboard/newsletter', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'] },
+      { label: 'All Pages', href: '/dashboard/pages', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'], group: 'Pages' },
+      { label: 'FAQs', href: '/dashboard/pages/faqs', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'], group: 'Pages' },
+      { label: 'All Posts', href: '/dashboard/posts', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'], group: 'Posts' },
+      { label: 'Post Categories', href: '/dashboard/posts/categories', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'], group: 'Posts' },
+      { label: 'Tags', href: '/dashboard/posts/tags', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'], group: 'Posts' },
+      { label: 'All Publications', href: '/dashboard/publications', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'], group: 'Publications' },
+      { label: 'Publication Categories', href: '/dashboard/publications/categories', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'], group: 'Publications' },
+      { label: 'Resources (Library)', href: '/dashboard/media', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'], group: 'More' },
+      { label: 'Newsletter Subscribers', href: '/dashboard/newsletter', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'], group: 'More' },
     ],
   },
   {
@@ -88,10 +97,30 @@ const menuItems: MenuItem[] = [
   }
 ];
 
+interface SubGroup {
+  label: string | null;
+  items: SubMenuItem[];
+}
+
+// Collapse a flat sub-menu into consecutive runs of the same `group`. Runs are
+// built from the already role-filtered list, so a group whose items are all
+// hidden never produces an empty dropdown.
+const groupSubItems = (subItems: SubMenuItem[]): SubGroup[] =>
+  subItems.reduce<SubGroup[]>((groups, sub) => {
+    const label = sub.group ?? null;
+    const current = groups[groups.length - 1];
+    if (current && current.label === label) current.items.push(sub);
+    else groups.push({ label, items: [sub] });
+    return groups;
+  }, []);
+
+const groupKeyOf = (menuLabel: string, groupLabel: string) => `${menuLabel}:${groupLabel}`;
+
 export default function Sidebar({ initialOrgIdentity }: { initialOrgIdentity?: SiteIdentity }) {
   const pathname = usePathname();
   const router = useRouter();
   const [expandedMenus, setExpandedMenus] = useState<string[]>([]);
+  const [expandedGroups, setExpandedGroups] = useState<string[]>([]);
   const { isOpen, setIsOpen, isCollapsed } = useSidebar();
   const [userRoles, setUserRoles] = useState<string[]>([]);
   const [orgIdentity, setOrgIdentity] = useState<OrgIdentityDisplay | null>(
@@ -183,6 +212,14 @@ export default function Sidebar({ initialOrgIdentity }: { initialOrgIdentity?: S
       setExpandedMenus((prev) =>
         prev.includes(activeItem.label) ? prev : [...prev, activeItem.label]
       );
+
+      // Also open the nested group holding the current route, so a deep link
+      // lands with its section already unfolded rather than hidden one level down.
+      const activeSub = activeItem.subItems?.find((sub) => checkPath(sub.href));
+      if (activeSub?.group) {
+        const key = groupKeyOf(activeItem.label, activeSub.group);
+        setExpandedGroups((prev) => (prev.includes(key) ? prev : [...prev, key]));
+      }
     }
   }, [pathname]);
 
@@ -193,6 +230,30 @@ export default function Sidebar({ initialOrgIdentity }: { initialOrgIdentity?: S
         : [...prev, label]
     );
   };
+
+  const toggleGroup = (key: string) => {
+    setExpandedGroups((prev) =>
+      prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key]
+    );
+  };
+
+  // Shared by the expanded sidebar and the collapsed hover flyout so both stay
+  // in step; only the hover affordances differ between the two.
+  const renderSubLink = (sub: SubMenuItem, flyout = false) => (
+    <Link
+      key={sub.href}
+      href={sub.href}
+      onClick={() => setIsOpen(false)}
+      className={
+        `block px-3 py-2 rounded-lg text-[13px] font-medium truncate ${flyout ? 'my-0.5 transition-colors' : 'transition-all duration-300'} ` +
+        (pathname === sub.href
+          ? "text-brand-green bg-canvas/10 font-semibold"
+          : `text-on-dark-muted hover:text-on-dark hover:bg-canvas/5${flyout ? '' : ' hover:translate-x-1'}`)
+      }
+    >
+      {sub.label}
+    </Link>
+  );
 
   const isActive = (item: MenuItem) => {
     if (item.href === '/dashboard') return pathname === '/dashboard';
@@ -356,21 +417,44 @@ export default function Sidebar({ initialOrgIdentity }: { initialOrgIdentity?: S
                   >
                     <div className="overflow-hidden">
                       <div className="ml-[22px] pl-4 border-l-[1.5px] border-white/15 space-y-0.5 my-1">
-                        {item.subItems!.map((sub) => (
-                          <Link
-                            key={sub.href}
-                            href={sub.href}
-                            onClick={() => setIsOpen(false)}
-                            className={
-                              "block px-3 py-2 rounded-lg text-[13px] font-medium transition-all duration-300 truncate " +
-                              (pathname === sub.href
-                                ? "text-brand-green bg-canvas/10 font-semibold"
-                                : "text-on-dark-muted hover:text-on-dark hover:bg-canvas/5 hover:translate-x-1")
-                            }
-                          >
-                            {sub.label}
-                          </Link>
-                        ))}
+                        {groupSubItems(item.subItems!).map((subGroup) => {
+                          if (!subGroup.label) {
+                            return subGroup.items.map((sub) => renderSubLink(sub));
+                          }
+
+                          const key = groupKeyOf(item.label, subGroup.label);
+                          const groupExpanded = expandedGroups.includes(key);
+                          const groupActive = subGroup.items.some((sub) => pathname === sub.href);
+
+                          return (
+                            <div key={key}>
+                              <button
+                                onClick={() => toggleGroup(key)}
+                                aria-expanded={groupExpanded}
+                                className={
+                                  "w-full flex items-center justify-between gap-2 px-3 py-2 rounded-lg text-[13px] font-medium transition-colors " +
+                                  (groupActive
+                                    ? "text-on-dark"
+                                    : "text-on-dark-muted hover:text-on-dark hover:bg-canvas/5")
+                                }
+                              >
+                                <span className="truncate">{subGroup.label}</span>
+                                <ChevronUp
+                                  className={`w-3.5 h-3.5 flex-shrink-0 transition-transform duration-200 ${groupExpanded ? '' : 'rotate-180'}`}
+                                />
+                              </button>
+                              <div
+                                className={`grid transition-all duration-200 ease-in-out ${groupExpanded ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
+                              >
+                                <div className="overflow-hidden">
+                                  <div className="ml-3 pl-3 border-l border-white/10 space-y-0.5 my-0.5">
+                                    {subGroup.items.map((sub) => renderSubLink(sub))}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })}
                       </div>
                     </div>
                   </div>
@@ -381,20 +465,20 @@ export default function Sidebar({ initialOrgIdentity }: { initialOrgIdentity?: S
                   <div className="hidden group-hover:block absolute left-full top-0 pl-3 w-56 z-[100]">
                     <div className="bg-teal-deep shadow-modal rounded-lg border border-hairline-dark py-2 animate-in fade-in slide-in-from-left-2 duration-200">
                       <div className="px-4 py-2 text-sm font-bold text-on-dark border-b border-white/10 mb-1">{item.label}</div>
-                      <div className="px-2">
-                        {item.subItems!.map((sub) => (
-                          <Link
-                            key={sub.href}
-                            href={sub.href}
-                            className={
-                              "block px-3 py-2 my-0.5 rounded-lg text-[13px] font-medium transition-colors " +
-                              (pathname === sub.href
-                                ? "text-brand-green bg-canvas/10"
-                                : "text-on-dark-muted hover:text-on-dark hover:bg-canvas/5")
-                            }
-                          >
-                            {sub.label}
-                          </Link>
+                      {/* The flyout is a transient hover panel, so groups stay
+                          expanded as headings here rather than as accordions. */}
+                      <div className="px-2 max-h-[70vh] overflow-y-auto">
+                        {groupSubItems(item.subItems!).map((subGroup, groupIndex) => (
+                          // Keyed by position, not label: a menu can hold more
+                          // than one ungrouped run, and those share a null label.
+                          <div key={subGroup.label ?? `_${groupIndex}`}>
+                            {subGroup.label && (
+                              <div className="px-3 pt-3 pb-1 text-[10px] font-semibold uppercase tracking-wider text-on-dark-muted/60">
+                                {subGroup.label}
+                              </div>
+                            )}
+                            {subGroup.items.map((sub) => renderSubLink(sub, true))}
+                          </div>
                         ))}
                       </div>
                     </div>
