@@ -119,7 +119,7 @@ export default function RolesDirectoryPage() {
             className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-brand-green hover:bg-primary-deep text-on-primary font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
           >
             <Plus className="w-5 h-5" />
-            ADD
+            Create
           </button>
         }
       />

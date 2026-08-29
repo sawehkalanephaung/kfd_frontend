@@ -23,6 +23,7 @@ import {
   Layers
 } from 'lucide-react';
 import { useSidebar } from '@/components/sidebar-context';
+import { SidebarToggleIcon } from '@/components/ui/sidebar-toggle-icon';
 import { SITE_IDENTITY_UPDATED_EVENT, type SiteIdentity } from '@/lib/site-identity';
 
 interface OrgIdentityDisplay {
@@ -121,7 +122,7 @@ export default function Sidebar({ initialOrgIdentity }: { initialOrgIdentity?: S
   const router = useRouter();
   const [expandedMenus, setExpandedMenus] = useState<string[]>([]);
   const [expandedGroups, setExpandedGroups] = useState<string[]>([]);
-  const { isOpen, setIsOpen, isCollapsed } = useSidebar();
+  const { isOpen, setIsOpen, isCollapsed, setIsCollapsed } = useSidebar();
   const [userRoles, setUserRoles] = useState<string[]>([]);
   const [orgIdentity, setOrgIdentity] = useState<OrgIdentityDisplay | null>(
     initialOrgIdentity
@@ -320,24 +321,36 @@ export default function Sidebar({ initialOrgIdentity }: { initialOrgIdentity?: S
         {/* Header / Logo */}
         <div className={`flex items-center ${isCollapsed ? 'justify-center px-0' : 'justify-between px-4'} py-6 min-h-[88px] min-w-0`}>
           <div className="flex items-center gap-3 min-w-0">
-            <div className={`relative w-10 h-10 flex-shrink-0 ${isCollapsed ? 'mx-auto' : ''}`}>
-              {resolvedLogoUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={resolvedLogoUrl}
-                  alt={`${displayName} Logo`}
-                  className="absolute inset-0 w-full h-full object-contain"
-                />
-              ) : (
-                <Image
-                  src={logoImg}
-                  alt={`${displayName} Logo`}
-                  fill
-                  sizes="40px"
-                  className="object-contain"
-                />
-              )}
-            </div>
+            {isCollapsed ? (
+              <button
+                type="button"
+                onClick={() => setIsCollapsed(false)}
+                aria-label="Expand sidebar navigation"
+                title="Expand sidebar"
+                className="relative w-10 h-10 flex-shrink-0 mx-auto rounded-lg text-on-dark-muted hover:text-on-dark hover:bg-canvas/10 transition-all cursor-pointer flex items-center justify-center outline-none focus-visible:ring-2 focus-visible:ring-brand-green"
+              >
+                <SidebarToggleIcon isCollapsed={true} className="w-5 h-5" />
+              </button>
+            ) : (
+              <div className="relative w-10 h-10 flex-shrink-0">
+                {resolvedLogoUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={resolvedLogoUrl}
+                    alt={`${displayName} Logo`}
+                    className="absolute inset-0 w-full h-full object-contain"
+                  />
+                ) : (
+                  <Image
+                    src={logoImg}
+                    alt={`${displayName} Logo`}
+                    fill
+                    sizes="40px"
+                    className="object-contain"
+                  />
+                )}
+              </div>
+            )}
             {!isCollapsed && (
               <div className="flex flex-col min-w-0">
                 <p className="text-[13px] font-bold text-on-dark tracking-tight leading-tight truncate">
@@ -351,6 +364,17 @@ export default function Sidebar({ initialOrgIdentity }: { initialOrgIdentity?: S
               </div>
             )}
           </div>
+          {/* Desktop Collapse Toggle (Matching Reference) */}
+          {!isCollapsed && (
+            <button
+              onClick={() => setIsCollapsed(true)}
+              aria-label="Collapse sidebar navigation"
+              title="Collapse sidebar"
+              className="hidden md:flex p-1.5 -mr-1 text-on-dark-muted hover:text-on-dark hover:bg-canvas/10 rounded-lg transition-all outline-none focus-visible:ring-2 focus-visible:ring-brand-green active:scale-95 flex-shrink-0"
+            >
+              <SidebarToggleIcon isCollapsed={false} className="w-5 h-5" />
+            </button>
+          )}
           {/* Mobile Close Button */}
           {!isCollapsed && (
             <button
