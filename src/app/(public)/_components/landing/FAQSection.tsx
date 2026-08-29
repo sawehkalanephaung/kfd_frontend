@@ -1,13 +1,14 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import Link from "next/link";
-import { Plus, Minus, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { ContentFallback } from "@/components/content-fallback";
+import { Accordion } from "@/components/ui/accordion";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -15,12 +16,6 @@ if (typeof window !== "undefined") {
 
 export default function FAQSection({ faqs, status }: { faqs: any[]; status: 'ok' | 'empty' | 'error' }) {
   const displayFaqs = faqs || [];
-
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
-
-  const toggleFAQ = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
 
   const sectionRef = useRef<HTMLElement>(null);
   const leftColRef = useRef<HTMLDivElement>(null);
@@ -100,37 +95,11 @@ export default function FAQSection({ faqs, status }: { faqs: any[]; status: 'ok'
                 <ContentFallback variant="error" title="FAQs unavailable" message="We couldn't load frequently asked questions right now." />
               </div>
             ) : (
-            <div className="bg-canvas border border-hairline shadow-sm rounded-xl overflow-hidden divide-y divide-hairline">
-              {displayFaqs.map((faq, index) => (
-                <div key={faq.id || index} className="w-full">
-                  <button
-                    onClick={() => toggleFAQ(index)}
-                    aria-expanded={openIndex === index}
-                    aria-controls={`faq-content-${index}`}
-                    id={`faq-button-${index}`}
-                    className="w-full text-left px-8 py-6 flex items-center justify-between hover:bg-surface transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green"
-                  >
-                    <span className="font-bold text-ink pr-8">{faq.question}</span>
-                    <span className="text-forest shrink-0">
-                      {openIndex === index ? <Minus size={20} /> : <Plus size={20} />}
-                    </span>
-                  </button>
-
-                  {/* Expandable Content */}
-                  <div
-                    id={`faq-content-${index}`}
-                    role="region"
-                    aria-labelledby={`faq-button-${index}`}
-                    className={`overflow-hidden transition-all duration-300 ease-in-out ${openIndex === index ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-                      }`}
-                  >
-                    <div className="px-8 pb-6 text-steel leading-relaxed">
-                      {faq.answer}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
+              <Accordion
+                variant="light"
+                defaultOpenIndex={0}
+                items={displayFaqs.map((faq, index) => ({ id: faq.id ?? index, question: faq.question, answer: faq.answer }))}
+              />
             )}
           </div>
 
