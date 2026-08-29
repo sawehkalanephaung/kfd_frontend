@@ -6,6 +6,7 @@ import { Loader2, Save, ArrowLeft, Shield, CheckSquare } from 'lucide-react';
 import Link from 'next/link';
 import api from '@/lib/api';
 import toast from 'react-hot-toast';
+import { FormField } from '@/components/ui/form-field';
 
 interface RoleFormProps {
   initialData?: any;
@@ -144,29 +145,32 @@ export default function RoleForm({ initialData, isEdit, roleId, isSlideOver, onS
         </h2>
         
         <div className="space-y-6">
-          <div>
-            <label className="block text-sm font-semibold text-ink mb-2">Role Name</label>
-            <input
-              type="text"
-              required
-              value={formData.name}
-              onChange={(e) => setFormData({...formData, name: e.target.value})}
-              className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-              placeholder="e.g. ROLE_EDITOR"
-            />
-            <p className="text-xs text-muted mt-2">Recommended format: uppercase, prefixed with ROLE_</p>
-          </div>
+          <FormField label="Role Name" required hint="Recommended format: uppercase, prefixed with ROLE_">
+            {(fieldProps) => (
+              <input
+                {...fieldProps}
+                type="text"
+                required
+                value={formData.name}
+                onChange={(e) => setFormData({...formData, name: e.target.value})}
+                className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                placeholder="e.g. ROLE_EDITOR"
+              />
+            )}
+          </FormField>
 
-          <div>
-            <label className="block text-sm font-semibold text-ink mb-2">Description</label>
-            <textarea
-              rows={3}
-              value={formData.description}
-              onChange={(e) => setFormData({...formData, description: e.target.value})}
-              className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-              placeholder="What can this role do?"
-            ></textarea>
-          </div>
+          <FormField label="Description">
+            {(fieldProps) => (
+              <textarea
+                {...fieldProps}
+                rows={3}
+                value={formData.description}
+                onChange={(e) => setFormData({...formData, description: e.target.value})}
+                className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                placeholder="What can this role do?"
+              ></textarea>
+            )}
+          </FormField>
 
           <div className="pt-2">
             <label className="block text-sm font-semibold text-ink mb-4 flex items-center gap-2">

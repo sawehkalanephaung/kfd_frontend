@@ -10,6 +10,7 @@ import MediaSelector from '@/components/media-selector';
 import ImageUploadField from '@/components/image-upload-field';
 import toast from 'react-hot-toast';
 import { CustomSelect } from '@/components/ui/custom-select';
+import { FormField } from '@/components/ui/form-field';
 import 'react-quill-new/dist/quill.snow.css';
 import ImageCropperModal from '@/components/image-cropper';
 
@@ -238,84 +239,99 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
             </h2>
             <div className="space-y-5">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <div>
-                  <label className="block text-sm font-semibold text-ink mb-2">First Name</label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.firstName}
-                    onChange={(e) => setFormData({...formData, firstName: e.target.value})}
-                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
-                    placeholder="e.g. John"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-ink mb-2">Last Name</label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.lastName}
-                    onChange={(e) => setFormData({...formData, lastName: e.target.value})}
-                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
-                    placeholder="e.g. Doe"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-2">Job Title</label>
-                <input
-                  type="text"
-                  required
-                  value={formData.title}
-                  onChange={(e) => setFormData({...formData, title: e.target.value})}
-                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                  placeholder="e.g. Conservation Director"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-2 flex items-center gap-2">
-                  <Building2 className="w-4 h-4 text-muted" />
-                  Department
-                </label>
-                <div className="relative">
-                  <CustomSelect
-                    value={formData.departmentId}
-                    onChange={(val) => setFormData({...formData, departmentId: val})}
-                    placeholder="None / General"
-                    disabled={fetchingDepts}
-                    options={departments.map((dept: any) => ({ value: dept.id.toString(), label: dept.name }))}
-                    clearable
-                  />
-                  {fetchingDepts && (
-                    <div className="absolute right-3 top-3.5">
-                      <Loader2 className="w-4 h-4 text-muted animate-spin" />
-                    </div>
+                <FormField label="First Name" required>
+                  {(fieldProps) => (
+                    <input
+                      {...fieldProps}
+                      type="text"
+                      required
+                      value={formData.firstName}
+                      onChange={(e) => setFormData({...formData, firstName: e.target.value})}
+                      className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
+                      placeholder="e.g. John"
+                    />
                   )}
-                </div>
+                </FormField>
+                <FormField label="Last Name" required>
+                  {(fieldProps) => (
+                    <input
+                      {...fieldProps}
+                      type="text"
+                      required
+                      value={formData.lastName}
+                      onChange={(e) => setFormData({...formData, lastName: e.target.value})}
+                      className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
+                      placeholder="e.g. Doe"
+                    />
+                  )}
+                </FormField>
               </div>
+
+              <FormField label="Job Title" required>
+                {(fieldProps) => (
+                  <input
+                    {...fieldProps}
+                    type="text"
+                    required
+                    value={formData.title}
+                    onChange={(e) => setFormData({...formData, title: e.target.value})}
+                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                    placeholder="e.g. Conservation Director"
+                  />
+                )}
+              </FormField>
+
+              <FormField
+                label={
+                  <span className="flex items-center gap-2">
+                    <Building2 className="w-4 h-4 text-muted" aria-hidden="true" />
+                    Department
+                  </span>
+                }
+              >
+                {(fieldProps) => (
+                  <div className="relative">
+                    <CustomSelect
+                      {...fieldProps}
+                      value={formData.departmentId}
+                      onChange={(val) => setFormData({...formData, departmentId: val})}
+                      placeholder="None / General"
+                      disabled={fetchingDepts}
+                      options={departments.map((dept: any) => ({ value: dept.id.toString(), label: dept.name }))}
+                      clearable
+                    />
+                    {fetchingDepts && (
+                      <div className="absolute right-3 top-3.5">
+                        <Loader2 className="w-4 h-4 text-muted animate-spin" aria-hidden="true" />
+                      </div>
+                    )}
+                  </div>
+                )}
+              </FormField>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
-                <div>
-                  <label className="block text-sm font-semibold text-ink mb-2">Term Start Date</label>
-                  <input
-                    type="date"
-                    value={formData.termStartDate}
-                    onChange={(e) => setFormData({...formData, termStartDate: e.target.value})}
-                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-ink mb-2">Term End Date</label>
-                  <input
-                    type="date"
-                    value={formData.termEndDate}
-                    onChange={(e) => setFormData({...formData, termEndDate: e.target.value})}
-                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                  />
-                  <p className="text-[10px] text-muted mt-1">Leave empty if currently active.</p>
-                </div>
+                <FormField label="Term Start Date">
+                  {(fieldProps) => (
+                    <input
+                      {...fieldProps}
+                      type="date"
+                      value={formData.termStartDate}
+                      onChange={(e) => setFormData({...formData, termStartDate: e.target.value})}
+                      className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                    />
+                  )}
+                </FormField>
+                <FormField label="Term End Date" hint="Leave empty if currently active.">
+                  {(fieldProps) => (
+                    <input
+                      {...fieldProps}
+                      type="date"
+                      value={formData.termEndDate}
+                      onChange={(e) => setFormData({...formData, termEndDate: e.target.value})}
+                      className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                    />
+                  )}
+                </FormField>
               </div>
             </div>
           </div>
@@ -347,18 +363,20 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
               Settings
             </h2>
             <div className="space-y-5">
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-2">Status</label>
-                <CustomSelect
-                  value={formData.isActive ? 'true' : 'false'}
-                  onChange={(val) => setFormData({...formData, isActive: val === 'true'})}
-                  options={[
-                    { value: 'true', label: 'Active' },
-                    { value: 'false', label: 'Inactive' }
-                  ]}
-                />
-              </div>
-              
+              <FormField label="Status">
+                {(fieldProps) => (
+                  <CustomSelect
+                    {...fieldProps}
+                    value={formData.isActive ? 'true' : 'false'}
+                    onChange={(val) => setFormData({...formData, isActive: val === 'true'})}
+                    options={[
+                      { value: 'true', label: 'Active' },
+                      { value: 'false', label: 'Inactive' }
+                    ]}
+                  />
+                )}
+              </FormField>
+
               <div>
                 <label className="flex items-center gap-3 p-4 bg-surface border border-hairline rounded-xl cursor-pointer hover:bg-surface transition-colors">
                   <div className="relative flex items-center">
@@ -378,16 +396,17 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
                 </label>
               </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-2">Display Order</label>
-                <input
-                  type="number"
-                  value={formData.displayOrder}
-                  onChange={(e) => setFormData({...formData, displayOrder: parseInt(e.target.value) || 0})}
-                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                />
-                <p className="text-xs text-muted mt-2">Determines display order (lower = first)</p>
-              </div>
+              <FormField label="Display Order" hint="Determines display order (lower = first)">
+                {(fieldProps) => (
+                  <input
+                    {...fieldProps}
+                    type="number"
+                    value={formData.displayOrder}
+                    onChange={(e) => setFormData({...formData, displayOrder: parseInt(e.target.value) || 0})}
+                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                  />
+                )}
+              </FormField>
             </div>
           </div>
 

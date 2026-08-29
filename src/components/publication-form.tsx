@@ -10,6 +10,7 @@ import ImageUploadField from '@/components/image-upload-field';
 import DocumentUploadField from '@/components/document-upload-field';
 import toast from 'react-hot-toast';
 import { CustomSelect } from '@/components/ui/custom-select';
+import { FormField } from '@/components/ui/form-field';
 
 interface PublicationFormProps {
   initialData?: any;
@@ -216,61 +217,73 @@ export default function PublicationForm({ initialData, isEdit, publicationId }: 
               Publication Details
             </h2>
             <div className="space-y-5">
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-2">Title</label>
-                <input
-                  type="text"
-                  required
-                  value={formData.title}
-                  onChange={handleTitleChange}
-                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
-                  placeholder="e.g. Annual Forestry Impact Report 2026"
-                />
-              </div>
+              <FormField label="Title" required>
+                {(fieldProps) => (
+                  <input
+                    {...fieldProps}
+                    type="text"
+                    required
+                    value={formData.title}
+                    onChange={handleTitleChange}
+                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
+                    placeholder="e.g. Annual Forestry Impact Report 2026"
+                  />
+                )}
+              </FormField>
 
               <div className="hidden">
-                <label className="block text-sm font-semibold text-ink mb-2">URL Slug</label>
-                <input
-                  type="text"
-                  value={formData.slug}
-                  onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                  className="w-full px-4 py-3 bg-surface border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                  placeholder="annual-forestry-impact-report-2026"
-                />
+                <FormField label="URL Slug">
+                  {(fieldProps) => (
+                    <input
+                      {...fieldProps}
+                      type="text"
+                      value={formData.slug}
+                      onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+                      className="w-full px-4 py-3 bg-surface border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                      placeholder="annual-forestry-impact-report-2026"
+                    />
+                  )}
+                </FormField>
               </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-2">Summary</label>
-                <textarea
-                  rows={4}
-                  value={formData.summary}
-                  onChange={(e) => setFormData({ ...formData, summary: e.target.value })}
-                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
-                  placeholder="A short summary of what this publication covers..."
-                ></textarea>
-              </div>
+              <FormField label="Summary">
+                {(fieldProps) => (
+                  <textarea
+                    {...fieldProps}
+                    rows={4}
+                    value={formData.summary}
+                    onChange={(e) => setFormData({ ...formData, summary: e.target.value })}
+                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
+                    placeholder="A short summary of what this publication covers..."
+                  ></textarea>
+                )}
+              </FormField>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <div>
-                  <label className="block text-sm font-semibold text-ink mb-2">Issued By</label>
-                  <input
-                    type="text"
-                    value={formData.issuedBy}
-                    onChange={(e) => setFormData({ ...formData, issuedBy: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
-                    placeholder="e.g. Office of the Chief Forester"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-ink mb-2">Reference No.</label>
-                  <input
-                    type="text"
-                    value={formData.referenceNo}
-                    onChange={(e) => setFormData({ ...formData, referenceNo: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
-                    placeholder="e.g. KFD-2026-014"
-                  />
-                </div>
+                <FormField label="Issued By">
+                  {(fieldProps) => (
+                    <input
+                      {...fieldProps}
+                      type="text"
+                      value={formData.issuedBy}
+                      onChange={(e) => setFormData({ ...formData, issuedBy: e.target.value })}
+                      className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
+                      placeholder="e.g. Office of the Chief Forester"
+                    />
+                  )}
+                </FormField>
+                <FormField label="Reference No.">
+                  {(fieldProps) => (
+                    <input
+                      {...fieldProps}
+                      type="text"
+                      value={formData.referenceNo}
+                      onChange={(e) => setFormData({ ...formData, referenceNo: e.target.value })}
+                      className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
+                      placeholder="e.g. KFD-2026-014"
+                    />
+                  )}
+                </FormField>
               </div>
             </div>
           </div>
@@ -314,41 +327,51 @@ export default function PublicationForm({ initialData, isEdit, publicationId }: 
               Settings
             </h2>
             <div className="space-y-5">
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-2">Status</label>
-                <CustomSelect
-                  value={formData.status}
-                  onChange={(val) => setFormData({ ...formData, status: val })}
-                  options={[
-                    { value: 'PUBLISHED', label: 'Published' },
-                    { value: 'DRAFT', label: 'Draft' },
-                    { value: 'ARCHIVED', label: 'Archived' }
-                  ]}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-2">Published Date</label>
-                <input
-                  type="date"
-                  required
-                  value={formData.publishedDate}
-                  onChange={(e) => setFormData({ ...formData, publishedDate: e.target.value })}
-                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-2 flex items-center gap-2">
-                  <Globe2 className="w-4 h-4 text-muted" />
-                  Language
-                </label>
-                <input
-                  type="text"
-                  value={formData.language}
-                  onChange={(e) => setFormData({ ...formData, language: e.target.value })}
-                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                  placeholder="e.g. English"
-                />
-              </div>
+              <FormField label="Status">
+                {(fieldProps) => (
+                  <CustomSelect
+                    {...fieldProps}
+                    value={formData.status}
+                    onChange={(val) => setFormData({ ...formData, status: val })}
+                    options={[
+                      { value: 'PUBLISHED', label: 'Published' },
+                      { value: 'DRAFT', label: 'Draft' },
+                      { value: 'ARCHIVED', label: 'Archived' }
+                    ]}
+                  />
+                )}
+              </FormField>
+              <FormField label="Published Date" required>
+                {(fieldProps) => (
+                  <input
+                    {...fieldProps}
+                    type="date"
+                    required
+                    value={formData.publishedDate}
+                    onChange={(e) => setFormData({ ...formData, publishedDate: e.target.value })}
+                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                  />
+                )}
+              </FormField>
+              <FormField
+                label={
+                  <span className="flex items-center gap-2">
+                    <Globe2 className="w-4 h-4 text-muted" aria-hidden="true" />
+                    Language
+                  </span>
+                }
+              >
+                {(fieldProps) => (
+                  <input
+                    {...fieldProps}
+                    type="text"
+                    value={formData.language}
+                    onChange={(e) => setFormData({ ...formData, language: e.target.value })}
+                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                    placeholder="e.g. English"
+                  />
+                )}
+              </FormField>
             </div>
           </div>
 
@@ -359,30 +382,38 @@ export default function PublicationForm({ initialData, isEdit, publicationId }: 
               Classification
             </h2>
             <div className="space-y-5">
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-2">Category</label>
-                <CustomSelect
-                  value={formData.categoryId}
-                  onChange={(val) => setFormData({ ...formData, categoryId: val })}
-                  placeholder="Select a Category"
-                  options={categories.map((cat: any) => ({ value: cat.id.toString(), label: cat.name }))}
-                  clearable
-                />
-              </div>
+              <FormField label="Category">
+                {(fieldProps) => (
+                  <CustomSelect
+                    {...fieldProps}
+                    value={formData.categoryId}
+                    onChange={(val) => setFormData({ ...formData, categoryId: val })}
+                    placeholder="Select a Category"
+                    options={categories.map((cat: any) => ({ value: cat.id.toString(), label: cat.name }))}
+                    clearable
+                  />
+                )}
+              </FormField>
 
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-2 flex items-center gap-2">
-                  <Building2 className="w-4 h-4 text-muted" />
-                  Department (Optional)
-                </label>
-                <CustomSelect
-                  value={formData.departmentId}
-                  onChange={(val) => setFormData({ ...formData, departmentId: val })}
-                  placeholder="Select a Department"
-                  options={departments.map((dept: any) => ({ value: dept.id.toString(), label: dept.name }))}
-                  clearable
-                />
-              </div>
+              <FormField
+                label={
+                  <span className="flex items-center gap-2">
+                    <Building2 className="w-4 h-4 text-muted" aria-hidden="true" />
+                    Department (Optional)
+                  </span>
+                }
+              >
+                {(fieldProps) => (
+                  <CustomSelect
+                    {...fieldProps}
+                    value={formData.departmentId}
+                    onChange={(val) => setFormData({ ...formData, departmentId: val })}
+                    placeholder="Select a Department"
+                    options={departments.map((dept: any) => ({ value: dept.id.toString(), label: dept.name }))}
+                    clearable
+                  />
+                )}
+              </FormField>
             </div>
           </div>
 

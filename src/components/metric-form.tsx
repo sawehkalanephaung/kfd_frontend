@@ -6,6 +6,7 @@ import { Loader2, Save, ArrowLeft, BarChart2, Settings } from 'lucide-react';
 import Link from 'next/link';
 import api from '@/lib/api';
 import toast from 'react-hot-toast';
+import { FormField } from '@/components/ui/form-field';
 
 interface MetricFormProps {
   initialData?: any;
@@ -93,41 +94,46 @@ export default function MetricForm({ initialData, isEdit, metricId, onSave }: Me
               Metric Information
             </h2>
             <div className="space-y-5">
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-2">Metric Title</label>
-                <input
-                  type="text"
-                  required
-                  value={formData.title}
-                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
-                  placeholder="e.g. Protected Forest Area"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <div>
-                  <label className="block text-sm font-semibold text-ink mb-2">Metric Value</label>
+              <FormField label="Metric Title" required>
+                {(fieldProps) => (
                   <input
+                    {...fieldProps}
                     type="text"
                     required
-                    value={formData.metricValue}
-                    onChange={(e) => setFormData({ ...formData, metricValue: e.target.value })}
+                    value={formData.title}
+                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                     className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
-                    placeholder="e.g. 200,000 Acres"
+                    placeholder="e.g. Protected Forest Area"
                   />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-ink mb-2">Icon Identifier</label>
-                  <input
-                    type="text"
-                    value={formData.icon}
-                    onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
-                    placeholder="e.g. TreePine (Lucide Icon name)"
-                  />
-                  <p className="text-xs text-muted mt-2">Optional icon identifier name</p>
-                </div>
+                )}
+              </FormField>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <FormField label="Metric Value" required>
+                  {(fieldProps) => (
+                    <input
+                      {...fieldProps}
+                      type="text"
+                      required
+                      value={formData.metricValue}
+                      onChange={(e) => setFormData({ ...formData, metricValue: e.target.value })}
+                      className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
+                      placeholder="e.g. 200,000 Acres"
+                    />
+                  )}
+                </FormField>
+                <FormField label="Icon Identifier" hint="Optional icon identifier name">
+                  {(fieldProps) => (
+                    <input
+                      {...fieldProps}
+                      type="text"
+                      value={formData.icon}
+                      onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
+                      className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
+                      placeholder="e.g. TreePine (Lucide Icon name)"
+                    />
+                  )}
+                </FormField>
               </div>
             </div>
           </div>
@@ -165,16 +171,17 @@ export default function MetricForm({ initialData, isEdit, metricId, onSave }: Me
                   </button>
                 </div>
               </div>
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-2">Display Order</label>
-                <input
-                  type="number"
-                  value={formData.displayOrder}
-                  onChange={(e) => setFormData({ ...formData, displayOrder: parseInt(e.target.value) || 0 })}
-                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                />
-                <p className="text-xs text-muted mt-2">Determines display order (lower = first)</p>
-              </div>
+              <FormField label="Display Order" hint="Determines display order (lower = first)">
+                {(fieldProps) => (
+                  <input
+                    {...fieldProps}
+                    type="number"
+                    value={formData.displayOrder}
+                    onChange={(e) => setFormData({ ...formData, displayOrder: parseInt(e.target.value) || 0 })}
+                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                  />
+                )}
+              </FormField>
             </div>
           </div>
 

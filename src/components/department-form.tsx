@@ -10,6 +10,7 @@ import ImageUploadField from '@/components/image-upload-field';
 import toast from 'react-hot-toast';
 import dynamic from 'next/dynamic';
 import { CustomSelect } from '@/components/ui/custom-select';
+import { FormField } from '@/components/ui/form-field';
 import 'react-quill-new/dist/quill.snow.css';
 
 const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
@@ -350,52 +351,60 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
               Department Information
             </h2>
             <div className="space-y-5">
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-2">Department Name</label>
-                <input
-                  type="text"
-                  required
-                  value={formData.name}
-                  onChange={handleNameChange}
-                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
-                  placeholder="e.g. Survey and Documentation Unit"
-                />
-              </div>
+              <FormField label="Department Name" required>
+                {(fieldProps) => (
+                  <input
+                    {...fieldProps}
+                    type="text"
+                    required
+                    value={formData.name}
+                    onChange={handleNameChange}
+                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
+                    placeholder="e.g. Survey and Documentation Unit"
+                  />
+                )}
+              </FormField>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="hidden">
-                  <label className="block text-sm font-semibold text-ink mb-2">URL Slug</label>
-                  <input
-                    type="text"
-                    value={formData.slug}
-                    onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                    className="w-full px-4 py-3 bg-surface border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                    placeholder="survey-unit"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-ink mb-2">Head of Department</label>
-                  <div className="relative">
-                    <CustomSelect
-                      value={formData.headMemberId}
-                      onChange={(val) => setFormData({ ...formData, headMemberId: val })}
-                      placeholder="Select a team member..."
-                      disabled={fetchingMembers}
-                      options={teamMembers.map((member: any) => ({
-                        value: member.id.toString(),
-                        label: member.firstName || member.lastName
-                          ? `${member.firstName || ''} ${member.lastName || ''}`.trim()
-                          : member.name || 'Member'
-                      }))}
-                      clearable
-                    />
-                    {fetchingMembers && (
-                      <div className="absolute right-3 top-3.5">
-                        <Loader2 className="w-4 h-4 text-muted animate-spin" />
-                      </div>
+                  <FormField label="URL Slug">
+                    {(fieldProps) => (
+                      <input
+                        {...fieldProps}
+                        type="text"
+                        value={formData.slug}
+                        onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+                        className="w-full px-4 py-3 bg-surface border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                        placeholder="survey-unit"
+                      />
                     )}
-                  </div>
+                  </FormField>
                 </div>
+                <FormField label="Head of Department">
+                  {(fieldProps) => (
+                    <div className="relative">
+                      <CustomSelect
+                        {...fieldProps}
+                        value={formData.headMemberId}
+                        onChange={(val) => setFormData({ ...formData, headMemberId: val })}
+                        placeholder="Select a team member..."
+                        disabled={fetchingMembers}
+                        options={teamMembers.map((member: any) => ({
+                          value: member.id.toString(),
+                          label: member.firstName || member.lastName
+                            ? `${member.firstName || ''} ${member.lastName || ''}`.trim()
+                            : member.name || 'Member'
+                        }))}
+                        clearable
+                      />
+                      {fetchingMembers && (
+                        <div className="absolute right-3 top-3.5">
+                          <Loader2 className="w-4 h-4 text-muted animate-spin" aria-hidden="true" />
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </FormField>
               </div>
 
               {/* Images / Logos */}
@@ -504,27 +513,30 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
               Settings
             </h2>
             <div className="space-y-5">
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-2">Status</label>
-                <CustomSelect
-                  value={formData.status}
-                  onChange={(val) => setFormData({ ...formData, status: val })}
-                  options={[
-                    { value: 'ACTIVE', label: 'Active' },
-                    { value: 'INACTIVE', label: 'Inactive' }
-                  ]}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-2">Order Index</label>
-                <input
-                  type="number"
-                  value={formData.orderIndex}
-                  onChange={(e) => setFormData({ ...formData, orderIndex: parseInt(e.target.value) || 0 })}
-                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                />
-                <p className="text-xs text-muted mt-2">Determines display order (lower = first)</p>
-              </div>
+              <FormField label="Status">
+                {(fieldProps) => (
+                  <CustomSelect
+                    {...fieldProps}
+                    value={formData.status}
+                    onChange={(val) => setFormData({ ...formData, status: val })}
+                    options={[
+                      { value: 'ACTIVE', label: 'Active' },
+                      { value: 'INACTIVE', label: 'Inactive' }
+                    ]}
+                  />
+                )}
+              </FormField>
+              <FormField label="Order Index" hint="Determines display order (lower = first)">
+                {(fieldProps) => (
+                  <input
+                    {...fieldProps}
+                    type="number"
+                    value={formData.orderIndex}
+                    onChange={(e) => setFormData({ ...formData, orderIndex: parseInt(e.target.value) || 0 })}
+                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                  />
+                )}
+              </FormField>
             </div>
           </div>
 
@@ -535,56 +547,66 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
               Contact Information
             </h2>
             <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-2">Email</label>
-                <input
-                  type="email"
-                  value={contactInfo.email}
-                  onChange={(e) => setContactInfo({ ...contactInfo, email: e.target.value })}
-                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                  placeholder="contact@dept.org"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-2">Phone</label>
-                <input
-                  type="text"
-                  value={contactInfo.phone}
-                  onChange={(e) => setContactInfo({ ...contactInfo, phone: e.target.value })}
-                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                  placeholder="+1 (555) 000-0000"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-2">Address</label>
-                <textarea
-                  rows={2}
-                  value={contactInfo.address}
-                  onChange={(e) => setContactInfo({ ...contactInfo, address: e.target.value })}
-                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                  placeholder="123 Office St."
-                ></textarea>
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-2">Office Hours</label>
-                <input
-                  type="text"
-                  value={contactInfo.officeHours}
-                  onChange={(e) => setContactInfo({ ...contactInfo, officeHours: e.target.value })}
-                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                  placeholder="Mon-Fri, 9am - 5pm"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-2">Website</label>
-                <input
-                  type="url"
-                  value={contactInfo.website}
-                  onChange={(e) => setContactInfo({ ...contactInfo, website: e.target.value })}
-                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                  placeholder="https://example.com"
-                />
-              </div>
+              <FormField label="Email">
+                {(fieldProps) => (
+                  <input
+                    {...fieldProps}
+                    type="email"
+                    value={contactInfo.email}
+                    onChange={(e) => setContactInfo({ ...contactInfo, email: e.target.value })}
+                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                    placeholder="contact@dept.org"
+                  />
+                )}
+              </FormField>
+              <FormField label="Phone">
+                {(fieldProps) => (
+                  <input
+                    {...fieldProps}
+                    type="text"
+                    value={contactInfo.phone}
+                    onChange={(e) => setContactInfo({ ...contactInfo, phone: e.target.value })}
+                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                    placeholder="+1 (555) 000-0000"
+                  />
+                )}
+              </FormField>
+              <FormField label="Address">
+                {(fieldProps) => (
+                  <textarea
+                    {...fieldProps}
+                    rows={2}
+                    value={contactInfo.address}
+                    onChange={(e) => setContactInfo({ ...contactInfo, address: e.target.value })}
+                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                    placeholder="123 Office St."
+                  ></textarea>
+                )}
+              </FormField>
+              <FormField label="Office Hours">
+                {(fieldProps) => (
+                  <input
+                    {...fieldProps}
+                    type="text"
+                    value={contactInfo.officeHours}
+                    onChange={(e) => setContactInfo({ ...contactInfo, officeHours: e.target.value })}
+                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                    placeholder="Mon-Fri, 9am - 5pm"
+                  />
+                )}
+              </FormField>
+              <FormField label="Website">
+                {(fieldProps) => (
+                  <input
+                    {...fieldProps}
+                    type="url"
+                    value={contactInfo.website}
+                    onChange={(e) => setContactInfo({ ...contactInfo, website: e.target.value })}
+                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-sm text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                    placeholder="https://example.com"
+                  />
+                )}
+              </FormField>
               <div className="pt-2 border-t border-hairline">
                 <div className="flex items-center justify-between mb-2">
                   <label className="block text-sm font-semibold text-ink">Social Media Links</label>

@@ -7,6 +7,7 @@ import Link from 'next/link';
 import api from '@/lib/api';
 import toast from 'react-hot-toast';
 import { CustomSelect } from '@/components/ui/custom-select';
+import { FormField } from '@/components/ui/form-field';
 
 interface FaqFormProps {
   initialData?: any;
@@ -93,29 +94,33 @@ export default function FaqForm({ initialData, isEdit, faqId, onSave }: FaqFormP
               Frequently Asked Question
             </h2>
             <div className="space-y-5">
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-2">Question</label>
-                <input
-                  type="text"
-                  required
-                  value={formData.question}
-                  onChange={(e) => setFormData({...formData, question: e.target.value})}
-                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
-                  placeholder="e.g. How do I request a forest survey?"
-                />
-              </div>
+              <FormField label="Question" required>
+                {(fieldProps) => (
+                  <input
+                    {...fieldProps}
+                    type="text"
+                    required
+                    value={formData.question}
+                    onChange={(e) => setFormData({...formData, question: e.target.value})}
+                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
+                    placeholder="e.g. How do I request a forest survey?"
+                  />
+                )}
+              </FormField>
 
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-2">Answer</label>
-                <textarea
-                  rows={8}
-                  required
-                  value={formData.answer}
-                  onChange={(e) => setFormData({...formData, answer: e.target.value})}
-                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
-                  placeholder="Enter the detailed answer..."
-                ></textarea>
-              </div>
+              <FormField label="Answer" required>
+                {(fieldProps) => (
+                  <textarea
+                    {...fieldProps}
+                    rows={8}
+                    required
+                    value={formData.answer}
+                    onChange={(e) => setFormData({...formData, answer: e.target.value})}
+                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
+                    placeholder="Enter the detailed answer..."
+                  ></textarea>
+                )}
+              </FormField>
             </div>
           </div>
 
@@ -131,28 +136,31 @@ export default function FaqForm({ initialData, isEdit, faqId, onSave }: FaqFormP
               Settings
             </h2>
             <div className="space-y-5">
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-2">Status</label>
-                <CustomSelect
-                  value={formData.status}
-                  onChange={(val) => setFormData({...formData, status: val})}
-                  options={[
-                    { value: 'PUBLISHED', label: 'Published' },
-                    { value: 'DRAFT', label: 'Draft' }
-                  ]}
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-2">Display Order</label>
-                <input
-                  type="number"
-                  value={formData.displayOrder}
-                  onChange={(e) => setFormData({...formData, displayOrder: parseInt(e.target.value) || 0})}
-                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                />
-                <p className="text-xs text-muted mt-2">Determines display order (lower = first)</p>
-              </div>
+              <FormField label="Status">
+                {(fieldProps) => (
+                  <CustomSelect
+                    {...fieldProps}
+                    value={formData.status}
+                    onChange={(val) => setFormData({...formData, status: val})}
+                    options={[
+                      { value: 'PUBLISHED', label: 'Published' },
+                      { value: 'DRAFT', label: 'Draft' }
+                    ]}
+                  />
+                )}
+              </FormField>
+
+              <FormField label="Display Order" hint="Determines display order (lower = first)">
+                {(fieldProps) => (
+                  <input
+                    {...fieldProps}
+                    type="number"
+                    value={formData.displayOrder}
+                    onChange={(e) => setFormData({...formData, displayOrder: parseInt(e.target.value) || 0})}
+                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                  />
+                )}
+              </FormField>
             </div>
           </div>
 

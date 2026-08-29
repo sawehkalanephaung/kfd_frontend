@@ -16,6 +16,7 @@ import api, { getMediaUrl } from '@/lib/api';
 import { SITE_IDENTITY_UPDATED_EVENT } from '@/lib/site-identity';
 import MediaSelector from '@/components/media-selector';
 import ImageUploadField from '@/components/image-upload-field';
+import { FormField } from '@/components/ui/form-field';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -26,26 +27,6 @@ interface SiteIdentityData {
   tagline: string;
   logoUrl: string;
   footerCopyright: string;
-}
-
-// ─── Field wrapper ────────────────────────────────────────────────────────────
-
-function Field({
-  label,
-  hint,
-  children,
-}: {
-  label: string;
-  hint?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="space-y-1.5">
-      <label className="block text-sm font-semibold text-ink">{label}</label>
-      {hint && <p className="text-xs text-muted">{hint}</p>}
-      {children}
-    </div>
-  );
 }
 
 // ─── Main Component ────────────────────────────────────────────────────────────
@@ -228,78 +209,90 @@ export default function SiteIdentityForm() {
               Organisation
             </h3>
             <div className="space-y-5">
-              <Field
+              <FormField
                 label="Organisation Name"
                 hint="The official name shown in the header and meta tags."
               >
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Building2 className="h-5 w-5 text-muted" />
+                {(fieldProps) => (
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <Building2 className="h-5 w-5 text-muted" aria-hidden="true" />
+                    </div>
+                    <input
+                      {...fieldProps}
+                      type="text"
+                      value={formData.organizationName}
+                      onChange={(e) => set('organizationName')(e.target.value)}
+                      placeholder="e.g. Kaung Foundation"
+                      className="w-full pl-10 pr-4 py-3 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
+                    />
                   </div>
-                  <input
-                    type="text"
-                    value={formData.organizationName}
-                    onChange={(e) => set('organizationName')(e.target.value)}
-                    placeholder="e.g. Kaung Foundation"
-                    className="w-full pl-10 pr-4 py-3 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
-                  />
-                </div>
-              </Field>
+                )}
+              </FormField>
 
-              <Field
+              <FormField
                 label="Organisation Name (Karen)"
                 hint="Shown beneath the English name in the site header and footer. Leave blank to hide it."
               >
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Languages className="h-5 w-5 text-muted" />
+                {(fieldProps) => (
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <Languages className="h-5 w-5 text-muted" aria-hidden="true" />
+                    </div>
+                    <input
+                      {...fieldProps}
+                      type="text"
+                      lang="ksw"
+                      value={formData.organizationNameKaren}
+                      onChange={(e) => set('organizationNameKaren')(e.target.value)}
+                      placeholder="ကီၢ်သူလ့ၤသ့ၣ်ပှၢ်ဝဲၤကျိၤ"
+                      className="w-full pl-10 pr-4 py-3 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
+                    />
                   </div>
-                  <input
-                    type="text"
-                    lang="ksw"
-                    value={formData.organizationNameKaren}
-                    onChange={(e) => set('organizationNameKaren')(e.target.value)}
-                    placeholder="ကီၢ်သူလ့ၤသ့ၣ်ပှၢ်ဝဲၤကျိၤ"
-                    className="w-full pl-10 pr-4 py-3 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
-                  />
-                </div>
-              </Field>
+                )}
+              </FormField>
 
-              <Field
+              <FormField
                 label="Tagline"
                 hint="A short, memorable description shown below the logo or in the hero section."
               >
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Type className="h-5 w-5 text-muted" />
+                {(fieldProps) => (
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <Type className="h-5 w-5 text-muted" aria-hidden="true" />
+                    </div>
+                    <input
+                      {...fieldProps}
+                      type="text"
+                      value={formData.tagline}
+                      onChange={(e) => set('tagline')(e.target.value)}
+                      placeholder="e.g. Empowering Communities Since 2010"
+                      className="w-full pl-10 pr-4 py-3 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
+                    />
                   </div>
-                  <input
-                    type="text"
-                    value={formData.tagline}
-                    onChange={(e) => set('tagline')(e.target.value)}
-                    placeholder="e.g. Empowering Communities Since 2010"
-                    className="w-full pl-10 pr-4 py-3 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
-                  />
-                </div>
-              </Field>
+                )}
+              </FormField>
 
-              <Field
+              <FormField
                 label="Footer Copyright Text"
                 hint="Appears in the site footer. Use {year} to insert the current year automatically."
               >
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Copyright className="h-5 w-5 text-muted" />
+                {(fieldProps) => (
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <Copyright className="h-5 w-5 text-muted" aria-hidden="true" />
+                    </div>
+                    <input
+                      {...fieldProps}
+                      type="text"
+                      value={formData.footerCopyright}
+                      onChange={(e) => set('footerCopyright')(e.target.value)}
+                      placeholder="e.g. © {year} Kaung Foundation. All rights reserved."
+                      className="w-full pl-10 pr-4 py-3 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
+                    />
                   </div>
-                  <input
-                    type="text"
-                    value={formData.footerCopyright}
-                    onChange={(e) => set('footerCopyright')(e.target.value)}
-                    placeholder="e.g. © {year} Kaung Foundation. All rights reserved."
-                    className="w-full pl-10 pr-4 py-3 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
-                  />
-                </div>
-              </Field>
+                )}
+              </FormField>
             </div>
           </div>
         </div>
@@ -313,33 +306,37 @@ export default function SiteIdentityForm() {
               Logo
             </h3>
             <div className="space-y-4">
-              <Field
+              <FormField
                 label="Brand Logo"
                 hint="Upload a PNG, SVG, or WebP image for your organization's logo."
               >
-                <ImageUploadField
-                  previewUrl={previewUrl || (formData.logoUrl ? getMediaUrl(formData.logoUrl) : null)}
-                  onUploadClick={() => fileInputRef.current?.click()}
-                  onLibraryClick={() => setIsMediaSelectorOpen(true)}
-                  onRemoveClick={() => {
-                    setLogoFile(null);
-                    setFormData({ ...formData, logoUrl: '' });
-                    if (fileInputRef.current) fileInputRef.current.value = '';
-                  }}
-                  alt="Logo preview"
-                  fit="contain"
-                  emptyLabel="No logo uploaded"
-                  emptyHint="Upload an image or choose one from your library."
-                />
+                {() => (
+                  <>
+                    <ImageUploadField
+                      previewUrl={previewUrl || (formData.logoUrl ? getMediaUrl(formData.logoUrl) : null)}
+                      onUploadClick={() => fileInputRef.current?.click()}
+                      onLibraryClick={() => setIsMediaSelectorOpen(true)}
+                      onRemoveClick={() => {
+                        setLogoFile(null);
+                        setFormData({ ...formData, logoUrl: '' });
+                        if (fileInputRef.current) fileInputRef.current.value = '';
+                      }}
+                      alt="Logo preview"
+                      fit="contain"
+                      emptyLabel="No logo uploaded"
+                      emptyHint="Upload an image or choose one from your library."
+                    />
 
-                <input
-                  type="file"
-                  ref={fileInputRef}
-                  onChange={handleFileChange}
-                  accept="image/*"
-                  className="hidden"
-                />
-              </Field>
+                    <input
+                      type="file"
+                      ref={fileInputRef}
+                      onChange={handleFileChange}
+                      accept="image/*"
+                      className="hidden"
+                    />
+                  </>
+                )}
+              </FormField>
             </div>
           </div>
 

@@ -6,6 +6,7 @@ import { Loader2, Save, MapPin, Mail, Phone, ListChecks, Plus, Trash2, Globe, Cl
 import api from '@/lib/api';
 import toast from 'react-hot-toast';
 import DeleteModal from '@/components/delete-modal';
+import { FormField } from '@/components/ui/form-field';
 
 interface ContactSettingsFormProps {
   initialData?: any;
@@ -140,49 +141,55 @@ export default function ContactSettingsForm({ initialData }: ContactSettingsForm
               General Contact Info
             </h2>
             <div className="space-y-5">
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-2">Email</label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <Mail className="h-5 w-5 text-muted" />
+              <FormField label="Email" required>
+                {(fieldProps) => (
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <Mail className="h-5 w-5 text-muted" aria-hidden="true" />
+                    </div>
+                    <input
+                      {...fieldProps}
+                      type="email"
+                      required
+                      value={formData.contactEmail}
+                      onChange={(e) => setFormData({ ...formData, contactEmail: e.target.value })}
+                      className="w-full pl-10 pr-4 py-3 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
+                      placeholder="contact@kfd.org"
+                    />
                   </div>
-                  <input
-                    type="email"
-                    required
-                    value={formData.contactEmail}
-                    onChange={(e) => setFormData({ ...formData, contactEmail: e.target.value })}
-                    className="w-full pl-10 pr-4 py-3 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
-                    placeholder="contact@kfd.org"
-                  />
-                </div>
-              </div>
+                )}
+              </FormField>
 
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-2">Physical Address</label>
-                <textarea
-                  rows={4}
-                  value={formData.physicalAddress}
-                  onChange={(e) => setFormData({ ...formData, physicalAddress: e.target.value })}
-                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
-                  placeholder="123 Organization Street, City, Country"
-                ></textarea>
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-2">Office Hours</label>
-                <div className="relative">
-                  <div className="absolute top-3.5 left-0 pl-3 flex items-start pointer-events-none">
-                    <Clock className="h-5 w-5 text-muted" />
-                  </div>
+              <FormField label="Physical Address">
+                {(fieldProps) => (
                   <textarea
-                    rows={2}
-                    value={formData.officeHours}
-                    onChange={(e) => setFormData({ ...formData, officeHours: e.target.value })}
-                    className="w-full pl-10 pr-4 py-3 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
-                    placeholder="Monday - Friday:&#10;8:00 am - 5:00 pm"
+                    {...fieldProps}
+                    rows={4}
+                    value={formData.physicalAddress}
+                    onChange={(e) => setFormData({ ...formData, physicalAddress: e.target.value })}
+                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
+                    placeholder="123 Organization Street, City, Country"
                   ></textarea>
-                </div>
-              </div>
+                )}
+              </FormField>
+
+              <FormField label="Office Hours">
+                {(fieldProps) => (
+                  <div className="relative">
+                    <div className="absolute top-3.5 left-0 pl-3 flex items-start pointer-events-none">
+                      <Clock className="h-5 w-5 text-muted" aria-hidden="true" />
+                    </div>
+                    <textarea
+                      {...fieldProps}
+                      rows={2}
+                      value={formData.officeHours}
+                      onChange={(e) => setFormData({ ...formData, officeHours: e.target.value })}
+                      className="w-full pl-10 pr-4 py-3 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
+                      placeholder="Monday - Friday:&#10;8:00 am - 5:00 pm"
+                    ></textarea>
+                  </div>
+                )}
+              </FormField>
             </div>
           </div>
 

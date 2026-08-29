@@ -7,6 +7,7 @@ import Link from 'next/link';
 import api from '@/lib/api';
 import toast from 'react-hot-toast';
 import { CustomSelect } from '@/components/ui/custom-select';
+import { FormField } from '@/components/ui/form-field';
 
 interface UserFormProps {
   initialData?: any;
@@ -140,55 +141,68 @@ export default function UserForm({ initialData, isEdit, userId, isSlideOver, onS
             
             <div className="space-y-5">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <div>
-                  <label className="block text-sm font-semibold text-ink mb-2">First Name</label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.firstName}
-                    onChange={(e) => setFormData({...formData, firstName: e.target.value})}
-                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                    placeholder="e.g. John"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-semibold text-ink mb-2">Last Name</label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.lastName}
-                    onChange={(e) => setFormData({...formData, lastName: e.target.value})}
-                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                    placeholder="e.g. Doe"
-                  />
-                </div>
+                <FormField label="First Name" required>
+                  {(fieldProps) => (
+                    <input
+                      {...fieldProps}
+                      type="text"
+                      required
+                      value={formData.firstName}
+                      onChange={(e) => setFormData({...formData, firstName: e.target.value})}
+                      className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                      placeholder="e.g. John"
+                    />
+                  )}
+                </FormField>
+                <FormField label="Last Name" required>
+                  {(fieldProps) => (
+                    <input
+                      {...fieldProps}
+                      type="text"
+                      required
+                      value={formData.lastName}
+                      onChange={(e) => setFormData({...formData, lastName: e.target.value})}
+                      className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                      placeholder="e.g. Doe"
+                    />
+                  )}
+                </FormField>
               </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-2">Email Address</label>
-                <input
-                  type="email"
-                  required
-                  value={formData.email}
-                  onChange={(e) => setFormData({...formData, email: e.target.value})}
-                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-ink/40 focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                  placeholder="e.g. name@company.com"
-                />
-              </div>
+              <FormField label="Email Address" required>
+                {(fieldProps) => (
+                  <input
+                    {...fieldProps}
+                    type="email"
+                    required
+                    value={formData.email}
+                    onChange={(e) => setFormData({...formData, email: e.target.value})}
+                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-ink/40 focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                    placeholder="e.g. name@company.com"
+                  />
+                )}
+              </FormField>
 
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-2">
-                  Password {isEdit && <span className="text-muted font-normal">(Leave blank to keep current)</span>}
-                </label>
-                <input
-                  type="password"
-                  required={!isEdit}
-                  value={formData.password}
-                  onChange={(e) => setFormData({...formData, password: e.target.value})}
-                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-ink/40 focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                  placeholder="Enter password"
-                />
-              </div>
+              <FormField
+                label={
+                  <>
+                    Password {isEdit && <span className="text-muted font-normal">(Leave blank to keep current)</span>}
+                  </>
+                }
+                required={!isEdit}
+              >
+                {(fieldProps) => (
+                  <input
+                    {...fieldProps}
+                    type="password"
+                    required={!isEdit}
+                    value={formData.password}
+                    onChange={(e) => setFormData({...formData, password: e.target.value})}
+                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-ink/40 focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                    placeholder="Enter password"
+                  />
+                )}
+              </FormField>
             </div>
           </div>
         </div>
@@ -200,50 +214,56 @@ export default function UserForm({ initialData, isEdit, userId, isSlideOver, onS
               Access Settings
             </h2>
             <div className="space-y-5">
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-2">System Role</label>
-                <div className="relative">
+              <FormField label="System Role">
+                {(fieldProps) => (
+                  <div className="relative">
+                    <CustomSelect
+                      {...fieldProps}
+                      value={formData.roleId}
+                      onChange={(val) => setFormData({...formData, roleId: val})}
+                      placeholder="Select a role..."
+                      disabled={fetchingRoles}
+                      options={roles.map((role: any) => {
+                        const displayName = role.name?.replace('ROLE_', '').split('_').map((w: string) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ');
+                        return { value: role.id.toString(), label: displayName || role.name };
+                      })}
+                    />
+                    {fetchingRoles && (
+                      <div className="absolute right-3 top-3.5">
+                        <Loader2 className="w-4 h-4 text-muted animate-spin" aria-hidden="true" />
+                      </div>
+                    )}
+                  </div>
+                )}
+              </FormField>
+
+              <FormField label="Language">
+                {(fieldProps) => (
                   <CustomSelect
-                    value={formData.roleId}
-                    onChange={(val) => setFormData({...formData, roleId: val})}
-                    placeholder="Select a role..."
-                    disabled={fetchingRoles}
-                    options={roles.map((role: any) => {
-                      const displayName = role.name?.replace('ROLE_', '').split('_').map((w: string) => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ');
-                      return { value: role.id.toString(), label: displayName || role.name };
-                    })}
+                    {...fieldProps}
+                    value={formData.dashboardLanguage}
+                    onChange={(val) => setFormData({...formData, dashboardLanguage: val})}
+                    options={[
+                      { value: 'en', label: 'English (en)' },
+                      { value: 'km', label: 'Khmer (km)' }
+                    ]}
                   />
-                  {fetchingRoles && (
-                    <div className="absolute right-3 top-3.5">
-                      <Loader2 className="w-4 h-4 text-muted animate-spin" />
-                    </div>
-                  )}
-                </div>
-              </div>
+                )}
+              </FormField>
 
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-2">Language</label>
-                <CustomSelect
-                  value={formData.dashboardLanguage}
-                  onChange={(val) => setFormData({...formData, dashboardLanguage: val})}
-                  options={[
-                    { value: 'en', label: 'English (en)' },
-                    { value: 'km', label: 'Khmer (km)' }
-                  ]}
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-2">Status</label>
-                <CustomSelect
-                  value={formData.isActive ? 'true' : 'false'}
-                  onChange={(val) => setFormData({...formData, isActive: val === 'true'})}
-                  options={[
-                    { value: 'true', label: 'Active (Can Login)' },
-                    { value: 'false', label: 'Inactive (Suspended)' }
-                  ]}
-                />
-              </div>
+              <FormField label="Status">
+                {(fieldProps) => (
+                  <CustomSelect
+                    {...fieldProps}
+                    value={formData.isActive ? 'true' : 'false'}
+                    onChange={(val) => setFormData({...formData, isActive: val === 'true'})}
+                    options={[
+                      { value: 'true', label: 'Active (Can Login)' },
+                      { value: 'false', label: 'Inactive (Suspended)' }
+                    ]}
+                  />
+                )}
+              </FormField>
             </div>
           </div>
         </div>

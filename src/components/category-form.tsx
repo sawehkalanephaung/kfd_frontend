@@ -6,6 +6,7 @@ import { Loader2, Save, ArrowLeft, FolderTree } from 'lucide-react';
 import Link from 'next/link';
 import api from '@/lib/api';
 import toast from 'react-hot-toast';
+import { FormField } from '@/components/ui/form-field';
 
 interface CategoryFormProps {
   initialData?: any;
@@ -133,40 +134,48 @@ export default function CategoryForm({
         
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-sm font-semibold text-ink mb-2">Category Name</label>
-              <input
-                type="text"
-                required
-                value={formData.name}
-                onChange={handleNameChange}
-                className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
-                placeholder={namePlaceholder}
-              />
-            </div>
+            <FormField label="Category Name" required>
+              {(fieldProps) => (
+                <input
+                  {...fieldProps}
+                  type="text"
+                  required
+                  value={formData.name}
+                  onChange={handleNameChange}
+                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
+                  placeholder={namePlaceholder}
+                />
+              )}
+            </FormField>
 
             <div className="hidden">
-              <label className="block text-sm font-semibold text-ink mb-2">URL Slug</label>
-              <input
-                type="text"
-                value={formData.slug}
-                onChange={(e) => setFormData({...formData, slug: e.target.value})}
-                className="w-full px-4 py-3 bg-surface border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                placeholder="wildlife-protection"
-              />
+              <FormField label="URL Slug">
+                {(fieldProps) => (
+                  <input
+                    {...fieldProps}
+                    type="text"
+                    value={formData.slug}
+                    onChange={(e) => setFormData({...formData, slug: e.target.value})}
+                    className="w-full px-4 py-3 bg-surface border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                    placeholder="wildlife-protection"
+                  />
+                )}
+              </FormField>
             </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-semibold text-ink mb-2">Description</label>
-            <textarea
-              rows={4}
-              value={formData.description}
-              onChange={(e) => setFormData({...formData, description: e.target.value})}
-              className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
-              placeholder="Provide a brief description of what this category is about..."
-            ></textarea>
-          </div>
+          <FormField label="Description">
+            {(fieldProps) => (
+              <textarea
+                {...fieldProps}
+                rows={4}
+                value={formData.description}
+                onChange={(e) => setFormData({...formData, description: e.target.value})}
+                className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
+                placeholder="Provide a brief description of what this category is about..."
+              ></textarea>
+            )}
+          </FormField>
 
           {/* Visibility Toggle */}
           <div className="flex items-center justify-between p-4 bg-surface-soft rounded-lg border border-hairline">

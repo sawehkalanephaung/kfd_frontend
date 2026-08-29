@@ -20,6 +20,8 @@ interface CustomSelectProps {
   id?: string;
   'aria-label'?: string;
   'aria-labelledby'?: string;
+  'aria-describedby'?: string;
+  'aria-invalid'?: boolean;
 }
 
 export function CustomSelect({
@@ -33,6 +35,8 @@ export function CustomSelect({
   id,
   'aria-label': ariaLabel,
   'aria-labelledby': ariaLabelledBy,
+  'aria-describedby': ariaDescribedBy,
+  'aria-invalid': ariaInvalid,
 }: CustomSelectProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
@@ -137,6 +141,8 @@ export function CustomSelect({
         aria-disabled={disabled || undefined}
         aria-label={ariaLabel}
         aria-labelledby={ariaLabelledBy}
+        aria-describedby={ariaDescribedBy}
+        aria-invalid={ariaInvalid}
         tabIndex={disabled ? -1 : 0}
         onClick={() => (isOpen ? close() : open())}
         onKeyDown={handleTriggerKeyDown}

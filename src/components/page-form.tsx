@@ -10,6 +10,7 @@ import ImageUploadField from '@/components/image-upload-field';
 import toast from 'react-hot-toast';
 import dynamic from 'next/dynamic';
 import { CustomSelect } from '@/components/ui/custom-select';
+import { FormField } from '@/components/ui/form-field';
 import { RESERVED_PAGES } from '@/lib/reserved-pages';
 import 'react-quill-new/dist/quill.snow.css';
 
@@ -226,45 +227,53 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
               Page Details
             </h2>
             <div className="space-y-5">
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-2">Page Title</label>
-                <input
-                  type="text"
-                  required
-                  value={formData.title}
-                  onChange={handleTitleChange}
-                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
-                  placeholder="e.g. About Us"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-2">URL Slug</label>
-                <input
-                  type="text"
-                  list="system-slugs"
-                  value={formData.slug}
-                  onChange={handleSlugChange}
-                  readOnly={Boolean(reservedPage)}
-                  className={`w-full px-4 py-3 border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all ${reservedPage ? 'bg-surface-soft text-steel cursor-not-allowed' : 'bg-surface'}`}
-                  placeholder="e.g. about-us or custom-page"
-                />
-                <datalist id="system-slugs">
-                  {RESERVED_PAGES.map((p) => (
-                    <option key={p.slug} value={p.slug}>{p.label}</option>
-                  ))}
-                </datalist>
-                {reservedPage ? (
-                  <p className="text-xs text-brand-green-dark mt-2">
-                    This page is wired to the <strong>{reservedPage.label}</strong> section ({reservedPage.usedIn}) —
-                    the slug is fixed so that link keeps working. Edit the title and content freely.
-                  </p>
-                ) : (
-                  <p className="text-xs text-muted mt-2">
-                    Select a required system slug from the dropdown, or type a new one for a custom page.
-                  </p>
+              <FormField label="Page Title" required>
+                {(fieldProps) => (
+                  <input
+                    {...fieldProps}
+                    type="text"
+                    required
+                    value={formData.title}
+                    onChange={handleTitleChange}
+                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
+                    placeholder="e.g. About Us"
+                  />
                 )}
-              </div>
+              </FormField>
+
+              <FormField
+                label="URL Slug"
+                hint={
+                  reservedPage ? (
+                    <>
+                      This page is wired to the <strong>{reservedPage.label}</strong> section ({reservedPage.usedIn}) —
+                      the slug is fixed so that link keeps working. Edit the title and content freely.
+                    </>
+                  ) : (
+                    'Select a required system slug from the dropdown, or type a new one for a custom page.'
+                  )
+                }
+              >
+                {(fieldProps) => (
+                  <>
+                    <input
+                      {...fieldProps}
+                      type="text"
+                      list="system-slugs"
+                      value={formData.slug}
+                      onChange={handleSlugChange}
+                      readOnly={Boolean(reservedPage)}
+                      className={`w-full px-4 py-3 border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all ${reservedPage ? 'bg-surface-soft text-steel cursor-not-allowed' : 'bg-surface'}`}
+                      placeholder="e.g. about-us or custom-page"
+                    />
+                    <datalist id="system-slugs">
+                      {RESERVED_PAGES.map((p) => (
+                        <option key={p.slug} value={p.slug}>{p.label}</option>
+                      ))}
+                    </datalist>
+                  </>
+                )}
+              </FormField>
             </div>
           </div>
 
@@ -297,18 +306,20 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
               Settings
             </h2>
             <div className="space-y-5">
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-2">Status</label>
-                <CustomSelect
-                  value={formData.status}
-                  onChange={(val) => setFormData({...formData, status: val})}
-                  options={[
-                    { value: 'PUBLISHED', label: 'Published' },
-                    { value: 'DRAFT', label: 'Draft' },
-                    { value: 'ARCHIVED', label: 'Archived' }
-                  ]}
-                />
-              </div>
+              <FormField label="Status">
+                {(fieldProps) => (
+                  <CustomSelect
+                    {...fieldProps}
+                    value={formData.status}
+                    onChange={(val) => setFormData({...formData, status: val})}
+                    options={[
+                      { value: 'PUBLISHED', label: 'Published' },
+                      { value: 'DRAFT', label: 'Draft' },
+                      { value: 'ARCHIVED', label: 'Archived' }
+                    ]}
+                  />
+                )}
+              </FormField>
             </div>
           </div>
 

@@ -11,6 +11,7 @@ import ImageUploadField from '@/components/image-upload-field';
 import 'react-quill-new/dist/quill.snow.css';
 import toast from 'react-hot-toast';
 import { CustomSelect } from '@/components/ui/custom-select';
+import { FormField } from '@/components/ui/form-field';
 
 const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
 
@@ -226,39 +227,47 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
               Post Details
             </h2>
             <div className="space-y-5">
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-2">Title</label>
-                <input
-                  type="text"
-                  required
-                  value={formData.title}
-                  onChange={handleTitleChange}
-                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
-                  placeholder="e.g. New Forest Conservation Initiative"
-                />
-              </div>
+              <FormField label="Title" required>
+                {(fieldProps) => (
+                  <input
+                    {...fieldProps}
+                    type="text"
+                    required
+                    value={formData.title}
+                    onChange={handleTitleChange}
+                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
+                    placeholder="e.g. New Forest Conservation Initiative"
+                  />
+                )}
+              </FormField>
 
               <div className="hidden">
-                <label className="block text-sm font-semibold text-ink mb-2">URL Slug</label>
-                <input
-                  type="text"
-                  value={formData.slug}
-                  onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                  className="w-full px-4 py-3 bg-surface border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                  placeholder="new-forest-conservation"
-                />
+                <FormField label="URL Slug">
+                  {(fieldProps) => (
+                    <input
+                      {...fieldProps}
+                      type="text"
+                      value={formData.slug}
+                      onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+                      className="w-full px-4 py-3 bg-surface border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                      placeholder="new-forest-conservation"
+                    />
+                  )}
+                </FormField>
               </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-2">Excerpt</label>
-                <textarea
-                  rows={3}
-                  value={formData.excerpt}
-                  onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
-                  className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
-                  placeholder="A short summary of the post..."
-                ></textarea>
-              </div>
+              <FormField label="Excerpt">
+                {(fieldProps) => (
+                  <textarea
+                    {...fieldProps}
+                    rows={3}
+                    value={formData.excerpt}
+                    onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
+                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
+                    placeholder="A short summary of the post..."
+                  ></textarea>
+                )}
+              </FormField>
             </div>
           </div>
 
@@ -290,35 +299,41 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                 {categorySlug === 'event' && (
                   <>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                      <div>
-                        <label className="block text-sm font-semibold text-ink mb-2">Event Date</label>
+                      <FormField label="Event Date">
+                        {(fieldProps) => (
+                          <input
+                            {...fieldProps}
+                            type="date"
+                            value={formData.metadata.eventDate || ''}
+                            onChange={(e) => handleMetadataChange('eventDate', e.target.value)}
+                            className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                          />
+                        )}
+                      </FormField>
+                      <FormField label="Event Time">
+                        {(fieldProps) => (
+                          <input
+                            {...fieldProps}
+                            type="time"
+                            value={formData.metadata.eventTime || ''}
+                            onChange={(e) => handleMetadataChange('eventTime', e.target.value)}
+                            className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+                          />
+                        )}
+                      </FormField>
+                    </div>
+                    <FormField label="Event Location">
+                      {(fieldProps) => (
                         <input
-                          type="date"
-                          value={formData.metadata.eventDate || ''}
-                          onChange={(e) => handleMetadataChange('eventDate', e.target.value)}
+                          {...fieldProps}
+                          type="text"
+                          placeholder="e.g. Main Conference Hall"
+                          value={formData.metadata.eventLocation || ''}
+                          onChange={(e) => handleMetadataChange('eventLocation', e.target.value)}
                           className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
                         />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-semibold text-ink mb-2">Event Time</label>
-                        <input
-                          type="time"
-                          value={formData.metadata.eventTime || ''}
-                          onChange={(e) => handleMetadataChange('eventTime', e.target.value)}
-                          className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-semibold text-ink mb-2">Event Location</label>
-                      <input
-                        type="text"
-                        placeholder="e.g. Main Conference Hall"
-                        value={formData.metadata.eventLocation || ''}
-                        onChange={(e) => handleMetadataChange('eventLocation', e.target.value)}
-                        className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                      />
-                    </div>
+                      )}
+                    </FormField>
                   </>
                 )}
                 {/* 
@@ -351,18 +366,20 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
               Settings
             </h2>
             <div className="space-y-5">
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-2">Status</label>
-                <CustomSelect
-                  value={formData.status}
-                  onChange={(val) => setFormData({ ...formData, status: val })}
-                  options={[
-                    { value: 'PUBLISHED', label: 'Published' },
-                    { value: 'DRAFT', label: 'Draft' },
-                    { value: 'ARCHIVED', label: 'Archived' }
-                  ]}
-                />
-              </div>
+              <FormField label="Status">
+                {(fieldProps) => (
+                  <CustomSelect
+                    {...fieldProps}
+                    value={formData.status}
+                    onChange={(val) => setFormData({ ...formData, status: val })}
+                    options={[
+                      { value: 'PUBLISHED', label: 'Published' },
+                      { value: 'DRAFT', label: 'Draft' },
+                      { value: 'ARCHIVED', label: 'Archived' }
+                    ]}
+                  />
+                )}
+              </FormField>
             </div>
           </div>
 
@@ -373,27 +390,31 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
               Classification
             </h2>
             <div className="space-y-5">
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-2">Category</label>
-                <CustomSelect
-                  value={formData.categoryId}
-                  onChange={(val) => setFormData({ ...formData, categoryId: val })}
-                  placeholder="Select a Category"
-                  options={categories.map((cat: any) => ({ value: cat.id.toString(), label: cat.name }))}
-                  clearable
-                />
-              </div>
+              <FormField label="Category">
+                {(fieldProps) => (
+                  <CustomSelect
+                    {...fieldProps}
+                    value={formData.categoryId}
+                    onChange={(val) => setFormData({ ...formData, categoryId: val })}
+                    placeholder="Select a Category"
+                    options={categories.map((cat: any) => ({ value: cat.id.toString(), label: cat.name }))}
+                    clearable
+                  />
+                )}
+              </FormField>
 
-              <div>
-                <label className="block text-sm font-semibold text-ink mb-2">Department (Optional)</label>
-                <CustomSelect
-                  value={formData.departmentId}
-                  onChange={(val) => setFormData({ ...formData, departmentId: val })}
-                  placeholder="Select a Department"
-                  options={departments.map((dept: any) => ({ value: dept.id.toString(), label: dept.name }))}
-                  clearable
-                />
-              </div>
+              <FormField label="Department (Optional)">
+                {(fieldProps) => (
+                  <CustomSelect
+                    {...fieldProps}
+                    value={formData.departmentId}
+                    onChange={(val) => setFormData({ ...formData, departmentId: val })}
+                    placeholder="Select a Department"
+                    options={departments.map((dept: any) => ({ value: dept.id.toString(), label: dept.name }))}
+                    clearable
+                  />
+                )}
+              </FormField>
 
               <div>
                 <label className="block text-sm font-semibold text-ink mb-2 flex items-center gap-2">
