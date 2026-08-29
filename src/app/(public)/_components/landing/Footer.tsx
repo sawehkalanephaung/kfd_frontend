@@ -66,7 +66,7 @@ export default async function Footer() {
               <div className="flex flex-col gap-1">
                 <span className="font-bold text-lg leading-tight tracking-tight text-white">{organizationName}</span>
                 {organizationNameKaren && (
-                  <span className="font-medium mt-1 mb-1 text-sm text-white">{organizationNameKaren}</span>
+                  <span lang="ksw" className="font-medium mt-1 mb-1 text-sm text-white">{organizationNameKaren}</span>
                 )}
               </div>
             </Link>

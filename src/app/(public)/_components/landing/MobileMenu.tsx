@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useId, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Menu, X, ChevronDown } from 'lucide-react';
+import { useFocusTrap } from '@/lib/use-focus-trap';
 
 interface NavLink {
   name: string;
@@ -17,6 +18,11 @@ interface MobileMenuProps {
 export default function MobileMenu({ navLinks }: MobileMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const drawerRef = useRef<HTMLDivElement>(null);
+  const titleId = useId();
+
+  const close = () => setIsOpen(false);
+  useFocusTrap(isOpen, drawerRef, close);
 
   const toggleDropdown = (name: string) => {
     setOpenDropdown(openDropdown === name ? null : name);
@@ -42,18 +48,25 @@ export default function MobileMenu({ navLinks }: MobileMenuProps) {
       )}
 
       {/* Drawer */}
-      <div 
-        className={`fixed top-0 right-0 z-[110] h-full w-[280px] bg-canvas shadow-2xl transition-transform duration-300 ease-in-out flex flex-col ${
+      <div
+        ref={drawerRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        inert={!isOpen}
+        tabIndex={-1}
+        className={`fixed top-0 right-0 z-[110] h-full w-[280px] bg-canvas shadow-2xl transition-transform duration-300 ease-in-out flex flex-col outline-none ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
         <div className="flex items-center justify-between p-4 border-b border-hairline">
-          <span className="font-bold text-lg text-forest">Menu</span>
+          <span id={titleId} className="font-bold text-lg text-forest">Menu</span>
           <button
-            onClick={() => setIsOpen(false)}
-            className="p-2 text-steel hover:text-ink rounded-lg bg-surface hover:bg-surface transition-colors"
+            onClick={close}
+            aria-label="Close menu"
+            className="p-2 text-steel hover:text-ink rounded-lg bg-surface hover:bg-surface transition-colors outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40"
           >
-            <X className="w-5 h-5" />
+            <X className="w-5 h-5" aria-hidden="true" />
           </button>
         </div>
 

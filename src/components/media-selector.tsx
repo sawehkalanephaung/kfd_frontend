@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useId, useRef } from 'react';
 import { X, Check, Loader2, Image as ImageIcon, UploadCloud, FileText } from 'lucide-react';
 import api, { getMediaUrl } from '@/lib/api';
 import toast from 'react-hot-toast';
+import { useFocusTrap } from '@/lib/use-focus-trap';
 
 interface MediaAsset {
   id: string;
@@ -37,6 +38,10 @@ export default function MediaSelector({
   const [uploading, setUploading] = useState(false);
   const [uploadFile, setUploadFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const titleId = useId();
+
+  useFocusTrap(isOpen, dialogRef, onClose);
 
   useEffect(() => {
     if (isOpen) {
@@ -107,15 +112,23 @@ export default function MediaSelector({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm transition-opacity">
-      <div className="bg-canvas rounded-lg w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden" onClick={e => e.stopPropagation()}>
+      <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        tabIndex={-1}
+        className="bg-canvas rounded-lg w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden outline-none"
+        onClick={e => e.stopPropagation()}
+      >
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-hairline">
-          <h2 className="text-xl font-bold text-ink flex items-center gap-2">
-            <ImageIcon className="w-5 h-5 text-brand-green" />
+          <h2 id={titleId} className="text-xl font-bold text-ink flex items-center gap-2">
+            <ImageIcon className="w-5 h-5 text-brand-green" aria-hidden="true" />
             {title}
           </h2>
-          <button onClick={onClose} className="p-2 text-muted hover:text-steel rounded-lg hover:bg-surface transition-colors">
-            <X className="w-5 h-5" />
+          <button onClick={onClose} aria-label="Close" className="p-2 text-muted hover:text-steel rounded-lg hover:bg-surface transition-colors outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40">
+            <X className="w-5 h-5" aria-hidden="true" />
           </button>
         </div>
 

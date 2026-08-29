@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useId, useRef } from 'react';
 import { X } from 'lucide-react';
+import { useFocusTrap } from '@/lib/use-focus-trap';
 
 interface SlideOverProps {
   isOpen: boolean;
@@ -11,6 +12,9 @@ interface SlideOverProps {
 }
 
 export default function SlideOver({ isOpen, onClose, title, children }: SlideOverProps) {
+  const panelRef = useRef<HTMLDivElement>(null);
+  const titleId = useId();
+
   // Prevent scrolling on the body when the drawer is open
   useEffect(() => {
     if (isOpen) {
@@ -23,16 +27,8 @@ export default function SlideOver({ isOpen, onClose, title, children }: SlideOve
     };
   }, [isOpen]);
 
-  // Handle escape key to close
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && isOpen) {
-        onClose();
-      }
-    };
-    document.addEventListener('keydown', handleEscape);
-    return () => document.removeEventListener('keydown', handleEscape);
-  }, [isOpen, onClose]);
+  // Escape-to-close, Tab focus trapping, and focus in/restore.
+  useFocusTrap(isOpen, panelRef, onClose);
 
   if (!isOpen) return null;
 
@@ -50,10 +46,17 @@ export default function SlideOver({ isOpen, onClose, title, children }: SlideOve
         <div 
           className="pointer-events-auto w-screen max-w-2xl transform transition-transform duration-300 ease-out sm:duration-500 animate-in slide-in-from-right fade-in"
         >
-          <div className="flex h-full flex-col overflow-y-scroll bg-canvas shadow-xl">
+          <div
+            ref={panelRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={titleId}
+            tabIndex={-1}
+            className="flex h-full flex-col overflow-y-scroll bg-canvas shadow-xl outline-none"
+          >
             {/* Header */}
             <div className="px-4 py-6 sm:px-6 bg-surface border-b border-hairline flex items-center justify-between">
-              <h2 className="text-xl font-semibold leading-6 text-ink">
+              <h2 id={titleId} className="text-xl font-semibold leading-6 text-ink">
                 {title}
               </h2>
               <div className="ml-3 flex h-7 items-center">

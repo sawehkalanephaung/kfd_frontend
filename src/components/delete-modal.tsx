@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useId, useRef, useState } from 'react';
 import { AlertTriangle, Loader2 } from 'lucide-react';
+import { useFocusTrap } from '@/lib/use-focus-trap';
 
 interface DeleteModalProps {
   isOpen: boolean;
@@ -22,6 +23,13 @@ export default function DeleteModal({
 }: DeleteModalProps) {
   const [isDeleting, setIsDeleting] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const titleId = useId();
+  const descId = useId();
+
+  useFocusTrap(isOpen, dialogRef, () => {
+    if (!isDeleting) onClose();
+  });
 
   // Prevent scrolling when modal is open
   useEffect(() => {
@@ -63,20 +71,28 @@ export default function DeleteModal({
       />
 
       {/* Modal Box — MongoDB elevation + border radius */}
-      <div className="relative bg-canvas rounded-xl w-[90%] max-w-[400px] p-8 shadow-modal border border-hairline flex flex-col items-center text-center animate-in fade-in zoom-in-95 duration-200">
-        
+      <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        aria-describedby={descId}
+        tabIndex={-1}
+        className="relative bg-canvas rounded-xl w-[90%] max-w-[400px] p-8 shadow-modal border border-hairline flex flex-col items-center text-center animate-in fade-in zoom-in-95 duration-200 outline-none"
+      >
+
         {/* Warning Icon */}
         <div className="w-16 h-16 bg-accent-orange/10 rounded-full flex items-center justify-center mb-6">
-          <AlertTriangle className="w-8 h-8 text-accent-orange" />
+          <AlertTriangle className="w-8 h-8 text-accent-orange" aria-hidden="true" />
         </div>
 
         {/* Title */}
-        <h2 className="text-xl font-bold text-ink mb-3">
+        <h2 id={titleId} className="text-xl font-bold text-ink mb-3">
           {title}
         </h2>
 
         {/* Description */}
-        <p className="text-steel text-sm mb-1">
+        <p id={descId} className="text-steel text-sm mb-1">
           Are you sure you want to remove {itemName}?
         </p>
         <p className="text-steel text-sm mb-6">
@@ -131,7 +147,7 @@ export default function DeleteModal({
           <button
             onClick={handleConfirm}
             disabled={isDeleting}
-            className="flex-1 py-3 px-4 bg-[#FF3B30] hover:bg-red-600 text-white font-medium rounded-full transition-colors disabled:opacity-70 flex items-center justify-center gap-2"
+            className="flex-1 py-3 px-4 bg-danger hover:bg-danger-pressed text-white font-medium rounded-full transition-colors disabled:opacity-70 flex items-center justify-center gap-2 outline-none focus-visible:ring-2 focus-visible:ring-danger/40"
           >
             {isDeleting ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Delete'}
           </button>

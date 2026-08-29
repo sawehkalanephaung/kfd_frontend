@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useId, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Mail, Loader2, ArrowLeft, CheckCircle2 } from 'lucide-react';
 import Image from 'next/image';
@@ -15,6 +15,8 @@ export default function ForgotPassword() {
   const [emailError, setEmailError] = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const emailId = useId();
+  const emailErrorId = useId();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -80,7 +82,7 @@ export default function ForgotPassword() {
 
           {/* Server Error Message */}
           {error && (
-            <div className="mb-6 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-700 text-sm text-center font-medium animate-in fade-in">
+            <div role="alert" className="mb-6 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-700 text-sm text-center font-medium animate-in fade-in">
               {error}
             </div>
           )}
@@ -107,12 +109,13 @@ export default function ForgotPassword() {
 
               {/* Email Field */}
               <div className="space-y-1.5">
-                <label className="text-sm font-semibold text-slate-900 ml-1">Email Address</label>
+                <label htmlFor={emailId} className="text-sm font-semibold text-slate-900 ml-1">Email Address</label>
                 <div className="relative">
                   <div className="absolute z-10 inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <Mail className={`h-5 w-5 ${emailError ? 'text-red-500' : 'text-slate-600'}`} />
+                    <Mail className={`h-5 w-5 ${emailError ? 'text-red-500' : 'text-slate-600'}`} aria-hidden="true" />
                   </div>
                   <input
+                    id={emailId}
                     type="email"
                     value={email}
                     onChange={(e) => {
@@ -120,6 +123,8 @@ export default function ForgotPassword() {
                       if (emailError) setEmailError('');
                       if (error) setError('');
                     }}
+                    aria-invalid={!!emailError}
+                    aria-describedby={emailError ? emailErrorId : undefined}
                     className={`w-full pl-11 pr-4 py-3 bg-canvas/20 border rounded-xl text-slate-900 placeholder:text-slate-500/70 focus:outline-none focus:ring-2 focus:border-transparent transition-all backdrop-blur-md ${
                       emailError
                         ? 'border-red-500/50 focus:ring-red-500'
@@ -128,7 +133,7 @@ export default function ForgotPassword() {
                     placeholder="e.g. name@company.com"
                   />
                 </div>
-                {emailError && <p className="text-red-600 text-xs font-medium ml-1 mt-1 animate-in slide-in-from-top-1">{emailError}</p>}
+                {emailError && <p id={emailErrorId} role="alert" className="text-red-600 text-xs font-medium ml-1 mt-1 animate-in slide-in-from-top-1">{emailError}</p>}
               </div>
 
               <button
