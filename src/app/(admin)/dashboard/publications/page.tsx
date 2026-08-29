@@ -10,6 +10,10 @@ import DeleteModal from '@/components/delete-modal';
 import CreateButton from '@/components/create-button';
 import PageHeader from '@/components/page-header';
 import { CustomSelect } from '@/components/ui/custom-select';
+import { Badge, type BadgeTone } from '@/components/ui/badge';
+
+const STATUS_TONE: Record<string, BadgeTone> = { PUBLISHED: 'success', DRAFT: 'warning', ARCHIVED: 'neutral' };
+const STATUS_ICON = { PUBLISHED: Eye, DRAFT: EyeOff, ARCHIVED: Archive } as const;
 
 interface Publication {
   id: string;
@@ -234,15 +238,9 @@ export default function PublicationsListPage() {
                             {publication.category.name}
                           </span>
                         ) : null}
-                        <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-medium ${publication.status === 'PUBLISHED'
-                            ? 'bg-brand-green-soft text-brand-green-dark border border-brand-green/20'
-                            : publication.status === 'DRAFT'
-                              ? 'bg-amber-50 text-amber-700 border border-amber-200'
-                              : 'bg-surface text-slate border border-hairline-strong'
-                          }`}>
-                          {publication.status === 'PUBLISHED' ? <Eye className="w-3 h-3" /> : publication.status === 'DRAFT' ? <EyeOff className="w-3 h-3" /> : <Archive className="w-3 h-3" />}
+                        <Badge tone={STATUS_TONE[publication.status]} icon={STATUS_ICON[publication.status as keyof typeof STATUS_ICON]} size="sm">
                           {publication.status}
-                        </span>
+                        </Badge>
                       </div>
                     </td>
                     <td className="px-6 py-4 hidden sm:table-cell">
@@ -256,15 +254,9 @@ export default function PublicationsListPage() {
                       )}
                     </td>
                     <td className="px-6 py-4 hidden sm:table-cell">
-                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${publication.status === 'PUBLISHED'
-                          ? 'bg-brand-green-soft text-brand-green-dark border border-brand-green/20'
-                          : publication.status === 'DRAFT'
-                            ? 'bg-amber-50 text-amber-700 border border-amber-200'
-                            : 'bg-surface text-slate border border-hairline-strong'
-                        }`}>
-                        {publication.status === 'PUBLISHED' ? <Eye className="w-3.5 h-3.5" /> : publication.status === 'DRAFT' ? <EyeOff className="w-3.5 h-3.5" /> : <Archive className="w-3.5 h-3.5" />}
+                      <Badge tone={STATUS_TONE[publication.status]} icon={STATUS_ICON[publication.status as keyof typeof STATUS_ICON]}>
                         {publication.status}
-                      </span>
+                      </Badge>
                     </td>
                     <td className="px-6 py-4 text-steel text-sm hidden md:table-cell">
                       <div className="flex items-center gap-1.5">

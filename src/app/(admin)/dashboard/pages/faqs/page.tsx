@@ -7,6 +7,7 @@ import api from '@/lib/api';
 import DeleteModal from '@/components/delete-modal';
 import CreateButton from '@/components/create-button';
 import PageHeader from '@/components/page-header';
+import { Badge } from '@/components/ui/badge';
 import toast from 'react-hot-toast';
 
 interface Faq {
@@ -126,26 +127,16 @@ export default function FaqsListPage() {
                       <div className="text-xs text-muted font-normal truncate mt-1" title={faq.answer}>{faq.answer}</div>
                       {/* Mobile Data Stack */}
                       <div className="mt-2 flex items-center gap-3 sm:hidden font-normal">
-                        <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-medium ${
-                          faq.status === 'PUBLISHED' 
-                            ? 'bg-brand-green-soft text-brand-green-dark border border-brand-green/20' 
-                            : 'bg-surface text-slate border border-hairline-strong'
-                        }`}>
-                          {faq.status === 'PUBLISHED' ? <Eye className="w-3 h-3" /> : <EyeOff className="w-3 h-3" />}
+                        <Badge tone={faq.status === 'PUBLISHED' ? 'success' : 'neutral'} icon={faq.status === 'PUBLISHED' ? Eye : EyeOff} size="sm">
                           {faq.status}
-                        </span>
+                        </Badge>
                         <span className="text-[11px] text-muted">Order: {faq.displayOrder}</span>
                       </div>
                     </td>
                     <td className="px-6 py-4 hidden sm:table-cell">
-                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${
-                        faq.status === 'PUBLISHED' 
-                          ? 'bg-brand-green-soft text-brand-green-dark border border-brand-green/20' 
-                          : 'bg-surface text-slate border border-hairline-strong'
-                      }`}>
-                        {faq.status === 'PUBLISHED' ? <Eye className="w-3.5 h-3.5" /> : <EyeOff className="w-3.5 h-3.5" />}
+                      <Badge tone={faq.status === 'PUBLISHED' ? 'success' : 'neutral'} icon={faq.status === 'PUBLISHED' ? Eye : EyeOff}>
                         {faq.status}
-                      </span>
+                      </Badge>
                     </td>
                     <td className="px-6 py-4 text-steel hidden sm:table-cell">
                       {faq.displayOrder}

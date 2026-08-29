@@ -9,6 +9,7 @@ import CreateButton from '@/components/create-button';
 import PageHeader from '@/components/page-header';
 import toast from 'react-hot-toast';
 import { formatTenureYears, calculateExactDuration } from '@/lib/date-utils';
+import { Badge } from '@/components/ui/badge';
 
 export default function TeamDirectoryPage() {
   const [members, setMembers] = useState<any[]>([]);
@@ -198,17 +199,9 @@ export default function TeamDirectoryPage() {
                           <div className="mt-1 flex flex-col gap-1 sm:hidden font-normal">
                             <div className="text-xs text-steel">{getTitleString(member.title)}</div>
                             <div className="flex flex-wrap items-center gap-2 mt-1">
-                              {member.isActive ? (
-                                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-brand-green-soft text-brand-green-dark border border-brand-green/20">
-                                  <CheckCircle2 className="w-3 h-3" />
-                                  Active
-                                </span>
-                              ) : (
-                                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-surface text-steel border border-hairline-strong">
-                                  <XCircle className="w-3 h-3" />
-                                  Inactive
-                                </span>
-                              )}
+                              <Badge tone={member.isActive ? 'success' : 'neutral'} icon={member.isActive ? CheckCircle2 : XCircle} size="sm">
+                                {member.isActive ? 'Active' : 'Inactive'}
+                              </Badge>
                               <span className="text-[11px] text-muted border border-hairline bg-surface px-1.5 py-0.5 rounded">
                                 {member.departmentName || 'No Dept'}
                               </span>
@@ -230,17 +223,9 @@ export default function TeamDirectoryPage() {
                       {member.termStartDate ? calculateExactDuration(member.termStartDate, member.termEndDate) : '-'}
                     </td>
                     <td className="px-6 py-4 hidden sm:table-cell">
-                      {member.isActive ? (
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-brand-green-soft text-brand-green-dark border border-brand-green/20">
-                          <CheckCircle2 className="w-3.5 h-3.5" />
-                          Active
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-surface text-steel border border-hairline-strong">
-                          <XCircle className="w-3.5 h-3.5" />
-                          Inactive
-                        </span>
-                      )}
+                      <Badge tone={member.isActive ? 'success' : 'neutral'} icon={member.isActive ? CheckCircle2 : XCircle}>
+                        {member.isActive ? 'Active' : 'Inactive'}
+                      </Badge>
                     </td>
                     <td className="px-6 py-4 text-steel hidden sm:table-cell">
                       {member.displayOrder || 0}

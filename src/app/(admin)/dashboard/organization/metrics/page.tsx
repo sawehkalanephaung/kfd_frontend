@@ -7,6 +7,7 @@ import api from '@/lib/api';
 import DeleteModal from '@/components/delete-modal';
 import CreateButton from '@/components/create-button';
 import PageHeader from '@/components/page-header';
+import { Badge } from '@/components/ui/badge';
 import toast from 'react-hot-toast';
 
 interface GlobalMetric {
@@ -129,17 +130,9 @@ export default function GlobalMetricsPage() {
                       {/* Mobile Data Stack */}
                       <div className="mt-1 flex flex-col gap-1.5 sm:hidden font-normal">
                         <div className="flex flex-wrap items-center gap-2">
-                          {metric.isActive ? (
-                            <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-brand-green-soft text-brand-green-dark border border-brand-green/20">
-                              <Eye className="w-3 h-3" />
-                              Active
-                            </span>
-                          ) : (
-                            <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-medium bg-surface text-slate border border-hairline-strong">
-                              <EyeOff className="w-3 h-3" />
-                              Hidden
-                            </span>
-                          )}
+                          <Badge tone={metric.isActive ? 'success' : 'neutral'} icon={metric.isActive ? Eye : EyeOff} size="sm">
+                            {metric.isActive ? 'Active' : 'Hidden'}
+                          </Badge>
                           <span className="text-[11px] text-steel">Order: {metric.displayOrder}</span>
                         </div>
                         {metric.icon ? (
@@ -166,17 +159,9 @@ export default function GlobalMetricsPage() {
                       )}
                     </td>
                     <td className="px-6 py-4 hidden sm:table-cell">
-                      {metric.isActive ? (
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-brand-green-soft text-brand-green-dark border border-brand-green/20">
-                          <Eye className="w-3.5 h-3.5" />
-                          Active
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-surface text-slate border border-hairline-strong">
-                          <EyeOff className="w-3.5 h-3.5" />
-                          Hidden
-                        </span>
-                      )}
+                      <Badge tone={metric.isActive ? 'success' : 'neutral'} icon={metric.isActive ? Eye : EyeOff}>
+                        {metric.isActive ? 'Active' : 'Hidden'}
+                      </Badge>
                     </td>
                     <td className="px-6 py-4 text-steel hidden sm:table-cell">
                       {metric.displayOrder}

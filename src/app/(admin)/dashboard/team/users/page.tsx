@@ -8,6 +8,7 @@ import DeleteModal from '@/components/delete-modal';
 import SlideOver from '@/components/slide-over';
 import UserForm from '@/components/user-form';
 import PageHeader from '@/components/page-header';
+import { Badge } from '@/components/ui/badge';
 import { CustomSelect } from '@/components/ui/custom-select';
 import toast from 'react-hot-toast';
 
@@ -218,17 +219,9 @@ export default function UsersDirectoryPage() {
                       )}
                     </td>
                     <td className="px-6 py-4">
-                      {user.isActive ? (
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-brand-green-soft text-brand-green-dark border border-brand-green/20">
-                          <CheckCircle2 className="w-3.5 h-3.5" />
-                          Active
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-surface text-steel border border-hairline-strong">
-                          <XCircle className="w-3.5 h-3.5" />
-                          Inactive
-                        </span>
-                      )}
+                      <Badge tone={user.isActive ? 'success' : 'neutral'} icon={user.isActive ? CheckCircle2 : XCircle}>
+                        {user.isActive ? 'Active' : 'Inactive'}
+                      </Badge>
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2">

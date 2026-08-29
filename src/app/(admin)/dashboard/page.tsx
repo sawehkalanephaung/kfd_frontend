@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { PlusCircle, UploadCloud, UserPlus, FileText, CheckCircle2, Clock, Loader2, Users, Image as ImageIcon, Building2, LayoutDashboard } from 'lucide-react';
 import DashboardCharts from '@/components/dashboard-charts';
 import CountUp from '@/components/ui/count-up';
+import { Badge } from '@/components/ui/badge';
 import api from '@/lib/api';
 import { getRandomQuote } from './actions';
 
@@ -260,15 +261,12 @@ export default function DashboardPage() {
                         </div>
                       </td>
                       <td className="py-4">
-                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${item.status === 'PUBLISHED'
-                          ? 'bg-brand-green-soft text-brand-green-dark border border-brand-green/20'
-                          : item.status === 'DRAFT'
-                            ? 'bg-amber-50 text-amber-700 border border-amber-200'
-                            : 'bg-surface text-steel border border-hairline-strong'
-                          }`}>
-                          {item.status === 'PUBLISHED' ? <CheckCircle2 className="w-3.5 h-3.5" /> : <Clock className="w-3.5 h-3.5" />}
+                        <Badge
+                          tone={item.status === 'PUBLISHED' ? 'success' : item.status === 'DRAFT' ? 'warning' : 'neutral'}
+                          icon={item.status === 'PUBLISHED' ? CheckCircle2 : Clock}
+                        >
                           {item.status}
-                        </span>
+                        </Badge>
                       </td>
                       <td className="py-4 text-muted text-sm">
                         {item.updatedAt ? new Date(item.updatedAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : '-'}

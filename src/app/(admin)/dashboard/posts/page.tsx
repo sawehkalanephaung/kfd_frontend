@@ -10,6 +10,10 @@ import DeleteModal from '@/components/delete-modal';
 import CreateButton from '@/components/create-button';
 import PageHeader from '@/components/page-header';
 import { CustomSelect } from '@/components/ui/custom-select';
+import { Badge, type BadgeTone } from '@/components/ui/badge';
+
+const STATUS_TONE: Record<string, BadgeTone> = { PUBLISHED: 'success', DRAFT: 'warning', ARCHIVED: 'neutral' };
+const STATUS_ICON = { PUBLISHED: Eye, DRAFT: EyeOff, ARCHIVED: Archive } as const;
 
 interface Post {
   id: string;
@@ -237,15 +241,9 @@ export default function PostsListPage() {
                             {post.category.name}
                           </span>
                         ) : null}
-                        <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-medium ${post.status === 'PUBLISHED'
-                            ? 'bg-brand-green-soft text-brand-green-dark border border-brand-green/20'
-                            : post.status === 'DRAFT'
-                              ? 'bg-amber-50 text-amber-700 border border-amber-200'
-                              : 'bg-surface text-slate border border-hairline-strong'
-                          }`}>
-                          {post.status === 'PUBLISHED' ? <Eye className="w-3 h-3" /> : post.status === 'DRAFT' ? <EyeOff className="w-3 h-3" /> : <Archive className="w-3 h-3" />}
+                        <Badge tone={STATUS_TONE[post.status]} icon={STATUS_ICON[post.status as keyof typeof STATUS_ICON]} size="sm">
                           {post.status}
-                        </span>
+                        </Badge>
                       </div>
                     </td>
                     <td className="px-6 py-4 hidden sm:table-cell">
@@ -259,15 +257,9 @@ export default function PostsListPage() {
                       )}
                     </td>
                     <td className="px-6 py-4 hidden sm:table-cell">
-                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${post.status === 'PUBLISHED'
-                          ? 'bg-brand-green-soft text-brand-green-dark border border-brand-green/20'
-                          : post.status === 'DRAFT'
-                            ? 'bg-amber-50 text-amber-700 border border-amber-200'
-                            : 'bg-surface text-slate border border-hairline-strong'
-                        }`}>
-                        {post.status === 'PUBLISHED' ? <Eye className="w-3.5 h-3.5" /> : post.status === 'DRAFT' ? <EyeOff className="w-3.5 h-3.5" /> : <Archive className="w-3.5 h-3.5" />}
+                      <Badge tone={STATUS_TONE[post.status]} icon={STATUS_ICON[post.status as keyof typeof STATUS_ICON]}>
                         {post.status}
-                      </span>
+                      </Badge>
                     </td>
                     <td className="px-6 py-4 text-steel text-sm hidden md:table-cell">
                       <div className="flex items-center gap-1.5">
