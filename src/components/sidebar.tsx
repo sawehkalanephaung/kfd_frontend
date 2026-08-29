@@ -401,10 +401,10 @@ export default function Sidebar({ initialOrgIdentity }: { initialOrgIdentity?: S
                   <button
                     onClick={() => toggleMenu(item.label)}
                     className={
-                      `w-full flex items-center gap-3 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${isCollapsed ? 'justify-center px-0' : 'justify-between px-4'} min-w-0 ` +
-                      (active
-                        ? "bg-brand-green text-on-primary shadow-lg shadow-brand-green/20"
-                        : "text-on-dark-muted hover:bg-canvas/8 hover:text-on-dark")
+                      `flex items-center transition-all duration-200 min-w-0 ` +
+                      (isCollapsed
+                        ? `w-11 h-11 mx-auto justify-center rounded-xl ${active ? 'bg-brand-green/15 text-brand-green shadow-sm' : 'text-on-dark-muted hover:bg-canvas/10 hover:text-on-dark'}`
+                        : `w-full gap-3 py-3 px-4 justify-between rounded-lg text-sm font-medium ${active ? 'bg-brand-green text-on-primary shadow-lg shadow-brand-green/20' : 'text-on-dark-muted hover:bg-canvas/8 hover:text-on-dark'}`)
                     }
                     title={isCollapsed ? item.label : undefined}
                   >
@@ -423,10 +423,10 @@ export default function Sidebar({ initialOrgIdentity }: { initialOrgIdentity?: S
                     href={item.href}
                     onClick={() => setIsOpen(false)}
                     className={
-                      `flex items-center gap-3 py-3 rounded-lg text-sm font-medium transition-all duration-200 min-w-0 ${isCollapsed ? 'justify-center px-0' : 'px-4'} ` +
-                      (active
-                        ? "bg-brand-green text-on-primary shadow-lg shadow-brand-green/20"
-                        : "text-on-dark-muted hover:bg-canvas/8 hover:text-on-dark")
+                      `flex items-center transition-all duration-200 min-w-0 ` +
+                      (isCollapsed
+                        ? `w-11 h-11 mx-auto justify-center rounded-xl ${active ? 'bg-brand-green/15 text-brand-green shadow-sm' : 'text-on-dark-muted hover:bg-canvas/10 hover:text-on-dark'}`
+                        : `w-full gap-3 py-3 px-4 justify-start rounded-lg text-sm font-medium ${active ? 'bg-brand-green text-on-primary shadow-lg shadow-brand-green/20' : 'text-on-dark-muted hover:bg-canvas/8 hover:text-on-dark'}`)
                     }
                     title={isCollapsed ? item.label : undefined}
                   >
