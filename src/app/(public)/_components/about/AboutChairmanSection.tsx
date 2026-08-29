@@ -114,10 +114,12 @@ export default function AboutChairmanSection({ chairmanData }: { chairmanData?: 
           {/* Portrait */}
           <div ref={portraitRef} className="lg:col-span-4 w-full h-[400px] md:h-[500px] relative bg-[#e0e0e0] overflow-hidden rounded-xl shadow-lg group">
             {displayImage ? (
-              <div
-                className="absolute inset-0 bg-cover bg-center grayscale contrast-125 transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105"
-                style={{ backgroundImage: `url('${displayImage}')` }}
-              ></div>
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={displayImage}
+                alt={chairman.name}
+                className="absolute inset-0 w-full h-full object-cover grayscale contrast-125 transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105"
+              />
             ) : (
               <div className="absolute inset-0 flex items-center justify-center">
                 <User size={64} className="text-gray-400" />

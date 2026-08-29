@@ -227,11 +227,11 @@ export default function SocialMediaManager() {
                       )}
                     </td>
                     <td className="px-4 py-4 text-right">
-                      <button onClick={() => handleEdit(link)} className="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors mr-1">
-                        <Edit2 className="w-4 h-4" />
+                      <button onClick={() => handleEdit(link)} aria-label={`Edit ${link.platformName}`} className="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors mr-1">
+                        <Edit2 className="w-4 h-4" aria-hidden="true" />
                       </button>
-                      <button onClick={() => setDeleteLinkId(link.id)} className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors">
-                        <Trash2 className="w-4 h-4" />
+                      <button onClick={() => setDeleteLinkId(link.id)} aria-label={`Delete ${link.platformName}`} className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors">
+                        <Trash2 className="w-4 h-4" aria-hidden="true" />
                       </button>
                     </td>
                   </tr>

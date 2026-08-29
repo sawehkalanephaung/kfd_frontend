@@ -89,9 +89,11 @@ function RelatedCard({ post }: { post: NewsPost }) {
     >
       <div className="relative h-56 overflow-hidden bg-surface flex items-center justify-center">
         {post.featuredImageUrl ? (
-          <div
-            className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-            style={{ backgroundImage: `url('${getMediaUrl(post.featuredImageUrl)}')` }}
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={getMediaUrl(post.featuredImageUrl)}
+            alt={post.title}
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
         ) : (
           <ImageIcon className="w-10 h-10 text-gray-300" />
@@ -178,9 +180,11 @@ export default async function NewsDetailPage({ params }: PageProps) {
               {/* Event Content */}
               <div className="w-full md:w-2/3">
                 {hasHeroImage ? (
-                  <div
-                    className="w-full h-64 rounded-2xl bg-cover bg-center shadow-2xl mb-8 border border-white/10"
-                    style={{ backgroundImage: `url('${getMediaUrl(post.featuredImageUrl)}')` }}
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={getMediaUrl(post.featuredImageUrl)}
+                    alt={post.title}
+                    className="w-full h-64 object-cover rounded-2xl shadow-2xl mb-8 border border-white/10"
                   />
                 ) : (
                   <div className="w-full h-64 rounded-2xl bg-[#153020]/50 flex items-center justify-center shadow-2xl mb-8 border border-white/10">
@@ -300,9 +304,11 @@ export default async function NewsDetailPage({ params }: PageProps) {
       <section className="px-4 sm:px-6 lg:px-8 mb-16">
         <div className="container mx-auto max-w-5xl">
           {hasHeroImage ? (
-            <div
-              className="w-full h-72 md:h-[500px] rounded-xl bg-cover bg-center shadow-lg"
-              style={{ backgroundImage: `url('${getMediaUrl(post.featuredImageUrl)}')` }}
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={getMediaUrl(post.featuredImageUrl)}
+              alt={post.title}
+              className="w-full h-72 md:h-[500px] object-cover rounded-xl shadow-lg"
             />
           ) : (
             <div className="w-full h-72 md:h-[500px] rounded-xl bg-gray-200 flex items-center justify-center shadow-inner">

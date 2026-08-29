@@ -32,7 +32,12 @@ export default function AboutMissionVisionSection({ missionData, visionData }: {
         {/* Top Image */}
         <div className="w-full h-64 md:h-72 relative bg-surface overflow-hidden">
           {displayImage ? (
-            <div className="absolute inset-0 bg-cover bg-center transition-transform duration-700 hover:scale-105" style={{ backgroundImage: `url('${displayImage}')` }} />
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={displayImage}
+              alt={data?.title || defaultTitle}
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+            />
           ) : (
             <div className="absolute inset-0 flex items-center justify-center">
               <ImageIcon size={48} className="text-gray-300" />

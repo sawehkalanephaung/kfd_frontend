@@ -241,7 +241,7 @@ export default function Header() {
   return (
     <header className="flex items-center justify-between md:justify-end gap-3 mb-6 md:mb-8">
       {/* Menu Button (Mobile Open / Desktop Collapse) */}
-      <button 
+      <button
         onClick={() => {
           if (typeof window !== 'undefined' && window.innerWidth < 768) {
             setIsOpen(true);
@@ -249,9 +249,10 @@ export default function Header() {
             setIsCollapsed(!isCollapsed);
           }
         }}
-        className="mr-auto w-11 h-11 bg-canvas rounded-lg flex items-center justify-center shadow-subtle border border-hairline text-steel hover:text-brand-green-dark transition-colors"
+        aria-label="Toggle sidebar"
+        className="mr-auto w-11 h-11 bg-canvas rounded-lg flex items-center justify-center shadow-subtle border border-hairline text-steel hover:text-brand-green-dark transition-colors outline-none focus-visible:ring-2 focus-visible:ring-brand-green"
       >
-        <Menu className="w-5 h-5" />
+        <Menu className="w-5 h-5" aria-hidden="true" />
       </button>
 
       <div className="flex items-center gap-3">
@@ -259,13 +260,16 @@ export default function Header() {
 
         {/* Notification Button */}
         <div className="relative" ref={dropdownRef}>
-          <button 
+          <button
             onClick={handleDropdownClick}
-            className={`relative w-11 h-11 bg-canvas rounded-full flex items-center justify-center shadow-subtle border transition-colors ${showDropdown ? 'text-brand-green-dark border-brand-green-soft' : 'text-steel border-hairline hover:text-ink'}`}
+            aria-label={hasUnread ? `Notifications, ${notifications.length} unread` : 'Notifications'}
+            aria-expanded={showDropdown}
+            aria-haspopup="true"
+            className={`relative w-11 h-11 bg-canvas rounded-full flex items-center justify-center shadow-subtle border transition-colors outline-none focus-visible:ring-2 focus-visible:ring-brand-green ${showDropdown ? 'text-brand-green-dark border-brand-green-soft' : 'text-steel border-hairline hover:text-ink'}`}
           >
-            <Bell className="w-5 h-5" />
+            <Bell className="w-5 h-5" aria-hidden="true" />
             {hasUnread && (
-              <span className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 bg-accent-orange border-2 border-canvas rounded-full flex items-center justify-center">
+              <span aria-hidden="true" className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 bg-accent-orange border-2 border-canvas rounded-full flex items-center justify-center">
                 <span className="text-[10px] font-bold text-white leading-none">
                   {notifications.length > 9 ? '9+' : notifications.length}
                 </span>

@@ -161,9 +161,10 @@ function LinkForm({
           <button
             type="button"
             onClick={onCancel}
+            aria-label="Cancel"
             className="p-2 text-muted hover:text-slate hover:bg-surface rounded-xl transition-colors"
           >
-            <X className="w-4 h-4" />
+            <X className="w-4 h-4" aria-hidden="true" />
           </button>
           <button
             type="submit"
@@ -268,9 +269,10 @@ function SectionForm({
           <button
             type="button"
             onClick={onCancel}
+            aria-label="Cancel"
             className="p-2 text-muted hover:text-slate hover:bg-surface rounded-xl transition-colors"
           >
-            <X className="w-4 h-4" />
+            <X className="w-4 h-4" aria-hidden="true" />
           </button>
           <button
             type="submit"
@@ -349,15 +351,17 @@ function LinkRow({
           )}
           <button
             onClick={() => setEditing(true)}
-            className="p-1.5 text-muted hover:text-brand-green-dark hover:bg-brand-green-soft rounded-full transition-colors opacity-0 group-hover:opacity-100"
+            aria-label={`Edit ${link.label}`}
+            className="p-1.5 text-muted hover:text-brand-green-dark hover:bg-brand-green-soft rounded-full transition-colors opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus:opacity-100"
           >
-            <Pencil className="w-3.5 h-3.5" />
+            <Pencil className="w-3.5 h-3.5" aria-hidden="true" />
           </button>
           <button
             onClick={() => setDeleteTarget(true)}
-            className="p-1.5 text-muted hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors opacity-0 group-hover:opacity-100"
+            aria-label={`Delete ${link.label}`}
+            className="p-1.5 text-muted hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 focus:opacity-100"
           >
-            <Trash2 className="w-3.5 h-3.5" />
+            <Trash2 className="w-3.5 h-3.5" aria-hidden="true" />
           </button>
         </div>
       </div>
@@ -410,12 +414,14 @@ function SectionCard({
           <div className="flex items-center gap-3 px-5 py-4 bg-surface border-b border-hairline">
             <button
               onClick={() => setExpanded((p) => !p)}
+              aria-expanded={expanded}
+              aria-label={expanded ? `Collapse ${section.title} section` : `Expand ${section.title} section`}
               className="p-1 text-muted hover:text-slate rounded-lg transition-colors"
             >
               {expanded ? (
-                <ChevronDown className="w-4 h-4" />
+                <ChevronDown className="w-4 h-4" aria-hidden="true" />
               ) : (
-                <ChevronRight className="w-4 h-4" />
+                <ChevronRight className="w-4 h-4" aria-hidden="true" />
               )}
             </button>
             <LayoutList className="w-4 h-4 text-brand-green flex-shrink-0" />
@@ -442,15 +448,17 @@ function SectionCard({
               </button>
               <button
                 onClick={() => setEditingSection(true)}
+                aria-label={`Edit ${section.title} section`}
                 className="p-1.5 text-muted hover:text-brand-green-dark hover:bg-brand-green-soft rounded-full transition-colors"
               >
-                <Pencil className="w-3.5 h-3.5" />
+                <Pencil className="w-3.5 h-3.5" aria-hidden="true" />
               </button>
               <button
                 onClick={() => setDeleteTarget(true)}
+                aria-label={`Delete ${section.title} section`}
                 className="p-1.5 text-muted hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
               >
-                <Trash2 className="w-3.5 h-3.5" />
+                <Trash2 className="w-3.5 h-3.5" aria-hidden="true" />
               </button>
             </div>
           </div>

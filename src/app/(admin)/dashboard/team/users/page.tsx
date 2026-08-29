@@ -236,6 +236,7 @@ export default function UsersDirectoryPage() {
                           onClick={() => openEditDrawer(user)}
                           className="p-2 text-muted hover:text-brand-green-dark hover:bg-brand-green-soft rounded-full transition-colors"
                           title="Edit User"
+                          aria-label="Edit User"
                         >
                           <Edit className="w-4 h-4" />
                         </button>
@@ -243,6 +244,7 @@ export default function UsersDirectoryPage() {
                           onClick={() => openDeleteModal(user)}
                           className="p-2 text-muted hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                           title="Delete User"
+                          aria-label="Delete User"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>

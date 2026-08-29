@@ -612,9 +612,10 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                         <button
                           type="button"
                           onClick={() => removeSocialLink(index)}
+                          aria-label={`Remove ${link.platform || 'social link'} ${index + 1}`}
                           className="p-1.5 text-muted hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors shrink-0"
                         >
-                          <X className="w-4 h-4" />
+                          <X className="w-4 h-4" aria-hidden="true" />
                         </button>
                       </div>
                       <input

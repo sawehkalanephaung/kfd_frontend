@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState, useCallback } from 'react';
+import React, { useId, useRef, useState, useCallback } from 'react';
 import Cropper from 'react-easy-crop';
 import { X, Check } from 'lucide-react';
+import { useFocusTrap } from '@/lib/use-focus-trap';
 
 interface ImageCropperModalProps {
   imageSrc: string;
@@ -14,6 +15,12 @@ export default function ImageCropperModal({ imageSrc, onCropComplete, onClose }:
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const titleId = useId();
+
+  // The parent conditionally mounts this component to show/hide it, so
+  // "mounted" is "open" - pass a constant true rather than an isOpen prop.
+  useFocusTrap(true, dialogRef, onClose);
 
   const onCropChange = (crop: any) => {
     setCrop(crop);
@@ -73,19 +80,27 @@ export default function ImageCropperModal({ imageSrc, onCropComplete, onClose }:
       />
       
       {/* Modal */}
-      <div className="relative bg-canvas rounded-lg w-full max-w-lg shadow-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-        
+      <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        tabIndex={-1}
+        className="relative bg-canvas rounded-lg w-full max-w-lg shadow-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200 outline-none"
+      >
+
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-hairline bg-surface-soft">
           <div>
-            <h3 className="text-lg font-bold text-ink">Crop Headshot</h3>
+            <h3 id={titleId} className="text-lg font-bold text-ink">Crop Headshot</h3>
             <p className="text-sm text-steel">Position the image inside the square.</p>
           </div>
-          <button 
+          <button
             onClick={onClose}
-            className="p-2 text-muted hover:text-ink hover:bg-surface rounded-lg transition-colors"
+            aria-label="Close"
+            className="p-2 text-muted hover:text-ink hover:bg-surface rounded-lg transition-colors outline-none focus-visible:ring-2 focus-visible:ring-brand-green"
           >
-            <X className="w-5 h-5" />
+            <X className="w-5 h-5" aria-hidden="true" />
           </button>
         </div>
 

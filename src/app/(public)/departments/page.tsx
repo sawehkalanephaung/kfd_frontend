@@ -118,14 +118,16 @@ export default async function DepartmentsPage() {
                 <Link
                   key={dept.id}
                   href={`/departments/${dept.slug}`}
-                  className="group relative flex flex-col rounded-2xl overflow-hidden bg-canvas border border-hairline shadow-sm hover:shadow-xl .5 transition-all duration-300"
+                  className="group relative flex flex-col rounded-2xl overflow-hidden bg-canvas border border-hairline shadow-sm hover:shadow-xl transition-all duration-300"
                 >
                   {/* Card Image */}
                   <div className={`relative h-48 overflow-hidden flex items-center justify-center ${meta.bg}`}>
                     {dept.heroImageUrl ? (
-                      <div
-                        className="absolute inset-0 bg-cover bg-center"
-                        style={{ backgroundImage: `url('${getMediaUrl(dept.heroImageUrl)}')` }}
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={getMediaUrl(dept.heroImageUrl)}
+                        alt={dept.name}
+                        className="absolute inset-0 w-full h-full object-cover"
                       />
                     ) : (
                       <Icon size={80} className={`${meta.color} opacity-20`} />

@@ -76,10 +76,12 @@ export default async function TeamDirectoryPage() {
                     {/* Image */}
                     <div className="aspect-[4/5] bg-surface relative overflow-hidden">
                       {displayImage ? (
-                        <div
-                          className="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
-                          style={{ backgroundImage: `url('${displayImage}')` }}
-                        ></div>
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={displayImage}
+                          alt={name}
+                          className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
                       ) : (
                         <div className="absolute inset-0 flex items-center justify-center bg-surface">
                           <User size={64} className="text-gray-300" />

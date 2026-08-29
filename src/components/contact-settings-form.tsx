@@ -221,9 +221,10 @@ export default function ContactSettingsForm({ initialData }: ContactSettingsForm
                   <button
                     type="button"
                     onClick={() => setDeletePhoneIndex(idx)}
+                    aria-label={`Remove phone number ${idx + 1}`}
                     className="p-2.5 text-muted hover:text-red-500 hover:bg-red-50 rounded-xl transition-colors"
                   >
-                    <Trash2 className="w-4 h-4" />
+                    <Trash2 className="w-4 h-4" aria-hidden="true" />
                   </button>
                 </div>
               ))}
@@ -245,8 +246,9 @@ export default function ContactSettingsForm({ initialData }: ContactSettingsForm
                 onClick={() => handleAddField(setInquiryTypes)}
                 className="p-2 text-brand-green-dark hover:bg-brand-green-soft rounded-full transition-colors"
                 title="Add Inquiry Type"
+                aria-label="Add Inquiry Type"
               >
-                <Plus className="w-5 h-5" />
+                <Plus className="w-5 h-5" aria-hidden="true" />
               </button>
             </div>
 
@@ -269,9 +271,10 @@ export default function ContactSettingsForm({ initialData }: ContactSettingsForm
                     <button
                       type="button"
                       onClick={() => setDeleteInquiryIndex(idx)}
+                      aria-label={`Remove inquiry type ${idx + 1}`}
                       className="p-2.5 text-muted hover:text-red-500 hover:bg-red-50 rounded-xl transition-colors"
                     >
-                      <Trash2 className="w-4 h-4" />
+                      <Trash2 className="w-4 h-4" aria-hidden="true" />
                     </button>
                   )}
                 </div>

@@ -118,9 +118,11 @@ export default function NewsSection({
                     {/* Image */}
                     <div className="relative w-full h-52 rounded-xl overflow-hidden mb-5 shrink-0 bg-surface flex items-center justify-center">
                       {imgUrl ? (
-                        <div
-                          className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-                          style={{ backgroundImage: `url('${imgUrl}')` }}
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={imgUrl}
+                          alt={item.title}
+                          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                         />
                       ) : (
                         <ImageIcon className="w-10 h-10 text-gray-300" />

@@ -246,6 +246,7 @@ export default function CategoriesListPage() {
                           onClick={() => openEditDrawer(category)}
                           className="p-2 text-muted hover:text-brand-green-dark hover:bg-brand-green-soft rounded-full transition-colors"
                           title="Edit"
+                          aria-label="Edit"
                         >
                           <Edit className="w-4 h-4" />
                         </button>
@@ -253,6 +254,7 @@ export default function CategoriesListPage() {
                           onClick={() => openDeleteModal(category)}
                           className="p-2 text-muted hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                           title="Delete"
+                          aria-label="Delete"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>

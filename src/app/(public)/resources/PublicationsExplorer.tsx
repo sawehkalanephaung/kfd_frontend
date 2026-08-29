@@ -92,7 +92,8 @@ export default function PublicationsExplorer({ publications, categories }: Props
   const Thumbnail = ({ pub, className }: { pub: PublicationItem; className: string }) => (
     <div className={`relative bg-[#eef1f5] flex items-center justify-center flex-shrink-0 ${className}`}>
       {pub.thumbnailUrl ? (
-        <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: `url('${getMediaUrl(pub.thumbnailUrl)}')` }} />
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={getMediaUrl(pub.thumbnailUrl)} alt={pub.title} className="absolute inset-0 w-full h-full object-cover" />
       ) : (
         <FileText size={28} className="text-[#9aa6ba]" />
       )}
@@ -287,14 +288,17 @@ export default function PublicationsExplorer({ publications, categories }: Props
               <button
                 onClick={() => setPage(p => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
+                aria-label="Previous page"
                 className="min-w-[44px] h-[44px] px-3 rounded-[9px] border border-[#dce1ea] bg-white text-[#00684A] font-bold flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed"
               >
-                <ChevronLeft size={16} />
+                <ChevronLeft size={16} aria-hidden="true" />
               </button>
               {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
                 <button
                   key={p}
                   onClick={() => setPage(p)}
+                  aria-label={`Page ${p}`}
+                  aria-current={p === currentPage ? 'page' : undefined}
                   className="min-w-[44px] h-[44px] px-3.5 rounded-[9px] text-[14.5px] font-bold flex items-center justify-center transition-colors"
                   style={p === currentPage ? { border: 0, background: '#00684A', color: '#fff' } : { border: '1px solid #dce1ea', background: '#fff', color: '#00684A' }}
                 >
@@ -304,9 +308,10 @@ export default function PublicationsExplorer({ publications, categories }: Props
               <button
                 onClick={() => setPage(p => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
+                aria-label="Next page"
                 className="min-w-[44px] h-[44px] px-3 rounded-[9px] border border-[#dce1ea] bg-white text-[#00684A] font-bold flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed"
               >
-                <ChevronRight size={16} />
+                <ChevronRight size={16} aria-hidden="true" />
               </button>
             </div>
           )}

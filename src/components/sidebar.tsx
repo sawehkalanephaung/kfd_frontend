@@ -355,9 +355,10 @@ export default function Sidebar({ initialOrgIdentity }: { initialOrgIdentity?: S
           {!isCollapsed && (
             <button
               onClick={() => setIsOpen(false)}
-              className="md:hidden p-2 -mr-2 text-on-dark-muted hover:text-on-dark rounded-lg transition-colors flex-shrink-0"
+              aria-label="Close menu"
+              className="md:hidden p-2 -mr-2 text-on-dark-muted hover:text-on-dark rounded-lg transition-colors flex-shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-brand-green"
             >
-              <X className="w-5 h-5" />
+              <X className="w-5 h-5" aria-hidden="true" />
             </button>
           )}
         </div>
@@ -493,9 +494,10 @@ export default function Sidebar({ initialOrgIdentity }: { initialOrgIdentity?: S
         <div className="px-3 pb-5">
           <button
             onClick={handleLogout}
-            className={`flex items-center gap-3 py-3 w-full rounded-lg text-sm font-medium text-on-dark-muted hover:bg-red-500/15 hover:text-red-400 transition-all duration-200 group ${isCollapsed ? 'justify-center px-0' : 'px-4'}`}
+            aria-label="Logout"
+            className={`flex items-center gap-3 py-3 w-full rounded-lg text-sm font-medium text-on-dark-muted hover:bg-red-500/15 hover:text-red-400 transition-all duration-200 group outline-none focus-visible:ring-2 focus-visible:ring-brand-green ${isCollapsed ? 'justify-center px-0' : 'px-4'}`}
           >
-            <LogOut className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" />
+            <LogOut className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" aria-hidden="true" />
             {!isCollapsed && <span className="group-hover:translate-x-1 transition-transform duration-300">Logout</span>}
           </button>
         </div>

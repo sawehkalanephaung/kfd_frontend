@@ -271,6 +271,7 @@ export default function MediaLibraryPage() {
                           href={`/dashboard/media/${asset.id}/edit`}
                           className="p-2 text-muted hover:text-brand-green-dark hover:bg-brand-green-soft rounded-full transition-all duration-300 hover:scale-110 hover:rotate-[-5deg]"
                           title="Edit Media"
+                          aria-label="Edit Media"
                         >
                           <Edit className="w-4 h-4" />
                         </Link>
@@ -278,6 +279,7 @@ export default function MediaLibraryPage() {
                           onClick={() => openDeleteModal(asset)}
                           className="p-2 text-muted hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-300 hover:scale-110 hover:rotate-6"
                           title="Delete Media"
+                          aria-label="Delete Media"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>

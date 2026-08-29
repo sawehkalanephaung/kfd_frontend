@@ -153,9 +153,11 @@ export default async function NewsPage({ searchParams }: PageProps) {
             className="group relative block w-full h-[420px] rounded-2xl overflow-hidden mb-12 shadow-2xl bg-forest-800"
           >
             {featured.featuredImageUrl ? (
-              <div
-                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-                style={{ backgroundImage: `url('${getMediaUrl(featured.featuredImageUrl)}')` }}
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={getMediaUrl(featured.featuredImageUrl)}
+                alt={featured.title}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
             ) : (
               <div className="absolute inset-0 flex items-center justify-center">
@@ -197,9 +199,11 @@ export default async function NewsPage({ searchParams }: PageProps) {
                 {/* Image */}
                 <div className="relative h-44 overflow-hidden bg-[#1a3024] flex items-center justify-center">
                   {post.featuredImageUrl ? (
-                    <div
-                      className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-105"
-                      style={{ backgroundImage: `url('${getMediaUrl(post.featuredImageUrl)}')` }}
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={getMediaUrl(post.featuredImageUrl)}
+                      alt={post.title}
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                   ) : (
                     <ImageIcon size={32} className="text-white/10" />

@@ -251,6 +251,7 @@ export default function TeamDirectoryPage() {
                           href={`/dashboard/team/${member.id}/edit`}
                           className="p-2 text-muted hover:text-brand-green-dark hover:bg-brand-green-soft rounded-full transition-colors"
                           title="Edit Member"
+                          aria-label="Edit Member"
                         >
                           <Edit className="w-4 h-4" />
                         </Link>
@@ -258,6 +259,7 @@ export default function TeamDirectoryPage() {
                           onClick={() => openDeleteModal(member)}
                           className="p-2 text-muted hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                           title="Delete Member"
+                          aria-label="Delete Member"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>

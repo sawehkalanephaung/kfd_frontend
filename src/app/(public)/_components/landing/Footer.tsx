@@ -78,7 +78,8 @@ export default async function Footer() {
                     href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-8 h-8 rounded-full bg-canvas/10 flex items-center justify-center hover:bg-canvas/20 transition-colors"
+                    aria-label={`Visit our ${link.platformName} page`}
+                    className="w-8 h-8 rounded-full bg-canvas/10 flex items-center justify-center hover:bg-canvas/20 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-canvas/60"
                   >
                     {renderSocialIcon(link.platformName)}
                   </a>

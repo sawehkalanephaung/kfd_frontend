@@ -197,6 +197,7 @@ export default function PagesListPage() {
                           href={`/dashboard/pages/${page.id}/edit`}
                           className="p-2 text-muted hover:text-brand-green-dark hover:bg-brand-green-soft rounded-full transition-all duration-300 hover:scale-110 hover:rotate-[-5deg]"
                           title="Edit"
+                          aria-label="Edit"
                         >
                           <Edit className="w-4 h-4" />
                         </Link>
@@ -204,6 +205,7 @@ export default function PagesListPage() {
                           onClick={() => openDeleteModal(page)}
                           className="p-2 text-muted hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-300 hover:scale-110 hover:rotate-6"
                           title="Delete"
+                          aria-label="Delete"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>

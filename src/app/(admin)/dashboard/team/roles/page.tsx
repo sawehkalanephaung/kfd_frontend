@@ -185,6 +185,7 @@ export default function RolesDirectoryPage() {
                           onClick={() => openEditDrawer(role)}
                           className="p-2 text-muted hover:text-brand-green-dark hover:bg-brand-green-soft rounded-full transition-colors"
                           title="Edit Role"
+                          aria-label="Edit Role"
                         >
                           <Edit className="w-4 h-4" />
                         </button>
@@ -192,6 +193,7 @@ export default function RolesDirectoryPage() {
                           onClick={() => openDeleteModal(role)}
                           className="p-2 text-muted hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                           title="Delete Role"
+                          aria-label="Delete Role"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>

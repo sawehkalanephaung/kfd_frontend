@@ -156,6 +156,7 @@ export default function FaqsListPage() {
                           href={`/dashboard/pages/faqs/${faq.id}/edit`}
                           className="p-2 text-muted hover:text-brand-green-dark hover:bg-brand-green-soft rounded-full transition-colors"
                           title="Edit"
+                          aria-label="Edit"
                         >
                           <Edit className="w-4 h-4" />
                         </Link>
@@ -163,6 +164,7 @@ export default function FaqsListPage() {
                           onClick={() => openDeleteModal(faq)}
                           className="p-2 text-muted hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                           title="Delete"
+                          aria-label="Delete"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>

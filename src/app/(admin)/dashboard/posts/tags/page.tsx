@@ -182,6 +182,7 @@ export default function TagsListPage() {
                           onClick={() => openEditDrawer(tag)}
                           className="p-2 text-muted hover:text-brand-green-dark hover:bg-brand-green-soft rounded-full transition-all duration-300 hover:scale-110 hover:rotate-[-5deg]"
                           title="Edit Tag"
+                          aria-label="Edit Tag"
                         >
                           <Edit className="w-4 h-4" />
                         </button>
@@ -189,6 +190,7 @@ export default function TagsListPage() {
                           onClick={() => openDeleteModal(tag)}
                           className="p-2 text-muted hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-300 hover:scale-110 hover:rotate-6"
                           title="Delete Tag"
+                          aria-label="Delete Tag"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>

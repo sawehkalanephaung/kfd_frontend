@@ -88,9 +88,11 @@ export default function DepartmentsSection({ departments, status }: { department
               {/* Image Section */}
               <div className="relative h-48 bg-surface flex-shrink-0 border-b border-hairline">
                 {dept.heroImageUrl ? (
-                  <div
-                    className="absolute inset-0 bg-cover bg-center transition-transform duration-700 hover:scale-105"
-                    style={{ backgroundImage: `url('${getMediaUrl(dept.heroImageUrl)}')` }}
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={getMediaUrl(dept.heroImageUrl)}
+                    alt={dept.title || dept.name}
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 hover:scale-105"
                   />
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center">

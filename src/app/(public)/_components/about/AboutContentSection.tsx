@@ -198,12 +198,12 @@ export default function AboutContentSection({
       className="relative h-[400px] lg:h-screen w-full overflow-hidden group bg-surface"
     >
       {displayImage ? (
-        <>
-          <div
-            className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
-            style={{ backgroundImage: `url('${displayImage}')` }}
-          />
-        </>
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={displayImage}
+          alt={title}
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+        />
       ) : (
         <div className="absolute inset-0 flex items-center justify-center">
           <ImageIcon size={64} className="text-gray-300" />

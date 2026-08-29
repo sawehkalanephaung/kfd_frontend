@@ -412,8 +412,8 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                       return (
                         <span key={id} className="inline-flex items-center gap-1 px-2.5 py-1 bg-brand-green-soft text-brand-green-dark rounded-full text-sm font-medium border border-brand-green/30">
                           {tag.name}
-                          <button type="button" onClick={(e) => { e.stopPropagation(); toggleTag(id); }} className="text-brand-green hover:text-brand-green-dark">
-                            <X className="w-3 h-3" />
+                          <button type="button" onClick={(e) => { e.stopPropagation(); toggleTag(id); }} aria-label={`Remove tag ${tag.name}`} className="text-brand-green hover:text-brand-green-dark">
+                            <X className="w-3 h-3" aria-hidden="true" />
                           </button>
                         </span>
                       );

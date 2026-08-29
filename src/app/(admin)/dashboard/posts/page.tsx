@@ -281,6 +281,7 @@ export default function PostsListPage() {
                           href={`/dashboard/posts/${post.id}/edit`}
                           className="p-2 text-muted hover:text-brand-green-dark hover:bg-brand-green-soft rounded-full transition-all duration-300 hover:scale-110 hover:rotate-[-5deg]"
                           title="Edit Post"
+                          aria-label="Edit Post"
                         >
                           <Edit className="w-4 h-4" />
                         </Link>
@@ -288,6 +289,7 @@ export default function PostsListPage() {
                           onClick={() => openDeleteModal(post)}
                           className="p-2 text-muted hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-300 hover:scale-110 hover:rotate-6"
                           title={post.status === 'ARCHIVED' ? 'Permanently Delete' : 'Archive'}
+                          aria-label={post.status === 'ARCHIVED' ? 'Permanently Delete' : 'Archive'}
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>

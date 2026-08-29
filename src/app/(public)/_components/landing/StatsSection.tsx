@@ -5,6 +5,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { ContentFallback } from "@/components/content-fallback";
+import { usePrefersReducedMotion } from "@/lib/use-reduced-motion";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -12,23 +13,31 @@ if (typeof window !== "undefined") {
 
 function AnimatedStat({ valueStr, label, subLabel, delay = 0 }: { valueStr: string, label: string, subLabel: string, delay?: number }) {
   const numberRef = useRef<HTMLSpanElement>(null);
-  
+  const prefersReducedMotion = usePrefersReducedMotion();
+
   // Parse number and suffix/prefix (e.g. "50M+", "14%", "$500")
   const match = String(valueStr).match(/^([^\d]*)([\d.,]+)([^\d]*)$/);
-  
+
   useGSAP(() => {
     if (!numberRef.current || !match) return;
-    
+
     const prefix = match[1] || "";
     const numStr = match[2].replace(/,/g, ''); // handle commas if any
     const num = parseFloat(numStr);
     const suffix = match[3] || "";
-    
+
     if (isNaN(num)) return; // Fallback if not a number
-    
+
+    // Reduced motion: show the final value immediately, no counting tween.
+    if (prefersReducedMotion) {
+      const decimals = numStr.includes('.') ? 1 : 0;
+      numberRef.current.innerText = `${prefix}${num.toFixed(decimals)}${suffix}`;
+      return;
+    }
+
     // Create a proxy object to animate
     const proxy = { val: 0 };
-    
+
     gsap.to(proxy, {
       val: num,
       duration: 2,
@@ -48,16 +57,23 @@ function AnimatedStat({ valueStr, label, subLabel, delay = 0 }: { valueStr: stri
         }
       }
     });
-  }, { scope: numberRef });
+  }, { scope: numberRef, dependencies: [prefersReducedMotion] });
 
   return (
-    <div className="flex flex-col px-4 lg:px-12 items-center lg:items-start">
-      <span ref={numberRef} className="text-3xl lg:text-4xl font-bold text-on-dark-muted mb-2">
+    <div
+      className="flex flex-col px-4 lg:px-12 items-center lg:items-start"
+      // The visible number counts up frame-by-frame purely as a sighted-user
+      // animation; that's meaningless read out loud, and would otherwise
+      // spam a screen reader with every intermediate value. One static
+      // label carries the real (final) figure instead - see A11Y-20.
+      aria-label={`${valueStr} ${label}`}
+    >
+      <span ref={numberRef} aria-hidden="true" className="text-3xl lg:text-4xl font-bold text-on-dark-muted mb-2">
         {/* Render 0 initially if it's a number, otherwise just render the string */}
         {match && !isNaN(parseFloat(match[2])) ? `${match[1]}0${match[3]}` : valueStr}
       </span>
-      <span className="text-sm font-bold tracking-wider text-green-400 mb-1">{label}</span>
-      {subLabel && <span className="text-xs text-on-dark-muted/70">{subLabel}</span>}
+      <span aria-hidden="true" className="text-sm font-bold tracking-wider text-green-400 mb-1">{label}</span>
+      {subLabel && <span aria-hidden="true" className="text-xs text-on-dark-muted/70">{subLabel}</span>}
     </div>
   );
 }

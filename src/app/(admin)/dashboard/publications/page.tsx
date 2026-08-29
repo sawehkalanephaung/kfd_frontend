@@ -284,6 +284,7 @@ export default function PublicationsListPage() {
                           href={`/dashboard/publications/${publication.id}/edit`}
                           className="p-2 text-muted hover:text-brand-green-dark hover:bg-brand-green-soft rounded-full transition-all duration-300 hover:scale-110 hover:rotate-[-5deg]"
                           title="Edit Publication"
+                          aria-label="Edit Publication"
                         >
                           <Edit className="w-4 h-4" />
                         </Link>
@@ -291,6 +292,7 @@ export default function PublicationsListPage() {
                           onClick={() => openDeleteModal(publication)}
                           className="p-2 text-muted hover:text-red-600 hover:bg-red-50 rounded-lg transition-all duration-300 hover:scale-110 hover:rotate-6"
                           title={publication.status === 'ARCHIVED' ? 'Permanently Delete' : 'Archive'}
+                          aria-label={publication.status === 'ARCHIVED' ? 'Permanently Delete' : 'Archive'}
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
