@@ -5,7 +5,13 @@ import { useSidebar } from '@/components/sidebar-context';
 import { useRouter } from 'next/navigation';
 import { Loader2 } from 'lucide-react';
 
-export default function DashboardLayoutWrapper({ children }: { children: React.ReactNode }) {
+export default function DashboardLayoutWrapper({
+  header,
+  children,
+}: {
+  header: React.ReactNode;
+  children: React.ReactNode;
+}) {
   const { isCollapsed } = useSidebar();
   const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -35,13 +41,21 @@ export default function DashboardLayoutWrapper({ children }: { children: React.R
   }
   
   return (
-    <main 
+    <div
       className={`
-        flex-1 p-4 md:p-8 w-full overflow-x-hidden transition-all duration-300 ease-in-out bg-surface
+        flex-1 w-full overflow-x-hidden transition-all duration-300 ease-in-out bg-surface
         ${isCollapsed ? 'md:ml-[var(--sidebar-width-collapsed)]' : 'md:ml-[var(--sidebar-width-expanded)]'}
       `}
     >
-      {children}
-    </main>
+      {header}
+      {/* Previously <Header/> was rendered *inside* this element when it was
+          itself a <main>, which strips <header>'s implicit "banner" landmark
+          role (only granted when it isn't a descendant of main/article/etc).
+          header and main are now siblings, and main is the skip-link target
+          from dashboard/layout.tsx. */}
+      <main id="main-content" tabIndex={-1} className="p-4 md:p-8 outline-none">
+        {children}
+      </main>
+    </div>
   );
 }

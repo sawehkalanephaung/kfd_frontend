@@ -340,11 +340,11 @@ export default function Sidebar({ initialOrgIdentity }: { initialOrgIdentity?: S
             </div>
             {!isCollapsed && (
               <div className="flex flex-col min-w-0">
-                <h1 className="text-[13px] font-bold text-on-dark tracking-tight leading-tight truncate">
+                <p className="text-[13px] font-bold text-on-dark tracking-tight leading-tight truncate">
                   {displayName}
-                </h1>
+                </p>
                 {displayNameKaren && (
-                  <span className="text-[11px] text-on-dark-muted font-medium mt-0.5 truncate">
+                  <span lang="ksw" className="text-[11px] text-on-dark-muted font-medium mt-0.5 truncate">
                     {displayNameKaren}
                   </span>
                 )}

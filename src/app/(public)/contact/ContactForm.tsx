@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Loader2, CheckCircle2 } from "lucide-react";
 import { ContactSettings } from "./types";
 import { CustomSelect } from "@/components/ui/custom-select";
@@ -11,6 +11,14 @@ export default function ContactForm({ settings }: { settings: ContactSettings | 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const successHeadingRef = useRef<HTMLHeadingElement>(null);
+
+  // Move focus to the confirmation so screen-reader users are told the
+  // submission succeeded instead of the page silently swapping content
+  // out from under them.
+  useEffect(() => {
+    if (success) successHeadingRef.current?.focus();
+  }, [success]);
 
   const inquiryOptions = settings?.inquiryTypes?.length 
     ? settings.inquiryTypes 
@@ -56,15 +64,17 @@ export default function ContactForm({ settings }: { settings: ContactSettings | 
   return (
     <div className="bg-[#091810] rounded-xl p-6 sm:p-8 border border-[#132d1f] w-full max-w-2xl">
       {success ? (
-        <div className="flex flex-col items-center justify-center text-center py-12">
+        <div role="status" className="flex flex-col items-center justify-center text-center py-12">
           <div className="w-16 h-16 bg-green-500/10 text-green-400 rounded-full flex items-center justify-center mb-6">
-            <CheckCircle2 size={32} />
+            <CheckCircle2 size={32} aria-hidden="true" />
           </div>
-          <h3 className="text-2xl font-serif text-white mb-2">Inquiry Received</h3>
+          <h3 ref={successHeadingRef} tabIndex={-1} className="text-2xl font-serif text-white mb-2 outline-none">
+            Inquiry Received
+          </h3>
           <p className="text-white/60 max-w-md">
             Thank you for reaching out. Your inquiry has been routed to the correct department and we will be in touch shortly.
           </p>
-          <button 
+          <button
             onClick={() => setSuccess(false)}
             className="mt-8 text-sm font-semibold text-green-400 hover:text-brand-green transition-colors hover:underline"
           >
@@ -73,9 +83,9 @@ export default function ContactForm({ settings }: { settings: ContactSettings | 
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-6">
-          
+
           {errorMsg && (
-            <div className="p-4 rounded bg-red-50 text-red-600 text-sm border border-red-100">
+            <div role="alert" className="p-4 rounded bg-danger-bg text-danger-text text-sm border border-danger/20">
               {errorMsg}
             </div>
           )}

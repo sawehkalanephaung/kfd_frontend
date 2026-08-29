@@ -24,7 +24,7 @@ export default function PageHeader({
     <div className="bg-canvas rounded-lg p-8 shadow-sm border border-hairline-soft flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
       <div>
         <h1 className="text-2xl font-bold text-ink flex items-center gap-3">
-          <Icon className="w-6 h-6 text-brand-green" />
+          <Icon className="w-6 h-6 text-brand-green" aria-hidden="true" />
           {title}
         </h1>
         <p className="text-steel mt-1">{description}</p>

@@ -21,10 +21,17 @@ export default async function DashboardLayout({
 
   return (
     <SidebarProvider>
+      {/* Previously only the public site had this; the admin dashboard had no
+          way to bypass the sidebar's ~20 nav links on every page load. */}
+      <a
+        href="#main-content"
+        className="absolute top-0 left-0 -translate-y-full focus:translate-y-0 bg-brand-green text-on-primary font-bold px-4 py-3 z-[100] transition-transform focus:outline-none focus:ring-4 focus:ring-brand-green-dark"
+      >
+        Skip to main content
+      </a>
       <div className="flex min-h-screen bg-surface">
         <Sidebar initialOrgIdentity={siteIdentity} />
-        <DashboardLayoutWrapper>
-          <Header />
+        <DashboardLayoutWrapper header={<Header />}>
           {children}
         </DashboardLayoutWrapper>
       </div>

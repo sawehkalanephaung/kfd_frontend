@@ -217,7 +217,7 @@ export default function DashboardPage() {
         {/* Recent Activity */}
         <div className="xl:col-span-2 bg-canvas rounded-lg p-6 shadow-sm border border-hairline">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-bold text-ink">Recent Activity</h3>
+            <h2 className="text-lg font-bold text-ink">Recent Activity</h2>
             <Link href="/dashboard/posts" className="text-sm font-medium text-brand-green-dark hover:text-brand-green-dark">
               View All Posts
             </Link>
@@ -283,7 +283,7 @@ export default function DashboardPage() {
 
         {/* Quick Actions */}
         <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline">
-          <h3 className="text-lg font-bold text-ink mb-6">Quick Actions</h3>
+          <h2 className="text-lg font-bold text-ink mb-6">Quick Actions</h2>
           <div className="space-y-4">
             <Link
               href="/dashboard/posts/create"
