@@ -65,16 +65,8 @@ export default function DashboardPage() {
         setLoading(true);
 
         // Fetch all necessary data in parallel
-        const [
-          publishedPostsRes,
-          draftPostsRes,
-          archivedPostsRes,
-          teamRes,
-          mediaRes,
-          deptRes,
-          recentActivityRes,
-          topPostsRes
-        ] = await Promise.all([
+        // Fetch all necessary data in parallel using allSettled to prevent one 403 from failing the whole dashboard
+        const results = await Promise.allSettled([
           api.get('/api/v1/admin/cms/posts?status=PUBLISHED&size=1'),
           api.get('/api/v1/admin/cms/posts?status=DRAFT&size=1'),
           api.get('/api/v1/admin/cms/posts?status=ARCHIVED&size=1'),
@@ -85,7 +77,22 @@ export default function DashboardPage() {
           api.get('/api/v1/admin/cms/posts?size=5&sort=viewCount,desc')
         ]);
 
+        const getValue = (index: number) => {
+          const res = results[index];
+          return res.status === 'fulfilled' ? res.value : null;
+        };
+
+        const publishedPostsRes = getValue(0);
+        const draftPostsRes = getValue(1);
+        const archivedPostsRes = getValue(2);
+        const teamRes = getValue(3);
+        const mediaRes = getValue(4);
+        const deptRes = getValue(5);
+        const recentActivityRes = getValue(6);
+        const topPostsRes = getValue(7);
+
         const getCount = (res: any) => {
+          if (!res) return 0;
           if (res.data?.totalElements !== undefined) return res.data.totalElements;
           if (res.data?.data?.totalElements !== undefined) return res.data.data.totalElements;
           const content = res.data?.content || res.data?.data || res.data;
@@ -101,21 +108,22 @@ export default function DashboardPage() {
           departments: getCount(deptRes),
         });
 
-        const recent = recentActivityRes.data?.content || recentActivityRes.data?.data || recentActivityRes.data || [];
+        const recent = recentActivityRes?.data?.content || recentActivityRes?.data?.data || recentActivityRes?.data || [];
         setRecentPosts(Array.isArray(recent) ? recent : []);
 
-        const top = topPostsRes.data?.content || topPostsRes.data?.data || topPostsRes.data || [];
+        const top = topPostsRes?.data?.content || topPostsRes?.data?.data || topPostsRes?.data || [];
         setTopPosts(
           Array.isArray(top)
             ? top.map(p => ({
-              name: p.title.length > 20 ? p.title.substring(0, 20) + '...' : p.title,
-              views: p.viewCount || 0
+              name: p?.title && p.title.length > 20 ? p.title.substring(0, 20) + '...' : (p?.title || 'Untitled'),
+              views: p?.viewCount || 0
             }))
             : []
         );
 
-      } catch (error) {
-        console.error("Failed to fetch dashboard metrics", error);
+      } catch (error: any) {
+        // Log as string to prevent Next.js dev overlay from taking over the screen
+        console.warn("Failed to fetch dashboard metrics:", error?.message || "Unknown error");
       } finally {
         setLoading(false);
       }
