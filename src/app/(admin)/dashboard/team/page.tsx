@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useMemo } from 'react';
 import Link from 'next/link';
-import { Users, Plus, Edit, Trash2, CheckCircle2, XCircle, Search, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Users, Plus, Edit, Trash2, CheckCircle2, XCircle, Search } from 'lucide-react';
 import api, { getMediaUrl } from '@/lib/api';
 import DeleteModal from '@/components/delete-modal';
 import CreateButton from '@/components/create-button';
@@ -10,6 +10,7 @@ import PageHeader from '@/components/page-header';
 import toast from 'react-hot-toast';
 import { formatTenureYears, calculateExactDuration } from '@/lib/date-utils';
 import { Badge } from '@/components/ui/badge';
+import { Pagination } from '@/components/ui/pagination';
 
 export default function TeamDirectoryPage() {
   const [members, setMembers] = useState<any[]>([]);
@@ -259,41 +260,17 @@ export default function TeamDirectoryPage() {
 
         {/* Pagination Controls */}
         {!loading && filteredMembers.length > 0 && (
-          <div className="px-6 py-4 border-t border-hairline-soft bg-surface-soft flex items-center justify-between">
-            <span className="text-sm text-steel">
-              Showing <span className="font-medium text-ink">{(currentPage - 1) * itemsPerPage + 1}</span> to <span className="font-medium text-ink">{Math.min(currentPage * itemsPerPage, filteredMembers.length)}</span> of <span className="font-medium text-ink">{filteredMembers.length}</span> members
-            </span>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                disabled={currentPage === 1}
-                className="p-1.5 rounded-lg border border-hairline-strong text-steel hover:bg-surface hover:text-ink disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-              >
-                <ChevronLeft className="w-4 h-4" />
-              </button>
-              <div className="flex items-center gap-1">
-                {Array.from({ length: totalPages }).map((_, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setCurrentPage(idx + 1)}
-                    className={`w-8 h-8 rounded-lg text-sm font-medium transition-colors ${currentPage === idx + 1
-                      ? 'bg-brand-green text-on-primary'
-                      : 'text-steel hover:bg-surface hover:text-ink'
-                      }`}
-                  >
-                    {idx + 1}
-                  </button>
-                ))}
-              </div>
-              <button
-                onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-                disabled={currentPage === totalPages}
-                className="p-1.5 rounded-lg border border-hairline-strong text-steel hover:bg-surface hover:text-ink disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-              >
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={(p) => setCurrentPage(p)}
+            itemRange={{
+              start: (currentPage - 1) * itemsPerPage + 1,
+              end: Math.min(currentPage * itemsPerPage, filteredMembers.length),
+              total: filteredMembers.length,
+              itemLabel: 'members',
+            }}
+          />
         )}
       </div>
 
