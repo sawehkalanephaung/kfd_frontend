@@ -20,7 +20,7 @@ function EventCard({ post }: { post: NewsPost }) {
   const day = eventDate.getDate();
 
   return (
-    <div className="group flex flex-col md:flex-row bg-[#0f2318] border border-white/5 rounded-2xl overflow-hidden hover:border-brand-green-dark/40 transition-all hover:shadow-xl hover:shadow-card">
+    <div className="group flex flex-col md:flex-row bg-forest-800 border border-white/5 rounded-2xl overflow-hidden hover:border-brand-green-dark/40 transition-all hover:shadow-xl hover:shadow-card">
       
       {/* Calendar Block (Left) */}
       <div className="bg-canvas/5 border-r border-white/5 flex flex-col items-center justify-center p-6 md:w-32 shrink-0">
@@ -74,7 +74,7 @@ export default async function EventsPage() {
   const posts = data?.content || [];
 
   return (
-    <main className="min-h-screen bg-[#0b1a10] pt-20 pb-20">
+    <main className="min-h-screen bg-forest-950 pt-20 pb-20">
       <div className="container mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-12">
@@ -97,7 +97,7 @@ export default async function EventsPage() {
             ))}
           </div>
         ) : (
-          <div className="bg-[#0f2318] border border-white/5 rounded-2xl p-12 text-center">
+          <div className="bg-forest-800 border border-white/5 rounded-2xl p-12 text-center">
             <p className="text-white/40">There are currently no upcoming events scheduled.</p>
           </div>
         )}

@@ -59,7 +59,7 @@ export default function AboutHeroSection({
   }, { scope: sectionRef });
 
   return (
-    <section ref={sectionRef} className="relative w-full min-h-[600px] flex items-center bg-[#0d1f15] overflow-hidden">
+    <section ref={sectionRef} className="relative w-full min-h-[600px] flex items-center bg-forest-900 overflow-hidden">
       {/* Background Image */}
       <div ref={bgRef} className="absolute inset-0 z-0 w-full h-[130%] -top-[15%]">
         {displayImage ? (

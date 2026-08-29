@@ -98,7 +98,7 @@ export default async function NewsPage({ searchParams }: PageProps) {
   const totalPages = paginatedData?.totalPages ?? 1;
 
   return (
-    <main className="min-h-screen bg-[#0b1a10]">
+    <main className="min-h-screen bg-forest-950">
       {/* ── Header ──────────────────────────────────────────── */}
       <section className="relative pt-20 pb-12 px-4 sm:px-6 lg:px-8">
         <div className="container mx-auto max-w-5xl">
@@ -150,7 +150,7 @@ export default async function NewsPage({ searchParams }: PageProps) {
         {featured && currentPage === 0 && !activeCategory && (
           <Link
             href={`/news/${featured.slug}`}
-            className="group relative block w-full h-[420px] rounded-2xl overflow-hidden mb-12 shadow-2xl bg-[#0f2318]"
+            className="group relative block w-full h-[420px] rounded-2xl overflow-hidden mb-12 shadow-2xl bg-forest-800"
           >
             {featured.featuredImageUrl ? (
               <div
@@ -192,7 +192,7 @@ export default async function NewsPage({ searchParams }: PageProps) {
               <Link
                 key={post.id}
                 href={`/news/${post.slug}`}
-                className="group flex flex-col rounded-xl overflow-hidden bg-[#0f2318] border border-white/5 hover:border-brand-green-dark/40 transition-all  hover:shadow-xl hover:shadow-card"
+                className="group flex flex-col rounded-xl overflow-hidden bg-forest-800 border border-white/5 hover:border-brand-green-dark/40 transition-all  hover:shadow-xl hover:shadow-card"
               >
                 {/* Image */}
                 <div className="relative h-44 overflow-hidden bg-[#1a3024] flex items-center justify-center">
@@ -204,7 +204,7 @@ export default async function NewsPage({ searchParams }: PageProps) {
                   ) : (
                     <ImageIcon size={32} className="text-white/10" />
                   )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0f2318]/60 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-forest-800/60 to-transparent" />
                   {post.category && (
                     <div className="absolute top-3 left-3">
                       <span

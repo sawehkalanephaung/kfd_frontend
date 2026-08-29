@@ -41,7 +41,7 @@ export default async function HistoryPage() {
             style={{ backgroundImage: `url('${displayImage}')` }}
           />
         ) : (
-          <div className="absolute inset-0 bg-[#1a3626]" />
+          <div className="absolute inset-0 bg-forest" />
         )}
         <div className="absolute inset-0 bg-black/60" />
         
@@ -60,7 +60,7 @@ export default async function HistoryPage() {
             <div className="mb-12">
               <Link 
                 href="/about" 
-                className="inline-flex items-center gap-2 text-sm font-bold tracking-wider uppercase text-[#1a3626] hover:text-[#e5a93d] transition-colors group"
+                className="inline-flex items-center gap-2 text-sm font-bold tracking-wider uppercase text-forest hover:text-[#e5a93d] transition-colors group"
               >
                 <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
                 Back to About Us
@@ -70,7 +70,7 @@ export default async function HistoryPage() {
             {/* Prose Container */}
             <div className="bg-white p-8 md:p-12 lg:p-16 rounded-2xl shadow-xl shadow-black/5 border border-black/[0.03]">
               <div 
-                className="prose prose-lg md:prose-xl max-w-none prose-p:text-[#444] prose-p:leading-relaxed prose-headings:font-serif prose-headings:text-[#111] prose-a:text-[#1a3626] hover:prose-a:text-[#e5a93d] prose-li:marker:text-[#1a3626] prose-ul:list-[square] break-words whitespace-pre-wrap [&_*]:!bg-transparent"
+                className="prose prose-lg md:prose-xl max-w-none prose-p:text-[#444] prose-p:leading-relaxed prose-headings:font-serif prose-headings:text-[#111] prose-a:text-forest hover:prose-a:text-[#e5a93d] prose-li:marker:text-forest prose-ul:list-[square] break-words whitespace-pre-wrap [&_*]:!bg-transparent"
                 dangerouslySetInnerHTML={{ __html: sanitizedContent }}
               />
             </div>

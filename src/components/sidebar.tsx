@@ -313,8 +313,8 @@ export default function Sidebar({ initialOrgIdentity }: { initialOrgIdentity?: S
       {/* Sidebar Container — MongoDB brand-teal-deep */}
       <aside
         className={`fixed top-0 left-0 z-50 h-screen flex flex-col bg-teal-deep transition-all duration-300 ease-in-out
-          ${isOpen ? 'translate-x-0 w-[280px]' : '-translate-x-full md:translate-x-0'}
-          ${!isOpen && isCollapsed ? 'md:w-[80px]' : 'md:w-[280px]'}
+          ${isOpen ? 'translate-x-0 w-[var(--sidebar-width-expanded)]' : '-translate-x-full md:translate-x-0'}
+          ${!isOpen && isCollapsed ? 'md:w-[var(--sidebar-width-collapsed)]' : 'md:w-[var(--sidebar-width-expanded)]'}
         `}
       >
         {/* Header / Logo */}

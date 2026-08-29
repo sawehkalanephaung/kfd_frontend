@@ -111,7 +111,7 @@ export default function FAQSection({ faqs, status }: { faqs: any[]; status: 'ok'
                     className="w-full text-left px-8 py-6 flex items-center justify-between hover:bg-surface transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green"
                   >
                     <span className="font-bold text-ink pr-8">{faq.question}</span>
-                    <span className="text-[#1a3626] shrink-0">
+                    <span className="text-forest shrink-0">
                       {openIndex === index ? <Minus size={20} /> : <Plus size={20} />}
                     </span>
                   </button>

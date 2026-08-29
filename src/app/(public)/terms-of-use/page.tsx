@@ -36,7 +36,7 @@ export default async function TermsOfUsePage() {
           <div className="flex items-center gap-2 text-sm text-steel font-medium">
             <Link href="/" className="hover:text-teal-deep transition-colors">Home</Link>
             <ChevronRight size={14} />
-            <span className="text-[#1a3626]">Terms of Use</span>
+            <span className="text-forest">Terms of Use</span>
           </div>
         </div>
       </div>

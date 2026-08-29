@@ -142,8 +142,8 @@ export default async function NewsDetailPage({ params }: PageProps) {
     const day = eventDate.getDate();
 
     return (
-      <main className="min-h-screen bg-[#0b1a10]">
-        <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-[#0f2318] to-[#0b1a10]">
+      <main className="min-h-screen bg-forest-950">
+        <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-forest-800 to-forest-950">
           <div className="container mx-auto max-w-5xl">
             <div className="flex flex-col md:flex-row gap-10 items-start">
               {/* Massive Calendar Badge & Meta */}

@@ -12,7 +12,7 @@ export default function PublicLoading() {
     return (
       <div className="flex flex-col min-h-screen animate-in fade-in duration-500">
         {/* Hero Section Skeleton */}
-        <section className="relative w-full h-[600px] flex items-center overflow-hidden bg-[#0d1f15]">
+        <section className="relative w-full h-[600px] flex items-center overflow-hidden bg-forest-900">
           <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-2xl">
               <Skeleton className="h-14 w-full sm:w-3/4 mb-6 !bg-zinc-800/50" />
@@ -30,7 +30,7 @@ export default function PublicLoading() {
         </section>
 
         {/* Stats Section Skeleton */}
-        <section className="bg-[#132a1c] py-12 border-t border-[#1a3626]">
+        <section className="bg-forest-700 py-12 border-t border-forest">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-wrap justify-center gap-y-8 lg:gap-y-0 lg:divide-x lg:divide-green-800/50">
               {[1, 2, 3, 4].map((i) => (
@@ -128,7 +128,7 @@ export default function PublicLoading() {
   return (
     <div className="flex flex-col min-h-screen animate-in fade-in duration-500 bg-canvas">
       {/* Generic Hero Section Skeleton */}
-      <section className="relative w-full h-[350px] flex items-center bg-[#0d1f15] mb-12">
+      <section className="relative w-full h-[350px] flex items-center bg-forest-900 mb-12">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
           <Skeleton className="h-12 w-full max-w-2xl mb-6 !bg-zinc-800/50" />
           <Skeleton className="h-6 w-3/4 max-w-xl !bg-zinc-800/50" />

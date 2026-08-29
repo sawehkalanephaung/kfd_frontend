@@ -54,11 +54,11 @@ function Breadcrumb() {
     <div className="border-b border-[#e1e5e8] bg-[#f8faf9]">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-2 py-4 text-sm font-medium text-[#5c6c7a]">
-          <Link href="/" className="transition-colors hover:text-[#1a3626]">Home</Link>
+          <Link href="/" className="transition-colors hover:text-forest">Home</Link>
           <ChevronRight size={14} className="text-[#a8b3bc]" />
-          <Link href="/about" className="transition-colors hover:text-[#1a3626]">About Us</Link>
+          <Link href="/about" className="transition-colors hover:text-forest">About Us</Link>
           <ChevronRight size={14} className="text-[#a8b3bc]" />
-          <span className="text-[#1a3626]">Chairman</span>
+          <span className="text-forest">Chairman</span>
         </div>
       </div>
     </div>

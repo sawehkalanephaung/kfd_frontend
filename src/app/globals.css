@@ -25,6 +25,23 @@
   /* Semantic */
   --color-warning-bg: #fff8e0;
   --color-warning-text: #946f3f;
+  --color-danger: #d33a2c;
+  --color-danger-pressed: #b02e22;
+  --color-danger-bg: #fdecea;
+  --color-danger-text: #b3261e;
+  --color-success-bg: #e3fcef;
+  --color-success-text: #00684a;
+  --color-info-bg: #e8f1fb;
+  --color-info-text: #1d4ed8;
+
+  /* Public-site brand forest scale (institutional dark green used on
+     marketing hero/section backgrounds — fixed across light/dark app
+     theme, matching how it already rendered before these were tokens) */
+  --color-forest: #1a3626;
+  --color-forest-700: #132a1c;
+  --color-forest-800: #0f2318;
+  --color-forest-900: #0d1f15;
+  --color-forest-950: #0b1a10;
 
   /* Surfaces */
   --color-canvas: #ffffff;
@@ -45,13 +62,21 @@
   --color-slate: #3d4f5b;
   --color-steel: #5c6c7a;
   --color-stone: #7c8c9a;
-  --color-muted: #a8b3bc;
+  /* #647079 vs canvas #fff = 5.08:1, vs surface-soft #f4f7f6 = 4.71:1 —
+     both clear AA (4.5:1) for normal text. Previous value (#a8b3bc) was
+     ~2.1:1 and failed AA outright; see UI_ACCESSIBILITY_AUDIT A11Y-11. */
+  --color-muted: #647079;
   --color-on-dark: #ffffff;
   --color-on-dark-muted: #a8b3bc;
 
   /* Background / Foreground shortcuts */
   --background: var(--color-canvas);
   --foreground: var(--color-ink);
+
+  /* Sidebar (shared by sidebar.tsx + dashboard-layout-wrapper.tsx so the
+     two never drift out of sync) */
+  --sidebar-width-expanded: 280px;
+  --sidebar-width-collapsed: 80px;
 }
 
 /* ─── Dark Mode (MongoDB teal-deep canvas) ─── */
@@ -72,10 +97,20 @@
   --color-slate: #c1ccd6;
   --color-steel: #a8b3bc;
   --color-stone: #7c8c9a;
-  --color-muted: #5c6c7a;
+  /* #95a1ac vs canvas-dark #001e2b = 6.53:1, vs surface-dark #0a2c3a =
+     5.56:1 — both clear AA. Previous value (#5c6c7a) was ~2.7-3.2:1. */
+  --color-muted: #95a1ac;
 
   --color-warning-bg: #2a2000;
   --color-warning-text: #f5d780;
+  --color-danger: #e35d5b;
+  --color-danger-pressed: #ef7a78;
+  --color-danger-bg: #2a0e0d;
+  --color-danger-text: #f5a3a0;
+  --color-success-bg: #052e1b;
+  --color-success-text: #6ee7a8;
+  --color-info-bg: #0d2340;
+  --color-info-text: #93c5fd;
 
   --background: var(--color-canvas);
   --foreground: var(--color-ink);
@@ -123,6 +158,19 @@
   --color-on-dark-muted: var(--color-on-dark-muted);
   --color-warning-bg: var(--color-warning-bg);
   --color-warning-text: var(--color-warning-text);
+  --color-danger: var(--color-danger);
+  --color-danger-pressed: var(--color-danger-pressed);
+  --color-danger-bg: var(--color-danger-bg);
+  --color-danger-text: var(--color-danger-text);
+  --color-success-bg: var(--color-success-bg);
+  --color-success-text: var(--color-success-text);
+  --color-info-bg: var(--color-info-bg);
+  --color-info-text: var(--color-info-text);
+  --color-forest: var(--color-forest);
+  --color-forest-700: var(--color-forest-700);
+  --color-forest-800: var(--color-forest-800);
+  --color-forest-900: var(--color-forest-900);
+  --color-forest-950: var(--color-forest-950);
 
   /* Fonts */
   --font-sans: var(--font-jakarta);

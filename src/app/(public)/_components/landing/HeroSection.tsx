@@ -74,7 +74,7 @@ export default function HeroSection({ siteIdentity, homeContent }: { siteIdentit
   }, { scope: sectionRef });
 
   return (
-    <section ref={sectionRef} className="relative w-full h-[600px] flex items-center overflow-hidden bg-[#0d1f15]">
+    <section ref={sectionRef} className="relative w-full h-[600px] flex items-center overflow-hidden bg-forest-900">
       {/* Background images slider with Parallax wrapper */}
       <div ref={bgRef} className="absolute inset-0 z-0 w-full h-[130%] -top-[15%]">
         {images.length > 0 ? (
@@ -94,7 +94,7 @@ export default function HeroSection({ siteIdentity, homeContent }: { siteIdentit
             </div>
           ))
         ) : (
-          <div className="absolute inset-0 z-0 bg-[#0d1f15]">
+          <div className="absolute inset-0 z-0 bg-forest-900">
             <div className="absolute inset-0 bg-gradient-to-r from-teal-deep/90 via-teal-deep/70 to-transparent"></div>
           </div>
         )}

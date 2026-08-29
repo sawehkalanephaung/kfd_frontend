@@ -154,7 +154,7 @@ export default function AboutChairmanSection({ chairmanData }: { chairmanData?: 
             {chairman.id && (
               <Link
                 href={`/team/${chairman.id}`}
-                className="inline-flex items-center gap-2 font-bold px-6 py-3 transition-all border border-[#1a3626]/30 text-[#1a3626] hover:bg-[#1a3626]/5 text-sm uppercase tracking-wider w-fit rounded-md"
+                className="inline-flex items-center gap-2 font-bold px-6 py-3 transition-all border border-forest/30 text-forest hover:bg-forest/5 text-sm uppercase tracking-wider w-fit rounded-md"
               >
                 READ FULL PROFILE
               </Link>

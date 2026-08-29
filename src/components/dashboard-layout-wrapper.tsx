@@ -38,7 +38,7 @@ export default function DashboardLayoutWrapper({ children }: { children: React.R
     <main 
       className={`
         flex-1 p-4 md:p-8 w-full overflow-x-hidden transition-all duration-300 ease-in-out bg-surface
-        ${isCollapsed ? 'md:ml-[80px]' : 'md:ml-[280px]'}
+        ${isCollapsed ? 'md:ml-[var(--sidebar-width-collapsed)]' : 'md:ml-[var(--sidebar-width-expanded)]'}
       `}
     >
       {children}

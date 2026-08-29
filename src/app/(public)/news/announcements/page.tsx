@@ -73,7 +73,7 @@ export default async function AnnouncementsPage() {
   const posts = data?.content || [];
 
   return (
-    <main className="min-h-screen bg-[#0b1a10] pt-20 pb-20">
+    <main className="min-h-screen bg-forest-950 pt-20 pb-20">
       <div className="container mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-12">
@@ -96,7 +96,7 @@ export default async function AnnouncementsPage() {
             ))}
           </div>
         ) : (
-          <div className="bg-[#0f2318] border border-white/5 rounded-2xl p-12 text-center">
+          <div className="bg-forest-800 border border-white/5 rounded-2xl p-12 text-center">
             <p className="text-white/40">New announcements will be published here.</p>
           </div>
         )}

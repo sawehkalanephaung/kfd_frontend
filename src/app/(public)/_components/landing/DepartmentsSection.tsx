@@ -101,7 +101,7 @@ export default function DepartmentsSection({ departments, status }: { department
 
               {/* Content Section */}
               <div className="p-8 flex flex-col flex-grow">
-                <h3 className="text-lg font-bold text-[#1a3626] mb-4">{dept.title || dept.name}</h3>
+                <h3 className="text-lg font-bold text-forest mb-4">{dept.title || dept.name}</h3>
                 <p className="text-sm text-steel leading-relaxed flex-grow mb-8 line-clamp-4">
                   {extractPlainExcerpt(dept.bodyContent) || "A specialized unit within the Kawthoolei Forestry Department."}
                 </p>

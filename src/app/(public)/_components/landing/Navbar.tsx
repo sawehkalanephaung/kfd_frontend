@@ -80,9 +80,9 @@ export default async function Navbar() {
             )}
           </div>
           <div className="flex flex-col">
-            <span className="font-bold text-lg leading-none text-[#1a3626] tracking-tight">{organizationName}</span>
+            <span className="font-bold text-lg leading-none text-forest tracking-tight">{organizationName}</span>
             {organizationNameKaren && (
-              <span className="font-medium text-sm mt-1 text-[#1a3626]">{organizationNameKaren}</span>
+              <span className="font-medium text-sm mt-1 text-forest">{organizationNameKaren}</span>
             )}
           </div>
         </Link>
@@ -127,13 +127,13 @@ export default async function Navbar() {
           {/* Language Dropdown */}
           <div className="relative group">
             <div className="flex items-center gap-1 cursor-pointer hover:opacity-80 transition-opacity py-4" aria-label="Language">
-              <Globe className="w-5 h-5 text-[#1a3626]" />
+              <Globe className="w-5 h-5 text-forest" />
             </div>
 
             <div className="absolute top-full right-0 w-36 bg-canvas border border-hairline shadow-lg rounded-md overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 transform origin-top-right -translate-y-2 group-hover:translate-y-0">
               <div className="py-2">
                 <button
-                  className="block w-full text-left px-4 py-2 text-sm text-[#1a3626] font-medium bg-green-50 transition-colors"
+                  className="block w-full text-left px-4 py-2 text-sm text-forest font-medium bg-green-50 transition-colors"
                 >
                   English
                 </button>

@@ -65,14 +65,14 @@ export default async function DepartmentsPage() {
   return (
     <main className="min-h-screen bg-surface">
       {/* ── Hero Banner ─────────────────────────────────── */}
-      <section className="relative overflow-hidden bg-[#0f2318] py-20 md:py-28">
+      <section className="relative overflow-hidden bg-forest-800 py-20 md:py-28">
         {/* Background pattern */}
         <div
           className="absolute inset-0 opacity-10 flex items-center justify-center overflow-hidden pointer-events-none"
         >
           <TreePine size={400} className="text-white/10" />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0f2318]/80 to-[#0f2318]/95" />
+        <div className="absolute inset-0 bg-gradient-to-b from-forest-800/80 to-forest-800/95" />
 
         {/* Decorative blobs */}
         <div className="pointer-events-none absolute -top-32 -left-32 w-96 h-96 rounded-full bg-green-500/10 blur-3xl" />
@@ -181,7 +181,7 @@ export default async function DepartmentsPage() {
                     <div
                       className={`flex items-center justify-between pt-4 border-t border-hairline`}
                     >
-                      <span className="text-xs font-semibold text-[#1a3626] group-hover:text-green-700 transition-colors">
+                      <span className="text-xs font-semibold text-forest group-hover:text-green-700 transition-colors">
                         View Department
                       </span>
                       <div

@@ -36,7 +36,7 @@ export default async function PrivacyPolicyPage() {
           <div className="flex items-center gap-2 text-sm text-steel font-medium">
             <Link href="/" className="hover:text-teal-deep transition-colors">Home</Link>
             <ChevronRight size={14} />
-            <span className="text-[#1a3626]">Privacy Policy</span>
+            <span className="text-forest">Privacy Policy</span>
           </div>
         </div>
       </div>

@@ -101,7 +101,7 @@ export default function AboutContentSection({
             style={{ backgroundImage: `url('${displayImage}')` }}
           />
         ) : (
-          <div className="absolute inset-0 bg-gradient-to-br from-[#0d1f15] to-[#1a3626]" />
+          <div className="absolute inset-0 bg-gradient-to-br from-forest-900 to-forest" />
         )}
         {/* Lighter overlay to let the glassmorphism card stand out */}
         <div className="absolute inset-0 bg-black/30" />
@@ -125,7 +125,7 @@ export default function AboutContentSection({
 
   // ── Split variant: side-by-side image + text ──
   let sectionBg = "bg-canvas";
-  let titleColor = "text-[#1a3626]";
+  let titleColor = "text-forest";
   let textColor = "text-steel";
   let gradientFrom = "from-white";
 
@@ -133,10 +133,10 @@ export default function AboutContentSection({
     sectionBg = "bg-[#f7f9f7]";
     gradientFrom = "from-[#f7f9f7]";
   } else if (bgVariant === 'dark') {
-    sectionBg = "bg-[#1a3626]";
+    sectionBg = "bg-forest";
     titleColor = "text-white";
     textColor = "text-white/80";
-    gradientFrom = "from-[#1a3626]";
+    gradientFrom = "from-forest";
   }
 
   const contentBlock = (
@@ -150,7 +150,7 @@ export default function AboutContentSection({
       <div className="prose prose-lg max-w-none relative">
         <div
           ref={variant === 'text-only' ? textOnlyRef : null}
-          className={`text-base md:text-lg leading-relaxed prose-p:mb-4 ${textColor} ${shouldTruncate ? 'line-clamp-[6]' : ''} [&_img]:hidden break-words whitespace-pre-wrap [&_*]:!bg-transparent [&_*]:!text-inherit [&_ul]:list-[square] [&_li::marker]:text-[#1a3626] [&_li::marker]:text-sm`}
+          className={`text-base md:text-lg leading-relaxed prose-p:mb-4 ${textColor} ${shouldTruncate ? 'line-clamp-[6]' : ''} [&_img]:hidden break-words whitespace-pre-wrap [&_*]:!bg-transparent [&_*]:!text-inherit [&_ul]:list-[square] [&_li::marker]:text-forest [&_li::marker]:text-sm`}
           dangerouslySetInnerHTML={{ __html: sanitizedContent }}
         />
 
@@ -166,7 +166,7 @@ export default function AboutContentSection({
             href={buttonLink || "#"}
             className={`inline-flex items-center gap-2 font-bold px-6 py-3 transition-all border ${bgVariant === 'dark'
               ? 'border-white/30 text-white hover:bg-white/10'
-              : 'border-[#1a3626]/30 text-[#1a3626] hover:bg-[#1a3626]/5'
+              : 'border-forest/30 text-forest hover:bg-forest/5'
               } text-sm uppercase tracking-wider rounded-md`}
           >
             {buttonText}
@@ -178,7 +178,7 @@ export default function AboutContentSection({
             onClick={() => setIsExpanded(!isExpanded)}
             className={`inline-flex items-center gap-2 font-bold px-6 py-3 transition-all border ${bgVariant === 'dark'
               ? 'border-white/30 text-white hover:bg-white/10'
-              : 'border-[#1a3626]/30 text-[#1a3626] hover:bg-[#1a3626]/5'
+              : 'border-forest/30 text-forest hover:bg-forest/5'
               } text-sm uppercase tracking-wider rounded-md`}
           >
             {isExpanded ? (

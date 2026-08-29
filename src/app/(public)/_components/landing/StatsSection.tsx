@@ -67,7 +67,7 @@ export default function StatsSection({ metrics, status }: { metrics: any[]; stat
 
   if (status === 'error') {
     return (
-      <section className="bg-[#132a1c] text-white py-12 border-t border-[#1a3626]">
+      <section className="bg-forest-700 text-white py-12 border-t border-forest">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <ContentFallback variant="error" tone="dark" title="Statistics unavailable" message="We couldn't load the latest figures right now." />
         </div>
@@ -82,7 +82,7 @@ export default function StatsSection({ metrics, status }: { metrics: any[]; stat
   }));
 
   return (
-    <section className="bg-[#132a1c] text-white py-12 border-t border-[#1a3626]">
+    <section className="bg-forest-700 text-white py-12 border-t border-forest">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-wrap justify-center gap-y-8 lg:gap-y-0 lg:divide-x lg:divide-green-800/50">
           {displayStats.slice(0, 4).map((stat, index) => (
