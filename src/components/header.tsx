@@ -3,8 +3,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Bell, Menu, Mail, FileText, Check, ShieldAlert } from 'lucide-react';
 import { useSidebar } from '@/components/sidebar-context';
+import { SidebarToggleIcon } from '@/components/ui/sidebar-toggle-icon';
 import api from '@/lib/api';
 import Link from 'next/link';
+import GlobalCreateButton from '@/components/global-create-button';
 
 interface NotificationItem {
   id: string;
@@ -100,7 +102,7 @@ export default function Header() {
       try {
         const saved = localStorage.getItem('kfd_admin_notification_settings');
         if (saved) prefs = { ...prefs, ...JSON.parse(saved) };
-      } catch (e) {}
+      } catch (e) { }
 
       const newNotifs: NotificationItem[] = [];
       const now = new Date();
@@ -173,7 +175,7 @@ export default function Header() {
             allUsers.forEach((u: any) => {
               if (u.email) usersByEmail[u.email.toLowerCase()] = u.id;
             });
-          } catch (e) {}
+          } catch (e) { }
 
           failedLogs.forEach((log: any) => {
             const logDate = new Date(log.createdAt);
@@ -239,21 +241,22 @@ export default function Header() {
   };
 
   return (
-    <header className="flex items-center justify-between md:justify-end gap-3 mb-6 md:mb-8">
-      {/* Menu Button (Mobile Open / Desktop Collapse) */}
-      <button
-        onClick={() => {
-          if (typeof window !== 'undefined' && window.innerWidth < 768) {
-            setIsOpen(true);
-          } else {
-            setIsCollapsed(!isCollapsed);
-          }
-        }}
-        aria-label="Toggle sidebar"
-        className="mr-auto w-11 h-11 bg-canvas rounded-lg flex items-center justify-center shadow-subtle border border-hairline text-steel hover:text-brand-green-dark transition-colors outline-none focus-visible:ring-2 focus-visible:ring-brand-green"
-      >
-        <Menu className="w-5 h-5" aria-hidden="true" />
-      </button>
+    <header className="flex items-center justify-between gap-3 mt-4 mr-4 md:mt-8 md:mr-8 mb-6 md:mb-8">
+      <div className="flex items-center gap-3">
+        {/* Mobile Menu Button (Hidden on Desktop) */}
+        <button
+          onClick={() => setIsOpen(true)}
+          aria-label="Open sidebar"
+          className="md:hidden w-11 h-11 bg-canvas rounded-xl flex items-center justify-center shadow-subtle border border-hairline text-steel hover:text-brand-green-dark transition-colors outline-none focus-visible:ring-2 focus-visible:ring-brand-green active:scale-95"
+        >
+          <Menu className="w-5 h-5" aria-hidden="true" />
+        </button>
+
+        {/* Global Create Button (Hidden on Mobile for cleaner UI, or could be visible) */}
+        <div className="hidden md:block ml-4 md:ml-8">
+          <GlobalCreateButton userRoles={user?.roles || []} />
+        </div>
+      </div>
 
       <div className="flex items-center gap-3">
         {/* Search button removed because we are using individual page search bars */}
@@ -309,8 +312,8 @@ export default function Header() {
                     {notifications.map(notif => {
                       const style = NOTIF_STYLES[notif.type];
                       return (
-                        <Link 
-                          key={notif.id} 
+                        <Link
+                          key={notif.id}
                           href={notif.href}
                           onClick={(e) => {
                             if (notif.href === '#') {
