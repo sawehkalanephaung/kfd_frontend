@@ -1,7 +1,8 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { ArrowLeft, Calendar, MapPin, ArrowRight } from "lucide-react";
+import { Calendar, MapPin, ArrowRight } from "lucide-react";
 import { NewsPost, PaginatedPosts } from "../types";
+import { PageHero } from "@/components/ui/page-hero";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
@@ -74,21 +75,15 @@ export default async function EventsPage() {
   const posts = data?.content || [];
 
   return (
-    <main className="min-h-screen bg-forest-950 pt-20 pb-20">
-      <div className="container mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="mb-12">
-          <Link href="/news" className="inline-flex items-center gap-2 text-green-400 hover:text-brand-green text-sm font-medium mb-6 transition-colors">
-            <ArrowLeft size={16} /> Back to News
-          </Link>
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">
-            Upcoming Events
-          </h1>
-          <p className="text-base text-green-300/60 max-w-xl leading-relaxed">
-            Join us in our community programs, reforestation drives, and public workshops.
-          </p>
-        </div>
+    <main className="min-h-screen bg-forest-950">
+      <PageHero
+        title="Upcoming Events"
+        subtitle="Join us in our community programs, reforestation drives, and public workshops."
+        align="left"
+        backLink={{ href: "/news", label: "Back to News" }}
+      />
 
+      <div className="container mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 pt-12 pb-20">
         {/* Content */}
         {posts.length > 0 ? (
           <div className="space-y-6">

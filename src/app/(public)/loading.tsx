@@ -127,8 +127,8 @@ export default function PublicLoading() {
   // Show a generic skeleton for all other pages (About, Contact, etc.)
   return (
     <div className="flex flex-col min-h-screen animate-in fade-in duration-500 bg-canvas">
-      {/* Generic Hero Section Skeleton */}
-      <section className="relative w-full h-[350px] flex items-center bg-forest-900 mb-12">
+      {/* Generic Hero Section Skeleton — matches PageHero's bg-forest-950 base and responsive py-20 md:py-28 sizing (no fixed height) */}
+      <section className="relative w-full py-20 md:py-28 flex items-center bg-forest-950 mb-12">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
           <Skeleton className="h-12 w-full max-w-2xl mb-6 !bg-zinc-800/50" />
           <Skeleton className="h-6 w-3/4 max-w-xl !bg-zinc-800/50" />

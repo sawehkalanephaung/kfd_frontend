@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { getMediaUrl } from '@/lib/api';
 import { RESERVED_PAGE_SLUGS } from '@/lib/reserved-pages';
+import { PageHero } from '@/components/ui/page-hero';
 
 /**
  * Sole content of this page — a real failure throws so error.tsx offers a
@@ -33,24 +34,7 @@ export default async function HistoryPage() {
 
   return (
     <main className="flex flex-col min-h-screen bg-[#fafafa]">
-      {/* Hero Section */}
-      <section className="relative w-full h-[400px] md:h-[500px] flex items-center justify-center overflow-hidden">
-        {displayImage ? (
-          <div
-            className="absolute inset-0 bg-cover bg-center grayscale-[30%]"
-            style={{ backgroundImage: `url('${displayImage}')` }}
-          />
-        ) : (
-          <div className="absolute inset-0 bg-forest" />
-        )}
-        <div className="absolute inset-0 bg-black/60" />
-        
-        <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl md:text-6xl font-serif text-white mb-6 drop-shadow-lg tracking-wide">
-            {title}
-          </h1>
-        </div>
-      </section>
+      <PageHero title={title} titleFont="serif" imageUrl={displayImage} />
 
       {/* Article Content */}
       <section className="py-16 md:py-24">

@@ -1,7 +1,9 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, ChevronLeft, ChevronRight, Calendar, Tag, ImageIcon } from "lucide-react";
+import { ChevronLeft, ChevronRight, Calendar, Tag, ImageIcon } from "lucide-react";
 import { NewsPost, PostCategory, PaginatedPosts } from "./types";
+import { PageHero } from "@/components/ui/page-hero";
+import { Card } from "@/components/ui/card";
 
 export const metadata: Metadata = {
   title: "News & Announcements - Kawthoolei Forestry Department",
@@ -53,22 +55,6 @@ function formatDate(dateStr: string) {
   }).format(new Date(dateStr));
 }
 
-// Deterministic accent color per category name
-const CATEGORY_COLORS: Record<string, string> = {
-  "field update": "bg-amber-500/20 text-amber-300 border-amber-500/30",
-  "policy brief": "bg-sky-500/20 text-sky-300 border-sky-500/30",
-  "water systems": "bg-cyan-500/20 text-cyan-300 border-cyan-500/30",
-  conservation: "bg-green-500/20 text-green-300 border-green-500/30",
-  announcement: "bg-purple-500/20 text-purple-300 border-purple-500/30",
-  report: "bg-rose-500/20 text-rose-300 border-rose-500/30",
-  wildlife: "bg-orange-500/20 text-orange-300 border-orange-500/30",
-};
-
-function getCategoryColor(name?: string): string {
-  if (!name) return "bg-green-500/20 text-green-300 border-green-500/30";
-  return CATEGORY_COLORS[name.toLowerCase()] ?? "bg-brand-green/20 text-brand-green border-brand-green/30";
-}
-
 function getMediaUrl(url?: string | null): string {
   if (!url) return '';
   if (url.startsWith('http://') || url.startsWith('https://')) return url;
@@ -99,18 +85,11 @@ export default async function NewsPage({ searchParams }: PageProps) {
 
   return (
     <main className="min-h-screen bg-forest-950">
-      {/* ── Header ──────────────────────────────────────────── */}
-      <section className="relative pt-20 pb-12 px-4 sm:px-6 lg:px-8">
-        <div className="container mx-auto max-w-5xl">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">
-            The Living Archive
-          </h1>
-          <p className="text-base text-green-300/60 max-w-xl leading-relaxed">
-            Field dispatches, scientific reports, and updates from the conservation
-            frontlines in Kawthoolei.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        title="The Living Archive"
+        subtitle="Field dispatches, scientific reports, and updates from the conservation frontlines in Kawthoolei."
+        align="left"
+      />
 
       {/* ── Category Filter ─────────────────────────────────── */}
       {categories.length > 0 && (
@@ -168,9 +147,7 @@ export default async function NewsPage({ searchParams }: PageProps) {
 
             <div className="absolute bottom-0 left-0 right-0 p-8">
               {featured.category && (
-                <span
-                  className={`inline-block text-[10px] font-bold uppercase tracking-widest border px-2.5 py-1 rounded-full mb-3 ${getCategoryColor(featured.category.name)}`}
-                >
+                <span className="inline-block text-[10px] font-bold uppercase tracking-widest border border-white/20 bg-canvas/10 backdrop-blur-sm text-white px-2.5 py-1 rounded-full mb-3">
                   {featured.category.name}
                 </span>
               )}
@@ -190,56 +167,20 @@ export default async function NewsPage({ searchParams }: PageProps) {
         {/* ── Post Grid ─────────────────────────────────────── */}
         {gridPosts.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-14">
-            {(currentPage === 0 && !activeCategory ? gridPosts : posts).map((post, idx) => (
-              <Link
+            {(currentPage === 0 && !activeCategory ? gridPosts : posts).map((post) => (
+              <Card
                 key={post.id}
+                variant="dark"
                 href={`/news/${post.slug}`}
-                className="group flex flex-col rounded-xl overflow-hidden bg-forest-800 border border-white/5 hover:border-brand-green-dark/40 transition-all  hover:shadow-xl hover:shadow-card"
-              >
-                {/* Image */}
-                <div className="relative h-44 overflow-hidden bg-[#1a3024] flex items-center justify-center">
-                  {post.featuredImageUrl ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      src={getMediaUrl(post.featuredImageUrl)}
-                      alt={post.title}
-                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  ) : (
-                    <ImageIcon size={32} className="text-white/10" />
-                  )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-forest-800/60 to-transparent" />
-                  {post.category && (
-                    <div className="absolute top-3 left-3">
-                      <span
-                        className={`text-[9px] font-bold uppercase tracking-widest border px-2 py-0.5 rounded-full ${getCategoryColor(post.category.name)}`}
-                      >
-                        {post.category.name}
-                      </span>
-                    </div>
-                  )}
-                </div>
-
-                {/* Body */}
-                <div className="flex flex-col flex-1 p-5">
-                  <h3 className="text-sm font-bold text-white leading-snug mb-2 group-hover:text-brand-green transition-colors line-clamp-3">
-                    {post.title}
-                  </h3>
-                  <p className="text-xs text-white/50 leading-relaxed line-clamp-2 mb-4 flex-1">
-                    {post.excerpt}
-                  </p>
-
-                  <div className="flex items-center justify-between mt-auto pt-3 border-t border-white/5">
-                    <div className="flex items-center gap-1.5 text-[11px] text-white/40">
-                      <Calendar size={11} />
-                      {formatDate(post.publishedAt)}
-                    </div>
-                    <div className="text-green-400 group-hover:translate-x-1 transition-transform">
-                      <ArrowRight size={16} />
-                    </div>
-                  </div>
-                </div>
-              </Link>
+                imageUrl={post.featuredImageUrl ? getMediaUrl(post.featuredImageUrl) : null}
+                imageAlt={post.title}
+                badge={post.category?.name}
+                title={post.title}
+                titleAs="h3"
+                description={post.excerpt}
+                meta={[{ icon: Calendar, label: formatDate(post.publishedAt) }]}
+                metaStyle="inline"
+              />
             ))}
           </div>
         ) : (

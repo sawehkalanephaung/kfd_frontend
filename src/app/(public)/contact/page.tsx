@@ -4,6 +4,7 @@ import ContactForm from "./ContactForm";
 import FaqAccordion from "./FaqAccordion";
 import { ContentFallback } from "@/components/content-fallback";
 import { ContactSettings, Faq } from "./types";
+import { PageHero } from "@/components/ui/page-hero";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
@@ -54,22 +55,17 @@ export default async function ContactPage() {
   const hasAnyContactDetail = Boolean(address || phone || email || officeHours);
 
   return (
-    <main className="min-h-screen bg-[#05110a] pt-24 pb-20">
-      
-      {/* ── Hero Section ────────────────────────────────────── */}
-      <section className="px-4 sm:px-6 lg:px-8 mb-16 text-center max-w-3xl mx-auto">
-        <h1 className="text-4xl md:text-5xl font-serif text-white mb-6">
-          Get in Touch
-        </h1>
-        <p className="text-white/60">
-          We are here to support conservation efforts, answer your inquiries, and collaborate on preserving our environmental heritage.
-        </p>
-      </section>
+    <main className="min-h-screen bg-forest-950 pb-20">
+      <PageHero
+        title="Get in Touch"
+        subtitle="We are here to support conservation efforts, answer your inquiries, and collaborate on preserving our environmental heritage."
+        titleFont="serif"
+      />
 
       {/* ── Split Form & Direct Contact ─────────────────────── */}
-      <section className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto mb-24">
+      <section className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto mt-16 mb-24">
         <div className="flex flex-col lg:flex-row gap-8 items-start">
-          
+
           {/* Left: Form */}
           <div className="flex-1 w-full">
             <ContactForm settings={settings} />

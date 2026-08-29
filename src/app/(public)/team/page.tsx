@@ -1,6 +1,7 @@
-import Link from "next/link";
-import { User, ArrowRight } from "lucide-react";
+import { User } from "lucide-react";
 import { getMediaUrl } from "@/lib/api";
+import { PageHero } from "@/components/ui/page-hero";
+import { Card, type CardMetaItem } from "@/components/ui/card";
 
 /**
  * This page's whole purpose is the team roster, so a fetch failure throws
@@ -45,16 +46,10 @@ export default async function TeamDirectoryPage() {
 
   return (
     <main className="flex flex-col min-h-screen">
-      {/* Hero Section */}
-      <section className="bg-teal-deep text-white py-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/pattern.svg')] opacity-10"></div>
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">Our Chairman</h1>
-          <p className="text-xl text-on-dark-muted max-w-2xl mx-auto">
-            Meet the dedicated leadership and Chairmen of the Kawthoolei Forestry Department.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        title="Our Chairman"
+        subtitle="Meet the dedicated leadership and Chairmen of the Kawthoolei Forestry Department."
+      />
 
       {/* Team Grid */}
       <section className="py-24 bg-surface flex-1">
@@ -70,41 +65,24 @@ export default async function TeamDirectoryPage() {
                 const displayImage = imageUrl ? getMediaUrl(imageUrl) : null;
                 const name = `${member.firstName || ''} ${member.lastName || ''}`.trim();
                 const position = parseI18nField(member.title) || member.role || 'Member';
+                const meta: CardMetaItem[] | undefined = member.departmentName
+                  ? [{ label: member.departmentName }]
+                  : undefined;
 
                 return (
-                  <Link href={`/team/${member.id}`} key={member.id} className="group flex flex-col bg-canvas rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-hairline overflow-hidden transform ">
-                    {/* Image */}
-                    <div className="aspect-[4/5] bg-surface relative overflow-hidden">
-                      {displayImage ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                          src={displayImage}
-                          alt={name}
-                          className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        />
-                      ) : (
-                        <div className="absolute inset-0 flex items-center justify-center bg-surface">
-                          <User size={64} className="text-gray-300" />
-                        </div>
-                      )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    </div>
-
-                    {/* Content */}
-                    <div className="p-6 flex flex-col flex-1 relative">
-                      <h3 className="text-xl font-bold text-ink mb-1 group-hover:text-teal-deep transition-colors">{name}</h3>
-                      <p className="text-[#2a563c] font-medium text-sm mb-4">{position}</p>
-
-                      {member.departmentName && (
-                        <p className="text-steel text-xs mb-4 uppercase tracking-wider">{member.departmentName}</p>
-                      )}
-
-                      <div className="mt-auto flex items-center gap-2 text-sm font-bold tracking-wider uppercase text-muted group-hover:text-teal-deep transition-colors">
-                        View Profile
-                        <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-                      </div>
-                    </div>
-                  </Link>
+                  <Card
+                    key={member.id}
+                    href={`/team/${member.id}`}
+                    imageUrl={displayImage}
+                    imageAlt={name}
+                    imageAspect="portrait"
+                    fallbackIcon={User}
+                    title={name}
+                    description={position}
+                    meta={meta}
+                    metaStyle="inline"
+                    footerLabel="View Profile"
+                  />
                 );
               })}
             </div>

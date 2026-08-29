@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Bell, CalendarDays, ImageIcon } from "lucide-react";
+import { ArrowRight, Bell, CalendarDays } from "lucide-react";
 import { getMediaUrl } from "@/lib/api";
 import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { ContentFallback } from "@/components/content-fallback";
+import { Card } from "@/components/ui/card";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -111,42 +112,24 @@ export default function NewsSection({
                 const dateStr = item.publishedAt ? new Date(item.publishedAt).toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }) : item.date;
                 const catName = item.category?.name || item.category;
                 const imgUrl = item.featuredImageUrl ? getMediaUrl(item.featuredImageUrl) : item.featuredImage || item.image;
+                // Previously this card was a plain <div> with this link
+                // computed but never applied - the whole card was
+                // unclickable dead UI. Card fixes that as a side effect.
                 const itemLink = item.slug ? `/news/${item.slug}` : item.link;
 
                 return (
-                  <div key={item.id || index} className="flex flex-col group h-full gs-news-card">
-                    {/* Image */}
-                    <div className="relative w-full h-52 rounded-xl overflow-hidden mb-5 shrink-0 bg-surface flex items-center justify-center">
-                      {imgUrl ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                          src={imgUrl}
-                          alt={item.title}
-                          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        />
-                      ) : (
-                        <ImageIcon className="w-10 h-10 text-gray-300" />
-                      )}
-                    </div>
-
-                    {/* Meta */}
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-[11px] font-bold uppercase tracking-wider text-[#2a563c] bg-green-50 px-2.5 py-1 rounded-sm">
-                        {catName}
-                      </span>
-                      <span className="text-sm text-steel font-medium">
-                        {dateStr}
-                      </span>
-                    </div>
-
-                    {/* Content */}
-                    <h3 className="text-lg font-bold text-ink mb-3 leading-tight group-hover:text-brand-green-dark transition-colors line-clamp-2">
-                      {item.title}
-                    </h3>
-                    <p className="text-sm text-steel leading-relaxed flex-grow line-clamp-3 mb-4">
-                      {item.excerpt}
-                    </p>
-                  </div>
+                  <Card
+                    key={item.id || index}
+                    className="gs-news-card"
+                    href={itemLink}
+                    imageUrl={imgUrl}
+                    imageAlt={item.title}
+                    badge={catName}
+                    title={item.title}
+                    description={item.excerpt}
+                    meta={[{ icon: CalendarDays, label: dateStr }]}
+                    metaStyle="inline"
+                  />
                 );
               })}
             </div>

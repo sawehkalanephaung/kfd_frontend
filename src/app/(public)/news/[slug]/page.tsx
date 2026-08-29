@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { ArrowRight, User, Calendar, Share2, Bookmark, ImageIcon, Download } from "lucide-react";
 import { NewsPostDetail, NewsPost } from "../types";
 import { AnnouncementActions } from "./AnnouncementActions";
+import { Card } from "@/components/ui/card";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
@@ -83,45 +84,17 @@ function getMediaUrl(url?: string | null): string {
 
 function RelatedCard({ post }: { post: NewsPost }) {
   return (
-    <Link
+    <Card
       href={`/news/${post.slug}`}
-      className="group flex flex-col rounded-xl overflow-hidden bg-[#fdfaf5] shadow-sm hover:shadow-md transition-all "
-    >
-      <div className="relative h-56 overflow-hidden bg-surface flex items-center justify-center">
-        {post.featuredImageUrl ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={getMediaUrl(post.featuredImageUrl)}
-            alt={post.title}
-            className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-          />
-        ) : (
-          <ImageIcon className="w-10 h-10 text-gray-300" />
-        )}
-      </div>
-      <div className="p-6 flex flex-col flex-1">
-        {post.category && (
-          <div className="mb-3">
-            <span className="text-[10px] font-bold uppercase tracking-widest text-brand-green-dark">
-              {post.category.name}
-            </span>
-          </div>
-        )}
-        <h4 className="text-xl font-bold font-serif text-ink leading-snug mb-3 group-hover:text-brand-green-dark transition-colors line-clamp-2">
-          {post.title}
-        </h4>
-        <p className="text-sm text-steel font-sans line-clamp-3 mb-6 flex-1 leading-relaxed">
-          {post.excerpt}
-        </p>
-        <div className="flex items-center justify-between mt-auto pt-4 border-t border-hairline-strong/60">
-          <div className="flex items-center gap-1.5 text-xs text-steel font-sans">
-            <Calendar size={12} />
-            {formatDate(post.publishedAt)}
-          </div>
-          <ArrowRight size={14} className="text-brand-green-dark group-hover:translate-x-1 transition-transform" />
-        </div>
-      </div>
-    </Link>
+      imageUrl={post.featuredImageUrl ? getMediaUrl(post.featuredImageUrl) : null}
+      imageAlt={post.title}
+      badge={post.category?.name}
+      title={post.title}
+      titleAs="h4"
+      description={post.excerpt}
+      meta={[{ icon: Calendar, label: formatDate(post.publishedAt) }]}
+      metaStyle="inline"
+    />
   );
 }
 

@@ -9,6 +9,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { ContentFallback } from "@/components/content-fallback";
+import { Card } from "@/components/ui/card";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -68,7 +69,7 @@ export default function DepartmentsSection({ departments, status }: { department
           <h2 className="text-3xl font-bold text-black">Our Department Branches</h2>
           <Link
             href="/departments"
-            className="text-sm font-semibold text-black hover:text-black flex items-center gap-1 transition-colors group"
+            className="text-sm font-semibold text-ink hover:text-brand-green-dark flex items-center gap-1 transition-colors group"
           >
             View All Department Branches
             <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
@@ -81,41 +82,16 @@ export default function DepartmentsSection({ departments, status }: { department
         ) : (
         <div ref={containerRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {displayDepartments.slice(0, 4).map((dept, index) => (
-            <div
+            <Card
               key={dept.id || index}
-              className="bg-canvas border border-hairline rounded-lg shadow-sm hover:shadow-md transition-all flex flex-col h-full overflow-hidden"
-            >
-              {/* Image Section */}
-              <div className="relative h-48 bg-surface flex-shrink-0 border-b border-hairline">
-                {dept.heroImageUrl ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={getMediaUrl(dept.heroImageUrl)}
-                    alt={dept.title || dept.name}
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 hover:scale-105"
-                  />
-                ) : (
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <TreePine size={48} className="text-gray-200" />
-                  </div>
-                )}
-              </div>
-
-              {/* Content Section */}
-              <div className="p-8 flex flex-col flex-grow">
-                <h3 className="text-lg font-bold text-forest mb-4">{dept.title || dept.name}</h3>
-                <p className="text-sm text-steel leading-relaxed flex-grow mb-8 line-clamp-4">
-                  {extractPlainExcerpt(dept.bodyContent) || "A specialized unit within the Kawthoolei Forestry Department."}
-                </p>
-                <Link
-                  href={`/departments/${dept.slug}`}
-                  className="text-sm font-semibold text-ink hover:text-brand-green-dark inline-flex items-center gap-1 group w-fit transition-colors mt-auto"
-                >
-                  Explore
-                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </div>
-            </div>
+              href={`/departments/${dept.slug}`}
+              imageUrl={dept.heroImageUrl ? getMediaUrl(dept.heroImageUrl) : null}
+              imageAlt={dept.title || dept.name}
+              fallbackIcon={TreePine}
+              title={dept.title || dept.name}
+              description={extractPlainExcerpt(dept.bodyContent) || "A specialized unit within the Kawthoolei Forestry Department."}
+              footerLabel="Explore"
+            />
           ))}
         </div>
         )}
