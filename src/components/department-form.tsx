@@ -483,7 +483,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                 theme="snow"
                 value={richText}
                 onChange={(content) => setRichText(content)}
-                className="h-[400px] border-none"
+                className="h-[var(--editor-height-lg)] border-none"
                 placeholder="Enter department description..."
                 modules={{
                   toolbar: [

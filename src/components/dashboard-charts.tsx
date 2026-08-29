@@ -22,7 +22,10 @@ interface DashboardChartsProps {
   loading?: boolean;
 }
 
-const STATUS_COLORS = ['#10b981', '#f59e0b', '#9ca3af']; // Published (Green), Draft (Amber), Archived (Gray)
+// Matches Badge's success/warning/neutral tones (see src/components/ui/badge.tsx)
+// so a post's chart color and its status-pill color are the same green/amber/gray,
+// instead of this chart's own unrelated hex triplet.
+const STATUS_COLORS = ['var(--color-brand-green)', 'var(--color-warning-text)', 'var(--color-muted)']; // Published, Draft, Archived
 
 export default function DashboardCharts({ statusData, topPosts, loading = false }: DashboardChartsProps) {
   
@@ -44,14 +47,14 @@ export default function DashboardCharts({ statusData, topPosts, loading = false 
           ) : (
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={topPosts} layout="vertical" margin={{ top: 0, right: 30, left: 10, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="#f3f4f6" />
-                <XAxis type="number" axisLine={false} tickLine={false} tick={{ fill: '#6b7280', fontSize: 12 }} />
-                <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} tick={{ fill: '#6b7280', fontSize: 11 }} width={160} />
-                <Tooltip 
-                  cursor={{ fill: '#f9fafb' }}
-                  contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                <CartesianGrid strokeDasharray="3 3" horizontal={true} vertical={false} stroke="var(--color-hairline-soft)" />
+                <XAxis type="number" axisLine={false} tickLine={false} tick={{ fill: 'var(--color-steel)', fontSize: 12 }} />
+                <YAxis dataKey="name" type="category" axisLine={false} tickLine={false} tick={{ fill: 'var(--color-steel)', fontSize: 11 }} width={160} />
+                <Tooltip
+                  cursor={{ fill: 'var(--color-surface-soft)' }}
+                  contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', backgroundColor: 'var(--color-canvas)', color: 'var(--color-ink)' }}
                 />
-                <Bar dataKey="views" fill="#047857" radius={[0, 4, 4, 0]} barSize={24} />
+                <Bar dataKey="views" fill="var(--color-brand-green-dark)" radius={[0, 4, 4, 0]} barSize={24} />
               </BarChart>
             </ResponsiveContainer>
           )}
@@ -83,8 +86,8 @@ export default function DashboardCharts({ statusData, topPosts, loading = false 
                     <Cell key={`cell-${index}`} fill={STATUS_COLORS[index % STATUS_COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip 
-                  contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                <Tooltip
+                  contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', backgroundColor: 'var(--color-canvas)', color: 'var(--color-ink)' }}
                 />
                 <Legend 
                   verticalAlign="bottom" 

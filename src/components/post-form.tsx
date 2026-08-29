@@ -282,7 +282,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                 theme="snow"
                 value={formData.content}
                 onChange={(val) => setFormData({ ...formData, content: val })}
-                className="h-[350px] mb-10 text-black"
+                className="h-[var(--editor-height-md)] mb-10 text-black"
                 placeholder="Enter full post content..."
               />
             </div>

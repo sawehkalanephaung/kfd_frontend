@@ -346,7 +346,7 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
               theme="snow"
               value={formData.bio}
               onChange={(val) => setFormData({...formData, bio: val})}
-              className="h-[250px] mb-12 text-black"
+              className="h-[var(--editor-height-sm)] mb-12 text-black"
               placeholder="Enter member's biography..."
             />
           </div>

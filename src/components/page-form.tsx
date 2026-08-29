@@ -289,7 +289,7 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
               value={formData.content}
               onChange={(val) => setFormData({...formData, content: val})}
               modules={modules}
-              className="h-[400px] mb-12 text-black"
+              className="h-[var(--editor-height-lg)] mb-12 text-black"
               placeholder="Enter page content. HTML tags are supported."
             />
           </div>

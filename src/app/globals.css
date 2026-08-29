@@ -77,6 +77,14 @@
      two never drift out of sync) */
   --sidebar-width-expanded: 280px;
   --sidebar-width-collapsed: 80px;
+
+  /* Rich-text editor (ReactQuill) heights — a named 3-tier scale instead
+     of each *-form.tsx picking its own arbitrary pixel value. Sized to
+     the content each form actually holds, not forced identical:
+     short bio < post body < full page/department body. */
+  --editor-height-sm: 250px;
+  --editor-height-md: 350px;
+  --editor-height-lg: 400px;
 }
 
 /* ─── Dark Mode (MongoDB teal-deep canvas) ─── */
