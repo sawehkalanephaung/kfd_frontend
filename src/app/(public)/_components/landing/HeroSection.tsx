@@ -134,13 +134,13 @@ export default function HeroSection({ siteIdentity, homeContent }: { siteIdentit
           <div className="flex flex-wrap items-center gap-4">
             <Link
               href="/news"
-              className="bg-brand-green hover:bg-primary-deep text-on-primary font-medium px-8 py-3.5 rounded-full transition-colors"
+              className="bg-neon-green hover:bg-[#00C250] text-teal-deep font-medium px-8 py-3.5 rounded-full transition-all duration-200 ease-in-out"
             >
               Explore Our Work
             </Link>
             <Link
               href="/about"
-              className="bg-transparent border border-white text-white hover:bg-canvas/10 font-medium px-8 py-3.5 rounded-full transition-colors"
+              className="bg-transparent border border-white text-white hover:bg-canvas/10 font-medium px-8 py-3.5 rounded-full transition-all duration-200 ease-in-out"
             >
               About Us
             </Link>

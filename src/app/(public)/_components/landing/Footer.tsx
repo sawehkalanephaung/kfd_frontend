@@ -121,12 +121,12 @@ export default async function Footer() {
           <div>
             <h3 className="font-bold text-lg mb-6">QUICK LINKS</h3>
             <ul className="space-y-4">
-              <li><Link href="/" className="text-sm text-on-dark-muted hover:text-white transition-colors">Home</Link></li>
-              <li><Link href="/about" className="text-sm text-on-dark-muted hover:text-white transition-colors">About Us</Link></li>
-              <li><Link href="/departments" className="text-sm text-on-dark-muted hover:text-white transition-colors">Department Branches</Link></li>
-              <li><Link href="/news" className="text-sm text-on-dark-muted hover:text-white transition-colors">News & Announcements</Link></li>
-              <li><Link href="/resources" className="text-sm text-on-dark-muted hover:text-white transition-colors">Resources</Link></li>
-              <li><Link href="/contact" className="text-sm text-on-dark-muted hover:text-white transition-colors">Contact Us</Link></li>
+              <li><Link href="/" className="interactive-link-dark text-sm">Home</Link></li>
+              <li><Link href="/about" className="interactive-link-dark text-sm">About Us</Link></li>
+              <li><Link href="/departments" className="interactive-link-dark text-sm">Department Branches</Link></li>
+              <li><Link href="/news" className="interactive-link-dark text-sm">News & Announcements</Link></li>
+              <li><Link href="/resources" className="interactive-link-dark text-sm">Resources</Link></li>
+              <li><Link href="/contact" className="interactive-link-dark text-sm">Contact Us</Link></li>
             </ul>
           </div>
 
@@ -148,10 +148,10 @@ export default async function Footer() {
               || `Copyright © ${new Date().getFullYear()} ${organizationName}, All rights reserved.`}
           </p>
           <div className="flex flex-wrap items-center justify-center md:justify-end gap-x-6 gap-y-3">
-            <Link href="/privacy-policy" className="text-sm text-on-dark-muted hover:text-white transition-colors py-2 md:py-0">Privacy Policy</Link>
-            <Link href="/terms-of-use" className="text-sm text-on-dark-muted hover:text-white transition-colors py-2 md:py-0">Terms of Use</Link>
-            <Link href="/accessibility" className="text-sm text-on-dark-muted hover:text-white transition-colors py-2 md:py-0">Accessibility</Link>
-            <Link href="/contact" className="text-sm text-on-dark-muted hover:text-white transition-colors py-2 md:py-0">Contact</Link>
+            <Link href="/privacy-policy" className="interactive-link-dark text-sm py-2 md:py-0">Privacy Policy</Link>
+            <Link href="/terms-of-use" className="interactive-link-dark text-sm py-2 md:py-0">Terms of Use</Link>
+            <Link href="/accessibility" className="interactive-link-dark text-sm py-2 md:py-0">Accessibility</Link>
+            <Link href="/contact" className="interactive-link-dark text-sm py-2 md:py-0">Contact</Link>
           </div>
         </div>
       </div>

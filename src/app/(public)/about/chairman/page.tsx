@@ -51,14 +51,14 @@ function parseI18nField(val: any): string {
  *  under the same navigation. */
 function Breadcrumb() {
   return (
-    <div className="border-b border-[#e1e5e8] bg-[#f8faf9]">
+    <div className="border-b border-[#e1e5e8] bg-canvas">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-2 py-4 text-sm font-medium text-[#5c6c7a]">
-          <Link href="/" className="transition-colors hover:text-forest">Home</Link>
+          <Link href="/" className="transition-colors hover:text-brand-text">Home</Link>
           <ChevronRight size={14} className="text-[#a8b3bc]" />
-          <Link href="/about" className="transition-colors hover:text-forest">About Us</Link>
+          <Link href="/about" className="transition-colors hover:text-brand-text">About Us</Link>
           <ChevronRight size={14} className="text-[#a8b3bc]" />
-          <span className="text-forest">Chairman</span>
+          <span className="text-brand-text">Chairman</span>
         </div>
       </div>
     </div>

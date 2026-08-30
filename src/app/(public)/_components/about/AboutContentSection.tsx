@@ -125,13 +125,17 @@ export default function AboutContentSection({
 
   // ── Split variant: side-by-side image + text ──
   let sectionBg = "bg-canvas";
-  let titleColor = "text-forest";
+  // bg-canvas tracks the theme, so its title needs the theme-aware token.
+  // The 'light' branch below overrides back to text-forest because its
+  // background (#f7f9f7) is a fixed hex that never goes dark.
+  let titleColor = "text-brand-text";
   let textColor = "text-steel";
   let gradientFrom = "from-white";
 
   if (bgVariant === 'light') {
-    sectionBg = "bg-[#f7f9f7]";
-    gradientFrom = "from-[#f7f9f7]";
+    sectionBg = "bg-white";
+    titleColor = "text-forest";
+    gradientFrom = "from-white";
   } else if (bgVariant === 'dark') {
     sectionBg = "bg-forest";
     titleColor = "text-white";
@@ -166,7 +170,9 @@ export default function AboutContentSection({
             href={buttonLink || "#"}
             className={`inline-flex items-center gap-2 font-bold px-6 py-3 transition-all border ${bgVariant === 'dark'
               ? 'border-white/30 text-white hover:bg-white/10'
-              : 'border-forest/30 text-forest hover:bg-forest/5'
+              : bgVariant === 'light'
+                ? 'border-forest/30 text-forest hover:bg-forest/5'
+                : 'border-brand-text/30 text-brand-text hover:bg-brand-text/5'
               } text-sm uppercase tracking-wider rounded-md`}
           >
             {buttonText}
@@ -178,7 +184,9 @@ export default function AboutContentSection({
             onClick={() => setIsExpanded(!isExpanded)}
             className={`inline-flex items-center gap-2 font-bold px-6 py-3 transition-all border ${bgVariant === 'dark'
               ? 'border-white/30 text-white hover:bg-white/10'
-              : 'border-forest/30 text-forest hover:bg-forest/5'
+              : bgVariant === 'light'
+                ? 'border-forest/30 text-forest hover:bg-forest/5'
+                : 'border-brand-text/30 text-brand-text hover:bg-brand-text/5'
               } text-sm uppercase tracking-wider rounded-md`}
           >
             {isExpanded ? (

@@ -61,7 +61,7 @@ export default function DepartmentHero({ data }: { data: DepartmentData }) {
         <div className="flex flex-col gap-4 max-w-2xl min-w-0">
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-ink tracking-tight break-words">{data.name}</h1>
 
-          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4 text-sm font-medium text-forest">
+          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4 text-sm font-medium text-brand-text">
             {headName && (
               <div className="flex items-center gap-1.5 bg-green-50 px-3 py-1.5 rounded-full border border-green-100">
                 <User size={14} />

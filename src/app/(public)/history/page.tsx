@@ -33,7 +33,7 @@ export default async function HistoryPage() {
   const sanitizedContent = content ? content.replace(/&nbsp;/g, ' ') : '';
 
   return (
-    <main className="flex flex-col min-h-screen bg-[#fafafa]">
+    <main className="flex flex-col min-h-screen bg-white">
       <PageHero title={title} titleFont="serif" imageUrl={displayImage} />
 
       {/* Article Content */}

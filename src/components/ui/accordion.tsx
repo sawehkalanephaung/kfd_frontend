@@ -71,7 +71,7 @@ export function Accordion({ items, variant = 'light', defaultOpenIndex = null, c
                   className={`text-white/40 shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
                 />
               ) : (
-                <span className="text-forest shrink-0" aria-hidden="true">
+                <span className="text-brand-text shrink-0" aria-hidden="true">
                   {isOpen ? <Minus size={20} /> : <Plus size={20} />}
                 </span>
               )}

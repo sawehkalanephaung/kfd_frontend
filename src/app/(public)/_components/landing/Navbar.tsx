@@ -81,9 +81,9 @@ export default async function Navbar() {
             )}
           </div>
           <div className="flex flex-col">
-            <span className="font-bold text-lg leading-none text-forest tracking-tight">{organizationName}</span>
+            <span className="font-bold text-lg leading-none text-brand-text tracking-tight">{organizationName}</span>
             {organizationNameKaren && (
-              <span lang="ksw" className="font-medium text-sm mt-1 text-forest">{organizationNameKaren}</span>
+              <span lang="ksw" className="font-medium text-sm mt-1 text-brand-text">{organizationNameKaren}</span>
             )}
           </div>
         </Link>
@@ -97,7 +97,7 @@ export default async function Navbar() {
               <Link
                 key={link.name}
                 href={link.href}
-                className="text-sm font-medium text-slate hover:text-teal-deep transition-colors py-4"
+                className="interactive-link text-sm font-medium py-4"
               >
                 {link.name}
               </Link>

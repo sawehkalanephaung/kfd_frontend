@@ -53,7 +53,7 @@ export function NavDropdown({ name, href, items }: { name: string; href: string;
       <div className="flex items-center gap-0.5 py-4">
         <Link
           href={href}
-          className="text-sm font-medium text-slate hover:text-teal-deep transition-colors"
+          className="interactive-link text-sm font-medium py-4"
         >
           {name}
         </Link>
@@ -64,7 +64,7 @@ export function NavDropdown({ name, href, items }: { name: string; href: string;
           aria-controls={menuId}
           aria-label={`Toggle ${name} submenu`}
           onClick={() => setIsOpen((v) => !v)}
-          className="p-1 -m-0.5 rounded text-muted hover:text-teal-deep transition-colors outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40"
+          className="p-1 -m-0.5 rounded text-muted hover:text-interactive-hover transition-all duration-200 ease-in-out outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40"
         >
           <ChevronDown
             size={14}
@@ -88,7 +88,7 @@ export function NavDropdown({ name, href, items }: { name: string; href: string;
               key={item.name}
               href={item.href}
               onClick={() => setIsOpen(false)}
-              className="block px-4 py-2 text-sm text-slate hover:bg-surface-soft hover:text-teal-deep transition-colors outline-none focus-visible:bg-surface-soft focus-visible:text-teal-deep"
+              className="dropdown-row-hover block px-4 py-2 text-sm text-interactive hover:text-interactive-hover transition-all duration-200 ease-in-out outline-none focus-visible:bg-dropdown-hover focus-visible:text-interactive-hover"
             >
               {item.name}
             </Link>

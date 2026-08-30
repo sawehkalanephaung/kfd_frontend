@@ -33,7 +33,7 @@ export default function MobileMenu({ navLinks }: MobileMenuProps) {
       {/* Hamburger Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="p-2 text-slate hover:text-teal-deep transition-colors"
+        className="p-2 text-interactive hover:text-interactive-hover transition-all duration-200 ease-in-out"
         aria-label="Open menu"
       >
         <Menu className="w-6 h-6" />
@@ -60,7 +60,7 @@ export default function MobileMenu({ navLinks }: MobileMenuProps) {
         }`}
       >
         <div className="flex items-center justify-between p-4 border-b border-hairline">
-          <span id={titleId} className="font-bold text-lg text-forest">Menu</span>
+          <span id={titleId} className="font-bold text-lg text-brand-text">Menu</span>
           <button
             onClick={close}
             aria-label="Close menu"
@@ -77,7 +77,7 @@ export default function MobileMenu({ navLinks }: MobileMenuProps) {
                 <div>
                   <button
                     onClick={() => toggleDropdown(link.name)}
-                    className="w-full flex items-center justify-between px-4 py-3 text-base font-medium text-slate hover:bg-surface-soft hover:text-teal-deep rounded-xl transition-colors"
+                    className="w-full flex items-center justify-between px-4 py-3 text-base font-medium text-interactive hover:bg-dropdown-hover hover:text-interactive-hover rounded-xl transition-all duration-200 ease-in-out"
                   >
                     {link.name}
                     <ChevronDown 
@@ -95,7 +95,7 @@ export default function MobileMenu({ navLinks }: MobileMenuProps) {
                           key={subLink.name}
                           href={subLink.href}
                           onClick={() => setIsOpen(false)}
-                          className="block px-4 py-2.5 text-sm font-medium text-steel hover:text-teal-deep rounded-lg transition-colors"
+                          className="dropdown-row-hover block px-4 py-2.5 text-sm font-medium text-interactive hover:text-interactive-hover rounded-lg transition-all duration-200 ease-in-out"
                         >
                           {subLink.name}
                         </Link>
@@ -107,7 +107,7 @@ export default function MobileMenu({ navLinks }: MobileMenuProps) {
                 <Link
                   href={link.href}
                   onClick={() => setIsOpen(false)}
-                  className="block px-4 py-3 text-base font-medium text-slate hover:bg-surface-soft hover:text-teal-deep rounded-xl transition-colors"
+                  className="block px-4 py-3 text-base font-medium text-interactive hover:bg-dropdown-hover hover:text-interactive-hover rounded-xl transition-all duration-200 ease-in-out"
                 >
                   {link.name}
                 </Link>

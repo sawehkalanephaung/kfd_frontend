@@ -45,7 +45,7 @@ export function LanguageSwitcher() {
         aria-controls={menuId}
         aria-label="Change language"
         onClick={() => setIsOpen((v) => !v)}
-        className="flex items-center gap-1 py-4 text-forest hover:opacity-80 transition-opacity outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40 rounded"
+        className="flex items-center gap-1 py-4 text-brand-text hover:opacity-80 transition-opacity outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40 rounded"
       >
         <Globe className="w-5 h-5" aria-hidden="true" />
       </button>
@@ -62,7 +62,7 @@ export function LanguageSwitcher() {
           <button
             type="button"
             aria-current="true"
-            className="block w-full text-left px-4 py-2 text-sm text-forest font-medium bg-green-50 transition-colors"
+            className="dropdown-row-hover block w-full text-left px-4 py-2 text-sm text-forest font-medium bg-green-50 transition-all duration-200 ease-in-out"
           >
             English
           </button>
