@@ -105,7 +105,7 @@ export function Card({
         {badge && (
           <span
             className={`absolute top-3 left-3 text-[11px] font-bold uppercase tracking-wide px-2.5 py-1 rounded-full ${
-              isDark ? 'bg-canvas/10 text-white backdrop-blur-sm border border-white/20' : 'bg-canvas/90 text-forest backdrop-blur-sm shadow-sm'
+              isDark ? 'bg-canvas/10 text-white backdrop-blur-sm border border-white/20' : 'bg-canvas/90 text-brand-text backdrop-blur-sm shadow-sm'
             }`}
           >
             {badge}
@@ -157,7 +157,7 @@ export function Card({
             className={`flex items-center gap-1.5 text-sm font-semibold mt-4 pt-4 border-t transition-colors ${
               isDark
                 ? 'border-white/10 text-brand-green group-hover:text-white'
-                : 'border-hairline-soft text-forest group-hover:text-brand-green-dark'
+                : 'border-hairline-soft text-brand-text group-hover:text-brand-green-dark'
             }`}
           >
             {footerLabel}

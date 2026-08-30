@@ -86,14 +86,26 @@ api.interceptors.response.use(
   }
 );
 
+/**
+ * Resolves a stored media path (e.g. `/uploads/photo.jpg`) into a URL the browser can load.
+ *
+ * Always returns a *relative* URL. Unlike the axios instance above, this value is never
+ * fetched by Node — it only ever lands in `src`, `href` or `background-image`, which the
+ * browser resolves against its own origin, where the `/uploads/:path*` rewrite in
+ * next.config.ts forwards it to the backend.
+ *
+ * Deliberately does NOT branch on `typeof window`. Doing so emitted the backend's absolute
+ * URL during SSR and a relative one on the client, which React reports as a hydration
+ * mismatch — and React does not patch up mismatched attributes, so the server's URL sticks.
+ * In production that left every image pointing at the *visitor's* own localhost:8080.
+ *
+ * Absolute URLs (e.g. an S3/CDN bucket) are already loadable and pass through untouched.
+ */
 export const getMediaUrl = (url: string | null | undefined) => {
   if (!url) return '';
   if (url.startsWith('http://') || url.startsWith('https://')) return url;
-  
-  const isServer = typeof window === 'undefined';
-  const baseUrl = isServer ? (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080') : '';
-  
-  return `${baseUrl}${url.startsWith('/') ? '' : '/'}${url}`;
+
+  return url.startsWith('/') ? url : `/${url}`;
 };
 
 export default api;

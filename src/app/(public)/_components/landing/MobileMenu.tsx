@@ -60,7 +60,7 @@ export default function MobileMenu({ navLinks }: MobileMenuProps) {
         }`}
       >
         <div className="flex items-center justify-between p-4 border-b border-hairline">
-          <span id={titleId} className="font-bold text-lg text-forest">Menu</span>
+          <span id={titleId} className="font-bold text-lg text-brand-text">Menu</span>
           <button
             onClick={close}
             aria-label="Close menu"

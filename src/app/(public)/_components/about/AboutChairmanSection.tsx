@@ -108,7 +108,7 @@ export default function AboutChairmanSection({ chairmanData }: { chairmanData?: 
   const displayImage = chairman?.image ? getMediaUrl(chairman.image) : null;
 
   return (
-    <section ref={sectionRef} id="chairman" className="py-20 lg:py-28 bg-[#fafafa] overflow-hidden">
+    <section ref={sectionRef} id="chairman" className="py-20 lg:py-28 bg-white overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 max-w-5xl mx-auto items-center">
           {/* Portrait */}

@@ -31,12 +31,12 @@ export default async function PrivacyPolicyPage() {
 
   return (
     <main className="min-h-screen bg-canvas pt-20">
-      <div className="bg-[#f8faf9] border-b border-hairline py-4">
+      <div className="bg-canvas border-b border-hairline py-4">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-steel font-medium">
             <Link href="/" className="hover:text-teal-deep transition-colors">Home</Link>
             <ChevronRight size={14} />
-            <span className="text-forest">Privacy Policy</span>
+            <span className="text-brand-text">Privacy Policy</span>
           </div>
         </div>
       </div>

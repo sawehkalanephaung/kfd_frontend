@@ -45,7 +45,7 @@ export function LanguageSwitcher() {
         aria-controls={menuId}
         aria-label="Change language"
         onClick={() => setIsOpen((v) => !v)}
-        className="flex items-center gap-1 py-4 text-forest hover:opacity-80 transition-opacity outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40 rounded"
+        className="flex items-center gap-1 py-4 text-brand-text hover:opacity-80 transition-opacity outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40 rounded"
       >
         <Globe className="w-5 h-5" aria-hidden="true" />
       </button>

@@ -79,7 +79,7 @@ export default function AboutMissionVisionSection({ missionData, visionData }: {
   }, { scope: containerRef });
 
   return (
-    <section className="py-20 lg:py-28 bg-[#f4f4f4]">
+    <section className="py-20 lg:py-28 bg-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div ref={containerRef} className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 max-w-6xl mx-auto">
           {renderCard(missionData, "Our Mission")}
