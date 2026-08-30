@@ -73,7 +73,7 @@ export default function GlobalCreateButton({ userRoles = [], className = '' }: G
         onClick={() => setIsOpen(!isOpen)}
         aria-expanded={isOpen}
         aria-haspopup="true"
-        className="group inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-brand-green hover:bg-primary-deep text-on-primary font-semibold rounded-full transition-all duration-300 shadow-sm hover:shadow-lg hover:shadow-brand-green/30 active:scale-95 shrink-0 whitespace-nowrap text-[14px]"
+        className="group inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-primary hover:bg-primary-deep text-on-primary font-semibold rounded-full transition-all duration-200 ease-in-out shadow-sm hover:shadow-lg hover:shadow-primary/30 active:scale-95 shrink-0 whitespace-nowrap text-[14px]"
       >
         <Plus className={`w-5 h-5 shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-45' : 'group-hover:scale-110'}`} />
         <span>Create</span>
@@ -90,7 +90,7 @@ export default function GlobalCreateButton({ userRoles = [], className = '' }: G
                 key={index}
                 href={item.href}
                 onClick={() => setIsOpen(false)}
-                className="flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-ink hover:bg-surface-soft hover:text-brand-green-dark transition-colors"
+                className="dropdown-row-hover flex items-center gap-3 px-4 py-2.5 text-sm font-medium text-ink hover:text-brand-green-dark transition-all duration-200 ease-in-out"
               >
                 <item.icon className="w-4 h-4 text-steel" />
                 <span>{item.label}</span>

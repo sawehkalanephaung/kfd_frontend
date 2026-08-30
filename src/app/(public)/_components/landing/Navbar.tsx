@@ -97,7 +97,7 @@ export default async function Navbar() {
               <Link
                 key={link.name}
                 href={link.href}
-                className="text-sm font-medium text-slate hover:text-teal-deep transition-colors py-4"
+                className="interactive-link text-sm font-medium py-4"
               >
                 {link.name}
               </Link>

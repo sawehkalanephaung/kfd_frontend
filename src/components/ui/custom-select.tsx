@@ -190,12 +190,12 @@ export function CustomSelect({
                     role="option"
                     aria-selected={value === option.value}
                     onMouseEnter={() => setActiveIndex(index)}
-                    className={`flex items-center justify-between px-3 py-2 rounded-md cursor-pointer transition-colors ${
+                    className={`flex items-center justify-between px-3 py-2 rounded-md cursor-pointer transition-all duration-200 ease-in-out ${
                       index === activeIndex
-                        ? 'bg-surface-soft'
+                        ? 'bg-dropdown-hover'
                         : value === option.value
                         ? 'bg-brand-green-soft text-brand-green-dark'
-                        : 'hover:bg-surface-soft text-ink'
+                        : 'dropdown-row-hover text-ink'
                     } ${value === option.value && index === activeIndex ? 'text-brand-green-dark' : ''}`}
                     onClick={() => commitIndex(index)}
                   >

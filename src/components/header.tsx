@@ -321,7 +321,7 @@ export default function Header() {
                             }
                             setShowDropdown(false);
                           }}
-                          className="flex items-start gap-3 p-4 hover:bg-surface-soft transition-colors group relative"
+                          className="dropdown-row-hover flex items-start gap-3 p-4 transition-all duration-200 ease-in-out group relative"
                         >
                           <div className={`mt-0.5 w-9 h-9 rounded-full flex items-center justify-center shrink-0 ${style.bg} ${style.text} transition-transform group-hover:scale-105`}>
                             {style.icon}

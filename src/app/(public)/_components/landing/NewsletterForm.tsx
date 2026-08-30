@@ -74,7 +74,7 @@ export default function NewsletterForm() {
       <button
         type="submit"
         disabled={loading}
-        className="w-full bg-brand-green hover:bg-primary-deep text-on-primary font-medium py-2.5 rounded-full flex items-center justify-center gap-2 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+        className="w-full bg-neon-green hover:bg-[#00C250] text-teal-deep font-medium py-2.5 rounded-full flex items-center justify-center gap-2 transition-all duration-200 ease-in-out disabled:opacity-70 disabled:cursor-not-allowed"
       >
         {loading ? (
           <>

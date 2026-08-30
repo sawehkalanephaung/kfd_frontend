@@ -62,7 +62,7 @@ export function LanguageSwitcher() {
           <button
             type="button"
             aria-current="true"
-            className="block w-full text-left px-4 py-2 text-sm text-forest font-medium bg-green-50 transition-colors"
+            className="dropdown-row-hover block w-full text-left px-4 py-2 text-sm text-forest font-medium bg-green-50 transition-all duration-200 ease-in-out"
           >
             English
           </button>
