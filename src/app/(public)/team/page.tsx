@@ -48,7 +48,7 @@ export default async function TeamDirectoryPage() {
     <main className="flex flex-col min-h-screen">
       <PageHero
         title="Our Chairman"
-        subtitle="Meet the dedicated leadership and Chairmen of the Kawthoolei Forestry Department."
+        subtitle="Meet the dedicated leadership and Chairmen."
       />
 
       {/* Team Grid */}

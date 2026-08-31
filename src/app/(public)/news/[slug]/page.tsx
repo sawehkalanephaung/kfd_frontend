@@ -5,6 +5,7 @@ import { ArrowRight, User, Calendar, Share2, Bookmark, ImageIcon, Download } fro
 import { NewsPostDetail, NewsPost } from "../types";
 import { AnnouncementActions } from "./AnnouncementActions";
 import { Card } from "@/components/ui/card";
+import { ZoomableImage } from "@/components/ui/zoomable-image";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
@@ -109,6 +110,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
   const hasHeroImage = !!post.featuredImageUrl;
   const categorySlug = post.category?.slug?.toLowerCase();
   const metadata: any = (post as any).metadata || {};
+  const sliderUrls = post.sliderImageUrls || metadata.sliderImageUrls || [];
 
   // ── Event Layout ───────────────────────────────────────────────
   if (categorySlug === 'event') {
@@ -153,8 +155,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
               {/* Event Content */}
               <div className="w-full md:w-2/3">
                 {hasHeroImage ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
+                  <ZoomableImage
                     src={getMediaUrl(post.featuredImageUrl)}
                     alt={post.title}
                     className="w-full h-64 object-cover rounded-2xl shadow-2xl mb-8 border border-white/10"
@@ -187,11 +188,11 @@ export default async function NewsDetailPage({ params }: PageProps) {
   // ── Announcement Layout ─────────────────────────────────────────
   if (categorySlug === 'announcement') {
     return (
-      <main className="min-h-screen print:min-h-0 bg-[#f4f1ea] print:bg-transparent py-16 print:py-0 px-4 sm:px-6 lg:px-8 print:px-0">
+      <main className="min-h-screen print:min-h-0 bg-[#f4f1ea] dark:bg-canvas print:bg-transparent py-16 print:py-0 px-4 sm:px-6 lg:px-8 print:px-0">
         <div className="container mx-auto max-w-3xl">
           <div className="p-8 md:p-12 print:p-0 relative overflow-hidden text-ink">
             {/* Memo Header */}
-            <div className="border-b-2 border-gray-900 pb-8 mb-8 text-center relative flex flex-col items-center">
+            <div className="border-b-2 border-gray-900 dark:border-gray-500 pb-8 mb-8 text-center relative flex flex-col items-center">
               <div className="flex items-center gap-3 justify-center mb-2">
                 <h1 className="text-3xl md:text-4xl tracking-[0.2em] uppercase font-serif font-black">
                   Official Memorandum
@@ -201,7 +202,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
             </div>
 
             {/* Memo Meta Table */}
-            <div className="mb-10 font-sans text-sm border-b border-gray-300 pb-8">
+            <div className="mb-10 font-sans text-sm border-b border-gray-300 dark:border-hairline pb-8">
               <div className="grid grid-cols-12 gap-y-5">
                 <div className="col-span-3 font-bold text-charcoal uppercase tracking-widest text-xs flex items-center">TO:</div>
                 <div className="col-span-9 text-ink font-serif text-base">Public Record</div>
@@ -218,7 +219,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
             </div>
 
             {/* Memo Content */}
-            <div className="font-serif text-charcoal leading-loose text-lg pb-12 border-b border-gray-300">
+            <div className="font-serif text-charcoal leading-loose text-lg pb-12 border-b border-gray-300 dark:border-hairline">
               {post.content ? (
                 <div
                   className="prose prose-lg max-w-none break-words font-serif prose-p:text-charcoal prose-p:leading-loose prose-headings:text-ink prose-a:text-brand-green-dark"
@@ -245,7 +246,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
 
   // ── General Layout ──────────────────────────────────────────────
   return (
-    <main className="min-h-screen bg-[#f9f7f1]">
+    <main className="min-h-screen bg-[#f9f7f1] dark:bg-canvas">
       {/* ── Hero Header ─────────────────────────────────────── */}
       <section className="pt-20 pb-10 px-4 sm:px-6 lg:px-8">
         <div className="container mx-auto max-w-4xl text-center flex flex-col items-center">
@@ -277,14 +278,13 @@ export default async function NewsDetailPage({ params }: PageProps) {
       <section className="px-4 sm:px-6 lg:px-8 mb-16">
         <div className="container mx-auto max-w-5xl">
           {hasHeroImage ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
+            <ZoomableImage
               src={getMediaUrl(post.featuredImageUrl)}
               alt={post.title}
               className="w-full h-72 md:h-[500px] object-cover rounded-xl shadow-lg"
             />
           ) : (
-            <div className="w-full h-72 md:h-[500px] rounded-xl bg-gray-200 flex items-center justify-center shadow-inner">
+            <div className="w-full h-72 md:h-[500px] rounded-xl bg-gray-200 dark:bg-surface flex items-center justify-center shadow-inner">
               <ImageIcon className="w-16 h-16 text-muted" />
             </div>
           )}
@@ -301,7 +301,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
                 prose-headings:text-ink prose-headings:font-serif
                 prose-a:text-brand-green-dark prose-a:underline hover:prose-a:text-emerald-900
                 prose-strong:text-ink prose-strong:font-bold
-                prose-blockquote:bg-[#dce9d5] prose-blockquote:border-none prose-blockquote:px-8 prose-blockquote:py-6 prose-blockquote:rounded-lg prose-blockquote:text-emerald-900 prose-blockquote:italic prose-blockquote:font-serif prose-blockquote:font-medium
+                prose-blockquote:bg-[#dce9d5] dark:prose-blockquote:bg-surface-soft prose-blockquote:border-none prose-blockquote:px-8 prose-blockquote:py-6 prose-blockquote:rounded-lg prose-blockquote:text-emerald-900 dark:prose-blockquote:text-emerald-400 prose-blockquote:italic prose-blockquote:font-serif prose-blockquote:font-medium
                 prose-li:text-charcoal
                 first-letter:text-7xl first-letter:font-bold first-letter:text-brand-green-dark first-letter:mr-3 first-letter:float-left first-letter:leading-none"
               dangerouslySetInnerHTML={{ __html: post.content }}
@@ -314,10 +314,42 @@ export default async function NewsDetailPage({ params }: PageProps) {
             </div>
           )}
 
+          {/* ── Optional Gallery ───────────────────────────── */}
+          {sliderUrls.length > 0 && (
+            <div className="mt-16 border-t border-gray-200 dark:border-hairline pt-10">
+              <h3 className="text-xl font-serif font-bold text-ink mb-8 flex items-center gap-2 uppercase tracking-widest text-sm">
+                <ImageIcon className="w-4 h-4 text-steel" />
+                Additional Media
+              </h3>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                {sliderUrls.map((url: string, idx: number) => {
+                  // If odd number of images, make the first one span full width for an editorial look
+                  const isFeatured = sliderUrls.length % 2 !== 0 && idx === 0;
+                  
+                  return (
+                    <div 
+                      key={idx} 
+                      className={`relative aspect-[4/3] rounded-xl overflow-hidden bg-gray-100 dark:bg-surface ${
+                        isFeatured ? 'sm:col-span-2 aspect-[16/9] sm:aspect-[21/9]' : ''
+                      }`}
+                    >
+                      <ZoomableImage 
+                        src={getMediaUrl(url)} 
+                        alt={`Gallery image ${idx + 1}`}
+                        className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
           {/* Author Bio & Tags */}
-          <div className="mt-20 border-t border-gray-300 pt-10 font-sans">
+          <div className="mt-20 border-t border-gray-300 dark:border-hairline pt-10 font-sans">
             <div className="flex items-center gap-4 mb-8">
-              <div className="w-12 h-12 rounded-full bg-gray-300 flex-shrink-0 overflow-hidden shadow-sm flex items-center justify-center">
+              <div className="w-12 h-12 rounded-full bg-gray-300 dark:bg-surface-soft flex-shrink-0 overflow-hidden shadow-sm flex items-center justify-center">
                 <User className="w-6 h-6 text-steel" />
               </div>
               <div>
@@ -332,7 +364,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
                 {post.tags.map((tag) => (
                   <span
                     key={tag.id}
-                    className="text-[13px] text-steel font-serif bg-[#e4e0d4] border border-[#d2ccbf] px-4 py-1.5 rounded-md"
+                    className="text-[13px] text-steel font-serif bg-[#e4e0d4] dark:bg-surface-soft border border-[#d2ccbf] dark:border-hairline px-4 py-1.5 rounded-md"
                   >
                     #{tag.name}
                   </span>
@@ -345,7 +377,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
 
       {/* ── Related Topics ───────────────────────────────────── */}
       {post.relatedPosts && post.relatedPosts.length > 0 ? (
-        <section className="px-4 sm:px-6 lg:px-8 py-20 bg-[#ece9df]">
+        <section className="px-4 sm:px-6 lg:px-8 py-20 bg-[#ece9df] dark:bg-surface-soft">
           <div className="container mx-auto max-w-6xl">
             <div className="flex items-center justify-between mb-12">
               <h2 className="text-2xl font-bold font-serif text-ink">Related Stories</h2>
@@ -369,7 +401,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
           <div className="container mx-auto max-w-5xl flex justify-center">
             <Link
               href="/news"
-              className="flex items-center gap-2 border border-gray-300 text-steel hover:text-ink hover:border-gray-500 font-semibold px-8 py-3 rounded-full text-sm transition-all"
+              className="flex items-center gap-2 border border-gray-300 dark:border-hairline text-steel hover:text-ink hover:border-gray-500 font-semibold px-8 py-3 rounded-full text-sm transition-all"
             >
               View All News
               <ArrowRight size={15} />

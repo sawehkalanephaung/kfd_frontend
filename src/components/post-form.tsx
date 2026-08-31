@@ -156,6 +156,10 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
       departmentId: formData.departmentId || null,
       featuredImageUrl: formData.featuredImageUrl?.trim() || null,
       sliderImageIds: formData.sliderImageIds ? formData.sliderImageIds.split(',').map((id: string) => id.trim()).filter(Boolean) : [],
+      metadata: {
+        ...(formData.metadata || {}),
+        sliderImageUrls: sliderPreviews.map(p => p.url).filter(Boolean)
+      }
     };
 
     try {
@@ -395,7 +399,20 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                   <CustomSelect
                     {...fieldProps}
                     value={formData.categoryId}
-                    onChange={(val) => setFormData({ ...formData, categoryId: val })}
+                    onChange={(val) => {
+                      const newCat = categories.find(c => c.id.toString() === val);
+                      const isNoSliderCat = newCat && (newCat.name.toLowerCase() === 'event' || newCat.name.toLowerCase() === 'announcement');
+                      
+                      setFormData(prev => ({ 
+                        ...prev, 
+                        categoryId: val,
+                        sliderImageIds: isNoSliderCat ? '' : prev.sliderImageIds
+                      }));
+                      
+                      if (isNoSliderCat) {
+                        setSliderPreviews([]);
+                      }
+                    }}
                     placeholder="Select a Category"
                     options={categories.map((cat: any) => ({ value: cat.id.toString(), label: cat.name }))}
                     clearable
@@ -509,16 +526,20 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
               />
             </div>
           </div>
-
         </div>
       </div>
 
       {/* Slider Images Card (Bottom) */}
-      <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft mb-6">
-        <h2 className="text-lg font-bold text-ink mb-6 flex items-center gap-2">
-          <ImageIcon className="w-5 h-5 text-muted" />
-          Slider Images (Optional Gallery)
-        </h2>
+      {!(
+        selectedCategory && 
+        (selectedCategory.name.toLowerCase() === 'event' || selectedCategory.name.toLowerCase() === 'announcement') &&
+        sliderPreviews.length === 0
+      ) && (
+        <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft mb-6">
+          <h2 className="text-lg font-bold text-ink mb-6 flex items-center gap-2">
+            <ImageIcon className="w-5 h-5 text-muted" />
+            Slider Images (Optional Gallery)
+          </h2>
         
         <div className="space-y-4">
           <div className="flex items-center justify-between">
@@ -579,6 +600,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
           )}
         </div>
       </div>
+      )}
 
       <MediaSelector
         isOpen={isMediaSelectorOpen}

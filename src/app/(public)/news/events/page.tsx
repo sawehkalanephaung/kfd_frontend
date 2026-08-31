@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { Calendar, MapPin, ArrowRight } from "lucide-react";
+import { Calendar, MapPin, ArrowRight, ArrowLeft } from "lucide-react";
 import { NewsPost, PaginatedPosts } from "../types";
 import { PageHero } from "@/components/ui/page-hero";
 
@@ -16,9 +16,12 @@ async function getEvents(): Promise<PaginatedPosts | null> {
 }
 
 function EventCard({ post }: { post: NewsPost }) {
-  const eventDate = new Date(post.publishedAt || post.createdAt);
+  const eventDateStr = post.metadata?.eventDate || post.publishedAt || post.createdAt;
+  const eventDate = new Date(eventDateStr);
   const month = eventDate.toLocaleString('en-US', { month: 'short' });
   const day = eventDate.getDate();
+  const eventTime = post.metadata?.eventTime || "Time TBD";
+  const eventLocation = post.metadata?.eventLocation || "KFD Jurisdiction";
 
   return (
     <div className="group flex flex-col md:flex-row bg-forest-800 border border-white/5 rounded-2xl overflow-hidden hover:border-brand-green-dark/40 transition-all hover:shadow-xl hover:shadow-card">
@@ -42,11 +45,11 @@ function EventCard({ post }: { post: NewsPost }) {
         <div className="flex flex-wrap items-center gap-4 mt-auto">
           <div className="flex items-center gap-1.5 text-xs text-white/40">
             <Calendar size={14} />
-            <span>Time TBD</span> {/* We could parse this from content or add a field later */}
+            <span>{eventTime}</span>
           </div>
           <div className="flex items-center gap-1.5 text-xs text-white/40">
             <MapPin size={14} />
-            <span>KFD Jurisdiction</span>
+            <span>{eventLocation}</span>
           </div>
         </div>
       </div>
@@ -76,13 +79,21 @@ export default async function EventsPage() {
 
   return (
     <main className="min-h-screen bg-forest-950">
-      <PageHero
-        title="Upcoming Events"
-        subtitle="Join us in our community programs, reforestation drives, and public workshops."
-        align="left"
-        backLink={{ href: "/news", label: "Back to News" }}
-      />
-
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-8 max-w-5xl">
+        <Link
+          href="/news"
+          className="inline-flex items-center gap-1.5 text-sm font-bold uppercase tracking-wider text-green-400 hover:text-brand-green transition-colors mb-6 group"
+        >
+          <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
+          Back to News
+        </Link>
+        <h1 className="text-4xl md:text-5xl font-bold font-sans text-white tracking-tight">
+          Upcoming Events
+        </h1>
+        <p className="mt-4 text-lg text-white/60 max-w-2xl">
+          Join us in our community programs, reforestation drives, and public workshops.
+        </p>
+      </div>
       <div className="container mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 pt-12 pb-20">
         {/* Content */}
         {posts.length > 0 ? (

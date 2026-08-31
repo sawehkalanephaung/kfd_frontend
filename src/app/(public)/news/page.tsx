@@ -85,12 +85,14 @@ export default async function NewsPage({ searchParams }: PageProps) {
 
   return (
     <main className="min-h-screen bg-forest-950">
-      <PageHero
-        title="The Living Archive"
-        subtitle="Field dispatches, scientific reports, and updates from the conservation frontlines in Kawthoolei."
-        align="left"
-      />
-
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-8 max-w-5xl">
+        <h1 className="text-4xl md:text-5xl font-bold font-sans text-white tracking-tight">
+          News & Updates
+        </h1>
+        <p className="mt-4 text-lg text-white/60 max-w-2xl">
+          Official updates, activities and news from Department.
+        </p>
+      </div>
       {/* ── Category Filter ─────────────────────────────────── */}
       {categories.length > 0 && (
         <section className="px-4 sm:px-6 lg:px-8 pb-8">
@@ -98,11 +100,10 @@ export default async function NewsPage({ searchParams }: PageProps) {
             <div className="flex flex-wrap gap-2">
               <Link
                 href="/news"
-                className={`px-4 py-1.5 rounded-full text-xs font-semibold border transition-all ${
-                  !activeCategory
-                    ? "bg-green-500 text-white border-green-400"
-                    : "bg-canvas/5 text-white/60 border-white/10 hover:border-white/30 hover:text-white"
-                }`}
+                className={`px-4 py-1.5 rounded-full text-xs font-semibold border transition-all ${!activeCategory
+                  ? "bg-green-500 text-white border-green-400"
+                  : "bg-canvas/5 text-white/60 border-white/10 hover:border-white/30 hover:text-white"
+                  }`}
               >
                 All
               </Link>
@@ -110,11 +111,10 @@ export default async function NewsPage({ searchParams }: PageProps) {
                 <Link
                   key={cat.id}
                   href={`/news?category=${cat.slug}`}
-                  className={`px-4 py-1.5 rounded-full text-xs font-semibold border transition-all ${
-                    activeCategory === cat.slug
-                      ? "bg-green-500 text-white border-green-400"
-                      : "bg-canvas/5 text-white/60 border-white/10 hover:border-white/30 hover:text-white"
-                  }`}
+                  className={`px-4 py-1.5 rounded-full text-xs font-semibold border transition-all ${activeCategory === cat.slug
+                    ? "bg-green-500 text-white border-green-400"
+                    : "bg-canvas/5 text-white/60 border-white/10 hover:border-white/30 hover:text-white"
+                    }`}
                 >
                   {cat.name}
                 </Link>
@@ -200,45 +200,42 @@ export default async function NewsPage({ searchParams }: PageProps) {
           {/* Prev */}
           <Link
             href={currentPage > 0 ? `/news?page=${currentPage - 1}${activeCategory ? `&category=${activeCategory}` : ""}` : "#"}
-              aria-disabled={currentPage === 0}
-              className={`w-9 h-9 rounded-full flex items-center justify-center border transition-all ${
-                currentPage === 0
-                  ? "border-white/10 text-white/20 pointer-events-none"
-                  : "border-white/20 text-white/60 hover:border-white/40 hover:text-white"
+            aria-disabled={currentPage === 0}
+            className={`w-9 h-9 rounded-full flex items-center justify-center border transition-all ${currentPage === 0
+              ? "border-white/10 text-white/20 pointer-events-none"
+              : "border-white/20 text-white/60 hover:border-white/40 hover:text-white"
               }`}
-            >
-              <ChevronLeft size={16} />
-            </Link>
+          >
+            <ChevronLeft size={16} />
+          </Link>
 
-            {/* Pages */}
-            {Array.from({ length: Math.min(totalPages, 7) }, (_, i) => {
-              const p = i;
-              const isActive = p === currentPage;
-              return (
-                <Link
-                  key={p}
-                  href={`/news?page=${p}${activeCategory ? `&category=${activeCategory}` : ""}`}
-                  className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium border transition-all ${
-                    isActive
-                      ? "bg-green-500 border-green-400 text-white shadow-lg shadow-green-900/40"
-                      : "border-white/10 text-white/50 hover:border-white/30 hover:text-white"
+          {/* Pages */}
+          {Array.from({ length: Math.min(totalPages, 7) }, (_, i) => {
+            const p = i;
+            const isActive = p === currentPage;
+            return (
+              <Link
+                key={p}
+                href={`/news?page=${p}${activeCategory ? `&category=${activeCategory}` : ""}`}
+                className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium border transition-all ${isActive
+                  ? "bg-green-500 border-green-400 text-white shadow-lg shadow-green-900/40"
+                  : "border-white/10 text-white/50 hover:border-white/30 hover:text-white"
                   }`}
-                >
-                  {p + 1}
-                </Link>
-              );
-            })}
+              >
+                {p + 1}
+              </Link>
+            );
+          })}
 
-            {/* Next */}
-            <Link
-              href={currentPage < totalPages - 1 ? `/news?page=${currentPage + 1}${activeCategory ? `&category=${activeCategory}` : ""}` : "#"}
-              aria-disabled={currentPage >= totalPages - 1}
-              className={`w-9 h-9 rounded-full flex items-center justify-center border transition-all ${
-                currentPage >= totalPages - 1
-                  ? "border-white/10 text-white/20 pointer-events-none"
-                  : "border-white/20 text-white/60 hover:border-white/40 hover:text-white"
+          {/* Next */}
+          <Link
+            href={currentPage < totalPages - 1 ? `/news?page=${currentPage + 1}${activeCategory ? `&category=${activeCategory}` : ""}` : "#"}
+            aria-disabled={currentPage >= totalPages - 1}
+            className={`w-9 h-9 rounded-full flex items-center justify-center border transition-all ${currentPage >= totalPages - 1
+              ? "border-white/10 text-white/20 pointer-events-none"
+              : "border-white/20 text-white/60 hover:border-white/40 hover:text-white"
               }`}
-            >
+          >
             <ChevronRight size={16} />
           </Link>
         </div>

@@ -90,12 +90,12 @@ export default function PublicationsExplorer({ publications, categories }: Props
   };
 
   const Thumbnail = ({ pub, className }: { pub: PublicationItem; className: string }) => (
-    <div className={`relative bg-[#eef1f5] flex items-center justify-center flex-shrink-0 ${className}`}>
+    <div className={`relative bg-[#eef1f5] dark:bg-surface flex items-center justify-center flex-shrink-0 ${className}`}>
       {pub.thumbnailUrl ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={getMediaUrl(pub.thumbnailUrl)} alt={pub.title} className="absolute inset-0 w-full h-full object-cover" />
       ) : (
-        <FileText size={28} className="text-[#9aa6ba]" />
+        <FileText size={28} className="text-[#9aa6ba] dark:text-steel" />
       )}
       {pub.category && (
         <div className="absolute top-3 left-3">
@@ -108,76 +108,76 @@ export default function PublicationsExplorer({ publications, categories }: Props
   );
 
   return (
-    <div className={`${publicSans.className} bg-[#F9FBFA] text-[#1a2231]`}>
+    <div className={`${publicSans.className} bg-[#F9FBFA] dark:bg-canvas text-[#1a2231] dark:text-white`}>
       <div className="max-w-[1280px] mx-auto px-5 sm:px-7 py-8 pb-16 grid grid-cols-1 lg:grid-cols-[236px_minmax(0,1fr)] gap-8 lg:gap-10 items-start">
 
         {/* sidebar */}
         <aside>
           <div className="flex items-baseline justify-between mb-5">
-            <h2 className="m-0 text-2xl font-extrabold text-[#00684A] tracking-tight">Filters</h2>
-            <button onClick={resetFilters} className="text-[13px] text-[#8290a6] font-medium hover:text-[#00684A] transition-colors">
+            <h2 className="m-0 text-2xl font-extrabold text-[#00684A] dark:text-brand-green tracking-tight">Filters</h2>
+            <button onClick={resetFilters} className="text-[13px] text-[#8290a6] font-medium hover:text-[#00684A] dark:hover:text-brand-green transition-colors">
               Reset filters
             </button>
           </div>
 
           {/* Category */}
-          <div className="border-t border-[#e4e8ef] py-4">
+          <div className="border-t border-[#e4e8ef] dark:border-hairline py-4">
             <div className="flex items-center justify-between mb-3">
-              <span className="text-sm font-bold text-[#023430] tracking-wide">Category</span>
+              <span className="text-sm font-bold text-[#023430] dark:text-white tracking-wide">Category</span>
             </div>
-            <label className="flex items-center gap-2.5 py-1.5 cursor-pointer text-sm" style={{ color: categorySlug === '' ? '#00684A' : '#1a2231', fontWeight: categorySlug === '' ? 600 : 500 }}>
-              <input type="radio" checked={categorySlug === ''} onChange={() => { setCategorySlug(''); setPage(1); }} className="accent-[#00684A] w-[17px] h-[17px]" />
+            <label className={`flex items-center gap-2.5 py-1.5 cursor-pointer text-sm ${categorySlug === '' ? 'text-[#00684A] dark:text-brand-green font-semibold' : 'text-[#1a2231] dark:text-white/80 font-medium'}`}>
+              <input type="radio" checked={categorySlug === ''} onChange={() => { setCategorySlug(''); setPage(1); }} className="accent-[#00684A] dark:accent-brand-green w-[17px] h-[17px]" />
               All Categories
             </label>
             {categories.map(cat => (
-              <label key={cat.id} className="flex items-center gap-2.5 py-1.5 cursor-pointer text-sm" style={{ color: categorySlug === cat.slug ? '#00684A' : '#1a2231', fontWeight: categorySlug === cat.slug ? 600 : 500 }}>
-                <input type="radio" checked={categorySlug === cat.slug} onChange={() => { setCategorySlug(cat.slug); setPage(1); }} className="accent-[#00684A] w-[17px] h-[17px]" />
+              <label key={cat.id} className={`flex items-center gap-2.5 py-1.5 cursor-pointer text-sm ${categorySlug === cat.slug ? 'text-[#00684A] dark:text-brand-green font-semibold' : 'text-[#1a2231] dark:text-white/80 font-medium'}`}>
+                <input type="radio" checked={categorySlug === cat.slug} onChange={() => { setCategorySlug(cat.slug); setPage(1); }} className="accent-[#00684A] dark:accent-brand-green w-[17px] h-[17px]" />
                 {cat.name}
               </label>
             ))}
           </div>
 
           {/* Organizer */}
-          <div className="border-t border-[#e4e8ef] py-4">
+          <div className="border-t border-[#e4e8ef] dark:border-hairline py-4">
             <div className="flex items-center justify-between mb-3">
-              <span className="text-sm font-bold text-[#023430] tracking-wide">Organizer</span>
+              <span className="text-sm font-bold text-[#023430] dark:text-white tracking-wide">Organizer</span>
             </div>
             {organizerOptions.length > 0 ? (
               organizerOptions.map(org => (
-                <label key={org} className="flex items-center gap-2.5 py-1.5 cursor-pointer text-sm text-[#1a2231]">
+                <label key={org} className="flex items-center gap-2.5 py-1.5 cursor-pointer text-sm text-[#1a2231] dark:text-white/80">
                   <input
                     type="checkbox"
                     checked={organizers.has(org)}
                     onChange={() => toggleSetValue(organizers, org, setOrganizers)}
-                    className="accent-[#00684A] w-[17px] h-[17px] rounded"
+                    className="accent-[#00684A] dark:accent-brand-green w-[17px] h-[17px] rounded"
                   />
                   {org}
                 </label>
               ))
             ) : (
-              <p className="text-xs text-[#9aa6ba]">No organizers yet.</p>
+              <p className="text-xs text-[#9aa6ba] dark:text-steel">No organizers yet.</p>
             )}
           </div>
 
           {/* Language */}
-          <div className="border-t border-[#e4e8ef] py-4">
+          <div className="border-t border-[#e4e8ef] dark:border-hairline py-4">
             <div className="flex items-center justify-between mb-3">
-              <span className="text-sm font-bold text-[#023430] tracking-wide">Language</span>
+              <span className="text-sm font-bold text-[#023430] dark:text-white tracking-wide">Language</span>
             </div>
             {languageOptions.length > 0 ? (
               languageOptions.map(lang => (
-                <label key={lang} className="flex items-center gap-2.5 py-1.5 cursor-pointer text-sm text-[#1a2231]">
+                <label key={lang} className="flex items-center gap-2.5 py-1.5 cursor-pointer text-sm text-[#1a2231] dark:text-white/80">
                   <input
                     type="checkbox"
                     checked={languages.has(lang)}
                     onChange={() => toggleSetValue(languages, lang, setLanguages)}
-                    className="accent-[#00684A] w-[17px] h-[17px] rounded"
+                    className="accent-[#00684A] dark:accent-brand-green w-[17px] h-[17px] rounded"
                   />
                   {lang}
                 </label>
               ))
             ) : (
-              <p className="text-xs text-[#9aa6ba]">No languages yet.</p>
+              <p className="text-xs text-[#9aa6ba] dark:text-steel">No languages yet.</p>
             )}
           </div>
         </aside>
@@ -186,28 +186,26 @@ export default function PublicationsExplorer({ publications, categories }: Props
         <div>
           {/* toolbar */}
           <div className="flex gap-3 mb-6">
-            <div className="flex-1 flex items-center gap-3 bg-white border border-[#dce1ea] rounded-xl px-4 h-[52px] shadow-[0_1px_2px_rgba(15,31,61,.04)]">
-              <Search size={17} className="text-[#9aa6ba] flex-shrink-0" />
+            <div className="flex-1 flex items-center gap-3 bg-white dark:bg-surface border border-[#dce1ea] dark:border-hairline rounded-xl px-4 h-[52px] shadow-[0_1px_2px_rgba(15,31,61,.04)] dark:shadow-none">
+              <Search size={17} className="text-[#9aa6ba] dark:text-steel flex-shrink-0" />
               <input
                 placeholder="Search publications…"
                 value={search}
                 onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-                className="border-0 outline-none w-full h-full text-[15px] bg-transparent text-[#1a2231] placeholder:text-[#9aa6ba]"
+                className="border-0 outline-none w-full h-full text-[15px] bg-transparent text-[#1a2231] dark:text-white placeholder:text-[#9aa6ba] dark:placeholder:text-steel"
               />
             </div>
             <button
               onClick={() => setView('grid')}
               aria-label="Grid view"
-              className="w-[52px] h-[52px] rounded-xl flex items-center justify-center flex-shrink-0 transition-colors"
-              style={view === 'grid' ? { border: 0, background: '#00684A', color: '#fff' } : { border: '1px solid #dce1ea', background: '#fff', color: '#5a677d' }}
+              className={`w-[52px] h-[52px] rounded-xl flex items-center justify-center flex-shrink-0 transition-colors ${view === 'grid' ? 'bg-[#00684A] dark:bg-brand-green text-white dark:text-canvas border-0' : 'bg-white dark:bg-surface border border-[#dce1ea] dark:border-hairline text-[#5a677d] dark:text-steel'}`}
             >
               <LayoutGrid size={19} />
             </button>
             <button
               onClick={() => setView('list')}
               aria-label="List view"
-              className="w-[52px] h-[52px] rounded-xl flex items-center justify-center flex-shrink-0 transition-colors"
-              style={view === 'list' ? { border: 0, background: '#00684A', color: '#fff' } : { border: '1px solid #dce1ea', background: '#fff', color: '#5a677d' }}
+              className={`w-[52px] h-[52px] rounded-xl flex items-center justify-center flex-shrink-0 transition-colors ${view === 'list' ? 'bg-[#00684A] dark:bg-brand-green text-white dark:text-canvas border-0' : 'bg-white dark:bg-surface border border-[#dce1ea] dark:border-hairline text-[#5a677d] dark:text-steel'}`}
             >
               <ListIcon size={19} />
             </button>
@@ -215,7 +213,7 @@ export default function PublicationsExplorer({ publications, categories }: Props
 
           {/* results */}
           {pageItems.length === 0 ? (
-            <div className="border border-[#e6e9ef] rounded-2xl bg-white">
+            <div className="border border-[#e6e9ef] dark:border-hairline rounded-2xl bg-white dark:bg-surface">
               <ContentFallback
                 variant="empty"
                 icon={FileText}
@@ -224,7 +222,7 @@ export default function PublicationsExplorer({ publications, categories }: Props
               />
               {hasActiveFilters && (
                 <p className="text-center pb-8 -mt-2">
-                  <button onClick={resetFilters} className="text-[#00684A] text-sm font-bold hover:underline">
+                  <button onClick={resetFilters} className="text-[#00684A] dark:text-brand-green text-sm font-bold hover:underline">
                     Reset filters
                   </button>
                 </p>
@@ -236,21 +234,21 @@ export default function PublicationsExplorer({ publications, categories }: Props
                 <Link
                   key={pub.id}
                   href={`/resources/${pub.slug}`}
-                  className="bg-white border border-[#e6e9ef] rounded-[14px] overflow-hidden shadow-[0_1px_3px_rgba(15,31,61,.05)] flex flex-col hover:shadow-[0_6px_20px_-8px_rgba(15,31,61,.15)] transition-shadow"
+                  className="bg-white dark:bg-surface border border-[#e6e9ef] dark:border-hairline rounded-[14px] overflow-hidden shadow-[0_1px_3px_rgba(15,31,61,.05)] dark:shadow-none flex flex-col hover:shadow-[0_6px_20px_-8px_rgba(15,31,61,.15)] transition-shadow"
                 >
                   <Thumbnail pub={pub} className="aspect-[16/10] w-full" />
                   <div className="p-5 pb-6 flex flex-col flex-1">
-                    <h3 className="m-0 mb-3 text-[21px] font-extrabold leading-tight text-[#023430] tracking-tight text-pretty">{pub.title}</h3>
-                    {pub.summary && <p className="m-0 mb-4 text-[14.5px] leading-relaxed text-[#57637a] text-pretty line-clamp-3">{pub.summary}</p>}
-                    <dl className="mt-auto pt-3.5 border-t border-[#eef1f6] grid grid-cols-[auto_1fr] gap-y-1.5 gap-x-3.5">
+                    <h3 className="m-0 mb-3 text-[21px] font-extrabold leading-tight text-[#023430] dark:text-white tracking-tight text-pretty">{pub.title}</h3>
+                    {pub.summary && <p className="m-0 mb-4 text-[14.5px] leading-relaxed text-[#57637a] dark:text-steel text-pretty line-clamp-3">{pub.summary}</p>}
+                    <dl className="mt-auto pt-3.5 border-t border-[#eef1f6] dark:border-hairline grid grid-cols-[auto_1fr] gap-y-1.5 gap-x-3.5">
                       {meta(pub).map(m => (
                         <React.Fragment key={m.label}>
-                          <dt className="text-[11px] font-bold tracking-wide uppercase text-[#8290a6] self-center">{m.label}</dt>
-                          <dd className="m-0 text-[13.5px] font-semibold text-[#1a2231] truncate">{m.value}</dd>
+                          <dt className="text-[11px] font-bold tracking-wide uppercase text-[#8290a6] dark:text-steel self-center">{m.label}</dt>
+                          <dd className="m-0 text-[13.5px] font-semibold text-[#1a2231] dark:text-white truncate">{m.value}</dd>
                         </React.Fragment>
                       ))}
                     </dl>
-                    <div className="mt-3.5 text-[13.5px] font-bold text-[#00684A]">Read more →</div>
+                    <div className="mt-3.5 text-[13.5px] font-bold text-[#00684A] dark:text-brand-green">Read more →</div>
                   </div>
                 </Link>
               ))}
@@ -261,21 +259,21 @@ export default function PublicationsExplorer({ publications, categories }: Props
                 <Link
                   key={pub.id}
                   href={`/resources/${pub.slug}`}
-                  className="bg-white border border-[#e6e9ef] rounded-[14px] overflow-hidden shadow-[0_1px_3px_rgba(15,31,61,.05)] grid grid-cols-1 sm:grid-cols-[264px_minmax(0,1fr)] hover:shadow-[0_6px_20px_-8px_rgba(15,31,61,.15)] transition-shadow"
+                  className="bg-white dark:bg-surface border border-[#e6e9ef] dark:border-hairline rounded-[14px] overflow-hidden shadow-[0_1px_3px_rgba(15,31,61,.05)] dark:shadow-none grid grid-cols-1 sm:grid-cols-[264px_minmax(0,1fr)] hover:shadow-[0_6px_20px_-8px_rgba(15,31,61,.15)] transition-shadow"
                 >
                   <Thumbnail pub={pub} className="aspect-[16/10] sm:aspect-auto w-full h-full min-h-[160px]" />
                   <div className="p-6 flex flex-col justify-center gap-2.5">
-                    <h3 className="m-0 text-[22px] font-extrabold leading-tight text-[#023430] tracking-tight text-pretty">{pub.title}</h3>
-                    {pub.summary && <p className="m-0 text-[14.5px] leading-relaxed text-[#57637a] max-w-[70ch] text-pretty">{pub.summary}</p>}
-                    <dl className="mt-1.5 pt-3.5 border-t border-[#eef1f6] flex gap-8 flex-wrap">
+                    <h3 className="m-0 text-[22px] font-extrabold leading-tight text-[#023430] dark:text-white tracking-tight text-pretty">{pub.title}</h3>
+                    {pub.summary && <p className="m-0 text-[14.5px] leading-relaxed text-[#57637a] dark:text-steel max-w-[70ch] text-pretty">{pub.summary}</p>}
+                    <dl className="mt-1.5 pt-3.5 border-t border-[#eef1f6] dark:border-hairline flex gap-8 flex-wrap">
                       {meta(pub).map(m => (
                         <div key={m.label}>
-                          <dt className="text-[11px] font-bold tracking-wide uppercase text-[#8290a6]">{m.label}</dt>
-                          <dd className="m-0 mt-0.5 text-sm font-semibold text-[#1a2231]">{m.value}</dd>
+                          <dt className="text-[11px] font-bold tracking-wide uppercase text-[#8290a6] dark:text-steel">{m.label}</dt>
+                          <dd className="m-0 mt-0.5 text-sm font-semibold text-[#1a2231] dark:text-white">{m.value}</dd>
                         </div>
                       ))}
                     </dl>
-                    <div className="mt-1 text-[13.5px] font-bold text-[#00684A]">Read more →</div>
+                    <div className="mt-1 text-[13.5px] font-bold text-[#00684A] dark:text-brand-green">Read more →</div>
                   </div>
                 </Link>
               ))}
@@ -289,7 +287,7 @@ export default function PublicationsExplorer({ publications, categories }: Props
                 onClick={() => setPage(p => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
                 aria-label="Previous page"
-                className="min-w-[44px] h-[44px] px-3 rounded-[9px] border border-[#dce1ea] bg-white text-[#00684A] font-bold flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed"
+                className="min-w-[44px] h-[44px] px-3 rounded-[9px] border border-[#dce1ea] dark:border-hairline bg-white dark:bg-surface text-[#00684A] dark:text-brand-green font-bold flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 <ChevronLeft size={16} aria-hidden="true" />
               </button>
@@ -299,8 +297,7 @@ export default function PublicationsExplorer({ publications, categories }: Props
                   onClick={() => setPage(p)}
                   aria-label={`Page ${p}`}
                   aria-current={p === currentPage ? 'page' : undefined}
-                  className="min-w-[44px] h-[44px] px-3.5 rounded-[9px] text-[14.5px] font-bold flex items-center justify-center transition-colors"
-                  style={p === currentPage ? { border: 0, background: '#00684A', color: '#fff' } : { border: '1px solid #dce1ea', background: '#fff', color: '#00684A' }}
+                  className={`min-w-[44px] h-[44px] px-3.5 rounded-[9px] text-[14.5px] font-bold flex items-center justify-center transition-colors ${p === currentPage ? 'bg-[#00684A] dark:bg-brand-green text-white dark:text-canvas border-0' : 'bg-white dark:bg-surface border border-[#dce1ea] dark:border-hairline text-[#00684A] dark:text-brand-green'}`}
                 >
                   {p}
                 </button>
@@ -309,7 +306,7 @@ export default function PublicationsExplorer({ publications, categories }: Props
                 onClick={() => setPage(p => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
                 aria-label="Next page"
-                className="min-w-[44px] h-[44px] px-3 rounded-[9px] border border-[#dce1ea] bg-white text-[#00684A] font-bold flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed"
+                className="min-w-[44px] h-[44px] px-3 rounded-[9px] border border-[#dce1ea] dark:border-hairline bg-white dark:bg-surface text-[#00684A] dark:text-brand-green font-bold flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 <ChevronRight size={16} aria-hidden="true" />
               </button>

@@ -58,7 +58,7 @@ export default function AboutContentSection({
     if (variant === 'split' && imageColRef.current) {
       ScrollTrigger.matchMedia({
         // desktop
-        "(min-width: 1024px)": function() {
+        "(min-width: 1024px)": function () {
           ScrollTrigger.create({
             trigger: sectionRef.current,
             start: "top top",
@@ -72,7 +72,7 @@ export default function AboutContentSection({
 
     // Text-only variant scroll scrub reveal
     if (variant === 'text-only' && textOnlyRef.current) {
-      gsap.fromTo(textOnlyRef.current, 
+      gsap.fromTo(textOnlyRef.current,
         { clipPath: "inset(0% 100% 0% 0%)", opacity: 0.2 },
         {
           clipPath: "inset(0% 0% 0% 0%)",
@@ -133,9 +133,10 @@ export default function AboutContentSection({
   let gradientFrom = "from-white";
 
   if (bgVariant === 'light') {
-    sectionBg = "bg-white";
-    titleColor = "text-forest";
-    gradientFrom = "from-white";
+    sectionBg = "bg-white dark:bg-canvas";
+    titleColor = "text-forest dark:text-white";
+    textColor = "text-black dark:text-white/80";
+    gradientFrom = "from-white dark:from-canvas";
   } else if (bgVariant === 'dark') {
     sectionBg = "bg-forest";
     titleColor = "text-white";
@@ -171,7 +172,7 @@ export default function AboutContentSection({
             className={`inline-flex items-center gap-2 font-bold px-6 py-3 transition-all border ${bgVariant === 'dark'
               ? 'border-white/30 text-white hover:bg-white/10'
               : bgVariant === 'light'
-                ? 'border-forest/30 text-forest hover:bg-forest/5'
+                ? 'border-forest/30 text-forest hover:bg-forest/5 dark:border-white/30 dark:text-white dark:hover:bg-white/10'
                 : 'border-brand-text/30 text-brand-text hover:bg-brand-text/5'
               } text-sm uppercase tracking-wider rounded-md`}
           >
@@ -185,7 +186,7 @@ export default function AboutContentSection({
             className={`inline-flex items-center gap-2 font-bold px-6 py-3 transition-all border ${bgVariant === 'dark'
               ? 'border-white/30 text-white hover:bg-white/10'
               : bgVariant === 'light'
-                ? 'border-forest/30 text-forest hover:bg-forest/5'
+                ? 'border-forest/30 text-forest hover:bg-forest/5 dark:border-white/30 dark:text-white dark:hover:bg-white/10'
                 : 'border-brand-text/30 text-brand-text hover:bg-brand-text/5'
               } text-sm uppercase tracking-wider rounded-md`}
           >
