@@ -48,7 +48,7 @@ export function Accordion({ items, variant = 'light', defaultOpenIndex = null, c
         const panelId = `${uid}-panel-${item.id}`;
 
         return (
-          <div key={item.id} className={isDark ? 'bg-[#091810] border border-[#132d1f] rounded-lg overflow-hidden transition-all' : 'w-full'}>
+          <div key={item.id} className={isDark ? 'bg-white dark:bg-[#091810] border border-hairline dark:border-[#132d1f] rounded-lg overflow-hidden transition-all shadow-sm dark:shadow-none' : 'w-full'}>
             <button
               id={buttonId}
               type="button"
@@ -57,18 +57,18 @@ export function Accordion({ items, variant = 'light', defaultOpenIndex = null, c
               aria-controls={panelId}
               className={
                 isDark
-                  ? 'w-full flex items-center justify-between p-5 sm:p-6 text-left hover:bg-[#0a1f14] transition-colors outline-none focus-visible:ring-2 focus-visible:ring-brand-green'
+                  ? 'w-full flex items-center justify-between p-5 sm:p-6 text-left hover:bg-surface-soft dark:hover:bg-[#0a1f14] transition-colors outline-none focus-visible:ring-2 focus-visible:ring-brand-green'
                   : 'w-full text-left px-8 py-6 flex items-center justify-between hover:bg-surface transition-colors outline-none focus-visible:ring-2 focus-visible:ring-brand-green'
               }
             >
-              <span className={isDark ? 'font-semibold text-white/90 text-sm sm:text-base pr-8' : 'font-bold text-ink pr-8'}>
+              <span className={isDark ? 'font-semibold text-ink dark:text-white/90 text-sm sm:text-base pr-8' : 'font-bold text-ink pr-8'}>
                 {item.question}
               </span>
               {isDark ? (
                 <ChevronDown
                   size={20}
                   aria-hidden="true"
-                  className={`text-white/40 shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+                  className={`text-steel dark:text-white/40 shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
                 />
               ) : (
                 <span className="text-brand-text shrink-0" aria-hidden="true">
@@ -91,7 +91,7 @@ export function Accordion({ items, variant = 'light', defaultOpenIndex = null, c
                 <div
                   className={
                     isDark
-                      ? 'p-5 sm:p-6 pt-0 text-white/60 text-sm sm:text-base leading-relaxed whitespace-pre-wrap'
+                      ? 'p-5 sm:p-6 pt-0 text-steel dark:text-white/60 text-sm sm:text-base leading-relaxed whitespace-pre-wrap'
                       : 'px-8 pb-6 text-steel leading-relaxed'
                   }
                 >

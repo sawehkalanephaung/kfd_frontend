@@ -119,32 +119,32 @@ export default async function NewsDetailPage({ params }: PageProps) {
     const day = eventDate.getDate();
 
     return (
-      <main className="min-h-screen bg-forest-950">
-        <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-forest-800 to-forest-950">
+      <main className="min-h-screen bg-[#f9f7f1] dark:bg-forest-950">
+        <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-[#f9f7f1] dark:from-forest-800 dark:to-forest-950">
           <div className="container mx-auto max-w-5xl">
             <div className="flex flex-col md:flex-row gap-10 items-start">
               {/* Massive Calendar Badge & Meta */}
               <div className="w-full md:w-1/3 flex flex-col gap-6">
-                <div className="bg-[#153020] rounded-3xl border border-white/10 overflow-hidden shadow-2xl flex flex-col">
-                  <div className="bg-red-500/20 text-red-400 py-3 text-center font-bold tracking-widest uppercase text-sm border-b border-red-500/20">
+                <div className="bg-white dark:bg-[#153020] rounded-3xl border border-hairline dark:border-white/10 overflow-hidden shadow-2xl flex flex-col">
+                  <div className="bg-red-500/20 text-red-600 dark:text-red-400 py-3 text-center font-bold tracking-widest uppercase text-sm border-b border-red-500/20">
                     {month}
                   </div>
-                  <div className="py-8 text-center text-6xl font-black text-white">
+                  <div className="py-8 text-center text-6xl font-black text-ink dark:text-white">
                     {day}
                   </div>
                 </div>
 
-                <div className="bg-[#153020]/50 rounded-2xl border border-white/5 p-6 space-y-5">
+                <div className="bg-white dark:bg-[#153020]/50 rounded-2xl border border-hairline dark:border-white/5 p-6 space-y-5 shadow-sm dark:shadow-none">
                   <div>
-                    <h3 className="text-xs uppercase tracking-wider text-white/40 mb-1 font-bold">Time</h3>
-                    <p className="text-white text-lg font-medium">{metadata.eventTime || 'TBA'}</p>
+                    <h3 className="text-xs uppercase tracking-wider text-steel/80 dark:text-white/40 mb-1 font-bold">Time</h3>
+                    <p className="text-ink dark:text-white text-lg font-medium">{metadata.eventTime || 'TBA'}</p>
                   </div>
                   <div>
-                    <h3 className="text-xs uppercase tracking-wider text-white/40 mb-1 font-bold">Location</h3>
-                    <p className="text-white text-lg font-medium">{metadata.eventLocation || 'TBA'}</p>
+                    <h3 className="text-xs uppercase tracking-wider text-steel/80 dark:text-white/40 mb-1 font-bold">Location</h3>
+                    <p className="text-ink dark:text-white text-lg font-medium">{metadata.eventLocation || 'TBA'}</p>
                   </div>
                   <div>
-                    <h3 className="text-xs uppercase tracking-wider text-white/40 mb-1 font-bold">Category</h3>
+                    <h3 className="text-xs uppercase tracking-wider text-steel/80 dark:text-white/40 mb-1 font-bold">Category</h3>
                     <span className={`inline-block text-[10px] font-bold uppercase tracking-widest border px-3 py-1 rounded-full mt-1 ${getCategoryColor(post.category?.name)}`}>
                       {post.category?.name}
                     </span>
@@ -158,24 +158,24 @@ export default async function NewsDetailPage({ params }: PageProps) {
                   <ZoomableImage
                     src={getMediaUrl(post.featuredImageUrl)}
                     alt={post.title}
-                    className="w-full h-64 object-cover rounded-2xl shadow-2xl mb-8 border border-white/10"
+                    className="w-full h-64 object-cover rounded-2xl shadow-2xl mb-8 border border-hairline dark:border-white/10"
                   />
                 ) : (
-                  <div className="w-full h-64 rounded-2xl bg-[#153020]/50 flex items-center justify-center shadow-2xl mb-8 border border-white/10">
-                    <ImageIcon className="w-12 h-12 text-white/20" />
+                  <div className="w-full h-64 rounded-2xl bg-white dark:bg-[#153020]/50 flex items-center justify-center shadow-2xl mb-8 border border-hairline dark:border-white/10">
+                    <ImageIcon className="w-12 h-12 text-steel/30 dark:text-white/20" />
                   </div>
                 )}
-                <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight mb-8">
+                <h1 className="text-4xl md:text-5xl font-bold text-ink dark:text-white leading-tight mb-8">
                   {post.title}
                 </h1>
 
                 {post.content ? (
                   <div
-                    className="prose prose-invert max-w-none break-words prose-p:text-white/70 prose-headings:text-white prose-a:text-green-400"
+                    className="prose dark:prose-invert max-w-none break-words prose-p:text-charcoal dark:prose-p:text-white/70 prose-headings:text-ink dark:prose-headings:text-white prose-a:text-brand-green-dark dark:prose-a:text-green-400 [&_*]:!text-inherit"
                     dangerouslySetInnerHTML={{ __html: post.content }}
                   />
                 ) : (
-                  <p className="text-white/70 leading-relaxed">{post.excerpt}</p>
+                  <p className="text-charcoal dark:text-white/70 leading-relaxed">{post.excerpt}</p>
                 )}
               </div>
             </div>
@@ -219,24 +219,24 @@ export default async function NewsDetailPage({ params }: PageProps) {
             </div>
 
             {/* Memo Content */}
-            <div className="font-serif text-charcoal leading-loose text-lg pb-12 border-b border-gray-300 dark:border-hairline">
+            <div className="font-serif text-charcoal dark:text-white leading-loose text-lg pb-12 border-b border-gray-300 dark:border-hairline">
               {post.content ? (
                 <div
-                  className="prose prose-lg max-w-none break-words font-serif prose-p:text-charcoal prose-p:leading-loose prose-headings:text-ink prose-a:text-brand-green-dark"
+                  className="prose dark:prose-invert prose-lg max-w-none break-words font-serif text-charcoal dark:text-white prose-p:leading-loose prose-headings:text-ink dark:prose-headings:text-white prose-a:text-brand-green-dark dark:prose-a:text-green-400 [&_*]:!text-inherit"
                   dangerouslySetInnerHTML={{ __html: post.content }}
                 />
               ) : (
                 <p>{post.excerpt}</p>
               )}
             </div>
-            
+
             {/* Footer actions */}
             <div className="pt-8 flex flex-wrap items-center justify-between gap-4 font-sans text-sm">
-               <div className="flex items-center gap-2 text-steel">
-                 <Calendar size={16} />
-                 <span>{formatDate(post.publishedAt || post.createdAt)}</span>
-               </div>
-               <AnnouncementActions title={post.title} />
+              <div className="flex items-center gap-2 text-steel">
+                <Calendar size={16} />
+                <span>{formatDate(post.publishedAt || post.createdAt)}</span>
+              </div>
+              <AnnouncementActions title={post.title} />
             </div>
           </div>
         </div>
@@ -303,7 +303,8 @@ export default async function NewsDetailPage({ params }: PageProps) {
                 prose-strong:text-ink prose-strong:font-bold
                 prose-blockquote:bg-[#dce9d5] dark:prose-blockquote:bg-surface-soft prose-blockquote:border-none prose-blockquote:px-8 prose-blockquote:py-6 prose-blockquote:rounded-lg prose-blockquote:text-emerald-900 dark:prose-blockquote:text-emerald-400 prose-blockquote:italic prose-blockquote:font-serif prose-blockquote:font-medium
                 prose-li:text-charcoal
-                first-letter:text-7xl first-letter:font-bold first-letter:text-brand-green-dark first-letter:mr-3 first-letter:float-left first-letter:leading-none"
+                first-letter:text-7xl first-letter:font-bold first-letter:text-brand-green-dark first-letter:mr-3 first-letter:float-left first-letter:leading-none
+                [&_*]:!text-inherit"
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
           ) : (
@@ -321,21 +322,20 @@ export default async function NewsDetailPage({ params }: PageProps) {
                 <ImageIcon className="w-4 h-4 text-steel" />
                 Additional Media
               </h3>
-              
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 {sliderUrls.map((url: string, idx: number) => {
                   // If odd number of images, make the first one span full width for an editorial look
                   const isFeatured = sliderUrls.length % 2 !== 0 && idx === 0;
-                  
+
                   return (
-                    <div 
-                      key={idx} 
-                      className={`relative aspect-[4/3] rounded-xl overflow-hidden bg-gray-100 dark:bg-surface ${
-                        isFeatured ? 'sm:col-span-2 aspect-[16/9] sm:aspect-[21/9]' : ''
-                      }`}
+                    <div
+                      key={idx}
+                      className={`relative aspect-[4/3] rounded-xl overflow-hidden bg-gray-100 dark:bg-surface ${isFeatured ? 'sm:col-span-2 aspect-[16/9] sm:aspect-[21/9]' : ''
+                        }`}
                     >
-                      <ZoomableImage 
-                        src={getMediaUrl(url)} 
+                      <ZoomableImage
+                        src={getMediaUrl(url)}
                         alt={`Gallery image ${idx + 1}`}
                         className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                       />

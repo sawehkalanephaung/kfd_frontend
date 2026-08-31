@@ -28,7 +28,7 @@ function AnnouncementCard({ post }: { post: NewsPost }) {
   return (
     <Link 
       href={`/news/${post.slug}`}
-      className="group block bg-canvas rounded-xl overflow-hidden border-2 border-transparent hover:border-brand-green/30 shadow-sm hover:shadow-lg transition-all"
+      className="group block bg-white dark:bg-canvas rounded-xl overflow-hidden border-2 border-transparent hover:border-brand-green/30 shadow-sm hover:shadow-lg transition-all"
     >
       <div className="flex flex-col md:flex-row h-full">
         {/* Left Side: Formal Date/Icon Badge */}
@@ -42,20 +42,20 @@ function AnnouncementCard({ post }: { post: NewsPost }) {
         </div>
 
         {/* Right Side: Content */}
-        <div className="p-6 md:p-8 flex flex-col flex-1 bg-canvas">
+        <div className="p-6 md:p-8 flex flex-col flex-1 bg-white dark:bg-canvas">
           <div className="flex items-center gap-2 mb-3">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-surface text-steel text-[10px] font-bold uppercase tracking-widest rounded-md">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-surface-soft dark:bg-surface text-steel text-[10px] font-bold uppercase tracking-widest rounded-md">
               <FileText size={12} />
               Official Notice
             </span>
           </div>
-          <h2 className="text-xl md:text-2xl font-bold text-ink mb-3 group-hover:text-brand-green-dark transition-colors leading-tight">
+          <h2 className="text-xl md:text-2xl font-bold text-ink dark:text-white mb-3 group-hover:text-brand-green-dark dark:group-hover:text-brand-green transition-colors leading-tight">
             {post.title}
           </h2>
           <p className="text-steel leading-relaxed text-sm md:text-base line-clamp-2 mb-4 flex-1">
             {post.excerpt}
           </p>
-          <div className="mt-auto flex items-center text-brand-green-dark font-semibold text-sm group-hover:underline">
+          <div className="mt-auto flex items-center text-brand-green-dark dark:text-brand-green font-semibold text-sm group-hover:underline">
             Read Full Notice <ChevronRight size={16} className="ml-1" />
           </div>
         </div>
@@ -74,19 +74,19 @@ export default async function AnnouncementsPage() {
   const posts = data?.content || [];
 
   return (
-    <main className="min-h-screen bg-forest-950">
+    <main className="min-h-screen bg-[#f9f7f1] dark:bg-canvas">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-8 max-w-5xl">
         <Link
           href="/news"
-          className="inline-flex items-center gap-1.5 text-sm font-bold uppercase tracking-wider text-green-400 hover:text-brand-green transition-colors mb-6 group"
+          className="inline-flex items-center gap-1.5 text-sm font-bold uppercase tracking-wider text-brand-green-dark dark:text-green-400 hover:text-brand-green transition-colors mb-6 group"
         >
           <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
           Back to News
         </Link>
-        <h1 className="text-4xl md:text-5xl font-bold font-sans text-white tracking-tight">
+        <h1 className="text-4xl md:text-5xl font-bold font-sans text-ink dark:text-white tracking-tight">
           Official Announcements
         </h1>
-        <p className="mt-4 text-lg text-white/60 max-w-2xl">
+        <p className="mt-4 text-lg text-steel dark:text-white/60 max-w-2xl">
           Important notices, policy updates, and official communications from the department.
         </p>
       </div>

@@ -24,47 +24,40 @@ function EventCard({ post }: { post: NewsPost }) {
   const eventLocation = post.metadata?.eventLocation || "KFD Jurisdiction";
 
   return (
-    <div className="group flex flex-col md:flex-row bg-forest-800 border border-white/5 rounded-2xl overflow-hidden hover:border-brand-green-dark/40 transition-all hover:shadow-xl hover:shadow-card">
+    <Link 
+      href={`/news/${post.slug}`}
+      className="group flex flex-col md:flex-row bg-white dark:bg-forest-800 border border-hairline dark:border-white/5 rounded-2xl overflow-hidden hover:border-brand-green-dark/40 transition-all hover:shadow-xl hover:shadow-card block"
+    >
       
       {/* Calendar Block (Left) */}
-      <div className="bg-canvas/5 border-r border-white/5 flex flex-col items-center justify-center p-6 md:w-32 shrink-0">
-        <span className="text-green-400 font-bold uppercase tracking-widest text-xs mb-1">{month}</span>
-        <span className="text-4xl md:text-5xl font-extrabold text-white leading-none">{day}</span>
+      <div className="bg-surface-soft dark:bg-canvas/5 border-r border-hairline dark:border-white/5 flex flex-col items-center justify-center p-6 md:w-32 shrink-0">
+        <span className="text-green-500 dark:text-green-400 font-bold uppercase tracking-widest text-xs mb-1">{month}</span>
+        <span className="text-4xl md:text-5xl font-extrabold text-ink dark:text-white leading-none">{day}</span>
       </div>
 
       {/* Content Block (Middle) */}
       <div className="p-6 md:p-8 flex flex-col flex-1">
-        <h3 className="text-xl md:text-2xl font-bold text-white mb-2 leading-tight group-hover:text-brand-green transition-colors">
+        <h3 className="text-xl md:text-2xl font-bold text-ink dark:text-white mb-2 leading-tight group-hover:text-brand-green-dark dark:group-hover:text-brand-green transition-colors">
           {post.title}
         </h3>
-        <p className="text-white/60 text-sm md:text-base leading-relaxed line-clamp-2 mb-4">
+        <p className="text-steel dark:text-white/60 text-sm md:text-base leading-relaxed line-clamp-2 mb-4">
           {post.excerpt}
         </p>
         
         {/* Meta Info */}
         <div className="flex flex-wrap items-center gap-4 mt-auto">
-          <div className="flex items-center gap-1.5 text-xs text-white/40">
+          <div className="flex items-center gap-1.5 text-xs text-steel/80 dark:text-white/40">
             <Calendar size={14} />
             <span>{eventTime}</span>
           </div>
-          <div className="flex items-center gap-1.5 text-xs text-white/40">
+          <div className="flex items-center gap-1.5 text-xs text-steel/80 dark:text-white/40">
             <MapPin size={14} />
             <span>{eventLocation}</span>
           </div>
         </div>
       </div>
 
-      {/* Action Block (Right) */}
-      <div className="p-6 md:p-8 flex items-center justify-center border-t md:border-t-0 md:border-l border-white/5 shrink-0">
-        <Link 
-          href={`/news/${post.slug}`}
-          className="inline-flex items-center justify-center w-full md:w-auto px-6 py-3 bg-green-500 hover:bg-green-400 text-green-950 font-bold rounded-xl transition-all hover:scale-105 active:scale-95 group-hover:shadow-lg group-hover:shadow-green-500/25"
-        >
-          Details
-          <ArrowRight size={16} className="ml-2" />
-        </Link>
-      </div>
-    </div>
+    </Link>
   );
 }
 
@@ -78,7 +71,7 @@ export default async function EventsPage() {
   const posts = data?.content || [];
 
   return (
-    <main className="min-h-screen bg-forest-950">
+    <main className="min-h-screen bg-[#f9f7f1] dark:bg-canvas">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-8 max-w-5xl">
         <Link
           href="/news"
@@ -87,10 +80,10 @@ export default async function EventsPage() {
           <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
           Back to News
         </Link>
-        <h1 className="text-4xl md:text-5xl font-bold font-sans text-white tracking-tight">
+        <h1 className="text-4xl md:text-5xl font-bold font-sans text-ink dark:text-white tracking-tight">
           Upcoming Events
         </h1>
-        <p className="mt-4 text-lg text-white/60 max-w-2xl">
+        <p className="mt-4 text-lg text-steel dark:text-white/60 max-w-2xl">
           Join us in our community programs, reforestation drives, and public workshops.
         </p>
       </div>
