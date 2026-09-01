@@ -30,7 +30,7 @@ const PLATFORM_CONFIG: Record<string, { icon: React.FC; color: string; label: st
   twitter: { icon: TwitterIcon, color: 'bg-sky-500', label: 'Twitter' },
   linkedin: { icon: LinkedInIcon, color: 'bg-blue-700', label: 'LinkedIn' },
   youtube: { icon: YouTubeIcon, color: 'bg-red-600', label: 'YouTube' },
-  instagram: { icon: InstagramIcon, color: 'bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600', label: 'Instagram' },
+  instagram: { icon: InstagramIcon, color: 'bg-linear-to-tr from-yellow-400 via-pink-500 to-purple-600', label: 'Instagram' },
   tiktok: { icon: TikTokIcon, color: 'bg-black', label: 'TikTok' },
 };
 

@@ -16,6 +16,7 @@ import { extractPlainExcerpt } from "@/lib/rich-text";
 import { ContentFallback } from "@/components/content-fallback";
 import { PageHero } from "@/components/ui/page-hero";
 import { Card, type CardMetaItem } from "@/components/ui/card";
+import { Reveal } from "@/components/ui/reveal";
 
 export const metadata: Metadata = {
   title: "Departments - Kawthoolei Forestry Department",
@@ -56,11 +57,13 @@ export default async function DepartmentsPage() {
 
   return (
     <main className="min-h-screen bg-surface">
-      <PageHero
-        title="Our Department Branches"
-        subtitle="Each branch of the Kawthoolei Forestry Department plays a vital role in protecting, restoring, and sustaining our forests for future generations."
-        icon={TreePine}
-      />
+      <Reveal onMount>
+        <PageHero
+          title="Our Department Branches"
+          subtitle="Each branch of the Kawthoolei Forestry Department plays a vital role in protecting, restoring, and sustaining our forests for future generations."
+          icon={TreePine}
+        />
+      </Reveal>
 
       {/* ── Department Grid ──────────────────────────────── */}
       <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
@@ -72,7 +75,7 @@ export default async function DepartmentsPage() {
             message="Department branches will appear here once they're added."
           />
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+          <Reveal className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8" stagger>
             {departments.map((dept, idx) => {
               const headName = dept.headMember
                 ? `${dept.headMember.firstName} ${dept.headMember.lastName}`
@@ -99,7 +102,7 @@ export default async function DepartmentsPage() {
                 />
               );
             })}
-          </div>
+          </Reveal>
         )}
       </section>
 

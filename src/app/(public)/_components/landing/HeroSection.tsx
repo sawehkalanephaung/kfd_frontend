@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import { Pause, Play } from "lucide-react";
 import { getMediaUrl } from "@/lib/api";
 import { usePrefersReducedMotion } from "@/lib/use-reduced-motion";
+import { Button } from "@/components/ui/button";
 
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -92,9 +93,9 @@ export default function HeroSection({ siteIdentity, homeContent }: { siteIdentit
   }, { scope: sectionRef, dependencies: [prefersReducedMotion] });
 
   return (
-    <section ref={sectionRef} className="relative w-full h-[600px] flex items-center overflow-hidden bg-forest-900">
+    <section ref={sectionRef} className="relative w-full h-150 flex items-center overflow-hidden bg-forest-900">
       {/* Background images slider with Parallax wrapper */}
-      <div ref={bgRef} className="absolute inset-0 z-0 w-full h-[130%] -top-[15%]">
+      <div ref={bgRef} className="absolute inset-0 z-0 w-full h-[130%] top-[-15%]">
         {images.length > 0 ? (
           images.map((img, idx) => (
             <div
@@ -108,12 +109,12 @@ export default function HeroSection({ siteIdentity, homeContent }: { siteIdentit
                   transitionDuration: idx === currentIndex ? '10000ms' : '0ms'
                 }}
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-teal-deep/90 via-teal-deep/70 to-transparent"></div>
+              <div className="absolute inset-0 bg-linear-to-r from-teal-deep/90 via-teal-deep/70 to-transparent"></div>
             </div>
           ))
         ) : (
           <div className="absolute inset-0 z-0 bg-forest-900">
-            <div className="absolute inset-0 bg-gradient-to-r from-teal-deep/90 via-teal-deep/70 to-transparent"></div>
+            <div className="absolute inset-0 bg-linear-to-r from-teal-deep/90 via-teal-deep/70 to-transparent"></div>
           </div>
         )}
       </div>
@@ -132,15 +133,12 @@ export default function HeroSection({ siteIdentity, homeContent }: { siteIdentit
           )}
 
           <div className="flex flex-wrap items-center gap-4">
-            <Link
-              href="/news"
-              className="bg-neon-green hover:bg-[#00C250] text-teal-deep font-medium px-8 py-3.5 rounded-full transition-all duration-200 ease-in-out"
-            >
+            <Button href="/news">
               Explore Our Work
-            </Link>
+            </Button>
             <Link
               href="/about"
-              className="bg-transparent border border-white text-white hover:bg-canvas/10 font-medium px-8 py-3.5 rounded-full transition-all duration-200 ease-in-out"
+              className="inline-flex items-center justify-center whitespace-nowrap bg-transparent border border-white text-white hover:bg-white/10 font-medium px-6 py-2.5 text-sm rounded-full transition-all duration-200 ease-in-out"
             >
               About Us
             </Link>

@@ -108,11 +108,11 @@ export default function AboutChairmanSection({ chairmanData }: { chairmanData?: 
   const displayImage = chairman?.image ? getMediaUrl(chairman.image) : null;
 
   return (
-    <section ref={sectionRef} id="chairman" className="py-20 lg:py-28 bg-white overflow-hidden">
+    <section ref={sectionRef} id="chairman" className="py-20 lg:py-28 bg-white dark:bg-canvas overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 max-w-5xl mx-auto items-center">
           {/* Portrait */}
-          <div ref={portraitRef} className="lg:col-span-4 w-full h-[400px] md:h-[500px] relative bg-[#e0e0e0] overflow-hidden rounded-xl shadow-lg group">
+          <div ref={portraitRef} className="lg:col-span-4 w-full h-100 md:h-125 relative bg-[#e0e0e0] dark:bg-surface overflow-hidden rounded-xl shadow-lg group">
             {displayImage ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -129,7 +129,7 @@ export default function AboutChairmanSection({ chairmanData }: { chairmanData?: 
 
           {/* Bio Content */}
           <div ref={bioRef} className="lg:col-span-8 flex flex-col justify-center w-full min-w-0">
-            <h3 className="text-3xl md:text-4xl font-serif text-[#111] mb-2">{chairman.name}</h3>
+            <h3 className="text-3xl md:text-4xl font-serif text-[#111] dark:text-white mb-2">{chairman.name}</h3>
             {chairman.title && (
               <p className="text-xs md:text-sm font-bold text-[#e5a93d] uppercase tracking-wider mb-6">
                 {chairman.title}
@@ -139,24 +139,24 @@ export default function AboutChairmanSection({ chairmanData }: { chairmanData?: 
               <div className="flex flex-wrap gap-x-8 gap-y-3 mb-6">
                 <div>
                   <span className="block text-[10px] font-bold text-steel uppercase tracking-wider mb-1">First Appointed</span>
-                  <span className="text-sm font-semibold text-[#111]">{formatFullDate(chairman.termStartDate)}</span>
+                  <span className="text-sm font-semibold text-[#111] dark:text-white">{formatFullDate(chairman.termStartDate)}</span>
                 </div>
                 <div>
                   <span className="block text-[10px] font-bold text-steel uppercase tracking-wider mb-1">Tenure Period</span>
-                  <span className="text-sm font-semibold text-[#111]">{formatTenureYears(chairman.termStartDate, chairman.termEndDate)}</span>
+                  <span className="text-sm font-semibold text-[#111] dark:text-white">{formatTenureYears(chairman.termStartDate, chairman.termEndDate)}</span>
                 </div>
               </div>
             )}
             {chairman.bio && (
               <div
-                className="text-[#555] mb-8 text-sm md:text-base leading-relaxed line-clamp-6 prose prose-sm max-w-none break-words whitespace-pre-wrap overflow-hidden [&_*]:!bg-transparent [&_*]:!text-inherit"
+                className="text-[#555] dark:text-steel mb-8 text-sm md:text-base leading-relaxed line-clamp-6 prose prose-sm max-w-none wrap-break-word whitespace-pre-wrap overflow-hidden **:bg-transparent! **:text-inherit!"
                 dangerouslySetInnerHTML={{ __html: toSentenceCaseHTML(chairman.bio) }}
               />
             )}
             {chairman.id && (
               <Link
                 href={`/team/${chairman.id}`}
-                className="inline-flex items-center gap-2 font-bold px-6 py-3 transition-all border border-forest/30 text-forest hover:bg-forest/5 text-sm uppercase tracking-wider w-fit rounded-md"
+                className="inline-flex items-center gap-2 font-bold px-6 py-3 transition-all border border-forest/30 text-forest hover:bg-forest/5 dark:border-white/30 dark:text-white dark:hover:bg-white/10 text-sm uppercase tracking-wider w-fit rounded-md"
               >
                 READ FULL PROFILE
               </Link>

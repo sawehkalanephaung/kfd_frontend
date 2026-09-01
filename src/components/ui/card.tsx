@@ -81,7 +81,7 @@ export function Card({
       {/* Image */}
       <div
         className={`relative overflow-hidden shrink-0 flex items-center justify-center ${
-          imageAspect === 'portrait' ? 'aspect-[4/5]' : 'h-48'
+          imageAspect === 'portrait' ? 'aspect-4/5' : 'h-48'
         } ${isDark ? 'bg-forest-900' : 'bg-surface'}`}
       >
         {imageUrl ? (
@@ -89,7 +89,7 @@ export function Card({
           <img
             src={imageUrl}
             alt={imageAlt}
-            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            className="block w-full aspect-4/5 sm:aspect-square md:aspect-4/3 object-cover transition-transform duration-700 ease-out group-hover:scale-105"
           />
         ) : (
           <FallbackIcon className={`w-12 h-12 ${isDark ? 'text-white/10' : 'text-muted'}`} aria-hidden="true" />
@@ -97,8 +97,8 @@ export function Card({
         <div
           className={`absolute inset-0 transition-opacity duration-300 ${
             isDark
-              ? 'bg-gradient-to-t from-forest-800/60 to-transparent'
-              : 'bg-gradient-to-t from-black/50 via-black/10 to-transparent opacity-0 group-hover:opacity-100'
+              ? 'bg-linear-to-t from-forest-800/60 to-transparent'
+              : 'bg-linear-to-t from-black/50 via-black/10 to-transparent opacity-0 group-hover:opacity-100'
           }`}
           aria-hidden="true"
         />

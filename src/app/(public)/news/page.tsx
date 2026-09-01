@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight, Calendar, Tag, ImageIcon } from "lucide-reac
 import { NewsPost, PostCategory, PaginatedPosts } from "./types";
 import { PageHero } from "@/components/ui/page-hero";
 import { Card } from "@/components/ui/card";
+import { Reveal } from "@/components/ui/reveal";
 
 export const metadata: Metadata = {
   title: "News & Announcements - Kawthoolei Forestry Department",
@@ -84,25 +85,26 @@ export default async function NewsPage({ searchParams }: PageProps) {
   const totalPages = paginatedData?.totalPages ?? 1;
 
   return (
-    <main className="min-h-screen bg-forest-950">
-      <PageHero
-        title="The Living Archive"
-        subtitle="Field dispatches, scientific reports, and updates from the conservation frontlines in Kawthoolei."
-        align="left"
-      />
-
+    <main className="min-h-screen bg-[#f9f7f1] dark:bg-canvas">
+      <Reveal onMount className="container mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-8 max-w-5xl">
+        <h1 className="text-4xl md:text-5xl font-bold font-sans text-ink dark:text-white tracking-tight">
+          News & Updates
+        </h1>
+        <p className="mt-4 text-lg text-steel dark:text-white/60 max-w-2xl">
+          Official updates, activities and news from Department.
+        </p>
+      </Reveal>
       {/* ── Category Filter ─────────────────────────────────── */}
       {categories.length > 0 && (
-        <section className="px-4 sm:px-6 lg:px-8 pb-8">
+        <Reveal as="section" className="px-4 sm:px-6 lg:px-8 pb-8">
           <div className="container mx-auto max-w-5xl">
             <div className="flex flex-wrap gap-2">
               <Link
                 href="/news"
-                className={`px-4 py-1.5 rounded-full text-xs font-semibold border transition-all ${
-                  !activeCategory
-                    ? "bg-green-500 text-white border-green-400"
-                    : "bg-canvas/5 text-white/60 border-white/10 hover:border-white/30 hover:text-white"
-                }`}
+                className={`px-4 py-1.5 rounded-full text-xs font-semibold border transition-all ${!activeCategory
+                  ? "bg-green-500 text-white border-green-400"
+                  : "bg-surface-soft dark:bg-canvas/5 text-steel dark:text-white/60 border-hairline dark:border-white/10 hover:border-steel dark:hover:border-white/30 hover:text-ink dark:hover:text-white"
+                  }`}
               >
                 All
               </Link>
@@ -110,26 +112,26 @@ export default async function NewsPage({ searchParams }: PageProps) {
                 <Link
                   key={cat.id}
                   href={`/news?category=${cat.slug}`}
-                  className={`px-4 py-1.5 rounded-full text-xs font-semibold border transition-all ${
-                    activeCategory === cat.slug
-                      ? "bg-green-500 text-white border-green-400"
-                      : "bg-canvas/5 text-white/60 border-white/10 hover:border-white/30 hover:text-white"
-                  }`}
+                  className={`px-4 py-1.5 rounded-full text-xs font-semibold border transition-all ${activeCategory === cat.slug
+                    ? "bg-green-500 text-white border-green-400"
+                    : "bg-surface-soft dark:bg-canvas/5 text-steel dark:text-white/60 border-hairline dark:border-white/10 hover:border-steel dark:hover:border-white/30 hover:text-ink dark:hover:text-white"
+                    }`}
                 >
                   {cat.name}
                 </Link>
               ))}
             </div>
           </div>
-        </section>
+        </Reveal>
       )}
 
       <div className="container mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-20">
         {/* ── Featured Post ──────────────────────────────────── */}
         {featured && currentPage === 0 && !activeCategory && (
+          <Reveal as="section">
           <Link
             href={`/news/${featured.slug}`}
-            className="group relative block w-full h-[420px] rounded-2xl overflow-hidden mb-12 shadow-2xl bg-forest-800"
+            className="group relative block w-full h-105 rounded-2xl overflow-hidden mb-12 shadow-2xl bg-white dark:bg-forest-800"
           >
             {featured.featuredImageUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
@@ -140,10 +142,10 @@ export default async function NewsPage({ searchParams }: PageProps) {
               />
             ) : (
               <div className="absolute inset-0 flex items-center justify-center">
-                <ImageIcon size={64} className="text-white/10" />
+                <ImageIcon size={64} className="text-steel/20 dark:text-white/10" />
               </div>
             )}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+            <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent" />
 
             <div className="absolute bottom-0 left-0 right-0 p-8">
               {featured.category && (
@@ -162,15 +164,15 @@ export default async function NewsPage({ searchParams }: PageProps) {
               </p>
             </div>
           </Link>
+          </Reveal>
         )}
 
         {/* ── Post Grid ─────────────────────────────────────── */}
         {gridPosts.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-14">
+          <Reveal className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-14" stagger>
             {(currentPage === 0 && !activeCategory ? gridPosts : posts).map((post) => (
               <Card
                 key={post.id}
-                variant="dark"
                 href={`/news/${post.slug}`}
                 imageUrl={post.featuredImageUrl ? getMediaUrl(post.featuredImageUrl) : null}
                 imageAlt={post.title}
@@ -182,13 +184,13 @@ export default async function NewsPage({ searchParams }: PageProps) {
                 metaStyle="inline"
               />
             ))}
-          </div>
+          </Reveal>
         ) : (
           <div className="text-center py-24">
-            <div className="w-16 h-16 rounded-full bg-canvas/5 flex items-center justify-center mx-auto mb-4">
-              <Tag size={24} className="text-white/30" />
+            <div className="w-16 h-16 rounded-full bg-surface dark:bg-canvas/5 flex items-center justify-center mx-auto mb-4">
+              <Tag size={24} className="text-steel/30 dark:text-white/30" />
             </div>
-            <p className="text-white/40 text-sm">No posts found for this category.</p>
+            <p className="text-steel/60 dark:text-white/40 text-sm">No posts found for this category.</p>
             <Link href="/news" className="text-green-400 hover:text-brand-green text-sm mt-3 inline-block underline">
               View all news →
             </Link>
@@ -200,45 +202,42 @@ export default async function NewsPage({ searchParams }: PageProps) {
           {/* Prev */}
           <Link
             href={currentPage > 0 ? `/news?page=${currentPage - 1}${activeCategory ? `&category=${activeCategory}` : ""}` : "#"}
-              aria-disabled={currentPage === 0}
-              className={`w-9 h-9 rounded-full flex items-center justify-center border transition-all ${
-                currentPage === 0
-                  ? "border-white/10 text-white/20 pointer-events-none"
-                  : "border-white/20 text-white/60 hover:border-white/40 hover:text-white"
+            aria-disabled={currentPage === 0}
+            className={`w-9 h-9 rounded-full flex items-center justify-center border transition-all ${currentPage === 0
+              ? "border-hairline dark:border-white/10 text-steel/20 dark:text-white/20 pointer-events-none"
+              : "border-hairline dark:border-white/20 text-steel dark:text-white/60 hover:border-steel dark:hover:border-white/40 hover:text-ink dark:hover:text-white bg-white dark:bg-transparent"
               }`}
-            >
-              <ChevronLeft size={16} />
-            </Link>
+          >
+            <ChevronLeft size={16} />
+          </Link>
 
-            {/* Pages */}
-            {Array.from({ length: Math.min(totalPages, 7) }, (_, i) => {
-              const p = i;
-              const isActive = p === currentPage;
-              return (
-                <Link
-                  key={p}
-                  href={`/news?page=${p}${activeCategory ? `&category=${activeCategory}` : ""}`}
-                  className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium border transition-all ${
-                    isActive
-                      ? "bg-green-500 border-green-400 text-white shadow-lg shadow-green-900/40"
-                      : "border-white/10 text-white/50 hover:border-white/30 hover:text-white"
+          {/* Pages */}
+          {Array.from({ length: Math.min(totalPages, 7) }, (_, i) => {
+            const p = i;
+            const isActive = p === currentPage;
+            return (
+              <Link
+                key={p}
+                href={`/news?page=${p}${activeCategory ? `&category=${activeCategory}` : ""}`}
+                className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium border transition-all ${isActive
+                  ? "bg-green-500 border-green-400 text-white shadow-lg shadow-green-900/40"
+                  : "border-hairline dark:border-white/10 text-steel dark:text-white/50 hover:border-steel dark:hover:border-white/30 hover:text-ink dark:hover:text-white bg-white dark:bg-transparent"
                   }`}
-                >
-                  {p + 1}
-                </Link>
-              );
-            })}
+              >
+                {p + 1}
+              </Link>
+            );
+          })}
 
-            {/* Next */}
-            <Link
-              href={currentPage < totalPages - 1 ? `/news?page=${currentPage + 1}${activeCategory ? `&category=${activeCategory}` : ""}` : "#"}
-              aria-disabled={currentPage >= totalPages - 1}
-              className={`w-9 h-9 rounded-full flex items-center justify-center border transition-all ${
-                currentPage >= totalPages - 1
-                  ? "border-white/10 text-white/20 pointer-events-none"
-                  : "border-white/20 text-white/60 hover:border-white/40 hover:text-white"
+          {/* Next */}
+          <Link
+            href={currentPage < totalPages - 1 ? `/news?page=${currentPage + 1}${activeCategory ? `&category=${activeCategory}` : ""}` : "#"}
+            aria-disabled={currentPage >= totalPages - 1}
+            className={`w-9 h-9 rounded-full flex items-center justify-center border transition-all ${currentPage >= totalPages - 1
+              ? "border-hairline dark:border-white/10 text-steel/20 dark:text-white/20 pointer-events-none"
+              : "border-hairline dark:border-white/20 text-steel dark:text-white/60 hover:border-steel dark:hover:border-white/40 hover:text-ink dark:hover:text-white bg-white dark:bg-transparent"
               }`}
-            >
+          >
             <ChevronRight size={16} />
           </Link>
         </div>

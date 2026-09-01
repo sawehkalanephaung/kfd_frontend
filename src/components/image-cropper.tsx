@@ -4,6 +4,7 @@ import React, { useId, useRef, useState, useCallback } from 'react';
 import Cropper from 'react-easy-crop';
 import { X, Check } from 'lucide-react';
 import { useFocusTrap } from '@/lib/use-focus-trap';
+import { Button } from '@/components/ui/button';
 
 interface ImageCropperModalProps {
   imageSrc: string;
@@ -72,10 +73,10 @@ export default function ImageCropperModal({ imageSrc, onCropComplete, onClose }:
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
+    <div className="fixed inset-0 z-100 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
       {/* Backdrop */}
       <div 
-        className="absolute inset-0 bg-gray-900/80 backdrop-blur-sm"
+        className="absolute inset-0"
         onClick={onClose}
       />
       
@@ -105,7 +106,7 @@ export default function ImageCropperModal({ imageSrc, onCropComplete, onClose }:
         </div>
 
         {/* Cropper Container */}
-        <div className="relative w-full h-[400px] bg-black">
+        <div className="relative w-full h-100 bg-black">
           <Cropper
             image={imageSrc}
             crop={crop}
@@ -143,14 +144,10 @@ export default function ImageCropperModal({ imageSrc, onCropComplete, onClose }:
             >
               Cancel
             </button>
-            <button
-              type="button"
-              onClick={createCroppedImage}
-              className="inline-flex items-center gap-2 px-5 py-2 bg-brand-green hover:bg-primary-deep text-on-primary text-sm font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
-            >
+            <Button size="sm" type="button" onClick={createCroppedImage}>
               <Check className="w-4 h-4" />
               Apply Crop
-            </button>
+            </Button>
           </div>
         </div>
 

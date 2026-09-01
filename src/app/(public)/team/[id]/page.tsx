@@ -45,14 +45,14 @@ function parseI18nField(val: any): string {
 
 function Breadcrumb({ name }: { name: string }) {
   return (
-    <div className="border-b border-[#e1e5e8] bg-canvas">
+    <div className="border-b border-[#e1e5e8] dark:border-hairline bg-canvas">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-wrap items-center gap-2 py-4 text-sm font-medium text-[#5c6c7a]">
-          <Link href="/" className="transition-colors hover:text-brand-text">Home</Link>
-          <ChevronRight size={14} className="text-[#a8b3bc]" />
-          <Link href="/team" className="transition-colors hover:text-brand-text">Team</Link>
-          <ChevronRight size={14} className="text-[#a8b3bc]" />
-          <span className="text-brand-text">{name}</span>
+        <div className="flex flex-wrap items-center gap-2 py-4 text-sm font-medium text-[#5c6c7a] dark:text-steel">
+          <Link href="/" className="transition-colors hover:text-brand-text dark:hover:text-white">Home</Link>
+          <ChevronRight size={14} className="text-[#a8b3bc] dark:text-steel/50" />
+          <Link href="/team" className="transition-colors hover:text-brand-text dark:hover:text-white">Chairman</Link>
+          <ChevronRight size={14} className="text-[#a8b3bc] dark:text-steel/50" />
+          <span className="text-brand-text dark:text-white">{name}</span>
         </div>
       </div>
     </div>
@@ -85,7 +85,7 @@ export default async function TeamMemberProfilePage({ params }: { params: Promis
   const bio = parseI18nField(member.bio || member.description) || '';
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-white dark:bg-canvas">
       <Breadcrumb name={fullName} />
 
       <section className="relative overflow-hidden bg-[#0b1f14] pb-14 pt-14 lg:pb-24">
@@ -96,11 +96,11 @@ export default async function TeamMemberProfilePage({ params }: { params: Promis
             backgroundSize: '32px 32px',
           }}
         />
-        <div className="pointer-events-none absolute -right-20 -top-20 h-[600px] w-[600px] rounded-full bg-[#1a4a2e]/20 blur-[100px]" />
+        <div className="pointer-events-none absolute -right-20 -top-20 h-150 w-150 rounded-full bg-[#1a4a2e]/20 blur-[100px]" />
 
         <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center gap-10 text-center md:flex-row md:gap-14 md:text-left lg:gap-20">
-            <div className="relative h-[340px] w-[280px] shrink-0 overflow-hidden rounded-t-full rounded-b-md bg-[#12271b] shadow-2xl shadow-black/40 ring-1 ring-white/[0.08] sm:h-[365px] sm:w-[300px] lg:h-[393px] lg:w-[323px]">
+            <div className="relative h-85 w-70 shrink-0 overflow-hidden rounded-t-full rounded-b-md bg-[#12271b] shadow-2xl shadow-black/40 ring-1 ring-white/8 sm:h-91.25 sm:w-75 lg:h-98.25 lg:w-80.75">
               {displayImage ? (
                 <img
                   src={displayImage}
@@ -112,7 +112,7 @@ export default async function TeamMemberProfilePage({ params }: { params: Promis
                   <User size={96} className="text-white/20" aria-hidden="true" />
                 </div>
               )}
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+              <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/30 via-transparent to-transparent" />
             </div>
 
             <div className="min-w-0 text-white">
@@ -138,19 +138,19 @@ export default async function TeamMemberProfilePage({ params }: { params: Promis
         </div>
       </section>
 
-      <section className="bg-white pb-28 pt-24 lg:pb-36 lg:pt-28">
+      <section className="bg-white dark:bg-canvas pb-28 pt-24 lg:pb-36 lg:pt-28">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-[840px]">
-            <h2 className="text-3xl font-bold tracking-tight text-[#001e2b]">Biography</h2>
-            <div className="mt-6 h-px w-full bg-[#e1e5e8]" />
+          <div className="mx-auto max-w-210">
+            <h2 className="text-3xl font-bold tracking-tight text-[#001e2b] dark:text-white">Biography</h2>
+            <div className="mt-6 h-px w-full bg-[#e1e5e8] dark:bg-hairline" />
 
             {bio ? (
               <div
-                className="rich-text prose prose-slate mt-10 max-w-none text-[#3d4f5b] md:text-justify [&_*]:!bg-transparent [&_*]:!text-inherit"
+                className="rich-text prose prose-slate dark:prose-invert mt-10 max-w-none text-[#3d4f5b] dark:text-steel md:text-justify **:bg-transparent! **:text-inherit!"
                 dangerouslySetInnerHTML={{ __html: bio }}
               />
             ) : (
-              <p className="mt-10 italic text-[#5c6c7a]">
+              <p className="mt-10 italic text-[#5c6c7a] dark:text-steel">
                 Detailed biography is currently being updated.
               </p>
             )}

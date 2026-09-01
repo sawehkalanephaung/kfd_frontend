@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { ArrowRight, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 export default function NewsletterForm() {
   const [email, setEmail] = useState('');
@@ -51,13 +52,13 @@ export default function NewsletterForm() {
     <form onSubmit={handleSubmit} className="flex flex-col gap-3">
       {status === 'success' && (
         <div role="status" className="flex items-center gap-2 text-sm text-brand-green bg-brand-green-soft p-2.5 rounded-full border border-brand-green/30">
-          <CheckCircle2 size={16} className="flex-shrink-0" aria-hidden="true" />
+          <CheckCircle2 size={16} className="shrink-0" aria-hidden="true" />
           <span className="leading-tight">{message}</span>
         </div>
       )}
       {status === 'error' && (
         <div role="alert" className="flex items-center gap-2 text-sm text-danger-text bg-danger-bg p-2.5 rounded-md border border-danger/20">
-          <AlertCircle size={16} className="flex-shrink-0" aria-hidden="true" />
+          <AlertCircle size={16} className="shrink-0" aria-hidden="true" />
           <span className="leading-tight">{message}</span>
         </div>
       )}
@@ -71,10 +72,10 @@ export default function NewsletterForm() {
         required
         disabled={loading}
       />
-      <button
+      <Button
         type="submit"
         disabled={loading}
-        className="w-full bg-neon-green hover:bg-[#00C250] text-teal-deep font-medium py-2.5 rounded-full flex items-center justify-center gap-2 transition-all duration-200 ease-in-out disabled:opacity-70 disabled:cursor-not-allowed"
+        className="w-full"
       >
         {loading ? (
           <>
@@ -86,7 +87,7 @@ export default function NewsletterForm() {
             Subscribe <ArrowRight size={16} />
           </>
         )}
-      </button>
+      </Button>
     </form>
   );
 }

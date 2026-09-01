@@ -48,7 +48,7 @@ export default function DepartmentTabs({ data }: { data: DepartmentData }) {
         </div>
 
         {/* Tab Content */}
-        <div className="py-6 min-h-[500px]">
+        <div className="py-6 min-h-125">
           {activeTab === "info" && <DepartmentInfo data={data} />}
           {activeTab === "resources" && <DepartmentResources data={data} />}
           {activeTab === "activity" && <DepartmentActivity data={data} />}

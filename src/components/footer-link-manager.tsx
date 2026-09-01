@@ -20,6 +20,7 @@ import {
 import api from '@/lib/api';
 import toast from 'react-hot-toast';
 import DeleteModal from '@/components/delete-modal';
+import { Button } from '@/components/ui/button';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -166,14 +167,10 @@ function LinkForm({
           >
             <X className="w-4 h-4" aria-hidden="true" />
           </button>
-          <button
-            type="submit"
-            disabled={loading}
-            className="inline-flex items-center gap-1.5 px-4 py-2 bg-brand-green hover:bg-primary-deep text-on-primary text-sm font-medium rounded-full transition-colors disabled:opacity-70"
-          >
+          <Button size="sm" type="submit" disabled={loading}>
             {loading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Check className="w-3.5 h-3.5" />}
             {initialData ? 'Update' : 'Add Link'}
-          </button>
+          </Button>
         </div>
       </div>
     </form>
@@ -274,14 +271,10 @@ function SectionForm({
           >
             <X className="w-4 h-4" aria-hidden="true" />
           </button>
-          <button
-            type="submit"
-            disabled={loading}
-            className="inline-flex items-center gap-1.5 px-4 py-2 bg-brand-green hover:bg-primary-deep text-on-primary text-sm font-medium rounded-full transition-colors disabled:opacity-70"
-          >
+          <Button size="sm" type="submit" disabled={loading}>
             {loading ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Check className="w-3.5 h-3.5" />}
             {initialData ? 'Update Section' : 'Add Section'}
-          </button>
+          </Button>
         </div>
       </div>
     </form>
@@ -329,7 +322,7 @@ function LinkRow({
         itemName={`"${link.label}"`}
       />
       <div className="flex items-center gap-3 px-3 py-2.5 bg-canvas border border-hairline rounded-xl group hover:border-hairline-strong transition-all">
-        <GripVertical className="w-3.5 h-3.5 text-muted flex-shrink-0" />
+        <GripVertical className="w-3.5 h-3.5 text-muted shrink-0" />
         <div className="flex-1 min-w-0">
           <p className="text-sm font-medium text-charcoal truncate">{link.label}</p>
           <a
@@ -338,11 +331,11 @@ function LinkRow({
             rel="noopener noreferrer"
             className="text-xs text-brand-green-dark hover:text-brand-green-dark flex items-center gap-1 truncate"
           >
-            <ExternalLink className="w-3 h-3 flex-shrink-0" />
+            <ExternalLink className="w-3 h-3 shrink-0" />
             {link.url}
           </a>
         </div>
-        <div className="flex items-center gap-1.5 flex-shrink-0">
+        <div className="flex items-center gap-1.5 shrink-0">
           <span className="text-xs text-muted w-6 text-center">#{link.displayOrder}</span>
           {link.isActive ? (
             <Eye className="w-3.5 h-3.5 text-emerald-400" />
@@ -424,7 +417,7 @@ function SectionCard({
                 <ChevronRight className="w-4 h-4" aria-hidden="true" />
               )}
             </button>
-            <LayoutList className="w-4 h-4 text-brand-green flex-shrink-0" />
+            <LayoutList className="w-4 h-4 text-brand-green shrink-0" />
             <div className="flex-1 min-w-0">
               <h3 className="text-sm font-bold text-ink flex items-center gap-2">
                 {section.title}
@@ -581,13 +574,10 @@ export default function FooterLinkManager() {
       {/* Top bar */}
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-bold text-ink">Footer Link Sections</h2>
-        <button
-          onClick={() => setAddingSection(true)}
-          className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand-green hover:bg-primary-deep text-on-primary text-sm font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
-        >
+        <Button size="sm" onClick={() => setAddingSection(true)}>
           <Plus className="w-4 h-4" />
           Add Section
-        </button>
+        </Button>
       </div>
 
       {/* Add section form */}
@@ -623,13 +613,10 @@ export default function FooterLinkManager() {
           <p className="text-sm text-muted mb-5">
             Create your first section to start organizing footer links.
           </p>
-          <button
-            onClick={() => setAddingSection(true)}
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand-green hover:bg-primary-deep text-on-primary text-sm font-medium rounded-full transition-colors shadow-sm shadow-brand-green/20"
-          >
+          <Button size="sm" onClick={() => setAddingSection(true)}>
             <Plus className="w-4 h-4" />
             Create First Section
-          </button>
+          </Button>
         </div>
       ) : (
         <div className="space-y-4">

@@ -9,6 +9,7 @@ import SlideOver from '@/components/slide-over';
 import TagForm from '@/components/tag-form';
 import EmptyState from '@/components/ui/empty-state';
 import PageHeader from '@/components/page-header';
+import { Button } from '@/components/ui/button';
 import toast from 'react-hot-toast';
 
 interface Tag {
@@ -116,13 +117,10 @@ export default function TagsListPage() {
         title="Tags"
         description="Manage tags used to categorize and filter posts."
         action={
-          <button
-            onClick={openCreateDrawer}
-            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-brand-green hover:bg-primary-deep text-on-primary font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
-          >
+          <Button onClick={openCreateDrawer}>
             <Plus className="w-5 h-5" />
             Create
-          </button>
+          </Button>
         }
       />
 
@@ -136,7 +134,7 @@ export default function TagsListPage() {
       {/* Table Section */}
       <div className="bg-canvas rounded-lg shadow-sm border border-hairline-soft overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[800px] text-left text-sm text-steel">
+          <table className="w-full min-w-200 text-left text-sm text-steel">
             <thead className="bg-surface-soft border-b border-hairline">
               <tr>
                 <th className="px-6 py-3 text-xs font-semibold text-muted uppercase tracking-wider">Tag Name</th>

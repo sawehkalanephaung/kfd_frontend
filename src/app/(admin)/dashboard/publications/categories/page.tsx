@@ -8,6 +8,7 @@ import DeleteModal from '@/components/delete-modal';
 import SlideOver from '@/components/slide-over';
 import CategoryForm from '@/components/category-form';
 import PageHeader from '@/components/page-header';
+import { Button } from '@/components/ui/button';
 import toast from 'react-hot-toast';
 
 interface Category {
@@ -140,13 +141,10 @@ export default function PublicationCategoriesListPage() {
         title="Publication Categories"
         description="Organize your publications into structured topics."
         action={
-          <button
-            onClick={openCreateDrawer}
-            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-brand-green hover:bg-primary-deep text-on-primary font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
-          >
+          <Button onClick={openCreateDrawer}>
             <Plus className="w-5 h-5" />
             ADD
-          </button>
+          </Button>
         }
       />
 
@@ -160,7 +158,7 @@ export default function PublicationCategoriesListPage() {
       {/* Table Section */}
       <div className="bg-canvas rounded-lg shadow-sm border border-hairline-soft overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[800px] text-left text-sm text-steel">
+          <table className="w-full min-w-200 text-left text-sm text-steel">
             <thead className="bg-surface-soft text-steel font-medium border-b border-hairline">
               <tr>
                 <th className="px-6 py-4">Category Name</th>

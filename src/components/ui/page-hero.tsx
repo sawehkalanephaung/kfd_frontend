@@ -60,16 +60,15 @@ export function PageHero({
             aria-hidden="true"
           />
           <div
-            className={`absolute inset-0 ${
-              isLeft
-                ? 'bg-gradient-to-r from-black/80 via-black/40 to-transparent'
+            className={`absolute inset-0 ${isLeft
+                ? 'bg-linear-to-r from-black/80 via-black/40 to-transparent'
                 : 'bg-black/60'
-            }`}
+              }`}
             aria-hidden="true"
           />
         </>
       ) : (
-        <div className="absolute inset-0 bg-gradient-to-b from-forest-950 to-forest-900" aria-hidden="true" />
+        <div className="absolute inset-0 bg-linear-to-b from-forest-950 to-forest-900" aria-hidden="true" />
       )}
 
       {/* Decorative watermark icon */}
@@ -81,11 +80,10 @@ export function PageHero({
       )}
 
       <div
-        className={`relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28 flex flex-col ${
-          isLeft ? 'items-start text-left' : 'items-center text-center'
-        }`}
+        className={`relative z-10 container mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28 flex flex-col ${isLeft ? 'items-start text-left' : 'items-center text-center'
+          }`}
       >
-        <div className={isLeft ? 'max-w-2xl' : 'max-w-2xl mx-auto'}>
+        <div className={`${isLeft ? 'max-w-2xl' : 'max-w-2xl mx-auto'}`}>
           {backLink && (
             <a
               href={backLink.href}

@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef } from "react";
-import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 import gsap from "gsap";
@@ -9,6 +8,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { ContentFallback } from "@/components/content-fallback";
 import { Accordion } from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -78,13 +78,10 @@ export default function FAQSection({ faqs, status }: { faqs: any[]; status: 'ok'
               <p className="text-sm text-steel mb-6">
                 Cannot find the answers you're looking for? Reach out to our support team.
               </p>
-              <Link
-                href="/contact"
-                className="bg-brand-green hover:bg-primary-deep text-on-primary font-bold px-6 py-3 rounded-full transition-colors flex items-center justify-center gap-2 w-full"
-              >
+              <Button href="/contact" className="w-full">
                 Contact Us
                 <ArrowRight size={18} />
-              </Link>
+              </Button>
             </div>
           </div>
 

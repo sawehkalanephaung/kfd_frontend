@@ -27,10 +27,18 @@ export interface NewsPost {
   publishedAt: string;
   createdAt: string;
   updatedAt: string;
+  metadata?: {
+    eventDate?: string;
+    eventTime?: string;
+    eventLocation?: string;
+    [key: string]: any;
+  };
 }
 
 export interface NewsPostDetail extends NewsPost {
   relatedPosts: NewsPost[];
+  sliderImageUrls?: string[];
+  sliderImageIds?: string[];
 }
 
 export interface PaginatedPosts {

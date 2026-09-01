@@ -6,6 +6,7 @@ import { UploadCloud, Trash2, Edit, FileText, Image as ImageIcon, Images, Loader
 import api, { getMediaUrl } from '@/lib/api';
 import DeleteModal from '@/components/delete-modal';
 import PageHeader from '@/components/page-header';
+import { Button } from '@/components/ui/button';
 import { Pagination } from '@/components/ui/pagination';
 import toast from 'react-hot-toast';
 import { CustomSelect } from '@/components/ui/custom-select';
@@ -147,13 +148,10 @@ export default function MediaLibraryPage() {
         title="Media Library"
         description="Manage all your uploaded images, videos, and documents."
         action={
-          <Link
-            href="/dashboard/media/upload"
-            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-brand-green hover:bg-primary-deep text-on-primary font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
-          >
+          <Button href="/dashboard/media/upload">
             <UploadCloud className="w-5 h-5" />
             Upload
-          </Link>
+          </Button>
         }
       />
 
@@ -195,7 +193,7 @@ export default function MediaLibraryPage() {
       {/* Table Section */}
       <div className="bg-canvas rounded-lg shadow-sm border border-hairline-soft overflow-hidden">
         <div className="overflow-x-auto w-full">
-          <table className="w-full min-w-[800px] text-left text-sm text-steel">
+          <table className="w-full min-w-200 text-left text-sm text-steel">
             <thead className="bg-surface-soft border-b border-hairline">
               <tr>
                 <th className="px-6 py-3 text-xs font-semibold text-muted uppercase tracking-wider">File Name</th>
@@ -243,7 +241,7 @@ export default function MediaLibraryPage() {
                             getFileIcon(asset.fileType)
                           )}
                         </div>
-                        <div className="max-w-[200px] sm:max-w-xs">
+                        <div className="max-w-50 sm:max-w-xs">
                           <p className="font-medium text-ink truncate" title={asset.fileName}>
                             <a href={getMediaUrl(asset.fileUrl)} target="_blank" rel="noreferrer" className="hover:text-brand-green-dark transition-colors">
                               {asset.fileName}

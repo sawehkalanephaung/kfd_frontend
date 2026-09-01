@@ -95,7 +95,7 @@ export default function ImageUploadField({
       </div>
       <div>
         <p className="text-sm font-medium text-ink mb-1">{broken ? 'Image failed to load' : emptyLabel}</p>
-        <p className="text-xs text-steel max-w-[220px] mx-auto">
+        <p className="text-xs text-steel max-w-55 mx-auto">
           {broken ? 'The stored file may have been moved or deleted. Upload a new one or choose from your library.' : emptyHint}
         </p>
       </div>

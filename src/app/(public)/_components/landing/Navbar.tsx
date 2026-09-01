@@ -35,7 +35,7 @@ export default async function Navbar() {
       name: "About Us",
       href: "/about",
       dropdown: [
-        { name: "About KFD", href: "/about" },
+        { name: "About Us", href: "/about" },
         { name: "Our Chairman", href: "/team" },
       ]
     },
@@ -62,7 +62,7 @@ export default async function Navbar() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3">
-          <div className="relative w-12 h-12 flex-shrink-0">
+          <div className="relative w-12 h-12 shrink-0">
             {resolvedLogoUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img

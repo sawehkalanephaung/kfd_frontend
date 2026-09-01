@@ -1,6 +1,6 @@
 import React from 'react';
 import { FileQuestion, Plus } from 'lucide-react';
-import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 interface EmptyStateProps {
   title: string;
@@ -29,21 +29,15 @@ export default function EmptyState({
       
       {actionLabel && (
         actionHref ? (
-          <Link 
-            href={actionHref}
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand-green hover:bg-primary-deep text-on-primary font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95 text-sm"
-          >
+          <Button href={actionHref}>
             <Plus className="w-4 h-4 shrink-0" />
             {actionLabel}
-          </Link>
+          </Button>
         ) : (
-          <button 
-            onClick={onAction}
-            className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand-green hover:bg-primary-deep text-on-primary font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95 text-sm"
-          >
+          <Button onClick={onAction}>
             <Plus className="w-4 h-4 shrink-0" />
             {actionLabel}
-          </button>
+          </Button>
         )
       )}
     </div>

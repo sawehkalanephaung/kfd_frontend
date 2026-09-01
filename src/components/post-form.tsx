@@ -12,6 +12,7 @@ import 'react-quill-new/dist/quill.snow.css';
 import toast from 'react-hot-toast';
 import { CustomSelect } from '@/components/ui/custom-select';
 import { FormField } from '@/components/ui/form-field';
+import { Button } from '@/components/ui/button';
 
 const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
 
@@ -156,6 +157,10 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
       departmentId: formData.departmentId || null,
       featuredImageUrl: formData.featuredImageUrl?.trim() || null,
       sliderImageIds: formData.sliderImageIds ? formData.sliderImageIds.split(',').map((id: string) => id.trim()).filter(Boolean) : [],
+      metadata: {
+        ...(formData.metadata || {}),
+        sliderImageUrls: sliderPreviews.map(p => p.url).filter(Boolean)
+      }
     };
 
     try {
@@ -200,14 +205,13 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
           <ArrowLeft className="w-4 h-4" />
           Back to Posts
         </Link>
-        <button
+        <Button
           type="submit"
           disabled={loading}
-          className="inline-flex items-center gap-2 px-6 py-2.5 bg-brand-green hover:bg-primary-deep disabled:opacity-70 text-on-primary font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
         >
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
           {isEdit ? 'Save Changes' : 'Create Post'}
-        </button>
+        </Button>
       </div>
 
       {error && (
@@ -282,7 +286,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                 theme="snow"
                 value={formData.content}
                 onChange={(val) => setFormData({ ...formData, content: val })}
-                className="h-[var(--editor-height-md)] mb-10 text-black"
+                className="h-(--editor-height-md) mb-10 text-black"
                 placeholder="Enter full post content..."
               />
             </div>
@@ -395,7 +399,20 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                   <CustomSelect
                     {...fieldProps}
                     value={formData.categoryId}
-                    onChange={(val) => setFormData({ ...formData, categoryId: val })}
+                    onChange={(val) => {
+                      const newCat = categories.find(c => c.id.toString() === val);
+                      const isNoSliderCat = newCat && (newCat.name.toLowerCase() === 'event' || newCat.name.toLowerCase() === 'announcement');
+                      
+                      setFormData(prev => ({ 
+                        ...prev, 
+                        categoryId: val,
+                        sliderImageIds: isNoSliderCat ? '' : prev.sliderImageIds
+                      }));
+                      
+                      if (isNoSliderCat) {
+                        setSliderPreviews([]);
+                      }
+                    }}
                     placeholder="Select a Category"
                     options={categories.map((cat: any) => ({ value: cat.id.toString(), label: cat.name }))}
                     clearable
@@ -417,13 +434,13 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
               </FormField>
 
               <div>
-                <label className="block text-sm font-semibold text-ink mb-2 flex items-center gap-2">
+                <label className="text-sm font-semibold text-ink mb-2 flex items-center gap-2">
                   <TagIcon className="w-4 h-4 text-muted" />
                   Tags
                 </label>
                 <div className="relative">
                   <div
-                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all flex flex-wrap gap-2 items-center cursor-pointer min-h-[50px]"
+                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all flex flex-wrap gap-2 items-center cursor-pointer min-h-12.5"
                     onClick={() => setIsTagDropdownOpen(!isTagDropdownOpen)}
                   >
                     {formData.tagIds.length === 0 && <span className="text-muted">Select Tags...</span>}
@@ -509,16 +526,20 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
               />
             </div>
           </div>
-
         </div>
       </div>
 
       {/* Slider Images Card (Bottom) */}
-      <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft mb-6">
-        <h2 className="text-lg font-bold text-ink mb-6 flex items-center gap-2">
-          <ImageIcon className="w-5 h-5 text-muted" />
-          Slider Images (Optional Gallery)
-        </h2>
+      {!(
+        selectedCategory && 
+        (selectedCategory.name.toLowerCase() === 'event' || selectedCategory.name.toLowerCase() === 'announcement') &&
+        sliderPreviews.length === 0
+      ) && (
+        <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline-soft mb-6">
+          <h2 className="text-lg font-bold text-ink mb-6 flex items-center gap-2">
+            <ImageIcon className="w-5 h-5 text-muted" />
+            Slider Images (Optional Gallery)
+          </h2>
         
         <div className="space-y-4">
           <div className="flex items-center justify-between">
@@ -579,6 +600,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
           )}
         </div>
       </div>
+      )}
 
       <MediaSelector
         isOpen={isMediaSelectorOpen}

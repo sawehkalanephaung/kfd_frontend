@@ -272,7 +272,7 @@ export default function Header() {
           >
             <Bell className="w-5 h-5" aria-hidden="true" />
             {hasUnread && (
-              <span aria-hidden="true" className="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 bg-accent-orange border-2 border-canvas rounded-full flex items-center justify-center">
+              <span aria-hidden="true" className="absolute -top-1 -right-1 min-w-4.5 h-4.5 px-1 bg-accent-orange border-2 border-canvas rounded-full flex items-center justify-center">
                 <span className="text-[10px] font-bold text-white leading-none">
                   {notifications.length > 9 ? '9+' : notifications.length}
                 </span>
@@ -282,7 +282,7 @@ export default function Header() {
 
           {/* Notification Dropdown */}
           {showDropdown && (
-            <div className="absolute -right-[72px] sm:right-0 mt-2 w-[calc(100vw-2rem)] sm:w-96 max-w-[384px] bg-canvas rounded-lg shadow-modal border border-hairline overflow-hidden z-50 origin-top-right" style={{ animation: 'slideDown 0.2s ease-out' }}>
+            <div className="absolute -right-18 sm:right-0 mt-2 w-[calc(100vw-2rem)] sm:w-96 max-w-[384px] bg-canvas rounded-lg shadow-modal border border-hairline overflow-hidden z-50 origin-top-right" style={{ animation: 'slideDown 0.2s ease-out' }}>
               <div className="flex items-center justify-between p-4 border-b border-hairline-soft bg-surface-soft">
                 <div className="flex items-center gap-2">
                   <h3 className="font-bold text-ink">Notifications</h3>
@@ -298,7 +298,7 @@ export default function Header() {
                   </button>
                 )}
               </div>
-              <div className="max-h-[400px] overflow-y-auto">
+              <div className="max-h-100 overflow-y-auto">
                 {notifications.length === 0 ? (
                   <div className="p-10 text-center">
                     <div className="w-12 h-12 rounded-full bg-surface flex items-center justify-center mx-auto mb-3">
@@ -374,7 +374,7 @@ export default function Header() {
               {user?.firstName?.charAt(0) || ''}{user?.lastName?.charAt(0) || 'U'}
             </span>
           </div>
-          <div className="flex flex-col items-start hidden sm:flex">
+          <div className="flex-col items-start hidden sm:flex">
             <span className="text-[14px] font-semibold text-ink leading-tight">
               {user ? `${user.firstName} ${user.lastName}` : 'Admin User'}
             </span>

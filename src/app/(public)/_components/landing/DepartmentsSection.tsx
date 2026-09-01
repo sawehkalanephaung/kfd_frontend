@@ -66,7 +66,7 @@ export default function DepartmentsSection({ departments, status }: { department
 
         {/* Section Header */}
         <div ref={headerRef} className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
-          <h2 className="text-3xl font-bold text-black">Our Department Branches</h2>
+          <h2 className="text-3xl font-bold text-white">Our Department Branches</h2>
           <Link
             href="/departments"
             className="text-sm font-semibold text-ink hover:text-brand-green-dark flex items-center gap-1 transition-colors group"
@@ -80,20 +80,20 @@ export default function DepartmentsSection({ departments, status }: { department
         {status === 'error' ? (
           <ContentFallback variant="error" title="Departments unavailable" message="We couldn't load department branches right now." />
         ) : (
-        <div ref={containerRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {displayDepartments.slice(0, 4).map((dept, index) => (
-            <Card
-              key={dept.id || index}
-              href={`/departments/${dept.slug}`}
-              imageUrl={dept.heroImageUrl ? getMediaUrl(dept.heroImageUrl) : null}
-              imageAlt={dept.title || dept.name}
-              fallbackIcon={TreePine}
-              title={dept.title || dept.name}
-              description={extractPlainExcerpt(dept.bodyContent) || "A specialized unit within the Kawthoolei Forestry Department."}
-              footerLabel="Explore"
-            />
-          ))}
-        </div>
+          <div ref={containerRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {displayDepartments.slice(0, 4).map((dept, index) => (
+              <Card
+                key={dept.id || index}
+                href={`/departments/${dept.slug}`}
+                imageUrl={dept.heroImageUrl ? getMediaUrl(dept.heroImageUrl) : null}
+                imageAlt={dept.title || dept.name}
+                fallbackIcon={TreePine}
+                title={dept.title || dept.name}
+                description={extractPlainExcerpt(dept.bodyContent) || "A specialized unit within the Kawthoolei Forestry Department."}
+                footerLabel="Explore"
+              />
+            ))}
+          </div>
         )}
 
       </div>

@@ -9,6 +9,7 @@ import SlideOver from '@/components/slide-over';
 import RoleForm from '@/components/role-form';
 import EmptyState from '@/components/ui/empty-state';
 import PageHeader from '@/components/page-header';
+import { Button } from '@/components/ui/button';
 import toast from 'react-hot-toast';
 
 export default function RolesDirectoryPage() {
@@ -114,13 +115,10 @@ export default function RolesDirectoryPage() {
         title="Roles & Access"
         description="Manage system roles, permissions, and access levels."
         action={
-          <button
-            onClick={openCreateDrawer}
-            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-brand-green hover:bg-primary-deep text-on-primary font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
-          >
+          <Button onClick={openCreateDrawer}>
             <Plus className="w-5 h-5" />
             Create
-          </button>
+          </Button>
         }
       />
 
@@ -134,7 +132,7 @@ export default function RolesDirectoryPage() {
       {/* Table Section */}
       <div className="bg-canvas rounded-lg shadow-sm border border-hairline-soft overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[800px] text-left text-sm text-steel">
+          <table className="w-full min-w-200 text-left text-sm text-steel">
             <thead className="bg-surface-soft text-steel font-medium border-b border-hairline">
               <tr>
                 <th className="px-6 py-4">Role Name</th>
