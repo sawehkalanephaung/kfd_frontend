@@ -404,7 +404,7 @@ export default function Sidebar({ initialOrgIdentity }: { initialOrgIdentity?: S
                       `flex items-center transition-all duration-200 min-w-0 ` +
                       (isCollapsed
                         ? `w-11 h-11 mx-auto justify-center rounded-xl ${active ? 'bg-brand-green/15 text-brand-green shadow-sm' : 'text-on-dark-muted hover:bg-canvas/10 hover:text-on-dark'}`
-                        : `w-full gap-3 py-3 px-4 justify-between rounded-lg text-sm font-medium ${active ? 'bg-brand-green text-on-primary shadow-lg shadow-brand-green/20' : 'text-on-dark-muted hover:bg-canvas/8 hover:text-on-dark'}`)
+                        : `w-full gap-3 py-3 px-4 justify-between rounded-lg text-sm font-medium ${active ? 'bg-brand-green text-white dark:text-teal-deep shadow-lg shadow-brand-green/20' : 'text-on-dark-muted hover:bg-canvas/8 hover:text-on-dark'}`)
                     }
                     title={isCollapsed ? item.label : undefined}
                   >
@@ -426,7 +426,7 @@ export default function Sidebar({ initialOrgIdentity }: { initialOrgIdentity?: S
                       `flex items-center transition-all duration-200 min-w-0 ` +
                       (isCollapsed
                         ? `w-11 h-11 mx-auto justify-center rounded-xl ${active ? 'bg-brand-green/15 text-brand-green shadow-sm' : 'text-on-dark-muted hover:bg-canvas/10 hover:text-on-dark'}`
-                        : `w-full gap-3 py-3 px-4 justify-start rounded-lg text-sm font-medium ${active ? 'bg-brand-green text-on-primary shadow-lg shadow-brand-green/20' : 'text-on-dark-muted hover:bg-canvas/8 hover:text-on-dark'}`)
+                        : `w-full gap-3 py-3 px-4 justify-start rounded-lg text-sm font-medium ${active ? 'bg-brand-green text-white dark:text-teal-deep shadow-lg shadow-brand-green/20' : 'text-on-dark-muted hover:bg-canvas/8 hover:text-on-dark'}`)
                     }
                     title={isCollapsed ? item.label : undefined}
                   >

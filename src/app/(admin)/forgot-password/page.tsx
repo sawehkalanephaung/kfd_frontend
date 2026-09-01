@@ -7,6 +7,7 @@ import Image from 'next/image';
 import api from '@/lib/api';
 import loginBg from '@/assets/login_bg.png';
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 export default function ForgotPassword() {
   const router = useRouter();
@@ -97,12 +98,9 @@ export default function ForgotPassword() {
                   If the email exists in our system, a password reset link has been sent. Please check your inbox.
                 </p>
               </div>
-              <Link
-                href="/login"
-                className="w-full py-3.5 mt-4 bg-brand-green hover:bg-emerald-400 text-slate-900 font-bold rounded-full shadow-lg shadow-brand-green/20 transition-all transform active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-brand-green flex items-center justify-center gap-2"
-              >
+              <Button href="/login" className="w-full mt-4">
                 Return to Login
-              </Link>
+              </Button>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-5" noValidate>
@@ -136,14 +134,14 @@ export default function ForgotPassword() {
                 {emailError && <p id={emailErrorId} role="alert" className="text-red-600 text-xs font-medium ml-1 mt-1 animate-in slide-in-from-top-1">{emailError}</p>}
               </div>
 
-              <button
+              <Button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3.5 mt-4 bg-brand-green hover:bg-emerald-400 disabled:opacity-70 disabled:cursor-not-allowed text-slate-900 font-bold rounded-full shadow-lg shadow-brand-green/20 transition-all transform active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-brand-green focus:ring-offset-2 focus:ring-offset-transparent flex items-center justify-center gap-2"
+                className="w-full mt-4"
               >
                 {loading && <Loader2 className="w-5 h-5 animate-spin" />}
                 {loading ? 'Sending...' : 'Send Reset Link'}
-              </button>
+              </Button>
               
               <div className="flex items-center justify-center pt-2">
                 <Link href="/login" className="flex items-center gap-1.5 text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors">

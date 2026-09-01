@@ -6,6 +6,7 @@ import api from '@/lib/api';
 import toast from 'react-hot-toast';
 import DeleteModal from '@/components/delete-modal';
 import { CustomSelect } from '@/components/ui/custom-select';
+import { Button } from '@/components/ui/button';
 
 const PLATFORMS = ['FACEBOOK', 'TWITTER', 'INSTAGRAM', 'YOUTUBE', 'LINKEDIN', 'TIKTOK', 'OTHER'];
 
@@ -109,12 +110,9 @@ export default function SocialMediaManager() {
           Social Media Links
         </h2>
         {!isEditing && (
-          <button
-            onClick={handleAddNew}
-            className="flex items-center gap-2 px-4 py-2 bg-brand-green text-on-primary rounded-full text-sm font-medium hover:bg-primary-deep transition-colors"
-          >
+          <Button size="sm" onClick={handleAddNew}>
             <Plus className="w-4 h-4" /> Add Link
-          </button>
+          </Button>
         )}
       </div>
 
@@ -173,14 +171,10 @@ export default function SocialMediaManager() {
             >
               Cancel
             </button>
-            <button
-              type="submit"
-              disabled={saving}
-              className="flex items-center gap-2 px-4 py-2 bg-brand-green text-on-primary rounded-full text-sm font-medium hover:bg-primary-deep transition-colors disabled:opacity-50"
-            >
+            <Button size="sm" type="submit" disabled={saving}>
               {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
               Save Link
-            </button>
+            </Button>
           </div>
         </form>
       ) : (

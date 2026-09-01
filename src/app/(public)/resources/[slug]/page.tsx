@@ -5,6 +5,7 @@ import { Public_Sans, Source_Serif_4 } from "next/font/google";
 import { Calendar, Building2, Globe2, HardDrive, Download, FileText } from "lucide-react";
 import { PublicationItem } from "../types";
 import { ZoomableImage } from "@/components/ui/zoomable-image";
+import { Button } from "@/components/ui/button";
 
 const publicSans = Public_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800"] });
 const sourceSerif = Source_Serif_4({ subsets: ["latin"], weight: ["500", "600", "700"] });
@@ -150,15 +151,12 @@ export default async function PublicationDetailPage({ params }: PageProps) {
 
             {/* CTAs */}
             <div className="mt-6 flex gap-3 flex-wrap items-center">
-              <a
-                href={`${API}/api/v1/public/publications/${publication.slug}/download`}
-                className="inline-flex items-center gap-2.5 h-12 px-5.5 rounded-lg font-bold text-[14.5px] text-white bg-[#00684A] hover:bg-[#00553d] transition-colors"
-              >
+              <Button href={`${API}/api/v1/public/publications/${publication.slug}/download`}>
                 <Download size={16} /> Download PDF
                 {fileSize && (
-                  <span className="text-xs font-semibold text-white/80 border-l border-white/30 pl-2.5">{fileSize}</span>
+                  <span className="text-xs font-semibold text-on-primary/80 border-l border-on-primary/30 pl-2.5">{fileSize}</span>
                 )}
-              </a>
+              </Button>
             </div>
 
             {/* about */}

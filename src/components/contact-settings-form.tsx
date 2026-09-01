@@ -7,6 +7,7 @@ import api from '@/lib/api';
 import toast from 'react-hot-toast';
 import DeleteModal from '@/components/delete-modal';
 import { FormField } from '@/components/ui/form-field';
+import { Button } from '@/components/ui/button';
 
 interface ContactSettingsFormProps {
   initialData?: any;
@@ -91,14 +92,13 @@ export default function ContactSettingsForm({ initialData }: ContactSettingsForm
       {/* Top Bar with Actions */}
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-bold text-ink">Manage Settings</h2>
-        <button
+        <Button
           type="submit"
           disabled={loading}
-          className="inline-flex items-center gap-2 px-6 py-2.5 bg-brand-green hover:bg-primary-deep disabled:opacity-70 text-on-primary font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
         >
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
           Save Changes
-        </button>
+        </Button>
       </div>
 
       {error && (

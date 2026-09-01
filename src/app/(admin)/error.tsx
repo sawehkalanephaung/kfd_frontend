@@ -3,6 +3,7 @@
 import React, { useEffect } from 'react';
 import Link from 'next/link';
 import { AlertTriangle, RotateCw } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 /**
  * Error boundary for the admin dashboard.
@@ -36,14 +37,10 @@ export default function AdminError({
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-          <button
-            type="button"
-            onClick={reset}
-            className="inline-flex items-center justify-center gap-2 rounded-lg bg-brand-green-dark px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-green-mid focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green-dark focus-visible:ring-offset-2"
-          >
+          <Button type="button" onClick={reset}>
             <RotateCw className="h-4 w-4" aria-hidden="true" />
             Try again
-          </button>
+          </Button>
 
           <Link
             href="/dashboard"

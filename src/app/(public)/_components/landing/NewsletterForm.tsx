@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { ArrowRight, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 export default function NewsletterForm() {
   const [email, setEmail] = useState('');
@@ -71,10 +72,10 @@ export default function NewsletterForm() {
         required
         disabled={loading}
       />
-      <button
+      <Button
         type="submit"
         disabled={loading}
-        className="w-full bg-neon-green hover:bg-[#00C250] text-teal-deep font-medium py-2.5 rounded-full flex items-center justify-center gap-2 transition-all duration-200 ease-in-out disabled:opacity-70 disabled:cursor-not-allowed"
+        className="w-full"
       >
         {loading ? (
           <>
@@ -86,7 +87,7 @@ export default function NewsletterForm() {
             Subscribe <ArrowRight size={16} />
           </>
         )}
-      </button>
+      </Button>
     </form>
   );
 }

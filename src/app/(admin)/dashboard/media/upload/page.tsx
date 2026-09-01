@@ -8,6 +8,7 @@ import api from '@/lib/api';
 import toast from 'react-hot-toast';
 import { CustomSelect } from '@/components/ui/custom-select';
 import PageHeader from '@/components/page-header';
+import { Button } from '@/components/ui/button';
 
 export default function UploadMediaPage() {
   const router = useRouter();
@@ -132,14 +133,13 @@ export default function UploadMediaPage() {
             <ArrowLeft className="w-4 h-4" />
             Back to Library
           </Link>
-          <button
+          <Button
             type="submit"
             disabled={loading || !file}
-            className="inline-flex items-center gap-2 px-6 py-2.5 bg-brand-green hover:bg-primary-deep disabled:opacity-70 text-on-primary font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
           >
             {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <UploadCloud className="w-4 h-4" />}
             Upload File
-          </button>
+          </Button>
         </div>
 
         {error && (

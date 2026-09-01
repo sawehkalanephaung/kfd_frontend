@@ -11,6 +11,7 @@ import toast from 'react-hot-toast';
 import dynamic from 'next/dynamic';
 import { CustomSelect } from '@/components/ui/custom-select';
 import { FormField } from '@/components/ui/form-field';
+import { Button } from '@/components/ui/button';
 import 'react-quill-new/dist/quill.snow.css';
 
 const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
@@ -324,14 +325,13 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
           <ArrowLeft className="w-4 h-4" />
           Back to Departments
         </Link>
-        <button
+        <Button
           type="submit"
           disabled={loading}
-          className="inline-flex items-center gap-2 px-6 py-2.5 bg-brand-green hover:bg-primary-deep disabled:opacity-70 text-on-primary font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
         >
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
           {isEdit ? 'Save Changes' : 'Create Department'}
-        </button>
+        </Button>
       </div>
 
       {error && (

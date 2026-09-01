@@ -4,6 +4,7 @@ import React, { useId, useRef, useState, useCallback } from 'react';
 import Cropper from 'react-easy-crop';
 import { X, Check } from 'lucide-react';
 import { useFocusTrap } from '@/lib/use-focus-trap';
+import { Button } from '@/components/ui/button';
 
 interface ImageCropperModalProps {
   imageSrc: string;
@@ -143,14 +144,10 @@ export default function ImageCropperModal({ imageSrc, onCropComplete, onClose }:
             >
               Cancel
             </button>
-            <button
-              type="button"
-              onClick={createCroppedImage}
-              className="inline-flex items-center gap-2 px-5 py-2 bg-brand-green hover:bg-primary-deep text-on-primary text-sm font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
-            >
+            <Button size="sm" type="button" onClick={createCroppedImage}>
               <Check className="w-4 h-4" />
               Apply Crop
-            </button>
+            </Button>
           </div>
         </div>
 

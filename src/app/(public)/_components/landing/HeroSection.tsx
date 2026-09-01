@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from "react";
 import { Pause, Play } from "lucide-react";
 import { getMediaUrl } from "@/lib/api";
 import { usePrefersReducedMotion } from "@/lib/use-reduced-motion";
+import { Button } from "@/components/ui/button";
 
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -132,12 +133,9 @@ export default function HeroSection({ siteIdentity, homeContent }: { siteIdentit
           )}
 
           <div className="flex flex-wrap items-center gap-4">
-            <Link
-              href="/news"
-              className="bg-neon-green hover:bg-[#00C250] text-teal-deep font-medium px-8 py-3.5 rounded-full transition-all duration-200 ease-in-out"
-            >
+            <Button href="/news">
               Explore Our Work
-            </Link>
+            </Button>
             <Link
               href="/about"
               className="bg-transparent border border-white text-white hover:bg-canvas/10 font-medium px-8 py-3.5 rounded-full transition-all duration-200 ease-in-out"

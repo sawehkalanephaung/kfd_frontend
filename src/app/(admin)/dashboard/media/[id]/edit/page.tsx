@@ -7,6 +7,7 @@ import Link from 'next/link';
 import api, { getMediaUrl } from '@/lib/api';
 import { CustomSelect } from '@/components/ui/custom-select';
 import PageHeader from '@/components/page-header';
+import { Button } from '@/components/ui/button';
 
 export default function EditMediaPage() {
   const params = useParams();
@@ -140,14 +141,13 @@ export default function EditMediaPage() {
             <ArrowLeft className="w-4 h-4" />
             Back to Library
           </Link>
-          <button
+          <Button
             type="submit"
             disabled={saving}
-            className="inline-flex items-center gap-2 px-6 py-2.5 bg-brand-green hover:bg-primary-deep disabled:opacity-70 text-on-primary font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
           >
             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
             Save Changes
-          </button>
+          </Button>
         </div>
 
         {error && (

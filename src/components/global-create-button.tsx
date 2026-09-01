@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { Plus, Newspaper, FileText, Image as ImageIcon, Users, BookOpen } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 interface GlobalCreateButtonProps {
   userRoles?: string[];
@@ -69,15 +70,15 @@ export default function GlobalCreateButton({ userRoles = [], className = '' }: G
 
   return (
     <div className={`relative ${className}`} ref={dropdownRef}>
-      <button
+      <Button
         onClick={() => setIsOpen(!isOpen)}
         aria-expanded={isOpen}
         aria-haspopup="true"
-        className="group inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-primary hover:bg-primary-deep text-on-primary font-semibold rounded-full transition-all duration-200 ease-in-out shadow-sm hover:shadow-lg hover:shadow-primary/30 active:scale-95 shrink-0 whitespace-nowrap text-[14px]"
+        className="shrink-0"
       >
         <Plus className={`w-5 h-5 shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-45' : 'group-hover:scale-110'}`} />
         <span>Create</span>
-      </button>
+      </Button>
 
       {isOpen && (
         <div 

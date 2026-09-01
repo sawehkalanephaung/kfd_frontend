@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Loader2, CheckCircle2 } from "lucide-react";
 import { ContactSettings } from "./types";
 import { CustomSelect } from "@/components/ui/custom-select";
+import { Button } from "@/components/ui/button";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
@@ -186,17 +187,17 @@ export default function ContactForm({ settings }: { settings: ContactSettings | 
             <p className="text-[9px] text-steel/60 dark:text-white/40 max-w-[200px] leading-tight">
               By submitting this form, you acknowledge our Privacy Policy regarding data handling.
             </p>
-            <button 
-              type="submit" 
+            <Button
+              type="submit"
               disabled={isSubmitting}
-              className="w-full sm:w-auto flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-[#05110a] font-bold text-sm px-6 py-3 rounded-md transition-all disabled:opacity-70 disabled:cursor-not-allowed shrink-0"
+              className="w-full sm:w-auto shrink-0"
             >
               {isSubmitting ? (
                 <Loader2 size={16} className="animate-spin" />
               ) : (
                 <>Submit Inquiry <ArrowRight size={14} /></>
               )}
-            </button>
+            </Button>
           </div>
           
         </form>

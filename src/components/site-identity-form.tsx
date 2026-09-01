@@ -17,6 +17,7 @@ import { SITE_IDENTITY_UPDATED_EVENT } from '@/lib/site-identity';
 import MediaSelector from '@/components/media-selector';
 import ImageUploadField from '@/components/image-upload-field';
 import { FormField } from '@/components/ui/form-field';
+import { Button } from '@/components/ui/button';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -177,14 +178,13 @@ export default function SiteIdentityForm() {
       {/* Top bar */}
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-bold text-ink">Manage Identity</h2>
-        <button
+        <Button
           type="submit"
           disabled={saving}
-          className="inline-flex items-center gap-2 px-6 py-2.5 bg-brand-green hover:bg-primary-deep disabled:opacity-70 text-on-primary font-medium rounded-full transition-all shadow-sm shadow-brand-green/20 active:scale-95"
         >
           {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
           Save Changes
-        </button>
+        </Button>
       </div>
 
       {/* Alerts */}

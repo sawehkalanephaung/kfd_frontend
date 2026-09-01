@@ -6,6 +6,7 @@ import { Mail, Lock, Eye, EyeOff, ShieldCheck, Loader2 } from 'lucide-react';
 import Image from 'next/image';
 import api from '@/lib/api';
 import loginBg from '@/assets/login_bg.png';
+import { Button } from '@/components/ui/button';
 
 export default function AdminLogin() {
   const router = useRouter();
@@ -202,14 +203,14 @@ export default function AdminLogin() {
               </a>
             </div>
 
-            <button
+            <Button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 mt-4 bg-brand-green hover:bg-emerald-400 disabled:opacity-70 disabled:cursor-not-allowed text-slate-900 font-bold rounded-full shadow-lg shadow-brand-green/20 transition-all transform active:scale-[0.98] focus:outline-none focus:ring-2 focus:ring-brand-green focus:ring-offset-2 focus:ring-offset-transparent flex items-center justify-center gap-2"
+              className="w-full mt-4"
             >
               {loading && <Loader2 className="w-5 h-5 animate-spin" />}
               {loading ? 'Signing in...' : 'Sign In to Admin'}
-            </button>
+            </Button>
           </form>
         </div>
 

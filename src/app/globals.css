@@ -16,9 +16,14 @@
   --color-brand-green-dark: #0F8B43;
   --color-brand-green-mid: #0F8B43;
   --color-brand-green-soft: #c3f0d2;
+
+  /* Primary button — fixed brand identity, same in light AND dark mode
+     (see the ".dark" block below, which intentionally does not
+     re-declare these four). Default is the accessible gov dark green;
+     hover is a lighter tint of that same green, not a darker one. */
   --color-primary: #0F8B43;
-  --color-primary-deep: #0A6A32;
-  --color-primary-pressed: #0A6A32;
+  --color-primary-deep: #109849;
+  --color-primary-pressed: #109849;
   --color-on-primary: #FFFFFF;
   --color-teal-deep: #081F1E;
   --color-teal: #0d2e2c;
@@ -108,8 +113,9 @@
 /* ─── Dark Mode — WCAG 2.1 AA Government Portal ───
    Global Background: #081F1E (Brand Teal)
    All Typography:    #FFFFFF
-   Primary CTA:       #01ED65 bg / #081F1E text
-   CTA Hover:         #00C250
+   Primary CTA:       fixed brand dark green — see --color-primary in :root,
+                      intentionally NOT overridden here so the primary button
+                      looks identical in light and dark mode.
    Interactive Text:  #FFFFFF → hover #01ED65 + 2px underline */
 .dark {
   --color-canvas: #081F1E;
@@ -137,11 +143,9 @@
   /* Brand wordmark flips to white on dark canvas */
   --color-brand-text: #FFFFFF;
 
-  /* Primary CTA: Neon Green bg / Brand Teal text */
-  --color-primary: #01ED65;
-  --color-primary-deep: #00C250;
-  --color-primary-pressed: #00C250;
-  --color-on-primary: #081F1E;
+  /* --color-primary / -deep / -pressed / -on-primary intentionally NOT
+     redeclared here — the primary button keeps one fixed dark-green
+     identity across both themes (see :root above). */
   --color-brand-green-dark: #01ED65;
   --color-brand-green-mid: #00C250;
 

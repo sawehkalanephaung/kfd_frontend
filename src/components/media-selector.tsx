@@ -3,6 +3,7 @@ import { X, Check, Loader2, Image as ImageIcon, UploadCloud, FileText } from 'lu
 import api, { getMediaUrl } from '@/lib/api';
 import toast from 'react-hot-toast';
 import { useFocusTrap } from '@/lib/use-focus-trap';
+import { Button } from '@/components/ui/button';
 
 interface MediaAsset {
   id: string;
@@ -182,7 +183,7 @@ export default function MediaSelector({
 
                     {/* Checkbox Icon */}
                     {isSelected && (
-                      <div className="absolute top-2 right-2 w-6 h-6 bg-brand-green rounded-full flex items-center justify-center text-on-primary shadow-sm transform scale-100 animate-in zoom-in">
+                      <div className="absolute top-2 right-2 w-6 h-6 bg-brand-green rounded-full flex items-center justify-center text-white dark:text-teal-deep shadow-sm transform scale-100 animate-in zoom-in">
                         <Check className="w-3.5 h-3.5 font-bold" />
                       </div>
                     )}
@@ -218,7 +219,7 @@ export default function MediaSelector({
                       <p className="text-xs text-steel">{asset.fileType || 'Unknown type'}</p>
                     </div>
                     {isSelected && (
-                      <div className="w-6 h-6 bg-brand-green rounded-full flex items-center justify-center text-on-primary shadow-sm flex-shrink-0">
+                      <div className="w-6 h-6 bg-brand-green rounded-full flex items-center justify-center text-white dark:text-teal-deep shadow-sm flex-shrink-0">
                         <Check className="w-3.5 h-3.5 font-bold" />
                       </div>
                     )}
@@ -276,14 +277,10 @@ export default function MediaSelector({
                 )}
               </div>
               
-              <button
-                onClick={handleUpload}
-                disabled={!uploadFile || uploading}
-                className="mt-6 w-full py-3 bg-brand-green hover:bg-primary-deep disabled:opacity-70 text-on-primary font-medium rounded-full transition-all flex items-center justify-center gap-2"
-              >
+              <Button className="mt-6 w-full" onClick={handleUpload} disabled={!uploadFile || uploading}>
                 {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <UploadCloud className="w-4 h-4" />}
                 Upload File
-              </button>
+              </Button>
             </div>
           )}
         </div>
@@ -302,14 +299,13 @@ export default function MediaSelector({
             >
               Cancel
             </button>
-            <button 
+            <Button
               onClick={handleConfirm}
               disabled={selectedIds.size === 0 || (!multiple && selectedIds.size > 1)}
-              className="px-5 py-2.5 bg-brand-green hover:bg-primary-deep disabled:bg-emerald-300 text-on-primary font-medium rounded-full transition-all shadow-sm active:scale-95 flex items-center gap-2"
             >
               <Check className="w-4 h-4" />
               Confirm Selection
-            </button>
+            </Button>
           </div>
           </div>
         )}
