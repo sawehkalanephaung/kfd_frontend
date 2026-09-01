@@ -314,12 +314,12 @@ export default function Sidebar({ initialOrgIdentity }: { initialOrgIdentity?: S
       {/* Sidebar Container — MongoDB brand-teal-deep */}
       <aside
         className={`fixed top-0 left-0 z-50 h-screen flex flex-col bg-teal-deep transition-all duration-300 ease-in-out
-          ${isOpen ? 'translate-x-0 w-[var(--sidebar-width-expanded)]' : '-translate-x-full md:translate-x-0'}
-          ${!isOpen && isCollapsed ? 'md:w-[var(--sidebar-width-collapsed)]' : 'md:w-[var(--sidebar-width-expanded)]'}
+          ${isOpen ? 'translate-x-0 w-(--sidebar-width-expanded)' : '-translate-x-full md:translate-x-0'}
+          ${!isOpen && isCollapsed ? 'md:w-(--sidebar-width-collapsed)' : 'md:w-(--sidebar-width-expanded)'}
         `}
       >
         {/* Header / Logo */}
-        <div className={`flex items-center ${isCollapsed ? 'justify-center px-0' : 'justify-between px-4'} py-6 min-h-[88px] min-w-0`}>
+        <div className={`flex items-center ${isCollapsed ? 'justify-center px-0' : 'justify-between px-4'} py-6 min-h-22 min-w-0`}>
           <div className="flex items-center gap-3 min-w-0">
             {isCollapsed ? (
               <button
@@ -327,12 +327,12 @@ export default function Sidebar({ initialOrgIdentity }: { initialOrgIdentity?: S
                 onClick={() => setIsCollapsed(false)}
                 aria-label="Expand sidebar navigation"
                 title="Expand sidebar"
-                className="relative w-10 h-10 flex-shrink-0 mx-auto rounded-lg text-on-dark-muted hover:text-on-dark hover:bg-canvas/10 transition-all cursor-pointer flex items-center justify-center outline-none focus-visible:ring-2 focus-visible:ring-brand-green"
+                className="relative w-10 h-10 shrink-0 mx-auto rounded-lg text-on-dark-muted hover:text-on-dark hover:bg-canvas/10 transition-all cursor-pointer flex items-center justify-center outline-none focus-visible:ring-2 focus-visible:ring-brand-green"
               >
                 <SidebarToggleIcon isCollapsed={true} className="w-5 h-5" />
               </button>
             ) : (
-              <div className="relative w-10 h-10 flex-shrink-0">
+              <div className="relative w-10 h-10 shrink-0">
                 {resolvedLogoUrl ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
@@ -370,7 +370,7 @@ export default function Sidebar({ initialOrgIdentity }: { initialOrgIdentity?: S
               onClick={() => setIsCollapsed(true)}
               aria-label="Collapse sidebar navigation"
               title="Collapse sidebar"
-              className="hidden md:flex p-1.5 -mr-1 text-on-dark-muted hover:text-on-dark hover:bg-canvas/10 rounded-lg transition-all outline-none focus-visible:ring-2 focus-visible:ring-brand-green active:scale-95 flex-shrink-0"
+              className="hidden md:flex p-1.5 -mr-1 text-on-dark-muted hover:text-on-dark hover:bg-canvas/10 rounded-lg transition-all outline-none focus-visible:ring-2 focus-visible:ring-brand-green active:scale-95 shrink-0"
             >
               <SidebarToggleIcon isCollapsed={false} className="w-5 h-5" />
             </button>
@@ -380,7 +380,7 @@ export default function Sidebar({ initialOrgIdentity }: { initialOrgIdentity?: S
             <button
               onClick={() => setIsOpen(false)}
               aria-label="Close menu"
-              className="md:hidden p-2 -mr-2 text-on-dark-muted hover:text-on-dark rounded-lg transition-colors flex-shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-brand-green"
+              className="md:hidden p-2 -mr-2 text-on-dark-muted hover:text-on-dark rounded-lg transition-colors shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-brand-green"
             >
               <X className="w-5 h-5" aria-hidden="true" />
             </button>
@@ -388,7 +388,7 @@ export default function Sidebar({ initialOrgIdentity }: { initialOrgIdentity?: S
         </div>
 
         {/* Navigation */}
-        <nav className={`flex-1 px-3 pb-4 space-y-1.5 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ${isCollapsed ? 'overflow-visible' : 'overflow-y-auto'}`}>
+        <nav className={`flex-1 px-3 pb-4 space-y-1.5 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] scrollbar-none ${isCollapsed ? 'overflow-visible' : 'overflow-y-auto'}`}>
           {filteredMenuItems.map((item) => {
             const active = isActive(item);
             const expanded = expandedMenus.includes(item.label);
@@ -409,12 +409,12 @@ export default function Sidebar({ initialOrgIdentity }: { initialOrgIdentity?: S
                     title={isCollapsed ? item.label : undefined}
                   >
                     <div className={`flex items-center gap-3 min-w-0 ${isCollapsed ? 'justify-center' : ''}`}>
-                      <div className="flex-shrink-0 group-hover:scale-110 group-hover:rotate-[-5deg] transition-all duration-300">{item.icon}</div>
+                      <div className="shrink-0 group-hover:scale-110 group-hover:rotate-[-5deg] transition-all duration-300">{item.icon}</div>
                       {!isCollapsed && <span className="text-left truncate group-hover:translate-x-1 transition-transform duration-300">{item.label}</span>}
                     </div>
                     {!isCollapsed && (
                       <ChevronUp
-                        className={`w-4 h-4 flex-shrink-0 transition-transform duration-200 ${expanded ? '' : 'rotate-180'}`}
+                        className={`w-4 h-4 shrink-0 transition-transform duration-200 ${expanded ? '' : 'rotate-180'}`}
                       />
                     )}
                   </button>
@@ -430,7 +430,7 @@ export default function Sidebar({ initialOrgIdentity }: { initialOrgIdentity?: S
                     }
                     title={isCollapsed ? item.label : undefined}
                   >
-                    <div className="flex-shrink-0 group-hover:scale-110 group-hover:rotate-[-5deg] transition-all duration-300">{item.icon}</div>
+                    <div className="shrink-0 group-hover:scale-110 group-hover:rotate-[-5deg] transition-all duration-300">{item.icon}</div>
                     {!isCollapsed && <span className="text-left truncate group-hover:translate-x-1 transition-transform duration-300">{item.label}</span>}
                   </Link>
                 )}
@@ -441,7 +441,7 @@ export default function Sidebar({ initialOrgIdentity }: { initialOrgIdentity?: S
                     className={`grid transition-all duration-200 ease-in-out ${expanded ? 'grid-rows-[1fr] opacity-100 mt-1' : 'grid-rows-[0fr] opacity-0'}`}
                   >
                     <div className="overflow-hidden">
-                      <div className="ml-[22px] pl-4 border-l-[1.5px] border-white/15 space-y-0.5 my-1">
+                      <div className="ml-5.5 pl-4 border-l-[1.5px] border-white/15 space-y-0.5 my-1">
                         {groupSubItems(item.subItems!).map((subGroup) => {
                           if (!subGroup.label) {
                             return subGroup.items.map((sub) => renderSubLink(sub));
@@ -465,7 +465,7 @@ export default function Sidebar({ initialOrgIdentity }: { initialOrgIdentity?: S
                               >
                                 <span className="truncate">{subGroup.label}</span>
                                 <ChevronUp
-                                  className={`w-3.5 h-3.5 flex-shrink-0 transition-transform duration-200 ${groupExpanded ? '' : 'rotate-180'}`}
+                                  className={`w-3.5 h-3.5 shrink-0 transition-transform duration-200 ${groupExpanded ? '' : 'rotate-180'}`}
                                 />
                               </button>
                               <div
@@ -487,7 +487,7 @@ export default function Sidebar({ initialOrgIdentity }: { initialOrgIdentity?: S
 
                 {/* Sub-items (Collapsed Flyout Mode) */}
                 {isCollapsed && hasSubItems && (
-                  <div className="hidden group-hover:block absolute left-full top-0 pl-3 w-56 z-[100]">
+                  <div className="hidden group-hover:block absolute left-full top-0 pl-3 w-56 z-100">
                     <div className="bg-teal-deep shadow-modal rounded-lg border border-hairline-dark py-2 animate-in fade-in slide-in-from-left-2 duration-200">
                       <div className="px-4 py-2 text-sm font-bold text-on-dark border-b border-white/10 mb-1">{item.label}</div>
                       {/* The flyout is a transient hover panel, so groups stay

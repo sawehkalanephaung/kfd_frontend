@@ -136,7 +136,7 @@ export default function TeamDirectoryPage() {
         </div>
 
         <div className="overflow-x-auto w-full">
-          <table className="w-full sm:min-w-[800px] text-left text-sm text-steel">
+          <table className="w-full sm:min-w-200 text-left text-sm text-steel">
             <thead className="bg-surface-soft text-steel font-medium border-b border-hairline">
               <tr>
                 <th className="px-6 py-4 w-12 text-center hidden sm:table-cell">NO.</th>

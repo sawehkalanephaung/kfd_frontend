@@ -78,7 +78,7 @@ export default function DeleteModal({
         aria-labelledby={titleId}
         aria-describedby={descId}
         tabIndex={-1}
-        className="relative bg-canvas rounded-xl w-[90%] max-w-[400px] p-8 shadow-modal border border-hairline flex flex-col items-center text-center animate-in fade-in zoom-in-95 duration-200 outline-none"
+        className="relative bg-canvas rounded-xl w-[90%] max-w-100 p-8 shadow-modal border border-hairline flex flex-col items-center text-center animate-in fade-in zoom-in-95 duration-200 outline-none"
       >
 
         {/* Warning Icon */}

@@ -129,13 +129,13 @@ export default async function ChairmanPage() {
             backgroundSize: '32px 32px',
           }}
         />
-        <div className="pointer-events-none absolute -right-20 -top-20 h-[600px] w-[600px] rounded-full bg-[#1a4a2e]/20 blur-[100px]" />
+        <div className="pointer-events-none absolute -right-20 -top-20 h-150 w-150 rounded-full bg-[#1a4a2e]/20 blur-[100px]" />
 
         <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col items-center gap-10 text-center md:flex-row md:gap-14 md:text-left lg:gap-20">
 
             {/* Portrait — arched top, the department's house shape for officials */}
-            <div className="relative h-[340px] w-[280px] shrink-0 overflow-hidden rounded-t-full rounded-b-md bg-[#12271b] shadow-2xl shadow-black/40 ring-1 ring-white/[0.08] sm:h-[365px] sm:w-[300px] lg:h-[393px] lg:w-[323px]">
+            <div className="relative h-85 w-70 shrink-0 overflow-hidden rounded-t-full rounded-b-md bg-[#12271b] shadow-2xl shadow-black/40 ring-1 ring-white/8 sm:h-91.25 sm:w-75 lg:h-98.25 lg:w-80.75">
               {displayImage ? (
                 <img
                   src={displayImage}
@@ -148,7 +148,7 @@ export default async function ChairmanPage() {
                 </div>
               )}
               {/* Grounds the portrait against the band instead of letting it float. */}
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+              <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/30 via-transparent to-transparent" />
             </div>
 
             {/* Identity */}
@@ -181,7 +181,7 @@ export default async function ChairmanPage() {
           narrower than the hero so long official text stays legible. */}
       <Reveal as="section" className="bg-white pb-28 pt-24 lg:pb-36 lg:pt-28">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-[840px]">
+          <div className="mx-auto max-w-210">
 
             <h2 className="text-3xl font-bold tracking-tight text-[#001e2b]">Biography</h2>
             <div className="mt-6 h-px w-full bg-[#e1e5e8]" />
@@ -191,7 +191,7 @@ export default async function ChairmanPage() {
                  the `!bg-transparent`/`!text-inherit` overrides drop the inline
                  colours the editor pastes in, which otherwise fight this page. */
               <div
-                className="rich-text prose prose-slate mt-10 max-w-none text-[#3d4f5b] md:text-justify [&_*]:!bg-transparent [&_*]:!text-inherit"
+                className="rich-text prose prose-slate mt-10 max-w-none text-[#3d4f5b] md:text-justify **:bg-transparent! **:text-inherit!"
                 dangerouslySetInnerHTML={{ __html: bio }}
               />
             ) : (

@@ -75,7 +75,7 @@ export default async function ContactPage() {
           </Reveal>
 
           {/* Right: Direct Contact */}
-          <Reveal direction="right" delay={0.15} className="w-full lg:w-[380px] shrink-0">
+          <Reveal direction="right" delay={0.15} className="w-full lg:w-96 shrink-0">
             <div className="bg-white dark:bg-[#091810] rounded-xl p-6 sm:p-8 border border-hairline dark:border-[#132d1f] shadow-sm dark:shadow-none">
 
               {!hasAnyContactDetail ? (
@@ -84,7 +84,7 @@ export default async function ContactPage() {
                   tone="dark"
                   title="Contact details coming soon"
                   message="We haven't published direct contact information yet — the form to the left still reaches us."
-                  className="!py-4"
+                  className="py-4!"
                 />
               ) : (
                 <>

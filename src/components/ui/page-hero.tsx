@@ -61,14 +61,14 @@ export function PageHero({
           />
           <div
             className={`absolute inset-0 ${isLeft
-                ? 'bg-gradient-to-r from-black/80 via-black/40 to-transparent'
+                ? 'bg-linear-to-r from-black/80 via-black/40 to-transparent'
                 : 'bg-black/60'
               }`}
             aria-hidden="true"
           />
         </>
       ) : (
-        <div className="absolute inset-0 bg-gradient-to-b from-forest-950 to-forest-900" aria-hidden="true" />
+        <div className="absolute inset-0 bg-linear-to-b from-forest-950 to-forest-900" aria-hidden="true" />
       )}
 
       {/* Decorative watermark icon */}

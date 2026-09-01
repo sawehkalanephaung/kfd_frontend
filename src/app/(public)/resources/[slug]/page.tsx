@@ -93,7 +93,7 @@ export default async function PublicationDetailPage({ params }: PageProps) {
           className="absolute inset-0 opacity-50"
           style={{ backgroundImage: "repeating-linear-gradient(90deg,rgba(255,255,255,.04) 0 1px,transparent 1px 64px)" }}
         />
-        <div className="max-w-[1240px] mx-auto px-5 sm:px-8 pt-10 pb-8 relative">
+        <div className="max-w-310 mx-auto px-5 sm:px-8 pt-10 pb-8 relative">
           <h1 className={`${sourceSerif.className} m-0 font-bold text-[34px] tracking-tight`}>Publications</h1>
           <div className="mt-4 flex items-center gap-2 text-[13px] text-[#b7c5dd] flex-wrap">
             <Link href="/" className="text-[#b7c5dd] hover:text-white transition-colors">Home</Link>
@@ -106,7 +106,7 @@ export default async function PublicationDetailPage({ params }: PageProps) {
       </Reveal>
 
       {/* main */}
-      <main className="max-w-[1240px] mx-auto px-5 sm:px-8 pt-11 pb-16">
+      <main className="max-w-310 mx-auto px-5 sm:px-8 pt-11 pb-16">
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,380px)_minmax(0,1fr)] gap-10 lg:gap-13 items-start">
 
           {/* cover column */}
@@ -116,10 +116,10 @@ export default async function PublicationDetailPage({ params }: PageProps) {
                 <ZoomableImage
                   src={getMediaUrl(publication.thumbnailUrl)}
                   alt={`${publication.title} cover`}
-                  className="block w-full aspect-[3/4] object-cover cursor-pointer"
+                  className="block w-full aspect-3/4 object-cover cursor-pointer"
                 />
               ) : (
-                <div className="w-full aspect-[3/4] bg-[#f6f8fb] dark:bg-surface-soft flex items-center justify-center">
+                <div className="w-full aspect-3/4 bg-[#f6f8fb] dark:bg-surface-soft flex items-center justify-center">
                   <FileText size={56} className="text-[#c6d0df] dark:text-steel/50" />
                 </div>
               )}
@@ -173,7 +173,7 @@ export default async function PublicationDetailPage({ params }: PageProps) {
                   {tags.map(tag => (
                     <span
                       key={tag}
-                      className="text-[13px] font-semibold text-[#1f3a63] dark:text-brand-green bg-[#e7edf6] dark:bg-surface-soft border border-[#d6dfec] dark:border-brand-green/30 px-3.5 py-[7px] rounded-full"
+                      className="text-[13px] font-semibold text-[#1f3a63] dark:text-brand-green bg-[#e7edf6] dark:bg-surface-soft border border-[#d6dfec] dark:border-brand-green/30 px-3.5 py-1.75 rounded-full"
                     >
                       {tag}
                     </span>
@@ -191,7 +191,7 @@ export default async function PublicationDetailPage({ params }: PageProps) {
 function MetaRow({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
   return (
     <div className="p-5 border-b border-r border-[#f0f3f8] dark:border-hairline flex gap-3.5 items-start">
-      <div className="w-[38px] h-[38px] flex-none rounded-lg bg-[#eef2f8] dark:bg-surface-soft text-[#1f3a63] dark:text-brand-green flex items-center justify-center">
+      <div className="w-9.5 h-9.5 flex-none rounded-lg bg-[#eef2f8] dark:bg-surface-soft text-[#1f3a63] dark:text-brand-green flex items-center justify-center">
         {icon}
       </div>
       <div className="min-w-0">

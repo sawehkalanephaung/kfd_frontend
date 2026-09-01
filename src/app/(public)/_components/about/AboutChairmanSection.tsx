@@ -112,7 +112,7 @@ export default function AboutChairmanSection({ chairmanData }: { chairmanData?: 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 max-w-5xl mx-auto items-center">
           {/* Portrait */}
-          <div ref={portraitRef} className="lg:col-span-4 w-full h-[400px] md:h-[500px] relative bg-[#e0e0e0] dark:bg-surface overflow-hidden rounded-xl shadow-lg group">
+          <div ref={portraitRef} className="lg:col-span-4 w-full h-100 md:h-125 relative bg-[#e0e0e0] dark:bg-surface overflow-hidden rounded-xl shadow-lg group">
             {displayImage ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -149,7 +149,7 @@ export default function AboutChairmanSection({ chairmanData }: { chairmanData?: 
             )}
             {chairman.bio && (
               <div
-                className="text-[#555] dark:text-steel mb-8 text-sm md:text-base leading-relaxed line-clamp-6 prose prose-sm max-w-none break-words whitespace-pre-wrap overflow-hidden [&_*]:!bg-transparent [&_*]:!text-inherit"
+                className="text-[#555] dark:text-steel mb-8 text-sm md:text-base leading-relaxed line-clamp-6 prose prose-sm max-w-none wrap-break-word whitespace-pre-wrap overflow-hidden **:bg-transparent! **:text-inherit!"
                 dangerouslySetInnerHTML={{ __html: toSentenceCaseHTML(chairman.bio) }}
               />
             )}

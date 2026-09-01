@@ -134,7 +134,7 @@ export default function TagsListPage() {
       {/* Table Section */}
       <div className="bg-canvas rounded-lg shadow-sm border border-hairline-soft overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[800px] text-left text-sm text-steel">
+          <table className="w-full min-w-200 text-left text-sm text-steel">
             <thead className="bg-surface-soft border-b border-hairline">
               <tr>
                 <th className="px-6 py-3 text-xs font-semibold text-muted uppercase tracking-wider">Tag Name</th>

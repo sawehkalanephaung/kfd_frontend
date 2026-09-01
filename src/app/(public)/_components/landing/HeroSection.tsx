@@ -93,9 +93,9 @@ export default function HeroSection({ siteIdentity, homeContent }: { siteIdentit
   }, { scope: sectionRef, dependencies: [prefersReducedMotion] });
 
   return (
-    <section ref={sectionRef} className="relative w-full h-[600px] flex items-center overflow-hidden bg-forest-900">
+    <section ref={sectionRef} className="relative w-full h-150 flex items-center overflow-hidden bg-forest-900">
       {/* Background images slider with Parallax wrapper */}
-      <div ref={bgRef} className="absolute inset-0 z-0 w-full h-[130%] -top-[15%]">
+      <div ref={bgRef} className="absolute inset-0 z-0 w-full h-[130%] top-[-15%]">
         {images.length > 0 ? (
           images.map((img, idx) => (
             <div
@@ -109,12 +109,12 @@ export default function HeroSection({ siteIdentity, homeContent }: { siteIdentit
                   transitionDuration: idx === currentIndex ? '10000ms' : '0ms'
                 }}
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-teal-deep/90 via-teal-deep/70 to-transparent"></div>
+              <div className="absolute inset-0 bg-linear-to-r from-teal-deep/90 via-teal-deep/70 to-transparent"></div>
             </div>
           ))
         ) : (
           <div className="absolute inset-0 z-0 bg-forest-900">
-            <div className="absolute inset-0 bg-gradient-to-r from-teal-deep/90 via-teal-deep/70 to-transparent"></div>
+            <div className="absolute inset-0 bg-linear-to-r from-teal-deep/90 via-teal-deep/70 to-transparent"></div>
           </div>
         )}
       </div>

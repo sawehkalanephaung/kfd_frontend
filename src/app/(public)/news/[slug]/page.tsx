@@ -121,7 +121,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
 
     return (
       <main className="min-h-screen bg-[#f9f7f1] dark:bg-forest-950">
-        <Reveal as="section" onMount className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-[#f9f7f1] dark:from-forest-800 dark:to-forest-950">
+        <Reveal as="section" onMount className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-linear-to-b from-white to-[#f9f7f1] dark:from-forest-800 dark:to-forest-950">
           <div className="container mx-auto max-w-5xl">
             <div className="flex flex-col md:flex-row gap-10 items-start">
               {/* Massive Calendar Badge & Meta */}
@@ -172,7 +172,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
 
                 {post.content ? (
                   <div
-                    className="prose dark:prose-invert max-w-none break-words prose-p:text-charcoal dark:prose-p:text-white/70 prose-headings:text-ink dark:prose-headings:text-white prose-a:text-brand-green-dark dark:prose-a:text-green-400 [&_*]:!text-inherit"
+                    className="prose dark:prose-invert max-w-none wrap-break-word prose-p:text-charcoal dark:prose-p:text-white/70 prose-headings:text-ink dark:prose-headings:text-white prose-a:text-brand-green-dark dark:prose-a:text-green-400 **:text-inherit!"
                     dangerouslySetInnerHTML={{ __html: post.content }}
                   />
                 ) : (
@@ -223,7 +223,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
             <div className="font-serif text-charcoal dark:text-white leading-loose text-lg pb-12 border-b border-gray-300 dark:border-hairline">
               {post.content ? (
                 <div
-                  className="prose dark:prose-invert prose-lg max-w-none break-words font-serif text-charcoal dark:text-white prose-p:leading-loose prose-headings:text-ink dark:prose-headings:text-white prose-a:text-brand-green-dark dark:prose-a:text-green-400 [&_*]:!text-inherit"
+                  className="prose dark:prose-invert prose-lg max-w-none wrap-break-word font-serif text-charcoal dark:text-white prose-p:leading-loose prose-headings:text-ink dark:prose-headings:text-white prose-a:text-brand-green-dark dark:prose-a:text-green-400 **:text-inherit!"
                   dangerouslySetInnerHTML={{ __html: post.content }}
                 />
               ) : (
@@ -282,10 +282,10 @@ export default async function NewsDetailPage({ params }: PageProps) {
             <ZoomableImage
               src={getMediaUrl(post.featuredImageUrl)}
               alt={post.title}
-              className="w-full h-72 md:h-[500px] object-cover rounded-xl shadow-lg"
+              className="w-full h-72 md:h-125 object-cover rounded-xl shadow-lg"
             />
           ) : (
-            <div className="w-full h-72 md:h-[500px] rounded-xl bg-gray-200 dark:bg-surface flex items-center justify-center shadow-inner">
+            <div className="w-full h-72 md:h-125 rounded-xl bg-gray-200 dark:bg-surface flex items-center justify-center shadow-inner">
               <ImageIcon className="w-16 h-16 text-muted" />
             </div>
           )}
@@ -297,7 +297,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
         <div className="container mx-auto max-w-3xl">
           {post.content ? (
             <div
-              className="prose prose-lg max-w-none break-words font-serif
+              className="prose prose-lg max-w-none wrap-break-word font-serif
                 prose-p:text-charcoal prose-p:leading-loose
                 prose-headings:text-ink prose-headings:font-serif
                 prose-a:text-brand-green-dark prose-a:underline hover:prose-a:text-emerald-900
@@ -305,7 +305,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
                 prose-blockquote:bg-[#dce9d5] dark:prose-blockquote:bg-surface-soft prose-blockquote:border-none prose-blockquote:px-8 prose-blockquote:py-6 prose-blockquote:rounded-lg prose-blockquote:text-emerald-900 dark:prose-blockquote:text-emerald-400 prose-blockquote:italic prose-blockquote:font-serif prose-blockquote:font-medium
                 prose-li:text-charcoal
                 first-letter:text-7xl first-letter:font-bold first-letter:text-brand-green-dark first-letter:mr-3 first-letter:float-left first-letter:leading-none
-                [&_*]:!text-inherit"
+                **:text-inherit!"
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
           ) : (
@@ -319,7 +319,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
           {/* ── Optional Gallery ───────────────────────────── */}
           {sliderUrls.length > 0 && (
             <div className="mt-16 border-t border-gray-200 dark:border-hairline pt-10">
-              <h3 className="text-xl font-serif font-bold text-ink mb-8 flex items-center gap-2 uppercase tracking-widest text-sm">
+              <h3 className="font-serif font-bold text-ink mb-8 flex items-center gap-2 uppercase tracking-widest text-sm">
                 <ImageIcon className="w-4 h-4 text-steel" />
                 Additional Media
               </h3>
@@ -332,7 +332,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
                   return (
                     <div
                       key={idx}
-                      className={`relative aspect-[4/3] rounded-xl overflow-hidden bg-gray-100 dark:bg-surface ${isFeatured ? 'sm:col-span-2 aspect-[16/9] sm:aspect-[21/9]' : ''
+                      className={`relative aspect-4/3 rounded-xl overflow-hidden bg-gray-100 dark:bg-surface ${isFeatured ? 'sm:col-span-2 aspect-video sm:aspect-21/9' : ''
                         }`}
                     >
                       <ZoomableImage
@@ -350,7 +350,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
           {/* Author Bio & Tags */}
           <div className="mt-20 border-t border-gray-300 dark:border-hairline pt-10 font-sans">
             <div className="flex items-center gap-4 mb-8">
-              <div className="w-12 h-12 rounded-full bg-gray-300 dark:bg-surface-soft flex-shrink-0 overflow-hidden shadow-sm flex items-center justify-center">
+              <div className="w-12 h-12 rounded-full bg-gray-300 dark:bg-surface-soft shrink-0 overflow-hidden shadow-sm flex items-center justify-center">
                 <User className="w-6 h-6 text-steel" />
               </div>
               <div>

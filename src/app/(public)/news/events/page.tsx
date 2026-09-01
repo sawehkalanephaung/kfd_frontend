@@ -27,7 +27,7 @@ function EventCard({ post }: { post: NewsPost }) {
   return (
     <Link 
       href={`/news/${post.slug}`}
-      className="group flex flex-col md:flex-row bg-white dark:bg-forest-800 border border-hairline dark:border-white/5 rounded-2xl overflow-hidden hover:border-brand-green-dark/40 transition-all hover:shadow-xl hover:shadow-card block"
+      className="group flex flex-col md:flex-row bg-white dark:bg-forest-800 border border-hairline dark:border-white/5 rounded-2xl overflow-hidden hover:border-brand-green-dark/40 transition-all hover:shadow-card"
     >
       
       {/* Calendar Block (Left) */}

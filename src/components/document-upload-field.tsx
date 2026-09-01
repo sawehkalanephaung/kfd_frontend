@@ -33,7 +33,7 @@ export default function DocumentUploadField({
   if (fileName) {
     return (
       <div className="flex items-center gap-4 p-4 rounded-xl border border-hairline-strong bg-surface-soft">
-        <div className="w-12 h-12 rounded-lg bg-canvas shadow-sm flex items-center justify-center border border-hairline flex-shrink-0">
+        <div className="w-12 h-12 rounded-lg bg-canvas shadow-sm flex items-center justify-center border border-hairline shrink-0">
           <FileText className="w-6 h-6 text-brand-green-dark" />
         </div>
         <div className="flex-1 min-w-0">
@@ -49,7 +49,7 @@ export default function DocumentUploadField({
             </a>
           )}
         </div>
-        <div className="flex items-center gap-1 flex-shrink-0">
+        <div className="flex items-center gap-1 shrink-0">
           <button
             type="button"
             onClick={onLibraryClick}
@@ -78,7 +78,7 @@ export default function DocumentUploadField({
       </div>
       <div>
         <p className="text-sm font-medium text-ink mb-1">{emptyLabel}</p>
-        <p className="text-xs text-steel max-w-[220px] mx-auto">{emptyHint}</p>
+        <p className="text-xs text-steel max-w-55 mx-auto">{emptyHint}</p>
       </div>
       <div className="flex flex-col w-full gap-2 mt-2">
         <button

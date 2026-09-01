@@ -193,7 +193,7 @@ export default function MediaLibraryPage() {
       {/* Table Section */}
       <div className="bg-canvas rounded-lg shadow-sm border border-hairline-soft overflow-hidden">
         <div className="overflow-x-auto w-full">
-          <table className="w-full min-w-[800px] text-left text-sm text-steel">
+          <table className="w-full min-w-200 text-left text-sm text-steel">
             <thead className="bg-surface-soft border-b border-hairline">
               <tr>
                 <th className="px-6 py-3 text-xs font-semibold text-muted uppercase tracking-wider">File Name</th>
@@ -241,7 +241,7 @@ export default function MediaLibraryPage() {
                             getFileIcon(asset.fileType)
                           )}
                         </div>
-                        <div className="max-w-[200px] sm:max-w-xs">
+                        <div className="max-w-50 sm:max-w-xs">
                           <p className="font-medium text-ink truncate" title={asset.fileName}>
                             <a href={getMediaUrl(asset.fileUrl)} target="_blank" rel="noreferrer" className="hover:text-brand-green-dark transition-colors">
                               {asset.fileName}

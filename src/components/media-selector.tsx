@@ -189,7 +189,7 @@ export default function MediaSelector({
                     )}
 
                     {/* Filename banner */}
-                    <div className="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/70 to-transparent">
+                    <div className="absolute bottom-0 left-0 right-0 p-2 bg-linear-to-t from-black/70 to-transparent">
                       <p className="text-white text-xs truncate drop-shadow-md">{asset.fileName}</p>
                     </div>
                   </div>
@@ -207,7 +207,7 @@ export default function MediaSelector({
                     onClick={() => toggleSelection(asset.id)}
                     className={`flex items-center gap-4 p-3 rounded-xl cursor-pointer border-2 transition-all ${isSelected ? 'border-emerald-500 bg-brand-green-soft' : 'border-transparent bg-canvas hover:border-brand-green/30'}`}
                   >
-                    <div className="w-12 h-12 rounded-lg overflow-hidden bg-surface flex items-center justify-center flex-shrink-0">
+                    <div className="w-12 h-12 rounded-lg overflow-hidden bg-surface flex items-center justify-center shrink-0">
                       {isImage ? (
                         <img src={getMediaUrl(asset.fileUrl)} alt={asset.fileName} className="w-full h-full object-cover" />
                       ) : (
@@ -219,7 +219,7 @@ export default function MediaSelector({
                       <p className="text-xs text-steel">{asset.fileType || 'Unknown type'}</p>
                     </div>
                     {isSelected && (
-                      <div className="w-6 h-6 bg-brand-green rounded-full flex items-center justify-center text-white dark:text-teal-deep shadow-sm flex-shrink-0">
+                      <div className="w-6 h-6 bg-brand-green rounded-full flex items-center justify-center text-white dark:text-teal-deep shadow-sm shrink-0">
                         <Check className="w-3.5 h-3.5 font-bold" />
                       </div>
                     )}

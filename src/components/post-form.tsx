@@ -286,7 +286,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
                 theme="snow"
                 value={formData.content}
                 onChange={(val) => setFormData({ ...formData, content: val })}
-                className="h-[var(--editor-height-md)] mb-10 text-black"
+                className="h-(--editor-height-md) mb-10 text-black"
                 placeholder="Enter full post content..."
               />
             </div>
@@ -434,13 +434,13 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
               </FormField>
 
               <div>
-                <label className="block text-sm font-semibold text-ink mb-2 flex items-center gap-2">
+                <label className="text-sm font-semibold text-ink mb-2 flex items-center gap-2">
                   <TagIcon className="w-4 h-4 text-muted" />
                   Tags
                 </label>
                 <div className="relative">
                   <div
-                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all flex flex-wrap gap-2 items-center cursor-pointer min-h-[50px]"
+                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all flex flex-wrap gap-2 items-center cursor-pointer min-h-12.5"
                     onClick={() => setIsTagDropdownOpen(!isTagDropdownOpen)}
                   >
                     {formData.tagIds.length === 0 && <span className="text-muted">Select Tags...</span>}

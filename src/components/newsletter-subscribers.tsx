@@ -52,7 +52,7 @@ function StatCard({
 }) {
   return (
     <div className="bg-canvas rounded-lg p-5 shadow-sm border border-hairline-soft flex items-center gap-4">
-      <div className={`w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 ${color}`}>
+      <div className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${color}`}>
         {icon}
       </div>
       <div>
@@ -177,7 +177,7 @@ export default function NewsletterSubscribers() {
           </div>
 
           {/* Status filter pills */}
-          <div className="flex items-center gap-1.5 bg-surface p-1 rounded-xl flex-shrink-0">
+          <div className="flex items-center gap-1.5 bg-surface p-1 rounded-xl shrink-0">
             {(['all', 'active', 'inactive'] as const).map((status) => (
               <button
                 key={status}
@@ -247,7 +247,7 @@ export default function NewsletterSubscribers() {
                 >
                   {/* Email */}
                   <div className="flex items-center gap-2.5 min-w-0">
-                    <div className="w-7 h-7 rounded-full bg-brand-green-soft flex items-center justify-center flex-shrink-0">
+                    <div className="w-7 h-7 rounded-full bg-brand-green-soft flex items-center justify-center shrink-0">
                       <Mail className="w-3.5 h-3.5 text-brand-green-dark" />
                     </div>
                     <span className="text-sm font-medium text-charcoal truncate">{sub.email}</span>

@@ -45,7 +45,7 @@ export default async function Footer() {
           {/* Brand & Description */}
           <div className="space-y-6">
             <Link href="/" className="flex items-center gap-3">
-              <div className="relative w-12 h-12  p-1 flex-shrink-0">
+              <div className="relative w-12 h-12  p-1 shrink-0">
                 {resolvedLogoUrl ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
@@ -90,25 +90,25 @@ export default async function Footer() {
               <div className="flex flex-col gap-5 text-sm text-on-dark-muted pt-2">
                 {contactSettings?.phoneNumbers?.[0] && (
                   <div className="flex items-start gap-3">
-                    <Phone className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                    <Phone className="w-5 h-5 shrink-0 mt-0.5" />
                     <span>{contactSettings.phoneNumbers[0]}</span>
                   </div>
                 )}
                 {contactSettings?.contactEmail && (
                   <div className="flex items-start gap-3">
-                    <Mail className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                    <Mail className="w-5 h-5 shrink-0 mt-0.5" />
                     <span>{contactSettings.contactEmail}</span>
                   </div>
                 )}
                 {contactSettings?.physicalAddress && (
                   <div className="flex items-start gap-3">
-                    <MapPin className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                    <MapPin className="w-5 h-5 shrink-0 mt-0.5" />
                     <span className="leading-relaxed">{contactSettings.physicalAddress}</span>
                   </div>
                 )}
                 {contactSettings?.officeHours && (
                   <div className="flex items-start gap-3">
-                    <Clock className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                    <Clock className="w-5 h-5 shrink-0 mt-0.5" />
                     <span className="leading-relaxed whitespace-pre-line">{contactSettings.officeHours}</span>
                   </div>
                 )}

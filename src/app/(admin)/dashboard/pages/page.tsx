@@ -132,7 +132,7 @@ export default function PagesListPage() {
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full sm:min-w-[800px] text-left text-sm text-steel">
+          <table className="w-full sm:min-w-200 text-left text-sm text-steel">
             <thead className="bg-surface-soft border-b border-hairline">
               <tr>
                 <th className="px-6 py-3 text-xs font-semibold text-muted uppercase tracking-wider">Page</th>

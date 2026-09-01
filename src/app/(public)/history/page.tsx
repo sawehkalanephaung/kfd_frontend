@@ -52,9 +52,9 @@ export default async function HistoryPage() {
             </div>
 
             {/* Prose Container */}
-            <div className="bg-white dark:bg-surface p-8 md:p-12 lg:p-16 rounded-2xl shadow-xl shadow-black/5 dark:shadow-none border border-black/[0.03] dark:border-white/10">
+            <div className="bg-white dark:bg-surface p-8 md:p-12 lg:p-16 rounded-2xl shadow-xl shadow-black/5 dark:shadow-none border border-black/3 dark:border-white/10">
               <div
-                className="prose prose-lg md:prose-xl dark:prose-invert max-w-none text-[#444] dark:text-steel prose-p:text-[#444] dark:prose-p:text-steel prose-p:leading-relaxed prose-headings:font-serif prose-headings:text-[#111] dark:prose-headings:text-white prose-a:text-forest dark:prose-a:text-brand-green-dark hover:prose-a:text-[#e5a93d] prose-li:marker:text-forest dark:prose-li:marker:text-brand-green-dark prose-ul:list-[square] break-words whitespace-pre-wrap [&_*]:!bg-transparent [&_*]:!text-inherit"
+                className="prose prose-lg md:prose-xl dark:prose-invert max-w-none text-[#444] dark:text-steel prose-p:text-[#444] dark:prose-p:text-steel prose-p:leading-relaxed prose-headings:font-serif prose-headings:text-[#111] dark:prose-headings:text-white prose-a:text-forest dark:prose-a:text-brand-green-dark hover:prose-a:text-[#e5a93d] prose-li:marker:text-forest dark:prose-li:marker:text-brand-green-dark prose-ul:list-[square] wrap-break-word whitespace-pre-wrap **:bg-transparent! **:text-inherit!"
                 dangerouslySetInnerHTML={{ __html: sanitizedContent }}
               />
             </div>

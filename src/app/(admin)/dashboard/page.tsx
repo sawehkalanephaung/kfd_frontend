@@ -156,7 +156,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Welcome Card */}
-      <div className="bg-gradient-to-r from-brand-green-dark via-brand-green to-teal-deep rounded-xl p-8 shadow-md border border-brand-green overflow-hidden relative animate-gradient-x">
+      <div className="bg-linear-to-r from-brand-green-dark via-brand-green to-teal-deep rounded-xl p-8 shadow-md border border-brand-green overflow-hidden relative animate-gradient-x">
         <div className="relative z-10">
           <h1 className="text-3xl font-bold text-white mb-2 flex items-center gap-3">
             <LayoutDashboard className="w-8 h-8 opacity-90" />
@@ -167,7 +167,7 @@ export default function DashboardPage() {
           </p>
         </div>
         {/* Decorative elements */}
-        <div className="absolute right-0 top-0 bottom-0 w-1/3 bg-gradient-to-l from-white/10 to-transparent pointer-events-none"></div>
+        <div className="absolute right-0 top-0 bottom-0 w-1/3 bg-linear-to-l from-white/10 to-transparent pointer-events-none"></div>
         <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-white/5 rounded-full blur-2xl pointer-events-none"></div>
       </div>
 
@@ -200,7 +200,7 @@ export default function DashboardPage() {
               </div>
 
               {/* Modern Glass/Shine Reflection Effect */}
-              <div className="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_ease-in-out] bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-[-20deg] pointer-events-none z-20"></div>
+              <div className="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_ease-in-out] bg-linear-to-r from-transparent via-white/40 to-transparent skew-x-[-20deg] pointer-events-none z-20"></div>
 
               {/* Subtle background glow on hover */}
               <div className={`absolute -bottom-6 -right-6 w-32 h-32 rounded-full ${kpi.bg} opacity-0 group-hover:opacity-60 transition-opacity duration-500 blur-2xl pointer-events-none z-0`}></div>
@@ -224,7 +224,7 @@ export default function DashboardPage() {
             </Link>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm text-steel min-w-[600px]">
+            <table className="w-full text-left text-sm text-steel min-w-150">
               <thead>
                 <tr className="border-b border-hairline text-muted text-xs uppercase tracking-wider">
                   <th className="pb-3 font-medium">Title</th>
@@ -255,7 +255,7 @@ export default function DashboardPage() {
                             <FileText className="w-5 h-5" />
                           </div>
                           <div className="flex flex-col">
-                            <span className="font-semibold text-ink truncate max-w-[300px]" title={item.title}>{item.title}</span>
+                            <span className="font-semibold text-ink truncate max-w-75" title={item.title}>{item.title}</span>
                             <span className="text-xs text-steel mt-0.5">{item.category?.name || 'Uncategorized'}</span>
                           </div>
                         </div>

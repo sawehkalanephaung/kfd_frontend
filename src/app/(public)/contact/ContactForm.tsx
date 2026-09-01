@@ -184,7 +184,7 @@ export default function ContactForm({ settings }: { settings: ContactSettings | 
 
           {/* Footer & Submit */}
           <div className="pt-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <p className="text-[9px] text-steel/60 dark:text-white/40 max-w-[200px] leading-tight">
+            <p className="text-[9px] text-steel/60 dark:text-white/40 max-w-50 leading-tight">
               By submitting this form, you acknowledge our Privacy Policy regarding data handling.
             </p>
             <Button

@@ -44,7 +44,7 @@ export default function DashboardLayoutWrapper({
     <div
       className={`
         flex-1 w-full overflow-x-hidden transition-all duration-300 ease-in-out bg-surface
-        ${isCollapsed ? 'md:ml-[80px]' : 'md:ml-[280px]'}
+        ${isCollapsed ? 'md:ml-20' : 'md:ml-70'}
       `}
     >
       {header}

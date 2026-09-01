@@ -40,11 +40,11 @@ export function ZoomableImage({ src, alt, className = "" }: ZoomableImageProps) 
 
       {isOpen && (
         <div 
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4 animate-in fade-in duration-200"
+          className="fixed inset-0 z-100 flex items-center justify-center bg-black/90 backdrop-blur-sm p-4 animate-in fade-in duration-200"
           onClick={() => setIsOpen(false)}
         >
           <button 
-            className="absolute top-6 right-6 text-white/70 hover:text-white bg-black/40 hover:bg-black/60 rounded-full p-2 transition-colors z-[101]"
+            className="absolute top-6 right-6 text-white/70 hover:text-white bg-black/40 hover:bg-black/60 rounded-full p-2 transition-colors z-101"
             onClick={(e) => { e.stopPropagation(); setIsOpen(false); }}
             title="Close (Escape)"
           >

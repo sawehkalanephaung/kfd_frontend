@@ -158,7 +158,7 @@ export default function PublicationCategoriesListPage() {
       {/* Table Section */}
       <div className="bg-canvas rounded-lg shadow-sm border border-hairline-soft overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[800px] text-left text-sm text-steel">
+          <table className="w-full min-w-200 text-left text-sm text-steel">
             <thead className="bg-surface-soft text-steel font-medium border-b border-hairline">
               <tr>
                 <th className="px-6 py-4">Category Name</th>

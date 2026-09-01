@@ -42,7 +42,7 @@ export default function MobileMenu({ navLinks }: MobileMenuProps) {
       {/* Backdrop */}
       {isOpen && (
         <div 
-          className="fixed inset-0 z-[100] bg-black/50 backdrop-blur-sm"
+          className="fixed inset-0 z-100 bg-black/50 backdrop-blur-sm"
           onClick={() => setIsOpen(false)}
         />
       )}
@@ -55,7 +55,7 @@ export default function MobileMenu({ navLinks }: MobileMenuProps) {
         aria-labelledby={titleId}
         inert={!isOpen}
         tabIndex={-1}
-        className={`fixed top-0 right-0 z-[110] h-full w-[280px] bg-canvas shadow-2xl transition-transform duration-300 ease-in-out flex flex-col outline-none ${
+        className={`fixed top-0 right-0 z-110 h-full w-70 bg-canvas shadow-2xl transition-transform duration-300 ease-in-out flex flex-col outline-none ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >

@@ -33,8 +33,8 @@ function AnnouncementCard({ post }: { post: NewsPost }) {
     >
       <div className="flex flex-col md:flex-row h-full">
         {/* Left Side: Formal Date/Icon Badge */}
-        <div className="bg-gradient-to-br from-emerald-50 to-green-50 dark:from-surface-feature dark:to-surface border-r border-hairline flex flex-col justify-center items-center p-6 md:w-48 shrink-0 relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-400 to-green-500 dark:from-brand-green dark:to-emerald-400"></div>
+        <div className="bg-linear-to-br from-emerald-50 to-green-50 dark:from-surface-feature dark:to-surface border-r border-hairline flex flex-col justify-center items-center p-6 md:w-48 shrink-0 relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-emerald-400 to-green-500 dark:from-brand-green dark:to-emerald-400"></div>
           <div className="w-12 h-12 bg-canvas rounded-full flex items-center justify-center shadow-sm border border-brand-green/20 mb-3 text-brand-green-dark dark:text-brand-green group-hover:scale-110 transition-transform">
             <Bell size={20} />
           </div>

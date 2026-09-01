@@ -131,7 +131,7 @@ export default async function NewsPage({ searchParams }: PageProps) {
           <Reveal as="section">
           <Link
             href={`/news/${featured.slug}`}
-            className="group relative block w-full h-[420px] rounded-2xl overflow-hidden mb-12 shadow-2xl bg-white dark:bg-forest-800"
+            className="group relative block w-full h-105 rounded-2xl overflow-hidden mb-12 shadow-2xl bg-white dark:bg-forest-800"
           >
             {featured.featuredImageUrl ? (
               // eslint-disable-next-line @next/next/no-img-element
@@ -145,7 +145,7 @@ export default async function NewsPage({ searchParams }: PageProps) {
                 <ImageIcon size={64} className="text-steel/20 dark:text-white/10" />
               </div>
             )}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+            <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent" />
 
             <div className="absolute bottom-0 left-0 right-0 p-8">
               {featured.category && (

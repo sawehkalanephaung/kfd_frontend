@@ -39,7 +39,7 @@ export default function DashboardCharts({ statusData, topPosts, loading = false 
       {/* Top Viewed Posts Chart */}
       <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline flex flex-col">
         <h2 className="text-lg font-bold text-ink mb-6">Top Viewed Posts</h2>
-        <div className="flex-1 min-h-[300px] w-full relative flex items-center justify-center">
+        <div className="flex-1 min-h-75 w-full relative flex items-center justify-center">
           {loading ? (
             <Loader2 className="w-8 h-8 animate-spin text-muted" />
           ) : !hasTopPosts ? (
@@ -64,7 +64,7 @@ export default function DashboardCharts({ statusData, topPosts, loading = false 
       {/* Content Status Breakdown Chart */}
       <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline flex flex-col">
         <h2 className="text-lg font-bold text-ink mb-6">Content Status Breakdown</h2>
-        <div className="flex-1 min-h-[300px] w-full relative flex items-center justify-center">
+        <div className="flex-1 min-h-75 w-full relative flex items-center justify-center">
           {loading ? (
             <Loader2 className="w-8 h-8 animate-spin text-muted" />
           ) : totalStatus === 0 ? (

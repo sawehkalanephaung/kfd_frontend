@@ -73,10 +73,10 @@ export default function ImageCropperModal({ imageSrc, onCropComplete, onClose }:
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
+    <div className="fixed inset-0 z-100 flex items-center justify-center p-4 sm:p-6 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
       {/* Backdrop */}
       <div 
-        className="absolute inset-0 bg-gray-900/80 backdrop-blur-sm"
+        className="absolute inset-0"
         onClick={onClose}
       />
       
@@ -106,7 +106,7 @@ export default function ImageCropperModal({ imageSrc, onCropComplete, onClose }:
         </div>
 
         {/* Cropper Container */}
-        <div className="relative w-full h-[400px] bg-black">
+        <div className="relative w-full h-100 bg-black">
           <Cropper
             image={imageSrc}
             crop={crop}

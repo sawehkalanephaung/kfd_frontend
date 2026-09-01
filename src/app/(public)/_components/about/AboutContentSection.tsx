@@ -93,7 +93,7 @@ export default function AboutContentSection({
   // ── Full-bleed variant: image covers entire background, text floats over it ──
   if (variant === 'fullbleed') {
     return (
-      <section className="relative w-full min-h-[550px] lg:min-h-[600px] flex items-center overflow-hidden">
+      <section className="relative w-full min-h-137.5 lg:min-h-150 flex items-center overflow-hidden">
         {/* Background Image */}
         {displayImage ? (
           <div
@@ -101,7 +101,7 @@ export default function AboutContentSection({
             style={{ backgroundImage: `url('${displayImage}')` }}
           />
         ) : (
-          <div className="absolute inset-0 bg-gradient-to-br from-forest-900 to-forest" />
+          <div className="absolute inset-0 bg-linear-to-br from-forest-900 to-forest" />
         )}
         {/* Lighter overlay to let the glassmorphism card stand out */}
         <div className="absolute inset-0 bg-black/30" />
@@ -113,7 +113,7 @@ export default function AboutContentSection({
                 {title}
               </h2>
               <div
-                className="text-white/90 text-lg leading-relaxed prose prose-invert max-w-none prose-p:mb-4 drop-shadow-md break-words whitespace-pre-wrap [&_*]:!bg-transparent [&_*]:!text-inherit"
+                className="text-white/90 text-lg leading-relaxed prose prose-invert max-w-none prose-p:mb-4 drop-shadow-md wrap-break-word whitespace-pre-wrap **:bg-transparent! **:text-inherit!"
                 dangerouslySetInnerHTML={{ __html: sanitizedContent }}
               />
             </div>
@@ -155,13 +155,13 @@ export default function AboutContentSection({
       <div className="prose prose-lg max-w-none relative">
         <div
           ref={variant === 'text-only' ? textOnlyRef : null}
-          className={`text-base md:text-lg leading-relaxed prose-p:mb-4 ${textColor} ${shouldTruncate ? 'line-clamp-[6]' : ''} [&_img]:hidden break-words whitespace-pre-wrap [&_*]:!bg-transparent [&_*]:!text-inherit [&_ul]:list-[square] [&_li::marker]:text-forest [&_li::marker]:text-sm`}
+          className={`text-base md:text-lg leading-relaxed prose-p:mb-4 ${textColor} ${shouldTruncate ? 'line-clamp-6' : ''} [&_img]:hidden wrap-break-word whitespace-pre-wrap **:bg-transparent! **:text-inherit! [&_ul]:list-[square] [&_li::marker]:text-forest [&_li::marker]:text-sm`}
           dangerouslySetInnerHTML={{ __html: sanitizedContent }}
         />
 
         {/* Gradient fade when collapsed */}
         {shouldTruncate && (
-          <div className={`absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t to-transparent pointer-events-none ${gradientFrom}`}></div>
+          <div className={`absolute bottom-0 left-0 right-0 h-24 bg-linear-to-t to-transparent pointer-events-none ${gradientFrom}`}></div>
         )}
       </div>
 
@@ -204,7 +204,7 @@ export default function AboutContentSection({
   const imageBlock = (
     <div
       ref={imageColRef}
-      className="relative h-[400px] lg:h-screen w-full overflow-hidden group bg-surface"
+      className="relative h-100 lg:h-screen w-full overflow-hidden group bg-surface"
     >
       {displayImage ? (
         // eslint-disable-next-line @next/next/no-img-element

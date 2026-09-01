@@ -322,7 +322,7 @@ function LinkRow({
         itemName={`"${link.label}"`}
       />
       <div className="flex items-center gap-3 px-3 py-2.5 bg-canvas border border-hairline rounded-xl group hover:border-hairline-strong transition-all">
-        <GripVertical className="w-3.5 h-3.5 text-muted flex-shrink-0" />
+        <GripVertical className="w-3.5 h-3.5 text-muted shrink-0" />
         <div className="flex-1 min-w-0">
           <p className="text-sm font-medium text-charcoal truncate">{link.label}</p>
           <a
@@ -331,11 +331,11 @@ function LinkRow({
             rel="noopener noreferrer"
             className="text-xs text-brand-green-dark hover:text-brand-green-dark flex items-center gap-1 truncate"
           >
-            <ExternalLink className="w-3 h-3 flex-shrink-0" />
+            <ExternalLink className="w-3 h-3 shrink-0" />
             {link.url}
           </a>
         </div>
-        <div className="flex items-center gap-1.5 flex-shrink-0">
+        <div className="flex items-center gap-1.5 shrink-0">
           <span className="text-xs text-muted w-6 text-center">#{link.displayOrder}</span>
           {link.isActive ? (
             <Eye className="w-3.5 h-3.5 text-emerald-400" />
@@ -417,7 +417,7 @@ function SectionCard({
                 <ChevronRight className="w-4 h-4" aria-hidden="true" />
               )}
             </button>
-            <LayoutList className="w-4 h-4 text-brand-green flex-shrink-0" />
+            <LayoutList className="w-4 h-4 text-brand-green shrink-0" />
             <div className="flex-1 min-w-0">
               <h3 className="text-sm font-bold text-ink flex items-center gap-2">
                 {section.title}

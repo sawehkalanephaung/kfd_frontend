@@ -12,18 +12,18 @@ export default function PublicLoading() {
     return (
       <div className="flex flex-col min-h-screen animate-in fade-in duration-500">
         {/* Hero Section Skeleton */}
-        <section className="relative w-full h-[600px] flex items-center overflow-hidden bg-forest-900">
+        <section className="relative w-full h-150 flex items-center overflow-hidden bg-forest-900">
           <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-2xl">
-              <Skeleton className="h-14 w-full sm:w-3/4 mb-6 !bg-zinc-800/50" />
-              <Skeleton className="h-14 w-1/2 mb-6 !bg-zinc-800/50" />
+              <Skeleton className="h-14 w-full sm:w-3/4 mb-6 bg-zinc-800/50!" />
+              <Skeleton className="h-14 w-1/2 mb-6 bg-zinc-800/50!" />
 
-              <Skeleton className="h-6 w-full max-w-xl mb-3 !bg-zinc-800/50" />
-              <Skeleton className="h-6 w-4/5 max-w-xl mb-10 !bg-zinc-800/50" />
+              <Skeleton className="h-6 w-full max-w-xl mb-3 bg-zinc-800/50!" />
+              <Skeleton className="h-6 w-4/5 max-w-xl mb-10 bg-zinc-800/50!" />
 
               <div className="flex flex-wrap items-center gap-4">
-                <Skeleton className="h-12 w-40 rounded-full !bg-zinc-800/50" />
-                <Skeleton className="h-12 w-32 rounded-full !bg-zinc-800/50" />
+                <Skeleton className="h-12 w-40 rounded-full bg-zinc-800/50!" />
+                <Skeleton className="h-12 w-32 rounded-full bg-zinc-800/50!" />
               </div>
             </div>
           </div>
@@ -35,9 +35,9 @@ export default function PublicLoading() {
             <div className="flex flex-wrap justify-center gap-y-8 lg:gap-y-0 lg:divide-x lg:divide-green-800/50">
               {[1, 2, 3, 4].map((i) => (
                 <div key={i} className="flex flex-col px-4 lg:px-12 w-1/2 lg:w-auto items-center lg:items-start">
-                  <Skeleton className="h-10 w-24 mb-2 !bg-zinc-800/50" />
-                  <Skeleton className="h-4 w-32 mb-1 !bg-zinc-800/50" />
-                  <Skeleton className="h-3 w-40 !bg-zinc-800/50" />
+                  <Skeleton className="h-10 w-24 mb-2 bg-zinc-800/50!" />
+                  <Skeleton className="h-4 w-32 mb-1 bg-zinc-800/50!" />
+                  <Skeleton className="h-3 w-40 bg-zinc-800/50!" />
                 </div>
               ))}
             </div>
@@ -54,9 +54,9 @@ export default function PublicLoading() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="bg-canvas border border-hairline rounded-lg shadow-sm flex flex-col h-[420px] overflow-hidden">
+                <div key={i} className="bg-canvas border border-hairline rounded-lg shadow-sm flex flex-col h-105 overflow-hidden">
                   <Skeleton className="h-48 w-full rounded-none shrink-0" />
-                  <div className="p-8 flex flex-col flex-grow">
+                  <div className="p-8 flex flex-col grow">
                     <Skeleton className="h-6 w-3/4 mb-4" />
                     <Skeleton className="h-4 w-full mb-2" />
                     <Skeleton className="h-4 w-5/6 mb-2" />
@@ -97,7 +97,7 @@ export default function PublicLoading() {
               </div>
               <div className="lg:col-span-1 flex flex-col">
                 <Skeleton className="h-8 w-64 mb-8" />
-                <div className="bg-surface border border-hairline rounded-2xl p-6 flex flex-col gap-6 flex-grow">
+                <div className="bg-surface border border-hairline rounded-2xl p-6 flex flex-col gap-6 grow">
                   {[1, 2, 3].map((i) => (
                     <div key={i} className="flex gap-4 p-4 -mx-4">
                       <Skeleton className="w-10 h-10 rounded-full shrink-0" />
@@ -130,13 +130,13 @@ export default function PublicLoading() {
       {/* Generic Hero Section Skeleton — matches PageHero's bg-forest-950 base and responsive py-20 md:py-28 sizing (no fixed height) */}
       <section className="relative w-full py-20 md:py-28 flex items-center bg-forest-950 mb-12">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-center">
-          <Skeleton className="h-12 w-full max-w-2xl mb-6 !bg-zinc-800/50" />
-          <Skeleton className="h-6 w-3/4 max-w-xl !bg-zinc-800/50" />
+          <Skeleton className="h-12 w-full max-w-2xl mb-6 bg-zinc-800/50!" />
+          <Skeleton className="h-6 w-3/4 max-w-xl bg-zinc-800/50!" />
         </div>
       </section>
 
       {/* Generic Content Block Skeleton */}
-      <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow">
+      <section className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 grow">
         <div className="max-w-4xl mx-auto mb-16">
           <Skeleton className="h-10 w-1/3 mb-8" />
           <div className="space-y-4 mb-8">
@@ -156,9 +156,9 @@ export default function PublicLoading() {
         {/* Generic Grid Skeleton (looks good for Chairman, news cards, or gallery) */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden h-[380px] flex flex-col">
+            <div key={i} className="bg-surface border border-hairline rounded-xl overflow-hidden h-95 flex flex-col">
               <Skeleton className="h-48 w-full rounded-none shrink-0" />
-              <div className="p-6 flex flex-col flex-grow">
+              <div className="p-6 flex flex-col grow">
                 <Skeleton className="h-6 w-3/4 mb-4" />
                 <Skeleton className="h-4 w-full mb-2" />
                 <Skeleton className="h-4 w-5/6 mb-2" />
