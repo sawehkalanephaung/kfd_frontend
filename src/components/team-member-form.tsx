@@ -187,15 +187,15 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
 
       if (isEdit) {
         await api.put(`/api/v1/admin/team-members/${memberId}`, payload);
-        toast.success('Successfully updated team member!');
+        toast.success('Successfully updated Chairman!');
       } else {
         await api.post('/api/v1/admin/team-members', payload);
-        toast.success('Successfully created team member!');
+        toast.success('Successfully created Chairman!');
       }
       router.push('/dashboard/team');
     } catch (err: any) {
       console.error(err);
-      const msg = err.response?.data?.message || 'Failed to save team member.';
+      const msg = err.response?.data?.message || 'Failed to save Chairman.';
       setError(msg);
     } finally {
       setLoading(false);

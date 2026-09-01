@@ -15,7 +15,7 @@ async function getTeamMember(id: string) {
   });
 
   if (res.status === 404) return null;
-  if (!res.ok) throw new Error(`Failed to load team member "${id}": ${res.status}`);
+  if (!res.ok) throw new Error(`Failed to load Chairman "${id}": ${res.status}`);
 
   const data = await res.json();
   return data?.data || null;
@@ -80,8 +80,8 @@ export default async function TeamMemberProfilePage({ params }: { params: Promis
 
   const imageUrl = member.headshotUrl || member.headshot_url || member.imageUrl || member.avatarUrl;
   const displayImage = imageUrl ? getMediaUrl(imageUrl) : null;
-  const fullName = `${member.firstName || member.first_name || member.name || ''} ${member.lastName || member.last_name || ''}`.trim() || 'Team Member';
-  const finalTitle = parseI18nField(member.title) || member.role || member.position || 'Team Member';
+  const fullName = `${member.firstName || member.first_name || member.name || ''} ${member.lastName || member.last_name || ''}`.trim() || 'Chairman';
+  const finalTitle = parseI18nField(member.title) || member.role || member.position || 'Chairman';
   const bio = parseI18nField(member.bio || member.description) || '';
 
   return (

@@ -64,10 +64,10 @@ export default function TeamDirectoryPage() {
     try {
       await api.delete(`/api/v1/admin/team-members/${memberToDelete.id}`);
       setMembers((prev) => prev.filter((m) => m.id !== memberToDelete.id));
-      toast.success('Team member deleted successfully');
+      toast.success('Chairman deleted successfully');
       setDeleteModalOpen(false);
     } catch (error) {
-      toast.error('Failed to delete team member');
+      toast.error('Failed to delete Chairman');
     }
   };
 
@@ -174,7 +174,7 @@ export default function TeamDirectoryPage() {
               ) : filteredMembers.length === 0 ? (
                 <tr>
                   <td colSpan={9} className="px-6 py-12 text-center text-steel">
-                    {searchQuery ? "No members found matching your search." : "No members found. Add your first team member to get started."}
+                    {searchQuery ? "No members found matching your search." : "No members found. Add your first Chairman to get started."}
                   </td>
                 </tr>
               ) : (
@@ -278,8 +278,8 @@ export default function TeamDirectoryPage() {
         isOpen={deleteModalOpen}
         onClose={() => setDeleteModalOpen(false)}
         onConfirm={confirmDelete}
-        title="Delete Team Member?"
-        description="This will permanently delete the team member's profile and bio. This action cannot be undone."
+        title="Delete Chairman?"
+        description="This will permanently delete the Chairman's profile and bio. This action cannot be undone."
         itemName={`${memberToDelete?.firstName} ${memberToDelete?.lastName}`}
       />
     </div>

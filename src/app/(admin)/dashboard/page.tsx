@@ -317,7 +317,7 @@ export default function DashboardPage() {
                 <UserPlus className="w-6 h-6" />
               </div>
               <div>
-                <p className="font-bold text-ink group-hover:text-purple-700 transition-colors">Add Team Member</p>
+                <p className="font-bold text-ink group-hover:text-purple-700 transition-colors">Add Chairman</p>
                 <p className="text-xs text-steel mt-0.5">Invite a new system user</p>
               </div>
             </Link>

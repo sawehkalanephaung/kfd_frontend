@@ -10,7 +10,7 @@ export default function CreateTeamMemberPage() {
     <div>
       <PageHeader
         icon={Users}
-        title="Add Team Member"
+        title="Add Chairman"
         description="Create a new profile for a KFD organization member."
       />
       <TeamMemberForm />

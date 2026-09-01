@@ -20,7 +20,7 @@ export default function EditTeamMemberPage() {
         setMember(res.data?.data || res.data);
       } catch (err: any) {
         console.error(err);
-        setError('Failed to load team member.');
+        setError('Failed to load Chairman.');
       } finally {
         setLoading(false);
       }
@@ -44,7 +44,7 @@ export default function EditTeamMemberPage() {
     return (
       <div className="bg-red-50 text-red-600 p-6 rounded-lg border border-red-100">
         <h2 className="text-lg font-bold mb-2">Error</h2>
-        <p>{error || 'Team member not found.'}</p>
+        <p>{error || 'Chairman not found.'}</p>
       </div>
     );
   }

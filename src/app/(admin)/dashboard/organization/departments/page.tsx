@@ -66,7 +66,7 @@ export default function DepartmentsPage() {
       setDepartments((prev) => prev.filter((d) => d.id !== departmentToDelete.id));
       toast.success(`"${departmentToDelete.name}" was successfully deleted.`);
     } catch (err: any) {
-      toast.error(err?.response?.data?.message || 'Failed to delete department. It may still be referenced by posts, team members, or other content.');
+      toast.error(err?.response?.data?.message || 'Failed to delete department. It may still be referenced by posts, Chairman, or other content.');
     } finally {
       setDeleteModalOpen(false);
       setDepartmentToDelete(null);
