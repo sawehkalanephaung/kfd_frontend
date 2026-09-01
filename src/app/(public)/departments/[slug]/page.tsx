@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import DepartmentHero from "../../_components/departments/DepartmentHero";
 import DepartmentTabs from "../../_components/departments/DepartmentTabs";
+import { Reveal } from "@/components/ui/reveal";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -109,8 +110,12 @@ export default async function DepartmentPage({ params }: PageProps) {
 
   return (
     <main className="min-h-screen bg-surface flex flex-col">
-      <DepartmentHero data={enhancedDepartmentData} />
-      <DepartmentTabs data={enhancedDepartmentData} />
+      <Reveal onMount>
+        <DepartmentHero data={enhancedDepartmentData} />
+      </Reveal>
+      <Reveal>
+        <DepartmentTabs data={enhancedDepartmentData} />
+      </Reveal>
     </main>
   );
 }

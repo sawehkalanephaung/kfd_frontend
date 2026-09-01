@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Calendar, MapPin, ArrowRight, ArrowLeft } from "lucide-react";
 import { NewsPost, PaginatedPosts } from "../types";
 import { PageHero } from "@/components/ui/page-hero";
+import { Reveal } from "@/components/ui/reveal";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
@@ -72,7 +73,7 @@ export default async function EventsPage() {
 
   return (
     <main className="min-h-screen bg-[#f9f7f1] dark:bg-canvas">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-8 max-w-5xl">
+      <Reveal onMount className="container mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-8 max-w-5xl">
         <Link
           href="/news"
           className="inline-flex items-center gap-1.5 text-sm font-bold uppercase tracking-wider text-green-400 hover:text-brand-green transition-colors mb-6 group"
@@ -86,15 +87,15 @@ export default async function EventsPage() {
         <p className="mt-4 text-lg text-steel dark:text-white/60 max-w-2xl">
           Join us in our community programs, reforestation drives, and public workshops.
         </p>
-      </div>
+      </Reveal>
       <div className="container mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 pt-12 pb-20">
         {/* Content */}
         {posts.length > 0 ? (
-          <div className="space-y-6">
+          <Reveal className="space-y-6" stagger>
             {posts.map(post => (
               <EventCard key={post.id} post={post} />
             ))}
-          </div>
+          </Reveal>
         ) : (
           <div className="bg-forest-800 border border-white/5 rounded-2xl p-12 text-center">
             <p className="text-white/40">There are currently no upcoming events scheduled.</p>

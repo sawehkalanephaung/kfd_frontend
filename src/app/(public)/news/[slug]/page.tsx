@@ -6,6 +6,7 @@ import { NewsPostDetail, NewsPost } from "../types";
 import { AnnouncementActions } from "./AnnouncementActions";
 import { Card } from "@/components/ui/card";
 import { ZoomableImage } from "@/components/ui/zoomable-image";
+import { Reveal } from "@/components/ui/reveal";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
@@ -120,7 +121,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
 
     return (
       <main className="min-h-screen bg-[#f9f7f1] dark:bg-forest-950">
-        <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-[#f9f7f1] dark:from-forest-800 dark:to-forest-950">
+        <Reveal as="section" onMount className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white to-[#f9f7f1] dark:from-forest-800 dark:to-forest-950">
           <div className="container mx-auto max-w-5xl">
             <div className="flex flex-col md:flex-row gap-10 items-start">
               {/* Massive Calendar Badge & Meta */}
@@ -180,7 +181,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
               </div>
             </div>
           </div>
-        </section>
+        </Reveal>
       </main>
     );
   }
@@ -190,7 +191,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
     return (
       <main className="min-h-screen print:min-h-0 bg-[#f4f1ea] dark:bg-canvas print:bg-transparent py-16 print:py-0 px-4 sm:px-6 lg:px-8 print:px-0">
         <div className="container mx-auto max-w-3xl">
-          <div className="p-8 md:p-12 print:p-0 relative overflow-hidden text-ink">
+          <Reveal onMount className="p-8 md:p-12 print:p-0 relative overflow-hidden text-ink">
             {/* Memo Header */}
             <div className="border-b-2 border-gray-900 dark:border-gray-500 pb-8 mb-8 text-center relative flex flex-col items-center">
               <div className="flex items-center gap-3 justify-center mb-2">
@@ -238,7 +239,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
               </div>
               <AnnouncementActions title={post.title} />
             </div>
-          </div>
+          </Reveal>
         </div>
       </main>
     );
@@ -248,7 +249,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
   return (
     <main className="min-h-screen bg-[#f9f7f1] dark:bg-canvas">
       {/* ── Hero Header ─────────────────────────────────────── */}
-      <section className="pt-20 pb-10 px-4 sm:px-6 lg:px-8">
+      <Reveal as="section" onMount className="pt-20 pb-10 px-4 sm:px-6 lg:px-8">
         <div className="container mx-auto max-w-4xl text-center flex flex-col items-center">
           {/* Category pill */}
           {post.category && (
@@ -272,10 +273,10 @@ export default async function NewsDetailPage({ params }: PageProps) {
             </div>
           </div>
         </div>
-      </section>
+      </Reveal>
 
       {/* ── Featured Image ───────────────────────────────────── */}
-      <section className="px-4 sm:px-6 lg:px-8 mb-16">
+      <Reveal as="section" className="px-4 sm:px-6 lg:px-8 mb-16">
         <div className="container mx-auto max-w-5xl">
           {hasHeroImage ? (
             <ZoomableImage
@@ -289,10 +290,10 @@ export default async function NewsDetailPage({ params }: PageProps) {
             </div>
           )}
         </div>
-      </section>
+      </Reveal>
 
       {/* ── Article Body ─────────────────────────────────────── */}
-      <section className="px-4 sm:px-6 lg:px-8 mb-16">
+      <Reveal as="section" className="px-4 sm:px-6 lg:px-8 mb-16">
         <div className="container mx-auto max-w-3xl">
           {post.content ? (
             <div
@@ -373,11 +374,11 @@ export default async function NewsDetailPage({ params }: PageProps) {
             )}
           </div>
         </div>
-      </section>
+      </Reveal>
 
       {/* ── Related Topics ───────────────────────────────────── */}
       {post.relatedPosts && post.relatedPosts.length > 0 ? (
-        <section className="px-4 sm:px-6 lg:px-8 py-20 bg-[#ece9df] dark:bg-surface-soft">
+        <Reveal as="section" className="px-4 sm:px-6 lg:px-8 py-20 bg-[#ece9df] dark:bg-surface-soft">
           <div className="container mx-auto max-w-6xl">
             <div className="flex items-center justify-between mb-12">
               <h2 className="text-2xl font-bold font-serif text-ink">Related Stories</h2>
@@ -389,13 +390,13 @@ export default async function NewsDetailPage({ params }: PageProps) {
                 <ArrowRight size={14} />
               </Link>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <Reveal className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" stagger>
               {post.relatedPosts.map((related, idx) => (
                 <RelatedCard key={related.id} post={related} />
               ))}
-            </div>
+            </Reveal>
           </div>
-        </section>
+        </Reveal>
       ) : (
         <section className="px-4 sm:px-6 lg:px-8 pb-20">
           <div className="container mx-auto max-w-5xl flex justify-center">

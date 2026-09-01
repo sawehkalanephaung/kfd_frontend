@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight, Calendar, Tag, ImageIcon } from "lucide-reac
 import { NewsPost, PostCategory, PaginatedPosts } from "./types";
 import { PageHero } from "@/components/ui/page-hero";
 import { Card } from "@/components/ui/card";
+import { Reveal } from "@/components/ui/reveal";
 
 export const metadata: Metadata = {
   title: "News & Announcements - Kawthoolei Forestry Department",
@@ -85,17 +86,17 @@ export default async function NewsPage({ searchParams }: PageProps) {
 
   return (
     <main className="min-h-screen bg-[#f9f7f1] dark:bg-canvas">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-8 max-w-5xl">
+      <Reveal onMount className="container mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-8 max-w-5xl">
         <h1 className="text-4xl md:text-5xl font-bold font-sans text-ink dark:text-white tracking-tight">
           News & Updates
         </h1>
         <p className="mt-4 text-lg text-steel dark:text-white/60 max-w-2xl">
           Official updates, activities and news from Department.
         </p>
-      </div>
+      </Reveal>
       {/* ── Category Filter ─────────────────────────────────── */}
       {categories.length > 0 && (
-        <section className="px-4 sm:px-6 lg:px-8 pb-8">
+        <Reveal as="section" className="px-4 sm:px-6 lg:px-8 pb-8">
           <div className="container mx-auto max-w-5xl">
             <div className="flex flex-wrap gap-2">
               <Link
@@ -121,12 +122,13 @@ export default async function NewsPage({ searchParams }: PageProps) {
               ))}
             </div>
           </div>
-        </section>
+        </Reveal>
       )}
 
       <div className="container mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-20">
         {/* ── Featured Post ──────────────────────────────────── */}
         {featured && currentPage === 0 && !activeCategory && (
+          <Reveal as="section">
           <Link
             href={`/news/${featured.slug}`}
             className="group relative block w-full h-[420px] rounded-2xl overflow-hidden mb-12 shadow-2xl bg-white dark:bg-forest-800"
@@ -162,11 +164,12 @@ export default async function NewsPage({ searchParams }: PageProps) {
               </p>
             </div>
           </Link>
+          </Reveal>
         )}
 
         {/* ── Post Grid ─────────────────────────────────────── */}
         {gridPosts.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-14">
+          <Reveal className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-14" stagger>
             {(currentPage === 0 && !activeCategory ? gridPosts : posts).map((post) => (
               <Card
                 key={post.id}
@@ -181,7 +184,7 @@ export default async function NewsPage({ searchParams }: PageProps) {
                 metaStyle="inline"
               />
             ))}
-          </div>
+          </Reveal>
         ) : (
           <div className="text-center py-24">
             <div className="w-16 h-16 rounded-full bg-surface dark:bg-canvas/5 flex items-center justify-center mx-auto mb-4">

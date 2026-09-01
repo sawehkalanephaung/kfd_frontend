@@ -5,6 +5,7 @@ import FaqAccordion from "./FaqAccordion";
 import { ContentFallback } from "@/components/content-fallback";
 import { ContactSettings, Faq } from "./types";
 import { PageHero } from "@/components/ui/page-hero";
+import { Reveal } from "@/components/ui/reveal";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
@@ -56,23 +57,25 @@ export default async function ContactPage() {
 
   return (
     <main className="min-h-screen bg-[#f9f7f1] dark:bg-canvas pb-20">
-      <PageHero
-        title="Get in Touch"
-        subtitle="We are here to support conservation efforts, answer your inquiries, and collaborate on preserving our environmental heritage."
-        titleFont="serif"
-      />
+      <Reveal onMount>
+        <PageHero
+          title="Get in Touch"
+          subtitle="We are here to support conservation efforts, answer your inquiries, and collaborate on preserving our environmental heritage."
+          titleFont="serif"
+        />
+      </Reveal>
 
       {/* ── Split Form & Direct Contact ─────────────────────── */}
       <section className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto mt-16 mb-24">
         <div className="flex flex-col lg:flex-row gap-8 items-start">
 
           {/* Left: Form */}
-          <div className="flex-1 w-full">
+          <Reveal direction="left" className="flex-1 w-full">
             <ContactForm settings={settings} />
-          </div>
+          </Reveal>
 
           {/* Right: Direct Contact */}
-          <div className="w-full lg:w-[380px] shrink-0">
+          <Reveal direction="right" delay={0.15} className="w-full lg:w-[380px] shrink-0">
             <div className="bg-white dark:bg-[#091810] rounded-xl p-6 sm:p-8 border border-hairline dark:border-[#132d1f] shadow-sm dark:shadow-none">
 
               {!hasAnyContactDetail ? (
@@ -138,18 +141,18 @@ export default async function ContactPage() {
               )}
 
             </div>
-          </div>
+          </Reveal>
 
         </div>
       </section>
 
       {/* ── FAQ Section ──────────────────────────────────────── */}
-      <section className="px-4 sm:px-6 lg:px-8 max-w-3xl mx-auto">
+      <Reveal as="section" className="px-4 sm:px-6 lg:px-8 max-w-3xl mx-auto">
         <h2 className="text-2xl font-serif text-ink dark:text-white mb-8 text-center sm:text-left">
           Frequently Asked Questions
         </h2>
         <FaqAccordion faqs={faqs} />
-      </section>
+      </Reveal>
 
     </main>
   );

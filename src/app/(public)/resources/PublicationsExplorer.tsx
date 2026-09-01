@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Public_Sans } from 'next/font/google';
 import { Search, LayoutGrid, List as ListIcon, FileText, ChevronLeft, ChevronRight } from 'lucide-react';
 import { ContentFallback } from '@/components/content-fallback';
+import { Reveal } from '@/components/ui/reveal';
 import { PublicationItem, PublicationCategory } from './types';
 
 const publicSans = Public_Sans({
@@ -109,7 +110,7 @@ export default function PublicationsExplorer({ publications, categories }: Props
 
   return (
     <div className={`${publicSans.className} bg-[#F9FBFA] dark:bg-canvas text-[#1a2231] dark:text-white`}>
-      <div className="max-w-[1280px] mx-auto px-5 sm:px-7 py-8 pb-16 grid grid-cols-1 lg:grid-cols-[236px_minmax(0,1fr)] gap-8 lg:gap-10 items-start">
+      <Reveal onMount className="max-w-[1280px] mx-auto px-5 sm:px-7 py-8 pb-16 grid grid-cols-1 lg:grid-cols-[236px_minmax(0,1fr)] gap-8 lg:gap-10 items-start">
 
         {/* sidebar */}
         <aside>
@@ -229,7 +230,7 @@ export default function PublicationsExplorer({ publications, categories }: Props
               )}
             </div>
           ) : view === 'grid' ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <Reveal className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" stagger>
               {pageItems.map(pub => (
                 <Link
                   key={pub.id}
@@ -252,9 +253,9 @@ export default function PublicationsExplorer({ publications, categories }: Props
                   </div>
                 </Link>
               ))}
-            </div>
+            </Reveal>
           ) : (
-            <div className="flex flex-col gap-4">
+            <Reveal className="flex flex-col gap-4" stagger>
               {pageItems.map(pub => (
                 <Link
                   key={pub.id}
@@ -277,7 +278,7 @@ export default function PublicationsExplorer({ publications, categories }: Props
                   </div>
                 </Link>
               ))}
-            </div>
+            </Reveal>
           )}
 
           {/* pagination */}
@@ -313,7 +314,7 @@ export default function PublicationsExplorer({ publications, categories }: Props
             </div>
           )}
         </div>
-      </div>
+      </Reveal>
     </div>
   );
 }

@@ -6,6 +6,7 @@ import { Calendar, Building2, Globe2, HardDrive, Download, FileText } from "luci
 import { PublicationItem } from "../types";
 import { ZoomableImage } from "@/components/ui/zoomable-image";
 import { Button } from "@/components/ui/button";
+import { Reveal } from "@/components/ui/reveal";
 
 const publicSans = Public_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800"] });
 const sourceSerif = Source_Serif_4({ subsets: ["latin"], weight: ["500", "600", "700"] });
@@ -83,7 +84,7 @@ export default async function PublicationDetailPage({ params }: PageProps) {
   return (
     <div className={`${publicSans.className} min-h-screen bg-[#eef1f5] dark:bg-canvas text-[#1a2231] dark:text-white`}>
       {/* page banner */}
-      <div className="relative overflow-hidden text-white">
+      <Reveal onMount className="relative overflow-hidden text-white">
         <div
           className="absolute inset-0"
           style={{ background: "linear-gradient(105deg,#0f1f3d 0%,#1c355f 62%,#254273 100%)" }}
@@ -102,14 +103,14 @@ export default async function PublicationDetailPage({ params }: PageProps) {
             <span className="text-white font-semibold">{publication.title}</span>
           </div>
         </div>
-      </div>
+      </Reveal>
 
       {/* main */}
       <main className="max-w-[1240px] mx-auto px-5 sm:px-8 pt-11 pb-16">
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,380px)_minmax(0,1fr)] gap-10 lg:gap-13 items-start">
 
           {/* cover column */}
-          <div className="lg:sticky lg:top-6">
+          <Reveal direction="left" className="lg:sticky lg:top-6">
             <div className="border border-[#d5dce7] dark:border-hairline rounded-[10px] overflow-hidden bg-white dark:bg-surface shadow-[0_10px_30px_-12px_rgba(15,31,61,.35)] dark:shadow-none">
               {publication.thumbnailUrl ? (
                 <ZoomableImage
@@ -123,10 +124,10 @@ export default async function PublicationDetailPage({ params }: PageProps) {
                 </div>
               )}
             </div>
-          </div>
+          </Reveal>
 
           {/* detail column */}
-          <div>
+          <Reveal direction="right">
             <h2 className={`${sourceSerif.className} m-0 font-bold text-[32px] sm:text-[40px] leading-[1.12] tracking-[-.015em] text-[#101a2c] dark:text-white text-pretty`}>
               {publication.title}
             </h2>
@@ -180,7 +181,7 @@ export default async function PublicationDetailPage({ params }: PageProps) {
                 </div>
               )}
             </div>
-          </div>
+          </Reveal>
         </div>
       </main>
     </div>

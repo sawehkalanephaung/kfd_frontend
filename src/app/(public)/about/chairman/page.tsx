@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ChevronRight, User } from "lucide-react";
 import { getMediaUrl } from "@/lib/api";
 import { formatFullDate, formatTenureYears } from "@/lib/date-utils";
+import { Reveal } from "@/components/ui/reveal";
 
 export const metadata: Metadata = {
   title: "Chairman - Kawthoolei Forestry Department",
@@ -119,7 +120,7 @@ export default async function ChairmanPage() {
       {/* ── Official Hero ─────────────────────────────────────────────
           Portrait and identity sit side by side on a deep forest band; the
           whole block stacks and centres below `md`. */}
-      <section className="relative overflow-hidden bg-[#0b1f14] pb-14 pt-14 lg:pb-24">
+      <Reveal as="section" onMount className="relative overflow-hidden bg-[#0b1f14] pb-14 pt-14 lg:pb-24">
         {/* Barely-there dot grid keeps the flat green from reading as a slab. */}
         <div
           className="pointer-events-none absolute inset-0 opacity-[0.03]"
@@ -173,12 +174,12 @@ export default async function ChairmanPage() {
 
           </div>
         </div>
-      </section>
+      </Reveal>
 
       {/* ── Biography ─────────────────────────────────────────────────
           A single measured column — the reading width is deliberately
           narrower than the hero so long official text stays legible. */}
-      <section className="bg-white pb-28 pt-24 lg:pb-36 lg:pt-28">
+      <Reveal as="section" className="bg-white pb-28 pt-24 lg:pb-36 lg:pt-28">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-[840px]">
 
@@ -201,7 +202,7 @@ export default async function ChairmanPage() {
 
           </div>
         </div>
-      </section>
+      </Reveal>
 
     </main>
   );
