@@ -13,7 +13,7 @@ import {
   X
 } from 'lucide-react';
 import api, { getMediaUrl } from '@/lib/api';
-import { SITE_IDENTITY_UPDATED_EVENT } from '@/lib/site-identity';
+import { SITE_IDENTITY_UPDATED_EVENT } from '@/lib/site-identity-events';
 import MediaSelector from '@/components/media-selector';
 import ImageUploadField from '@/components/image-upload-field';
 import { FormField } from '@/components/ui/form-field';

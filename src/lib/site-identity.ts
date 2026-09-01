@@ -1,26 +1,8 @@
 import { cache } from 'react';
 import { getMediaUrl } from '@/lib/api';
+import { SiteIdentity } from '@/lib/site-identity-events';
 
-/**
- * Fired on `window` after a successful admin save, so already-mounted client
- * components (e.g. the dashboard sidebar) can refetch without waiting for a
- * full page navigation. Server components don't need this — they refetch on
- * every request anyway.
- */
-export const SITE_IDENTITY_UPDATED_EVENT = 'kfd:site-identity-updated';
-
-export interface SiteIdentity {
-  id: string | null;
-  organizationName: string;
-  /** S'gaw Karen name, shown beneath the English one in the header and footer. */
-  organizationNameKaren: string | null;
-  tagline: string | null;
-  /** Raw path as stored by the API (e.g. `/uploads/brand/logo.png`), not directly loadable. */
-  logoUrl: string | null;
-  /** `logoUrl` resolved to an absolute, browser-loadable URL. Use this for rendering. */
-  resolvedLogoUrl: string | null;
-  footerCopyright: string | null;
-}
+export { SITE_IDENTITY_UPDATED_EVENT, type SiteIdentity } from '@/lib/site-identity-events';
 
 /**
  * Values used when the API is unreachable.

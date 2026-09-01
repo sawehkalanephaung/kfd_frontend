@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import { ArrowRight, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import api from '@/lib/api';
+import axios from 'axios';
 
 export default function NewsletterForm() {
   const [email, setEmail] = useState('');
@@ -19,30 +21,20 @@ export default function NewsletterForm() {
     setMessage('');
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"}/api/v1/public/newsletter/subscribe`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email })
-      });
-      
-      const data = await res.json();
-      
-      if (res.ok) {
-        setStatus('success');
-        setMessage(data.message || 'Successfully subscribed!');
-        setEmail('');
-        setTimeout(() => {
-          setStatus('idle');
-          setMessage('');
-        }, 5000);
-      } else {
-        setStatus('error');
-        setMessage(data.message || 'Failed to subscribe. Please try again.');
-      }
+      const res = await api.post('/api/v1/public/newsletter/subscribe', { email });
+
+      setStatus('success');
+      setMessage(res.data?.message || 'Successfully subscribed!');
+      setEmail('');
+      setTimeout(() => {
+        setStatus('idle');
+        setMessage('');
+      }, 5000);
     } catch (error) {
       console.error(error);
       setStatus('error');
-      setMessage('An error occurred. Please try again later.');
+      const apiMessage = axios.isAxiosError(error) ? error.response?.data?.message : undefined;
+      setMessage(apiMessage || 'Failed to subscribe. Please try again.');
     } finally {
       setLoading(false);
     }

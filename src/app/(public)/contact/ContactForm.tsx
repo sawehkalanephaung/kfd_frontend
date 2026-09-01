@@ -5,8 +5,8 @@ import { ArrowRight, Loader2, CheckCircle2 } from "lucide-react";
 import { ContactSettings } from "./types";
 import { CustomSelect } from "@/components/ui/custom-select";
 import { Button } from "@/components/ui/button";
-
-const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
+import api from "@/lib/api";
+import axios from "axios";
 
 export default function ContactForm({ settings }: { settings: ContactSettings | null }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -43,20 +43,13 @@ export default function ContactForm({ settings }: { settings: ContactSettings | 
     };
 
     try {
-      const res = await fetch(`${API}/api/v1/public/inquiries/send`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      if (!res.ok) {
-        throw new Error("Failed to send inquiry. Please try again.");
-      }
+      await api.post("/api/v1/public/inquiries/send", payload);
 
       setSuccess(true);
       (e.target as HTMLFormElement).reset();
-    } catch (err: any) {
-      setErrorMsg(err.message || "An unexpected error occurred.");
+    } catch (err) {
+      const apiMessage = axios.isAxiosError(err) ? err.response?.data?.message : undefined;
+      setErrorMsg(apiMessage || "Failed to send inquiry. Please try again.");
     } finally {
       setIsSubmitting(false);
     }

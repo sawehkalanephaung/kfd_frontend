@@ -24,7 +24,7 @@ import {
 } from 'lucide-react';
 import { useSidebar } from '@/components/sidebar-context';
 import { SidebarToggleIcon } from '@/components/ui/sidebar-toggle-icon';
-import { SITE_IDENTITY_UPDATED_EVENT, type SiteIdentity } from '@/lib/site-identity';
+import { SITE_IDENTITY_UPDATED_EVENT, type SiteIdentity } from '@/lib/site-identity-events';
 
 interface OrgIdentityDisplay {
   organizationName: string;

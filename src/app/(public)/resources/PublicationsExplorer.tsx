@@ -6,6 +6,7 @@ import { Public_Sans } from 'next/font/google';
 import { Search, LayoutGrid, List as ListIcon, FileText, ChevronLeft, ChevronRight } from 'lucide-react';
 import { ContentFallback } from '@/components/content-fallback';
 import { Reveal } from '@/components/ui/reveal';
+import { getMediaUrl } from '@/lib/api';
 import { PublicationItem, PublicationCategory } from './types';
 
 const publicSans = Public_Sans({
@@ -13,14 +14,7 @@ const publicSans = Public_Sans({
   weight: ['400', '500', '600', '700', '800'],
 });
 
-const API = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
 const PAGE_SIZE = 9;
-
-function getMediaUrl(url?: string | null): string {
-  if (!url) return '';
-  if (url.startsWith('http://') || url.startsWith('https://')) return url;
-  return `${API}${url.startsWith('/') ? '' : '/'}${url}`;
-}
 
 function formatDate(dateStr: string) {
   if (!dateStr) return '';
