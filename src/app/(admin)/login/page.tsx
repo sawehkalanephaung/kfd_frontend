@@ -75,31 +75,29 @@ export default function AdminLogin() {
 
   return (
     <div className="relative min-h-screen w-full flex items-center justify-center p-4 overflow-hidden">
-      <div className="absolute inset-0 z-0 bg-[#0f172a]">
-        <Image
-          src={loginBg}
-          alt="Mountains Background"
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-center opacity-90"
-          onError={(e) => {
-            e.currentTarget.style.display = 'none';
-          }}
-        />
-        <div className="absolute inset-0 bg-slate-900/20" />
-      </div>
+      <style dangerouslySetInnerHTML={{__html: `
+        @keyframes subtle-gradient {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        .animate-subtle-gradient {
+          background-size: 400% 400%;
+          animation: subtle-gradient 10s ease infinite;
+        }
+      `}} />
+      <div className="absolute inset-0 z-0 bg-linear-to-r from-green-100 via-teal-50 to-emerald-200 dark:from-forest-900 dark:via-emerald-950 dark:to-[#0a1f16] animate-subtle-gradient" />
 
       {/* Glassmorphic Login Card */}
       <div className="relative z-10 w-full max-w-md">
-        <div className="bg-canvas/65 backdrop-blur-[30px] border border-white/40 shadow-[0_8px_32px_rgba(0,0,0,0.1)] rounded-lg p-8 md:p-10">
+        <div className="bg-canvas/65 dark:bg-canvas/80 backdrop-blur-2xl border border-white/50 dark:border-white/10 shadow-2xl rounded-2xl p-8 md:p-10">
 
           <div className="flex flex-col items-center mb-8">
 
-            <h1 className="text-3xl font-bold text-slate-900 tracking-tight font-inter">
+            <h1 className="text-3xl font-bold text-ink dark:text-white tracking-tight font-inter">
               Login
             </h1>
-            <p className="text-slate-700 mt-2 text-center text-sm">
+            <p className="text-slate-700 dark:text-slate-300 mt-2 text-center text-sm">
               Secure access to the administration portal
             </p>
           </div>
@@ -115,10 +113,10 @@ export default function AdminLogin() {
 
             {/* Email Field */}
             <div className="space-y-1.5">
-              <label htmlFor={emailId} className="text-sm font-semibold text-slate-900 ml-1">Email Address</label>
+              <label htmlFor={emailId} className="text-sm font-semibold text-ink dark:text-slate-200 ml-1">Email Address</label>
               <div className="relative">
                 <div className="absolute z-10 inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Mail className={`h-5 w-5 ${emailError ? 'text-red-500' : 'text-slate-600'}`} aria-hidden="true" />
+                  <Mail className={`h-5 w-5 ${emailError ? 'text-red-500' : 'text-slate-600 dark:text-slate-400'}`} aria-hidden="true" />
                 </div>
                 <input
                   id={emailId}
@@ -131,7 +129,7 @@ export default function AdminLogin() {
                   }}
                   aria-invalid={!!emailError}
                   aria-describedby={emailError ? emailErrorId : undefined}
-                  className={`w-full pl-11 pr-4 py-3 bg-canvas/20 border rounded-xl text-slate-900 placeholder:text-slate-500/70 focus:outline-none focus:ring-2 focus:border-transparent transition-all backdrop-blur-md ${emailError
+                  className={`w-full pl-11 pr-4 py-3 bg-canvas/20 border rounded-xl text-ink dark:text-white placeholder:text-slate-500/70 dark:placeholder:text-slate-400/70 focus:outline-none focus:ring-2 focus:border-transparent transition-all backdrop-blur-md ${emailError
                     ? 'border-red-500/50 focus:ring-red-500'
                     : 'border-white/40 focus:ring-brand-green'
                     }`}
@@ -143,10 +141,10 @@ export default function AdminLogin() {
 
             {/* Password Field */}
             <div className="space-y-1.5">
-              <label htmlFor={passwordId} className="text-sm font-semibold text-slate-900 ml-1">Password</label>
+              <label htmlFor={passwordId} className="text-sm font-semibold text-ink dark:text-slate-200 ml-1">Password</label>
               <div className="relative">
                 <div className="absolute z-10 inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Lock className={`h-5 w-5 ${passwordError ? 'text-red-500' : 'text-slate-600'}`} aria-hidden="true" />
+                  <Lock className={`h-5 w-5 ${passwordError ? 'text-red-500' : 'text-slate-600 dark:text-slate-400'}`} aria-hidden="true" />
                 </div>
                 <input
                   id={passwordId}
@@ -159,7 +157,7 @@ export default function AdminLogin() {
                   }}
                   aria-invalid={!!passwordError}
                   aria-describedby={passwordError ? passwordErrorId : undefined}
-                  className={`w-full pl-11 pr-12 py-3 bg-canvas/20 border rounded-xl text-slate-900 placeholder:text-slate-500/70 focus:outline-none focus:ring-2 focus:border-transparent transition-all backdrop-blur-md ${passwordError
+                  className={`w-full pl-11 pr-12 py-3 bg-canvas/20 border rounded-xl text-ink dark:text-white placeholder:text-slate-500/70 dark:placeholder:text-slate-400/70 focus:outline-none focus:ring-2 focus:border-transparent transition-all backdrop-blur-md ${passwordError
                     ? 'border-red-500/50 focus:ring-red-500'
                     : 'border-white/40 focus:ring-brand-green'
                     }`}
@@ -170,7 +168,7 @@ export default function AdminLogin() {
                   onClick={() => setShowPassword(!showPassword)}
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                   aria-pressed={showPassword}
-                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-600 hover:text-slate-900 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-brand-green rounded"
+                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors outline-none focus-visible:ring-2 focus-visible:ring-brand-green rounded"
                 >
                   {showPassword ? (
                     <EyeOff className="h-5 w-5" aria-hidden="true" />
@@ -195,10 +193,10 @@ export default function AdminLogin() {
                     </svg>
                   </div>
                 </div>
-                <span className="text-sm text-slate-800 font-medium select-none">Remember Me</span>
+                <span className="text-sm text-slate-800 dark:text-slate-200 font-medium select-none">Remember Me</span>
               </label>
 
-              <a href="/forgot-password" className="text-sm font-semibold text-brand-green-dark hover:text-emerald-900 transition-colors">
+              <a href="/forgot-password" className="text-sm font-semibold text-brand-green-dark dark:text-brand-green hover:text-emerald-900 dark:hover:text-emerald-400 transition-colors">
                 Forgot password?
               </a>
             </div>
@@ -214,7 +212,7 @@ export default function AdminLogin() {
           </form>
         </div>
 
-        <div className="mt-6 text-center text-white/80 text-sm font-medium drop-shadow-md">
+        <div className="mt-6 text-center text-slate-800 dark:text-white/80 text-sm font-medium drop-shadow-md">
           &copy; {new Date().getFullYear()} KFD Organization. All rights reserved.
         </div>
       </div>
