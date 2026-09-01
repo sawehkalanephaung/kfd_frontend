@@ -138,7 +138,7 @@ export default function HeroSection({ siteIdentity, homeContent }: { siteIdentit
             </Button>
             <Link
               href="/about"
-              className="bg-transparent border border-white text-white hover:bg-canvas/10 font-medium px-8 py-3.5 rounded-full transition-all duration-200 ease-in-out"
+              className="inline-flex items-center justify-center whitespace-nowrap bg-transparent border border-white text-white hover:bg-white/10 font-medium px-6 py-2.5 text-sm rounded-full transition-all duration-200 ease-in-out"
             >
               About Us
             </Link>
