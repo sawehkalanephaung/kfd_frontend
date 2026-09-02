@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Loader2, Save, ArrowLeft, Building2, Contact, AlignLeft, Settings, Image as ImageIcon, Plus, X } from 'lucide-react';
 import Link from 'next/link';
@@ -62,10 +62,6 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
   const [heroUrl, setHeroUrl] = useState('');
   const [isLogoSelectorOpen, setIsLogoSelectorOpen] = useState(false);
   const [isHeroSelectorOpen, setIsHeroSelectorOpen] = useState(false);
-  const [uploadingLogo, setUploadingLogo] = useState(false);
-  const [uploadingHero, setUploadingHero] = useState(false);
-  const logoInputRef = useRef<HTMLInputElement>(null);
-  const heroInputRef = useRef<HTMLInputElement>(null);
 
   // On Mount, parse the bodyContent rich text
   useEffect(() => {
@@ -186,47 +182,6 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
     }));
   };
 
-  const handleMediaUpload = async (e: React.ChangeEvent<HTMLInputElement>, type: 'logo' | 'hero') => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    if (type === 'logo') setUploadingLogo(true);
-    else setUploadingHero(true);
-
-    try {
-      const mediaFormData = new FormData();
-      mediaFormData.append('file', file);
-
-      const uploadRes = await api.post('/api/v1/admin/media/upload', mediaFormData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-
-      const url = uploadRes.data?.data?.fileUrl || uploadRes.data?.fileUrl;
-      const id = uploadRes.data?.data?.id || uploadRes.data?.id;
-
-      if (id && url) {
-        if (type === 'logo') {
-          setFormData(prev => ({ ...prev, logoId: id }));
-          setLogoUrl(url);
-        } else {
-          setFormData(prev => ({ ...prev, heroImageId: id }));
-          setHeroUrl(url);
-        }
-      }
-    } catch (err: any) {
-      console.error(err);
-      toast.error(err.response?.data?.message || 'Failed to upload image.');
-    } finally {
-      if (type === 'logo') {
-        setUploadingLogo(false);
-        if (logoInputRef.current) logoInputRef.current.value = '';
-      } else {
-        setUploadingHero(false);
-        if (heroInputRef.current) heroInputRef.current.value = '';
-      }
-    }
-  };
-
   const handleMediaSelect = (selectedAssets: any[], type: 'logo' | 'hero') => {
     if (selectedAssets.length > 0) {
       const asset = selectedAssets[0];
@@ -330,7 +285,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
           disabled={loading}
         >
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-          {isEdit ? 'Save Changes' : 'Create Department'}
+          {isEdit ? 'Save' : 'Create'}
         </Button>
       </div>
 
@@ -415,23 +370,13 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                     <ImageIcon className="w-4 h-4 text-muted" />
                     Department Logo
                   </label>
-                  <input
-                    type="file"
-                    ref={logoInputRef}
-                    onChange={(e) => handleMediaUpload(e, 'logo')}
-                    accept="image/*"
-                    className="hidden"
-                  />
                   <ImageUploadField
                     previewUrl={logoUrl ? getMediaUrl(logoUrl) : null}
-                    uploading={uploadingLogo}
-                    onUploadClick={() => logoInputRef.current?.click()}
                     onLibraryClick={() => setIsLogoSelectorOpen(true)}
                     onRemoveClick={() => { setFormData({ ...formData, logoId: '' }); setLogoUrl(''); }}
                     alt="Logo preview"
                     fit="contain"
                     emptyLabel="No logo selected"
-                    emptyHint="Upload an image or choose one from your library."
                   />
                 </div>
 
@@ -441,22 +386,12 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                     <ImageIcon className="w-4 h-4 text-muted" />
                     Hero Background
                   </label>
-                  <input
-                    type="file"
-                    ref={heroInputRef}
-                    onChange={(e) => handleMediaUpload(e, 'hero')}
-                    accept="image/*"
-                    className="hidden"
-                  />
                   <ImageUploadField
                     previewUrl={heroUrl ? getMediaUrl(heroUrl) : null}
-                    uploading={uploadingHero}
-                    onUploadClick={() => heroInputRef.current?.click()}
                     onLibraryClick={() => setIsHeroSelectorOpen(true)}
                     onRemoveClick={() => { setFormData({ ...formData, heroImageId: '' }); setHeroUrl(''); }}
                     alt="Hero preview"
                     emptyLabel="No hero image selected"
-                    emptyHint="Upload an image or choose one from your library."
                   />
                 </div>
               </div>
@@ -470,15 +405,6 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
               Description (Rich Text)
             </h2>
             <div className="bg-canvas rounded-xl overflow-hidden border border-hairline-strong">
-              <style dangerouslySetInnerHTML={{
-                __html: `
-                .ql-editor {
-                  color: #000000 !important;
-                }
-                .ql-editor::before {
-                  color: #9ca3af !important;
-                }
-              `}} />
               <ReactQuill
                 theme="snow"
                 value={richText}

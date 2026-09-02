@@ -63,21 +63,21 @@ export default function DepartmentHero({ data }: { data: DepartmentData }) {
 
           <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4 text-sm font-medium text-brand-text">
             {headName && (
-              <div className="flex items-center gap-1.5 bg-green-50 px-3 py-1.5 rounded-full border border-green-100">
+              <div className="flex items-center gap-1.5 bg-green-50 dark:bg-surface px-3 py-1.5 rounded-full border border-green-100 dark:border-hairline">
                 <User size={14} />
                 <span>{headName}</span>
               </div>
             )}
 
             {address && (
-              <div className="flex items-center gap-1.5 bg-green-50 px-3 py-1.5 rounded-full border border-green-100">
+              <div className="flex items-center gap-1.5 bg-green-50 dark:bg-surface px-3 py-1.5 rounded-full border border-green-100 dark:border-hairline">
                 <MapPin size={14} />
                 <span className="truncate max-w-50">{address}</span>
               </div>
             )}
 
             {officeHours && (
-              <div className="flex items-center gap-1.5 bg-green-50 px-3 py-1.5 rounded-full border border-green-100">
+              <div className="flex items-center gap-1.5 bg-green-50 dark:bg-surface px-3 py-1.5 rounded-full border border-green-100 dark:border-hairline">
                 <Clock size={14} />
                 <span>{officeHours}</span>
               </div>

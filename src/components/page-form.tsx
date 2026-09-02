@@ -13,6 +13,7 @@ import { CustomSelect } from '@/components/ui/custom-select';
 import { FormField } from '@/components/ui/form-field';
 import { Button } from '@/components/ui/button';
 import { RESERVED_PAGES } from '@/lib/reserved-pages';
+import { withoutPasteHighlights } from '@/lib/quill-modules';
 import 'react-quill-new/dist/quill.snow.css';
 
 /**
@@ -61,13 +62,8 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
     status: initialData?.status || 'DRAFT',
   });
 
-  // Hero/Featured image — a single image (distinct from the slider gallery
-  // below), matching the same "Upload Image" + "Choose from Library" widget
-  // every other admin form uses. This field already existed on the backend
-  // (heroImageId/heroImageUrl) but had no UI at all until now.
+  // Hero/Featured image — a single image, distinct from the slider gallery below.
   const [heroUrl, setHeroUrl] = useState(initialData?.heroImageUrl || '');
-  const [uploadingHero, setUploadingHero] = useState(false);
-  const heroInputRef = useRef<HTMLInputElement>(null);
 
   /**
    * Slug auto-follows the title while creating a freeform page — but only
@@ -79,6 +75,12 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
    */
   const [slugManuallyEdited, setSlugManuallyEdited] = useState(() => Boolean(initialData?.slug));
   const reservedPage = RESERVED_PAGES.find((p) => p.slug === initialData?.slug);
+
+  /* A reserved page's public layout is fixed, so the gallery field is only
+     offered where that layout actually renders one (see `usesSlider`). Custom
+     pages keep it — their layout isn't known here. */
+  const currentReservedPage = RESERVED_PAGES.find((p) => p.slug === formData.slug);
+  const showSliderField = !currentReservedPage || currentReservedPage.usesSlider === true;
 
   const [sliderPreviews, setSliderPreviews] = useState<{id: string, url: string}[]>(() => {
     if (initialData?.sliderImageIds && initialData?.sliderImageUrls) {
@@ -110,41 +112,7 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
     setFormData((prev) => ({ ...prev, slug: e.target.value }));
   };
 
-  const handleHeroUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    if (file.size > 15 * 1024 * 1024) {
-      setError('File size must be less than 15MB');
-      return;
-    }
-
-    setUploadingHero(true);
-    try {
-      const mediaFormData = new FormData();
-      mediaFormData.append('file', file);
-
-      const uploadRes = await api.post('/api/v1/admin/media/upload', mediaFormData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-
-      const url = uploadRes.data?.data?.fileUrl || uploadRes.data?.fileUrl;
-      const id = uploadRes.data?.data?.id || uploadRes.data?.id;
-
-      if (id && url) {
-        setFormData((prev) => ({ ...prev, heroImageId: id }));
-        setHeroUrl(url);
-      }
-    } catch (err: any) {
-      console.error(err);
-      toast.error(err.response?.data?.message || 'Failed to upload image.');
-    } finally {
-      setUploadingHero(false);
-      if (heroInputRef.current) heroInputRef.current.value = '';
-    }
-  };
-
-  const modules = useMemo(() => ({
+  const modules = useMemo(() => withoutPasteHighlights({
     toolbar: {
       container: [
         [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
@@ -169,7 +137,13 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
     const payload = {
       ...formData,
       heroImageId: formData.heroImageId || null,
-      sliderImageIds: formData.sliderImageIds.split(',').map((s: string) => s.trim()).filter((s: string) => s.length > 0),
+      /* The gallery field is hidden for slugs whose layout has no slider. The
+         slug can change while the form is open (it auto-follows the title on
+         create), so images picked before the field disappeared would otherwise
+         still be submitted with no UI left to remove them. */
+      sliderImageIds: showSliderField
+        ? formData.sliderImageIds.split(',').map((s: string) => s.trim()).filter((s: string) => s.length > 0)
+        : [],
     };
 
     try {
@@ -206,7 +180,7 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
           disabled={loading}
         >
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-          {isEdit ? 'Save Changes' : 'Create Page'}
+          {isEdit ? 'Save' : 'Create'}
         </Button>
       </div>
 
@@ -283,15 +257,17 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
               <AlignLeft className="w-5 h-5 text-muted" />
               Page Content
             </h2>
-            <ReactQuill
-              forwardedRef={quillRef}
-              theme="snow"
-              value={formData.content}
-              onChange={(val) => setFormData({...formData, content: val})}
-              modules={modules}
-              className="h-[var(--editor-height-lg)] mb-12 text-black"
-              placeholder="Enter page content. HTML tags are supported."
-            />
+            <div className="editor-no-highlight">
+              <ReactQuill
+                forwardedRef={quillRef}
+                theme="snow"
+                value={formData.content}
+                onChange={(val) => setFormData({...formData, content: val})}
+                modules={modules}
+                className="h-[var(--editor-height-lg)] mb-12"
+                placeholder="Enter page content. HTML tags are supported."
+              />
+            </div>
           </div>
 
         </div>
@@ -332,17 +308,8 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
             <div className="space-y-6">
               <div>
                 <label className="block text-sm font-semibold text-ink mb-2">Hero / Featured Image</label>
-                <input
-                  type="file"
-                  ref={heroInputRef}
-                  onChange={handleHeroUpload}
-                  accept="image/*"
-                  className="hidden"
-                />
                 <ImageUploadField
                   previewUrl={heroUrl ? getMediaUrl(heroUrl) : null}
-                  uploading={uploadingHero}
-                  onUploadClick={() => heroInputRef.current?.click()}
                   onLibraryClick={() => setSelectorMode('hero')}
                   onRemoveClick={() => {
                     setFormData((prev) => ({ ...prev, heroImageId: '' }));
@@ -354,6 +321,7 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
                 />
               </div>
 
+              {showSliderField && (
               <div>
                 <label className="block text-sm font-semibold text-ink mb-2 flex items-center justify-between">
                   Slider Images (Gallery)
@@ -410,6 +378,7 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
                   </div>
                 )}
               </div>
+              )}
             </div>
           </div>
 

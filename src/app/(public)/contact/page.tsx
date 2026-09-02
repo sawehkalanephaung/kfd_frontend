@@ -50,10 +50,12 @@ export default async function ContactPage() {
   const faqs = (faqsRaw as any)?.data || faqsRaw;
 
   const address: string | undefined = settings?.physicalAddress || undefined;
-  const phone: string | undefined = settings?.phoneNumbers?.[0] || undefined;
+  /* Every configured number is listed. Only the first was rendered before, so
+     any extra number an admin added simply never reached the public site. */
+  const phones: string[] = (settings?.phoneNumbers || []).filter((p: string) => p?.trim());
   const email: string | undefined = settings?.contactEmail || undefined;
   const officeHours: string | undefined = settings?.officeHours || undefined;
-  const hasAnyContactDetail = Boolean(address || phone || email || officeHours);
+  const hasAnyContactDetail = Boolean(address || phones.length || email || officeHours);
 
   return (
     <main className="min-h-screen bg-[#f9f7f1] dark:bg-canvas pb-20">
@@ -107,16 +109,24 @@ export default async function ContactPage() {
                     )}
 
                     {/* Direct Line */}
-                    {phone && (
+                    {phones.length > 0 && (
                       <div className="flex items-start gap-4">
                         <div className="w-10 h-10 rounded-full bg-surface-soft dark:bg-[#132d1f] flex items-center justify-center shrink-0 text-steel dark:text-white/60">
                           <Phone size={18} />
                         </div>
                         <div>
-                          <h3 className="text-xs font-bold text-steel/80 dark:text-white/50 uppercase tracking-wider mb-1">Direct Line</h3>
-                          <a href={`tel:${phone.replace(/[^\d+]/g, '')}`} className="text-sm font-semibold text-brand-green-dark dark:text-green-400 hover:text-brand-green transition-colors block mt-0.5">
-                            {phone}
-                          </a>
+                          <h3 className="text-xs font-bold text-steel/80 dark:text-white/50 uppercase tracking-wider mb-1">
+                            {phones.length > 1 ? 'Direct Lines' : 'Direct Line'}
+                          </h3>
+                          {phones.map((p, i) => (
+                            <a
+                              key={i}
+                              href={`tel:${p.replace(/[^\d+]/g, '')}`}
+                              className="text-sm font-semibold text-brand-green-dark dark:text-green-400 hover:text-brand-green transition-colors block mt-0.5"
+                            >
+                              {p}
+                            </a>
+                          ))}
                         </div>
                       </div>
                     )}

@@ -172,7 +172,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
 
                 {post.content ? (
                   <div
-                    className="prose dark:prose-invert max-w-none wrap-break-word prose-p:text-charcoal dark:prose-p:text-white/70 prose-headings:text-ink dark:prose-headings:text-white prose-a:text-brand-green-dark dark:prose-a:text-green-400 **:text-inherit!"
+                    className="prose dark:prose-invert max-w-none wrap-break-word prose-p:text-charcoal dark:prose-p:text-white/70 prose-headings:text-ink dark:prose-headings:text-white prose-a:text-brand-green-dark dark:prose-a:text-green-400 [&_[style*=background]]:bg-transparent! [&_[style*=background]]:bg-none! **:text-inherit!"
                     dangerouslySetInnerHTML={{ __html: post.content }}
                   />
                 ) : (
@@ -223,7 +223,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
             <div className="font-serif text-charcoal dark:text-white leading-loose text-lg pb-12 border-b border-gray-300 dark:border-hairline">
               {post.content ? (
                 <div
-                  className="prose dark:prose-invert prose-lg max-w-none wrap-break-word font-serif text-charcoal dark:text-white prose-p:leading-loose prose-headings:text-ink dark:prose-headings:text-white prose-a:text-brand-green-dark dark:prose-a:text-green-400 **:text-inherit!"
+                  className="prose dark:prose-invert prose-lg max-w-none wrap-break-word font-serif text-charcoal dark:text-white prose-p:leading-loose prose-headings:text-ink dark:prose-headings:text-white prose-a:text-brand-green-dark dark:prose-a:text-green-400 [&_[style*=background]]:bg-transparent! [&_[style*=background]]:bg-none! **:text-inherit!"
                   dangerouslySetInnerHTML={{ __html: post.content }}
                 />
               ) : (
@@ -305,7 +305,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
                 prose-blockquote:bg-[#dce9d5] dark:prose-blockquote:bg-surface-soft prose-blockquote:border-none prose-blockquote:px-8 prose-blockquote:py-6 prose-blockquote:rounded-lg prose-blockquote:text-emerald-900 dark:prose-blockquote:text-emerald-400 prose-blockquote:italic prose-blockquote:font-serif prose-blockquote:font-medium
                 prose-li:text-charcoal
                 first-letter:text-7xl first-letter:font-bold first-letter:text-brand-green-dark first-letter:mr-3 first-letter:float-left first-letter:leading-none
-                **:text-inherit!"
+                [&_[style*=background]]:bg-transparent! [&_[style*=background]]:bg-none! **:text-inherit!"
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
           ) : (

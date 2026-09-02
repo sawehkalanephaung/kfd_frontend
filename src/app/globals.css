@@ -1,6 +1,13 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+/* next-themes is configured with `attribute="class"` (see src/app/layout.tsx), so
+   the active theme is the `.dark` class on <html>. Tailwind v4 defaults the
+   `dark:` variant to `prefers-color-scheme` instead, which meant every `dark:`
+   utility tracked the OS while the tokens below tracked the toggle — the two
+   disagreed whenever a visitor's OS and site theme differed. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* ─────────────────────────────────────────────
    KFD Government Portal — WCAG 2.1 AA Color Tokens
    Hex codes are audited for government contrast compliance.
@@ -429,6 +436,90 @@ select {
 /* Inline code is a common source of long unbroken tokens. */
 .rich-text code {
   overflow-wrap: anywhere;
+}
+
+/* ─────────────────────────────────────────────
+   Rich-text editor (ReactQuill / snow theme)
+   ─────────────────────────────────────────────
+   quill.snow.css hard-codes a light chrome (#444 icons, #ccc borders,
+   rgba(0,0,0,.6) placeholder). Those literals survive the theme switch, so in
+   dark mode the editor rendered near-black text and icons on the dark canvas.
+
+   Every selector below repeats `.ql-snow` deliberately. Quill's own rules are
+   already two classes deep (e.g. `.ql-snow .ql-stroke`), and this stylesheet is
+   not guaranteed to be ordered after the vendor one — at equal specificity the
+   vendor rule won and these overrides silently did nothing. The repeated class
+   raises specificity by one without changing what is matched. */
+.ql-toolbar.ql-snow.ql-snow {
+  border-color: var(--color-hairline-strong);
+  background: var(--color-surface-soft);
+}
+
+.ql-container.ql-snow.ql-snow {
+  border-color: var(--color-hairline-strong);
+  background: var(--color-canvas);
+}
+
+.ql-snow.ql-snow .ql-editor {
+  color: var(--color-ink);
+}
+
+.ql-snow.ql-snow .ql-editor.ql-blank::before {
+  color: var(--color-muted);
+  font-style: normal;
+}
+
+/* Toolbar glyphs are inline SVG strokes/fills, not text, so they need their own
+   mapping to stay visible on the dark toolbar. */
+.ql-snow.ql-snow .ql-stroke,
+.ql-snow.ql-snow .ql-stroke-miter { stroke: var(--color-steel); }
+.ql-snow.ql-snow .ql-fill,
+.ql-snow.ql-snow .ql-stroke.ql-fill { fill: var(--color-steel); }
+.ql-snow.ql-snow .ql-picker,
+.ql-snow.ql-snow .ql-picker-label { color: var(--color-steel); }
+.ql-snow.ql-snow .ql-picker-options {
+  background: var(--color-canvas);
+  border-color: var(--color-hairline-strong);
+}
+.ql-snow.ql-snow .ql-picker.ql-expanded .ql-picker-label {
+  border-color: var(--color-hairline-strong);
+}
+
+/* Active/hover states: quill.snow pins these to #06c and #444. */
+.ql-snow.ql-snow.ql-toolbar button:hover .ql-stroke,
+.ql-snow.ql-snow.ql-toolbar button:focus .ql-stroke,
+.ql-snow.ql-snow.ql-toolbar button.ql-active .ql-stroke,
+.ql-snow.ql-snow.ql-toolbar button:hover .ql-stroke-miter,
+.ql-snow.ql-snow.ql-toolbar button.ql-active .ql-stroke-miter { stroke: var(--color-brand-green-dark); }
+.ql-snow.ql-snow.ql-toolbar button:hover .ql-fill,
+.ql-snow.ql-snow.ql-toolbar button:focus .ql-fill,
+.ql-snow.ql-snow.ql-toolbar button.ql-active .ql-fill { fill: var(--color-brand-green-dark); }
+.ql-snow.ql-snow.ql-toolbar .ql-picker-label:hover,
+.ql-snow.ql-snow.ql-toolbar .ql-picker-label.ql-active,
+.ql-snow.ql-snow.ql-toolbar .ql-picker-item:hover,
+.ql-snow.ql-snow.ql-toolbar .ql-picker-item.ql-selected { color: var(--color-brand-green-dark); }
+
+/* The link tooltip is its own floating card. */
+.ql-snow.ql-snow .ql-tooltip {
+  background: var(--color-canvas);
+  border-color: var(--color-hairline-strong);
+  color: var(--color-ink);
+  box-shadow: var(--shadow-card);
+}
+.ql-snow.ql-snow .ql-tooltip input[type=text] {
+  background: var(--color-canvas);
+  border-color: var(--color-hairline-strong);
+  color: var(--color-ink);
+}
+
+/* Pasting from Word/Google Docs/web pages carries inline `background-color`
+   through as a highlight, which then renders as a light block behind the text
+   on both the editor and the public page. New pastes are stripped at the
+   source (see `withoutPasteHighlights` in src/lib/quill-modules.ts); this
+   rule neutralises highlights in content that was saved before that, and is
+   opt-in so the editors that *do* offer a background-colour tool keep it. */
+.editor-no-highlight .ql-editor [style*="background"] {
+  background-color: transparent !important;
 }
 
 /* ─────────────────────────────────────────────

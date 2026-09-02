@@ -72,8 +72,9 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
   // Cropper State
   const [cropModalOpen, setCropModalOpen] = useState(false);
   const [imageToCrop, setImageToCrop] = useState<string | null>(null);
-  
-  const fileInputRef = React.useRef<HTMLInputElement>(null);
+  /** Stored fileUrl of the library pick, so it can still be applied uncropped
+   *  if the browser refuses to let us read the cropped pixels back. */
+  const [pendingLibraryUrl, setPendingLibraryUrl] = useState<string | null>(null);
 
   useEffect(() => {
     if (headshotFile) {
@@ -85,55 +86,47 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
     }
   }, [headshotFile]);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const selectedFile = e.target.files[0];
-      if (selectedFile.size > 15 * 1024 * 1024) {
-        setError('File size must be less than 15MB');
-        return;
-      }
-      setError('');
-      
-      const url = URL.createObjectURL(selectedFile);
-      setImageToCrop(url);
-      setCropModalOpen(true);
-      
-      // Reset input so they can select the same file again if they cancel
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
-      }
-    }
-  };
-
   const handleCropComplete = (croppedBlob: Blob) => {
     const file = new File([croppedBlob], 'headshot-cropped.jpg', { type: 'image/jpeg' });
     setHeadshotFile(file);
     setCropModalOpen(false);
-    
-    if (imageToCrop) {
-      URL.revokeObjectURL(imageToCrop);
-      setImageToCrop(null);
-    }
+    setImageToCrop(null);
+    setPendingLibraryUrl(null);
   };
 
   const handleCropClose = () => {
     setCropModalOpen(false);
-    if (imageToCrop) {
-      URL.revokeObjectURL(imageToCrop);
-      setImageToCrop(null);
-    }
+    setImageToCrop(null);
+    setPendingLibraryUrl(null);
   };
 
   /**
-   * A library asset is already uploaded (and presumably already sized
-   * appropriately), so it's applied directly and skips the crop step that
-   * a freshly-picked file goes through — same immediate-apply behavior as
-   * every other form's library selection.
+   * Reading the crop back out of a canvas is only possible when the browser is
+   * allowed to read the source pixels. Media is served from S3 in production
+   * (getMediaUrl passes absolute URLs through untouched), so a bucket without
+   * CORS headers makes the crop impossible — in that case the asset is applied
+   * uncropped, which is what selecting from the library did before cropping
+   * was offered here.
+   */
+  const handleCropUnavailable = () => {
+    if (pendingLibraryUrl) {
+      setFormData((prev) => ({ ...prev, headshotUrl: pendingLibraryUrl }));
+      toast('Cropping isn\'t available for this image — using it as-is.');
+    }
+    handleCropClose();
+  };
+
+  /**
+   * Headshots render in a square frame, so a library asset goes through the
+   * crop step. The crop becomes a new local file, uploaded on submit like any
+   * other freshly-picked one; cancelling leaves the current headshot alone.
    */
   const handleLibrarySelect = (assets: { fileUrl: string }[]) => {
     if (assets.length === 0) return;
     setHeadshotFile(null);
-    setFormData((prev) => ({ ...prev, headshotUrl: assets[0].fileUrl }));
+    setPendingLibraryUrl(assets[0].fileUrl);
+    setImageToCrop(getMediaUrl(assets[0].fileUrl));
+    setCropModalOpen(true);
   };
 
   useEffect(() => {
@@ -217,7 +210,7 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
           disabled={loading}
         >
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-          {isEdit ? 'Save Changes' : 'Add Member'}
+          {isEdit ? 'Save' : 'Create'}
         </Button>
       </div>
 
@@ -342,13 +335,15 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
               <AlignLeft className="w-5 h-5 text-muted" />
               Biography (Rich Text)
             </h2>
-            <ReactQuill
-              theme="snow"
-              value={formData.bio}
-              onChange={(val) => setFormData({...formData, bio: val})}
-              className="h-(--editor-height-sm) mb-12 text-black"
-              placeholder="Enter member's biography..."
-            />
+            <div className="editor-no-highlight">
+              <ReactQuill
+                theme="snow"
+                value={formData.bio}
+                onChange={(val) => setFormData({...formData, bio: val})}
+                className="h-(--editor-height-sm) mb-12"
+                placeholder="Enter member's biography..."
+              />
+            </div>
           </div>
 
         </div>
@@ -419,26 +414,16 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
             <div className="space-y-4">
               <ImageUploadField
                 previewUrl={previewUrl || (formData.headshotUrl ? getMediaUrl(formData.headshotUrl) : null)}
-                onUploadClick={() => fileInputRef.current?.click()}
                 onLibraryClick={() => setIsMediaSelectorOpen(true)}
                 onRemoveClick={() => {
                   setHeadshotFile(null);
                   setFormData({ ...formData, headshotUrl: '' });
-                  if (fileInputRef.current) fileInputRef.current.value = '';
                 }}
                 alt="Headshot preview"
                 aspect="square"
                 emptyIcon={<User className="w-6 h-6 text-muted" />}
                 emptyLabel="No headshot selected"
-                emptyHint="Upload a square image or choose one from your library."
-              />
-
-              <input
-                type="file"
-                ref={fileInputRef}
-                onChange={handleFileChange}
-                accept="image/*"
-                className="hidden"
+                emptyHint="Choose a square image from your library — you can crop it after picking."
               />
             </div>
           </div>
@@ -451,6 +436,7 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
         <ImageCropperModal
           imageSrc={imageToCrop}
           onCropComplete={handleCropComplete}
+          onCropUnavailable={handleCropUnavailable}
           onClose={handleCropClose}
         />
       )}

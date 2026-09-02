@@ -47,7 +47,7 @@ export default async function AccessibilityPage() {
           {!pageData?.content?.includes("<h2>") && !pageData?.content?.includes("<h1>") && (
             <h1 className="text-4xl font-bold text-ink mb-8">{pageData?.title || "Accessibility Statement"}</h1>
           )}
-          <div className="prose prose-lg prose-green max-w-none text-slate">
+          <div className="rich-text prose prose-lg dark:prose-invert max-w-none text-slate prose-headings:text-ink prose-a:text-brand-green-dark [&_[style*=background]]:bg-transparent! [&_[style*=background]]:bg-none! [&_[style*=color]]:text-inherit!">
             {pageData?.content ? (
               <div dangerouslySetInnerHTML={{ __html: pageData.content }} />
             ) : (

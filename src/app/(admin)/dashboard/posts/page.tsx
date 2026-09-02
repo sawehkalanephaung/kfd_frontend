@@ -158,7 +158,7 @@ export default function PostsListPage() {
             placeholder="Search posts..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 bg-surface border border-hairline-strong rounded-lg text-sm text-black focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
+            className="w-full pl-10 pr-4 py-2.5 bg-surface border border-hairline-strong rounded-lg text-sm text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
           />
         </div>
 
@@ -169,7 +169,11 @@ export default function PostsListPage() {
                 value={selectedCategory}
                 onChange={(val) => setSelectedCategory(val)}
                 placeholder="All Categories"
-                options={categories.map((cat: any) => ({ value: cat.name, label: cat.name }))}
+                /* Sends the stored name verbatim (only the *label* is trimmed) so the
+                   filter also resolves against a backend that still does an exact
+                   name match — the repository's TRIM/LOWER handling is what fixes
+                   the stray-whitespace names, so there's no deploy-order window. */
+                options={categories.map((cat: any) => ({ value: cat.name, label: cat.name.trim() }))}
                 clearable
               />
             </div>

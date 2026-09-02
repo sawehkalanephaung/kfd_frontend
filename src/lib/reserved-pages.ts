@@ -16,6 +16,12 @@ export interface ReservedPage {
   description: string;
   /** Where this slug is fetched from, for the admin UI's benefit. */
   usedIn: string;
+  /**
+   * Whether the public layout for this slug renders the slider gallery. Most
+   * reserved pages are prose-only, so the admin form hides the field for them
+   * rather than offering an upload that nothing displays.
+   */
+  usesSlider?: boolean;
 }
 
 export const RESERVED_PAGES: ReservedPage[] = [
@@ -25,6 +31,7 @@ export const RESERVED_PAGES: ReservedPage[] = [
     defaultTitle: "Protecting Kawthoolei's Forests for Future Generations",
     description: 'Headline and intro paragraph shown in the homepage hero banner.',
     usedIn: '/ (homepage)',
+    usesSlider: true,
   },
   {
     slug: 'about-us',
@@ -32,6 +39,7 @@ export const RESERVED_PAGES: ReservedPage[] = [
     defaultTitle: 'About Us',
     description: 'Hero headline and intro on the About page.',
     usedIn: '/about',
+    usesSlider: true,
   },
   {
     slug: 'history',

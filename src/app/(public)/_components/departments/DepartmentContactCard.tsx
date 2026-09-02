@@ -98,7 +98,7 @@ export default function DepartmentContactCard({ data }: { data: DepartmentData }
 
   return (
     <div className="py-8">
-      <h2 className="text-xl font-bold text-ink mb-6 border-b pb-4 inline-block border-green-700">
+      <h2 className="text-xl font-bold text-ink mb-6 border-b-2 pb-4 inline-block border-green-700 dark:border-brand-green">
         Contact Details
       </h2>
 
@@ -119,19 +119,19 @@ export default function DepartmentContactCard({ data }: { data: DepartmentData }
         {/* Sidebar */}
         <div className="lg:w-1/3 flex flex-col gap-6">
           {socialLinksArray.length > 0 && (
-            <div className="bg-green-50/50 rounded-lg p-8 border border-green-100 relative overflow-hidden">
-              <div className="absolute -top-4 -right-4 opacity-20 rotate-45 text-green-600 pointer-events-none">
+            <div className="bg-green-50/50 dark:bg-surface rounded-lg p-8 border border-green-100 dark:border-hairline relative overflow-hidden">
+              <div className="absolute -top-4 -right-4 opacity-20 rotate-45 text-green-600 dark:text-brand-green pointer-events-none">
                 <svg width="100" height="100" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M17 8C8 10 5.9 16.19 5.82 16.36a1 1 0 0 0 .15 1.15 1 1 0 0 0 1.12.2c.2-.08 6.45-2.73 10.9-11.71a1 1 0 0 0-1-1zm-6 8a4 4 0 0 1 4-4" />
                 </svg>
               </div>
 
-              <h3 className="text-sm font-bold text-green-700 mb-3 relative z-10">Connect With Us</h3>
+              <h3 className="text-sm font-bold text-green-700 dark:text-brand-green mb-3 relative z-10">Connect With Us</h3>
               <p className="text-xs text-steel leading-relaxed mb-8 relative z-10">
                 Follow our social media channels to stay updated on our latest activities and news.
               </p>
 
-              <div className="flex items-center justify-around relative z-10 border-b border-green-200 pb-8 flex-wrap gap-4">
+              <div className="flex items-center justify-around relative z-10 border-b border-green-200 dark:border-hairline pb-8 flex-wrap gap-4">
                 {socialLinksArray.map((link, idx) => {
                   const key = link.platform.toLowerCase();
                   const config = PLATFORM_CONFIG[key] || { icon: Globe, color: 'bg-gray-600', label: link.platform };
@@ -148,11 +148,11 @@ export default function DepartmentContactCard({ data }: { data: DepartmentData }
               </div>
 
               <div className="mt-8 flex items-center gap-4 relative z-10">
-                <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center border-2 border-green-200 shrink-0">
-                  <Trees size={32} className="text-green-700" />
+                <div className="w-16 h-16 rounded-full bg-green-100 dark:bg-surface-soft flex items-center justify-center border-2 border-green-200 dark:border-hairline-strong shrink-0">
+                  <Trees size={32} className="text-green-700 dark:text-brand-green" />
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold text-green-800 mb-1">Together for Our Forests</h4>
+                  <h4 className="text-xs font-bold text-green-800 dark:text-brand-green mb-1">Together for Our Forests</h4>
                   <p className="text-[10px] text-steel leading-relaxed">
                     Your support and collaboration help us protect and conserve our forests for future generations.
                   </p>

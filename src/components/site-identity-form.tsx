@@ -46,45 +46,11 @@ export default function SiteIdentityForm() {
   const [error, setError] = useState('');
   const [successMsg, setSuccessMsg] = useState('');
 
-  const [logoFile, setLogoFile] = useState<File | null>(null);
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [isMediaSelectorOpen, setIsMediaSelectorOpen] = useState(false);
-  const fileInputRef = React.useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    if (logoFile) {
-      const url = URL.createObjectURL(logoFile);
-      setPreviewUrl(url);
-      return () => URL.revokeObjectURL(url);
-    } else {
-      setPreviewUrl(null);
-    }
-  }, [logoFile]);
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const selectedFile = e.target.files[0];
-      if (selectedFile.size > 15 * 1024 * 1024) {
-        setError('File size must be less than 15MB');
-        return;
-      }
-      setError('');
-      setLogoFile(selectedFile);
-      
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
-      }
-    }
-  };
-
-  /**
-   * A library asset is already uploaded and hosted, so it's applied
-   * immediately (unlike a freshly-picked file, which stays local as
-   * `logoFile` and is only actually uploaded when the form is saved).
-   */
+  /** A library asset is already uploaded and hosted, so it is applied straight away. */
   const handleLibrarySelect = (assets: { fileUrl: string }[]) => {
     if (assets.length === 0) return;
-    setLogoFile(null);
     setFormData((prev) => ({ ...prev, logoUrl: assets[0].fileUrl }));
   };
 
@@ -124,31 +90,14 @@ export default function SiteIdentityForm() {
     setSuccessMsg('');
     setSaving(true);
     try {
-      let finalLogoUrl = formData.logoUrl;
-
-      // 1. Upload new image if selected
-      if (logoFile) {
-        const mediaFormData = new FormData();
-        mediaFormData.append('file', logoFile);
-        mediaFormData.append('category', 'brand');
-        
-        const uploadRes = await api.post('/api/v1/admin/media/upload', mediaFormData, {
-          headers: { 'Content-Type': 'multipart/form-data' }
-        });
-        
-        finalLogoUrl = uploadRes.data?.data?.fileUrl || uploadRes.data?.fileUrl || '';
-      }
-
       const payload = {
         organizationName: formData.organizationName.trim(),
         organizationNameKaren: formData.organizationNameKaren.trim(),
         tagline: formData.tagline.trim(),
-        logoUrl: finalLogoUrl.trim(),
+        logoUrl: formData.logoUrl.trim(),
         footerCopyright: formData.footerCopyright.trim(),
       };
       await api.put('/api/v1/admin/site-identity', payload);
-      setFormData((prev) => ({ ...prev, logoUrl: finalLogoUrl }));
-      setLogoFile(null); // Clear file since it's uploaded
       window.dispatchEvent(new Event(SITE_IDENTITY_UPDATED_EVENT));
       setSuccessMsg('Site identity saved successfully!');
       setTimeout(() => setSuccessMsg(''), 3000);
@@ -183,7 +132,7 @@ export default function SiteIdentityForm() {
           disabled={saving}
         >
           {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-          Save Changes
+          Save
         </Button>
       </div>
 
@@ -308,33 +257,17 @@ export default function SiteIdentityForm() {
             <div className="space-y-4">
               <FormField
                 label="Brand Logo"
-                hint="Upload a PNG, SVG, or WebP image for your organization's logo."
+                hint="Pick a PNG, SVG, or WebP image from your media library — new files can be uploaded there."
               >
                 {() => (
-                  <>
-                    <ImageUploadField
-                      previewUrl={previewUrl || (formData.logoUrl ? getMediaUrl(formData.logoUrl) : null)}
-                      onUploadClick={() => fileInputRef.current?.click()}
-                      onLibraryClick={() => setIsMediaSelectorOpen(true)}
-                      onRemoveClick={() => {
-                        setLogoFile(null);
-                        setFormData({ ...formData, logoUrl: '' });
-                        if (fileInputRef.current) fileInputRef.current.value = '';
-                      }}
-                      alt="Logo preview"
-                      fit="contain"
-                      emptyLabel="No logo uploaded"
-                      emptyHint="Upload an image or choose one from your library."
-                    />
-
-                    <input
-                      type="file"
-                      ref={fileInputRef}
-                      onChange={handleFileChange}
-                      accept="image/*"
-                      className="hidden"
-                    />
-                  </>
+                  <ImageUploadField
+                    previewUrl={formData.logoUrl ? getMediaUrl(formData.logoUrl) : null}
+                    onLibraryClick={() => setIsMediaSelectorOpen(true)}
+                    onRemoveClick={() => setFormData({ ...formData, logoUrl: '' })}
+                    alt="Logo preview"
+                    fit="contain"
+                    emptyLabel="No logo uploaded"
+                  />
                 )}
               </FormField>
             </div>
@@ -374,6 +307,7 @@ export default function SiteIdentityForm() {
         isOpen={isMediaSelectorOpen}
         onClose={() => setIsMediaSelectorOpen(false)}
         onSelect={handleLibrarySelect}
+        uploadCategory="brand"
         multiple={false}
         title="Select Organization Logo"
       />

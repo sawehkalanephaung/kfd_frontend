@@ -97,7 +97,7 @@ export default function ContactSettingsForm({ initialData }: ContactSettingsForm
           disabled={loading}
         >
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-          Save Changes
+          Save
         </Button>
       </div>
 

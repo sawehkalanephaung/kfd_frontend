@@ -91,7 +91,11 @@ export default async function Footer() {
                 {contactSettings?.phoneNumbers?.[0] && (
                   <div className="flex items-start gap-3">
                     <Phone className="w-5 h-5 shrink-0 mt-0.5" />
-                    <span>{contactSettings.phoneNumbers[0]}</span>
+                    <div className="flex flex-col gap-1">
+                      {contactSettings.phoneNumbers.filter((p: string) => p?.trim()).map((p: string, i: number) => (
+                        <span key={i}>{p}</span>
+                      ))}
+                    </div>
                   </div>
                 )}
                 {contactSettings?.contactEmail && (

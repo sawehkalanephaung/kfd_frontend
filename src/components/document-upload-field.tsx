@@ -1,19 +1,18 @@
 'use client';
 
 import React from 'react';
-import { Loader2, UploadCloud, FolderOpen, X, FileText, ExternalLink } from 'lucide-react';
+import { FolderOpen, X, FileText, ExternalLink } from 'lucide-react';
 
 /**
- * "Upload a file or pick one from the media library" widget for non-image
- * assets (PDFs, docs) — mirrors ImageUploadField's shell, but shows a
- * filename + icon instead of an <img> preview, since the selected file
- * usually isn't visually previewable.
+ * "Pick a file from the media library" widget for non-image assets (PDFs,
+ * docs) — mirrors ImageUploadField's shell, but shows a filename + icon
+ * instead of an <img> preview, since the selected file usually isn't visually
+ * previewable. New files are uploaded from the library modal's own Upload New
+ * tab; see the note in ImageUploadField.
  */
 export interface DocumentUploadFieldProps {
   fileName: string | null;
   fileUrl: string | null;
-  uploading?: boolean;
-  onUploadClick: () => void;
   onLibraryClick: () => void;
   onRemoveClick: () => void;
   emptyLabel?: string;
@@ -23,12 +22,10 @@ export interface DocumentUploadFieldProps {
 export default function DocumentUploadField({
   fileName,
   fileUrl,
-  uploading = false,
-  onUploadClick,
   onLibraryClick,
   onRemoveClick,
   emptyLabel = 'No document selected',
-  emptyHint = 'Upload a file or choose one from your library.',
+  emptyHint = 'Choose an existing file from your library, or upload a new one from there.',
 }: DocumentUploadFieldProps) {
   if (fileName) {
     return (
@@ -74,7 +71,7 @@ export default function DocumentUploadField({
   return (
     <div className="border-2 border-dashed border-hairline-strong rounded-lg p-8 flex flex-col items-center justify-center text-center gap-4 bg-surface-soft">
       <div className="w-12 h-12 bg-canvas rounded-full shadow-sm flex items-center justify-center border border-hairline">
-        {uploading ? <Loader2 className="w-6 h-6 text-brand-green animate-spin" /> : <FileText className="w-6 h-6 text-muted" />}
+        <FileText className="w-6 h-6 text-muted" />
       </div>
       <div>
         <p className="text-sm font-medium text-ink mb-1">{emptyLabel}</p>
@@ -83,18 +80,8 @@ export default function DocumentUploadField({
       <div className="flex flex-col w-full gap-2 mt-2">
         <button
           type="button"
-          onClick={onUploadClick}
-          disabled={uploading}
-          className="w-full py-2.5 bg-canvas border border-hairline-strong hover:border-emerald-500 hover:text-brand-green-dark text-slate text-sm font-medium rounded-xl transition-colors flex items-center justify-center gap-2 shadow-sm disabled:opacity-70"
-        >
-          {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <UploadCloud className="w-4 h-4" />}
-          {uploading ? 'Uploading...' : 'Upload Document'}
-        </button>
-        <button
-          type="button"
           onClick={onLibraryClick}
-          disabled={uploading}
-          className="w-full py-2.5 bg-surface hover:bg-gray-200 text-slate text-sm font-medium rounded-xl transition-colors flex items-center justify-center gap-2 disabled:opacity-70"
+          className="w-full py-2.5 bg-canvas border border-hairline-strong hover:border-emerald-500 hover:text-brand-green-dark text-slate text-sm font-medium rounded-xl transition-colors flex items-center justify-center gap-2 shadow-sm"
         >
           <FolderOpen className="w-4 h-4" />
           Choose from Library

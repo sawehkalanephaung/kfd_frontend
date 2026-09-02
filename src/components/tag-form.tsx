@@ -95,7 +95,7 @@ export default function TagForm({ initialData, isEdit, tagId, isSlideOver, onSuc
           disabled={loading}
         >
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-          {isEdit ? 'Save Changes' : 'Create Tag'}
+          {isEdit ? 'Save' : 'Create'}
         </Button>
       </div>
 

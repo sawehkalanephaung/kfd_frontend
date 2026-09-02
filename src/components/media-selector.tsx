@@ -12,6 +12,8 @@ interface MediaAsset {
   fileType: string;
 }
 
+const MAX_UPLOAD_BYTES = 15 * 1024 * 1024;
+
 interface MediaSelectorProps {
   isOpen: boolean;
   onClose: () => void;
@@ -20,6 +22,9 @@ interface MediaSelectorProps {
   title?: string;
   /** 'image' (default) shows only images, as a visual grid. 'all' shows every file type, including documents, as a list. */
   accept?: 'image' | 'all';
+  /** Tags files uploaded from this modal, so media-library filtering can still
+   *  find them (e.g. 'brand' for the site logo, 'headshots' for portraits). */
+  uploadCategory?: string;
 }
 
 export default function MediaSelector({
@@ -29,6 +34,7 @@ export default function MediaSelector({
   multiple = false,
   title = "Select Media",
   accept = 'image',
+  uploadCategory,
 }: MediaSelectorProps) {
   const [media, setMedia] = useState<MediaAsset[]>([]);
   const [loading, setLoading] = useState(false);
@@ -56,12 +62,20 @@ export default function MediaSelector({
   const fetchMedia = async () => {
     try {
       setLoading(true);
-      const response = await api.get('/api/v1/admin/media?size=100');
+      /* Newest first, explicitly. The endpoint's @PageableDefault sorts by
+         createdAt ASC, so `size=100` returned the *oldest* 100 assets — with
+         the per-form upload buttons gone, this modal is the only upload path,
+         and a freshly uploaded file fell off the end of that window as soon as
+         the library passed 100 items. */
+      const response = await api.get('/api/v1/admin/media?size=100&sort=createdAt,desc');
       const data = response.data?.content || response.data?.data?.content || response.data?.data || [];
       const all = Array.isArray(data) ? data : [];
-      setMedia(accept === 'image' ? all.filter(m => m.fileType?.startsWith('image/')) : all);
+      const visible = accept === 'image' ? all.filter(m => m.fileType?.startsWith('image/')) : all;
+      setMedia(visible);
+      return visible;
     } catch (err) {
       console.error('Failed to load media', err);
+      return [];
     } finally {
       setLoading(false);
     }
@@ -83,18 +97,38 @@ export default function MediaSelector({
 
   const handleUpload = async () => {
     if (!uploadFile) return;
+
+    if (uploadFile.size > MAX_UPLOAD_BYTES) {
+      toast.error('File size must be less than 15MB.');
+      return;
+    }
+    if (accept === 'image' && !uploadFile.type.startsWith('image/')) {
+      toast.error('Please choose an image file.');
+      return;
+    }
+
     setUploading(true);
     const formData = new FormData();
     formData.append('file', uploadFile);
-    
+    if (uploadCategory) formData.append('category', uploadCategory);
+
     try {
-      await api.post('/api/v1/admin/media/upload', formData, {
+      const res = await api.post('/api/v1/admin/media/upload', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       toast.success('Successfully uploaded file!');
       setUploadFile(null);
-      await fetchMedia(); 
+
+      /* Uploading used to just drop the admin back on an unchanged-looking
+         library with nothing selected, so the file they had just added still
+         had to be hunted down and clicked. Pre-select it instead — that is the
+         only reason they opened this tab. */
+      const uploadedId: string | undefined = res.data?.data?.id || res.data?.id;
+      const refreshed = await fetchMedia();
       setActiveTab('library');
+      if (uploadedId && refreshed.some((m) => m.id === uploadedId)) {
+        setSelectedIds((prev) => (multiple ? new Set([...prev, uploadedId]) : new Set([uploadedId])));
+      }
     } catch (err: any) {
       console.error(err);
       toast.error(err.response?.data?.message || 'Failed to upload file.');
@@ -244,9 +278,10 @@ export default function MediaSelector({
                 }}
                 onDragOver={(e) => e.preventDefault()}
               >
-                <input 
-                  type="file" 
-                  ref={fileInputRef} 
+                <input
+                  type="file"
+                  ref={fileInputRef}
+                  accept={accept === 'image' ? 'image/*' : undefined}
                   onChange={(e) => {
                     if (e.target.files && e.target.files.length > 0) {
                       setUploadFile(e.target.files[0]);

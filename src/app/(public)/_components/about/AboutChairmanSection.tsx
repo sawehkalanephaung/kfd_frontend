@@ -110,9 +110,13 @@ export default function AboutChairmanSection({ chairmanData }: { chairmanData?: 
   return (
     <section ref={sectionRef} id="chairman" className="py-20 lg:py-28 bg-white dark:bg-canvas overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 max-w-5xl mx-auto items-center">
+        {/* `items-stretch` (not `items-center`) so the portrait column is as tall
+            as the bio beside it — centred, the fixed-height image left a gap
+            under it whenever the bio ran longer. `min-h-*` keeps the intended
+            height when the bio is the shorter of the two. */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 max-w-5xl mx-auto items-stretch">
           {/* Portrait */}
-          <div ref={portraitRef} className="lg:col-span-4 w-full h-100 md:h-125 relative bg-[#e0e0e0] dark:bg-surface overflow-hidden rounded-xl shadow-lg group">
+          <div ref={portraitRef} className="lg:col-span-4 w-full h-100 md:h-125 lg:h-auto lg:min-h-125 relative bg-[#e0e0e0] dark:bg-surface overflow-hidden rounded-xl shadow-lg group">
             {displayImage ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img

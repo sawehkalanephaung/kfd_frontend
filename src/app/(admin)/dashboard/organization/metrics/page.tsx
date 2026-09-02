@@ -14,11 +14,11 @@ interface GlobalMetric {
   id: string;
   title: string;
   metricValue: string;
-  icon: string;
   displayOrder: number;
   isActive: boolean;
   updatedAt: string;
 }
+
 
 export default function GlobalMetricsPage() {
   const [metrics, setMetrics] = useState<GlobalMetric[]>([]);
@@ -101,7 +101,6 @@ export default function GlobalMetricsPage() {
               <tr>
                 <th className="px-6 py-4">Metric Title</th>
                 <th className="px-6 py-4">Value</th>
-                <th className="px-6 py-4 hidden sm:table-cell">Icon</th>
                 <th className="px-6 py-4 hidden sm:table-cell">Status</th>
                 <th className="px-6 py-4 hidden sm:table-cell">Order</th>
                 <th className="px-6 py-4 hidden md:table-cell">Last Updated</th>
@@ -111,14 +110,14 @@ export default function GlobalMetricsPage() {
             <tbody className="divide-y divide-hairline-soft">
               {loading ? (
                 <tr>
-                  <td colSpan={7} className="px-6 py-12 text-center text-muted">
+                  <td colSpan={6} className="px-6 py-12 text-center text-muted">
                     <Loader2 className="w-6 h-6 animate-spin mx-auto mb-2" />
                     Loading metrics...
                   </td>
                 </tr>
               ) : metrics.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-6 py-12 text-center text-steel">
+                  <td colSpan={6} className="px-6 py-12 text-center text-steel">
                     No metrics found. Create your first one to get started.
                   </td>
                 </tr>
@@ -135,28 +134,10 @@ export default function GlobalMetricsPage() {
                           </Badge>
                           <span className="text-[11px] text-steel">Order: {metric.displayOrder}</span>
                         </div>
-                        {metric.icon ? (
-                          <div className="text-[11px] text-steel flex items-center gap-1">
-                            <span className="px-1.5 py-0.5 bg-surface rounded-md font-mono text-[10px] text-steel">
-                              {metric.icon}
-                            </span>
-                          </div>
-                        ) : null}
                       </div>
                     </td>
                     <td className="px-6 py-4 font-semibold text-brand-green-dark">
                       {metric.metricValue}
-                    </td>
-                    <td className="px-6 py-4 text-steel hidden sm:table-cell">
-                      {metric.icon ? (
-                        <div className="flex items-center gap-2">
-                          <span className="px-2.5 py-1 bg-surface rounded-md font-mono text-xs text-steel">
-                            {metric.icon}
-                          </span>
-                        </div>
-                      ) : (
-                        <span className="text-muted italic">None</span>
-                      )}
                     </td>
                     <td className="px-6 py-4 hidden sm:table-cell">
                       <Badge tone={metric.isActive ? 'success' : 'neutral'} icon={metric.isActive ? Eye : EyeOff}>

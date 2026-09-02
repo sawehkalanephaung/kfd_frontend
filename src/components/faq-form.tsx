@@ -73,7 +73,7 @@ export default function FaqForm({ initialData, isEdit, faqId, onSave }: FaqFormP
           disabled={loading}
         >
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-          {isEdit ? 'Save Changes' : 'Create FAQ'}
+          {isEdit ? 'Save' : 'Create'}
         </Button>
       </div>
 

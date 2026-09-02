@@ -10,9 +10,17 @@ interface ImageCropperModalProps {
   imageSrc: string;
   onCropComplete: (croppedBlob: Blob) => void;
   onClose: () => void;
+  /**
+   * Called when the crop cannot be produced at all. Media may be served from a
+   * different origin (getMediaUrl passes absolute S3/CDN URLs through
+   * untouched), which taints the canvas and makes toBlob() throw — the caller
+   * needs to fall back to using the image uncropped rather than leaving the
+   * admin with a button that does nothing.
+   */
+  onCropUnavailable?: () => void;
 }
 
-export default function ImageCropperModal({ imageSrc, onCropComplete, onClose }: ImageCropperModalProps) {
+export default function ImageCropperModal({ imageSrc, onCropComplete, onClose, onCropUnavailable }: ImageCropperModalProps) {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<any>(null);
@@ -40,8 +48,15 @@ export default function ImageCropperModal({ imageSrc, onCropComplete, onClose }:
 
     try {
       const image = new Image();
+      // Same-origin media stays same-origin; a CORS-enabled bucket becomes
+      // readable. A bucket without CORS headers fails to load here, which the
+      // rejection below turns into the uncropped fallback.
+      image.crossOrigin = 'anonymous';
       image.src = imageSrc;
-      await new Promise(resolve => (image.onload = resolve));
+      await new Promise<void>((resolve, reject) => {
+        image.onload = () => resolve();
+        image.onerror = () => reject(new Error('Image could not be loaded for cropping'));
+      });
 
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
@@ -65,10 +80,16 @@ export default function ImageCropperModal({ imageSrc, onCropComplete, onClose }:
       canvas.toBlob((blob) => {
         if (blob) {
           onCropComplete(blob);
+        } else {
+          onCropUnavailable?.();
         }
       }, 'image/jpeg', 0.95);
     } catch (e) {
+      // Cross-origin taint (SecurityError) or a load failure. Either way the
+      // crop is impossible here, so hand back to the caller instead of
+      // swallowing it and leaving Apply Crop looking broken.
       console.error(e);
+      onCropUnavailable?.();
     }
   };
 

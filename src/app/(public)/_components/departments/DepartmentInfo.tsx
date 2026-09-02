@@ -19,14 +19,14 @@ export default function DepartmentInfo({ data }: { data: DepartmentData }) {
 
   return (
     <div className="py-8">
-      <h2 className="text-xl font-bold text-ink mb-6 border-b pb-4 inline-block border-green-700">
+      <h2 className="text-xl font-bold text-ink mb-6 border-b-2 pb-4 inline-block border-green-700 dark:border-brand-green">
         History of the {data.name}
       </h2>
 
       {hasOverview && (
         <div className="mb-12 min-w-0">
           <div
-            className="rich-text text-slate leading-relaxed text-sm prose prose-sm max-w-none prose-green"
+            className="rich-text text-slate leading-relaxed text-sm prose prose-sm dark:prose-invert max-w-none [&_[style*=background]]:bg-transparent! [&_[style*=background]]:bg-none! [&_[style*=color]]:text-inherit!"
             dangerouslySetInnerHTML={{ __html: overview }}
           />
         </div>

@@ -70,19 +70,23 @@ export default function AboutContentSection({
       });
     }
 
-    // Text-only variant scroll scrub reveal
+    /* Text-only variant entry reveal.
+       This used to be a scrubbed `clip-path` wipe tied to scroll position,
+       which meant the copy was only ever fully visible at one exact scroll
+       offset — scrolling either way re-clipped it and cut the text off
+       mid-sentence. It now plays once on entry and stays put. */
     if (variant === 'text-only' && textOnlyRef.current) {
       gsap.fromTo(textOnlyRef.current,
-        { clipPath: "inset(0% 100% 0% 0%)", opacity: 0.2 },
+        { opacity: 0, y: 32 },
         {
-          clipPath: "inset(0% 0% 0% 0%)",
           opacity: 1,
-          ease: "none",
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out",
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: "top 75%",
-            end: "bottom 75%",
-            scrub: true,
+            start: "top 85%",
+            once: true,
           }
         }
       );

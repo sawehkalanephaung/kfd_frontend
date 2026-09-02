@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Loader2, Save, ArrowLeft, FileText, AlignLeft, Settings, ImageIcon, Tag as TagIcon, FolderTree, ChevronDown, X, FolderOpen } from 'lucide-react';
 import Link from 'next/link';
@@ -34,10 +34,8 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
   const [isTagDropdownOpen, setIsTagDropdownOpen] = useState(false);
 
   // Media Widget State
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const [isMediaSelectorOpen, setIsMediaSelectorOpen] = useState(false);
   const [isSliderSelectorOpen, setIsSliderSelectorOpen] = useState(false);
-  const [uploadingImage, setUploadingImage] = useState(false);
 
   // Form State matching PostRequestDto
   const [formData, setFormData] = useState({
@@ -107,37 +105,6 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
         return { ...prev, tagIds: [...prev.tagIds, tagId] };
       }
     });
-  };
-
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    if (file.size > 15 * 1024 * 1024) {
-      alert('File size must be less than 15MB');
-      return;
-    }
-
-    try {
-      setUploadingImage(true);
-      const mediaFormData = new FormData();
-      mediaFormData.append('file', file);
-
-      const uploadRes = await api.post('/api/v1/admin/media/upload', mediaFormData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      });
-
-      const url = uploadRes.data?.data?.fileUrl || uploadRes.data?.fileUrl;
-      if (url) {
-        setFormData(prev => ({ ...prev, featuredImageUrl: url }));
-      }
-    } catch (err: any) {
-      console.error(err);
-      alert(err.response?.data?.message || 'Failed to upload image.');
-    } finally {
-      setUploadingImage(false);
-      if (fileInputRef.current) fileInputRef.current.value = '';
-    }
   };
 
   const handleMediaSelect = (selectedAssets: any[]) => {
@@ -210,7 +177,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
           disabled={loading}
         >
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-          {isEdit ? 'Save Changes' : 'Create Post'}
+          {isEdit ? 'Save' : 'Create'}
         </Button>
       </div>
 
@@ -281,12 +248,12 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
               <AlignLeft className="w-5 h-5 text-muted" />
               Post Content
             </h2>
-            <div className="bg-canvas rounded-xl overflow-hidden border border-hairline-strong focus-within:border-emerald-500 focus-within:ring-1 focus-within:ring-emerald-500 transition-all text-black">
+            <div className="bg-canvas rounded-xl overflow-hidden border border-hairline-strong focus-within:border-emerald-500 focus-within:ring-1 focus-within:ring-emerald-500 transition-all editor-no-highlight">
               <ReactQuill
                 theme="snow"
                 value={formData.content}
                 onChange={(val) => setFormData({ ...formData, content: val })}
-                className="h-(--editor-height-md) mb-10 text-black"
+                className="h-(--editor-height-md) mb-10"
                 placeholder="Enter full post content..."
               />
             </div>
@@ -507,18 +474,8 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
               Featured Media
             </h2>
             <div className="space-y-4">
-              <input
-                type="file"
-                ref={fileInputRef}
-                onChange={handleImageUpload}
-                accept="image/*"
-                className="hidden"
-              />
-
               <ImageUploadField
                 previewUrl={formData.featuredImageUrl?.trim() ? getMediaUrl(formData.featuredImageUrl) : null}
-                uploading={uploadingImage}
-                onUploadClick={() => fileInputRef.current?.click()}
                 onLibraryClick={() => setIsMediaSelectorOpen(true)}
                 onRemoveClick={() => setFormData({ ...formData, featuredImageUrl: '' })}
                 alt="Featured preview"

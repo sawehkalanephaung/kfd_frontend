@@ -25,6 +25,8 @@ export default function MetricForm({ initialData, isEdit, metricId, onSave }: Me
   const [formData, setFormData] = useState({
     title: initialData?.title || '',
     metricValue: initialData?.metricValue || '',
+    // Carried through untouched: nothing on the public site renders it, so the
+    // field was dropped from this form — but an edit shouldn't wipe stored values.
     icon: initialData?.icon || '',
     displayOrder: initialData?.displayOrder || 0,
     isActive: initialData?.isActive !== undefined ? initialData.isActive : true,
@@ -35,12 +37,16 @@ export default function MetricForm({ initialData, isEdit, metricId, onSave }: Me
     setError('');
     setLoading(true);
 
+    // `icon` has no UI any more (nothing on the public site renders it); send
+    // null rather than '' so new metrics don't store an empty string.
+    const payload = { ...formData, icon: formData.icon || null };
+
     try {
       if (isEdit) {
-        await api.put(`/api/v1/admin/metrics/${metricId}`, formData);
+        await api.put(`/api/v1/admin/metrics/${metricId}`, payload);
         toast.success('Successfully updated metric!');
       } else {
-        await api.post('/api/v1/admin/metrics', formData);
+        await api.post('/api/v1/admin/metrics', payload);
         toast.success('Successfully created metric!');
       }
       if (onSave) {
@@ -73,7 +79,7 @@ export default function MetricForm({ initialData, isEdit, metricId, onSave }: Me
           disabled={loading}
         >
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-          {isEdit ? 'Save Changes' : 'Create Metric'}
+          {isEdit ? 'Save' : 'Create'}
         </Button>
       </div>
 
@@ -108,33 +114,19 @@ export default function MetricForm({ initialData, isEdit, metricId, onSave }: Me
                 )}
               </FormField>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <FormField label="Metric Value" required>
-                  {(fieldProps) => (
-                    <input
-                      {...fieldProps}
-                      type="text"
-                      required
-                      value={formData.metricValue}
-                      onChange={(e) => setFormData({ ...formData, metricValue: e.target.value })}
-                      className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
-                      placeholder="e.g. 200,000 Acres"
-                    />
-                  )}
-                </FormField>
-                <FormField label="Icon Identifier" hint="Optional icon identifier name">
-                  {(fieldProps) => (
-                    <input
-                      {...fieldProps}
-                      type="text"
-                      value={formData.icon}
-                      onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
-                      className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
-                      placeholder="e.g. TreePine (Lucide Icon name)"
-                    />
-                  )}
-                </FormField>
-              </div>
+              <FormField label="Metric Value" required>
+                {(fieldProps) => (
+                  <input
+                    {...fieldProps}
+                    type="text"
+                    required
+                    value={formData.metricValue}
+                    onChange={(e) => setFormData({ ...formData, metricValue: e.target.value })}
+                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
+                    placeholder="e.g. 200,000 Acres"
+                  />
+                )}
+              </FormField>
             </div>
           </div>
 

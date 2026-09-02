@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Loader2, Save, ArrowLeft, FileText, Settings, ImageIcon, FolderTree, Globe2, Building2 } from 'lucide-react';
 import Link from 'next/link';
@@ -29,12 +29,8 @@ export default function PublicationForm({ initialData, isEdit, publicationId }: 
   const [departments, setDepartments] = useState<any[]>([]);
 
   // Media Widget State
-  const documentInputRef = useRef<HTMLInputElement>(null);
-  const thumbnailInputRef = useRef<HTMLInputElement>(null);
   const [isDocumentSelectorOpen, setIsDocumentSelectorOpen] = useState(false);
   const [isThumbnailSelectorOpen, setIsThumbnailSelectorOpen] = useState(false);
-  const [uploadingDocument, setUploadingDocument] = useState(false);
-  const [uploadingThumbnail, setUploadingThumbnail] = useState(false);
 
   // Form State matching PublicationRequestDto
   const [formData, setFormData] = useState({
@@ -86,62 +82,6 @@ export default function PublicationForm({ initialData, isEdit, publicationId }: 
       title: newTitle,
       slug: !isEdit ? generateSlug(newTitle) : prev.slug,
     }));
-  };
-
-  const uploadAsset = async (file: File) => {
-    const mediaFormData = new FormData();
-    mediaFormData.append('file', file);
-    const res = await api.post('/api/v1/admin/media/upload', mediaFormData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    });
-    return res.data?.data || res.data;
-  };
-
-  const handleDocumentUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    if (file.size > 15 * 1024 * 1024) {
-      toast.error('File size must be less than 15MB');
-      return;
-    }
-
-    try {
-      setUploadingDocument(true);
-      const asset = await uploadAsset(file);
-      setFormData(prev => ({ ...prev, documentId: asset.id }));
-      setDocumentFileName(asset.fileName);
-      setDocumentUrl(asset.fileUrl);
-    } catch (err: any) {
-      console.error(err);
-      toast.error(err.response?.data?.message || 'Failed to upload document.');
-    } finally {
-      setUploadingDocument(false);
-      if (documentInputRef.current) documentInputRef.current.value = '';
-    }
-  };
-
-  const handleThumbnailUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    if (file.size > 15 * 1024 * 1024) {
-      toast.error('File size must be less than 15MB');
-      return;
-    }
-
-    try {
-      setUploadingThumbnail(true);
-      const asset = await uploadAsset(file);
-      setFormData(prev => ({ ...prev, thumbnailId: asset.id }));
-      setThumbnailUrl(asset.fileUrl);
-    } catch (err: any) {
-      console.error(err);
-      toast.error(err.response?.data?.message || 'Failed to upload thumbnail.');
-    } finally {
-      setUploadingThumbnail(false);
-      if (thumbnailInputRef.current) thumbnailInputRef.current.value = '';
-    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -196,7 +136,7 @@ export default function PublicationForm({ initialData, isEdit, publicationId }: 
           disabled={loading}
         >
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-          {isEdit ? 'Save Changes' : 'Create Publication'}
+          {isEdit ? 'Save' : 'Create'}
         </Button>
       </div>
 
@@ -294,17 +234,9 @@ export default function PublicationForm({ initialData, isEdit, publicationId }: 
               <FileText className="w-5 h-5 text-muted" />
               Document
             </h2>
-            <input
-              type="file"
-              ref={documentInputRef}
-              onChange={handleDocumentUpload}
-              className="hidden"
-            />
             <DocumentUploadField
               fileName={documentFileName}
               fileUrl={documentUrl ? getMediaUrl(documentUrl) : null}
-              uploading={uploadingDocument}
-              onUploadClick={() => documentInputRef.current?.click()}
               onLibraryClick={() => setIsDocumentSelectorOpen(true)}
               onRemoveClick={() => {
                 setFormData({ ...formData, documentId: '' });
@@ -424,17 +356,8 @@ export default function PublicationForm({ initialData, isEdit, publicationId }: 
               Cover Thumbnail (Optional)
             </h2>
             <div className="space-y-4">
-              <input
-                type="file"
-                ref={thumbnailInputRef}
-                onChange={handleThumbnailUpload}
-                accept="image/*"
-                className="hidden"
-              />
               <ImageUploadField
                 previewUrl={thumbnailUrl ? getMediaUrl(thumbnailUrl) : null}
-                uploading={uploadingThumbnail}
-                onUploadClick={() => thumbnailInputRef.current?.click()}
                 onLibraryClick={() => setIsThumbnailSelectorOpen(true)}
                 onRemoveClick={() => {
                   setFormData({ ...formData, thumbnailId: '' });

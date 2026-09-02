@@ -121,12 +121,12 @@ export default function PublicationsExplorer({ publications, categories }: Props
               <span className="text-sm font-bold text-[#023430] dark:text-white tracking-wide">Category</span>
             </div>
             <label className={`flex items-center gap-2.5 py-1.5 cursor-pointer text-sm ${categorySlug === '' ? 'text-[#00684A] dark:text-brand-green font-semibold' : 'text-[#1a2231] dark:text-white/80 font-medium'}`}>
-              <input type="radio" checked={categorySlug === ''} onChange={() => { setCategorySlug(''); setPage(1); }} className="accent-[#00684A] dark:accent-brand-green w-4.25 h-4.25" />
+              <input type="radio" name="publication-category" checked={categorySlug === ''} onChange={() => { setCategorySlug(''); setPage(1); }} className="accent-[#00684A] dark:accent-brand-green size-4 shrink-0" />
               All Categories
             </label>
             {categories.map(cat => (
               <label key={cat.id} className={`flex items-center gap-2.5 py-1.5 cursor-pointer text-sm ${categorySlug === cat.slug ? 'text-[#00684A] dark:text-brand-green font-semibold' : 'text-[#1a2231] dark:text-white/80 font-medium'}`}>
-                <input type="radio" checked={categorySlug === cat.slug} onChange={() => { setCategorySlug(cat.slug); setPage(1); }} className="accent-[#00684A] dark:accent-brand-green w-4.25 h-4.25" />
+                <input type="radio" name="publication-category" checked={categorySlug === cat.slug} onChange={() => { setCategorySlug(cat.slug); setPage(1); }} className="accent-[#00684A] dark:accent-brand-green size-4 shrink-0" />
                 {cat.name}
               </label>
             ))}
@@ -144,7 +144,7 @@ export default function PublicationsExplorer({ publications, categories }: Props
                     type="checkbox"
                     checked={organizers.has(org)}
                     onChange={() => toggleSetValue(organizers, org, setOrganizers)}
-                    className="accent-[#00684A] dark:accent-brand-green w-4.25 h-4.25 rounded"
+                    className="accent-[#00684A] dark:accent-brand-green size-4 shrink-0"
                   />
                   {org}
                 </label>
@@ -166,7 +166,7 @@ export default function PublicationsExplorer({ publications, categories }: Props
                     type="checkbox"
                     checked={languages.has(lang)}
                     onChange={() => toggleSetValue(languages, lang, setLanguages)}
-                    className="accent-[#00684A] dark:accent-brand-green w-4.25 h-4.25 rounded"
+                    className="accent-[#00684A] dark:accent-brand-green size-4 shrink-0"
                   />
                   {lang}
                 </label>

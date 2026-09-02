@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Loader2, UploadCloud, FolderOpen, X, Image as ImageIcon, ImageOff } from 'lucide-react';
+import { FolderOpen, X, Image as ImageIcon, ImageOff } from 'lucide-react';
 
 /**
  * Shared visual shell for every "upload an image or pick one from the media
@@ -11,15 +11,16 @@ import { Loader2, UploadCloud, FolderOpen, X, Image as ImageIcon, ImageOff } fro
  * dropped the library option entirely. Centralizing the presentation here
  * means the two can't drift apart again.
  *
- * This is intentionally presentational only — the file input, the actual
- * upload request (immediate vs. deferred-to-submit), and the
- * <MediaSelector> modal all stay owned by the parent form, since each one
- * has real differences (upload timing, cropping, upload category).
+ * This is intentionally presentational only — the <MediaSelector> modal stays
+ * owned by the parent form, since each one has real differences (upload
+ * category, cropping).
+ *
+ * There is deliberately no separate "Upload Image" button: the library modal
+ * already carries its own Upload New tab, and the two entry points doing the
+ * same job side by side is what made the widget confusing.
  */
 export interface ImageUploadFieldProps {
   previewUrl: string | null;
-  uploading?: boolean;
-  onUploadClick: () => void;
   onLibraryClick: () => void;
   onRemoveClick: () => void;
   alt: string;
@@ -34,8 +35,6 @@ export interface ImageUploadFieldProps {
 
 export default function ImageUploadField({
   previewUrl,
-  uploading = false,
-  onUploadClick,
   onLibraryClick,
   onRemoveClick,
   alt,
@@ -43,7 +42,7 @@ export default function ImageUploadField({
   fit = 'cover',
   emptyIcon,
   emptyLabel = 'No image selected',
-  emptyHint = 'Upload an image or choose one from your library.',
+  emptyHint = 'Choose an existing image from your library, or upload a new one from there.',
 }: ImageUploadFieldProps) {
   const aspectClass = aspect === 'square' ? 'aspect-square' : 'aspect-video';
   const fitClass = fit === 'contain' ? 'object-contain p-4' : 'object-cover';
@@ -85,35 +84,19 @@ export default function ImageUploadField({
   return (
     <div className="border-2 border-dashed border-hairline-strong rounded-lg p-8 flex flex-col items-center justify-center text-center gap-4 bg-surface-soft">
       <div className="w-12 h-12 bg-canvas rounded-full shadow-sm flex items-center justify-center border border-hairline">
-        {uploading ? (
-          <Loader2 className="w-6 h-6 text-brand-green animate-spin" />
-        ) : broken ? (
-          <ImageOff className="w-6 h-6 text-muted" />
-        ) : (
-          emptyIcon ?? <ImageIcon className="w-6 h-6 text-muted" />
-        )}
+        {broken ? <ImageOff className="w-6 h-6 text-muted" /> : emptyIcon ?? <ImageIcon className="w-6 h-6 text-muted" />}
       </div>
       <div>
         <p className="text-sm font-medium text-ink mb-1">{broken ? 'Image failed to load' : emptyLabel}</p>
         <p className="text-xs text-steel max-w-55 mx-auto">
-          {broken ? 'The stored file may have been moved or deleted. Upload a new one or choose from your library.' : emptyHint}
+          {broken ? 'The stored file may have been moved or deleted. Choose another from your library.' : emptyHint}
         </p>
       </div>
       <div className="flex flex-col w-full gap-2 mt-2">
         <button
           type="button"
-          onClick={onUploadClick}
-          disabled={uploading}
-          className="w-full py-2.5 bg-canvas border border-hairline-strong hover:border-emerald-500 hover:text-brand-green-dark text-slate text-sm font-medium rounded-xl transition-colors flex items-center justify-center gap-2 shadow-sm disabled:opacity-70"
-        >
-          {uploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <UploadCloud className="w-4 h-4" />}
-          {uploading ? 'Uploading...' : 'Upload Image'}
-        </button>
-        <button
-          type="button"
           onClick={onLibraryClick}
-          disabled={uploading}
-          className="w-full py-2.5 bg-surface hover:bg-gray-200 text-slate text-sm font-medium rounded-xl transition-colors flex items-center justify-center gap-2 disabled:opacity-70"
+          className="w-full py-2.5 bg-canvas border border-hairline-strong hover:border-emerald-500 hover:text-brand-green-dark text-slate text-sm font-medium rounded-xl transition-colors flex items-center justify-center gap-2 shadow-sm"
         >
           <FolderOpen className="w-4 h-4" />
           Choose from Library

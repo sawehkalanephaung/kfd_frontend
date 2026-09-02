@@ -115,7 +115,7 @@ export default function CategoryForm({
           disabled={loading}
         >
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-          {isEdit ? 'Save Changes' : 'Create Category'}
+          {isEdit ? 'Save' : 'Create'}
         </Button>
       </div>
 
