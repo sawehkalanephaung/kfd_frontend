@@ -181,13 +181,13 @@ export default function PublicationsExplorer({ publications, categories }: Props
         <div>
           {/* toolbar */}
           <div className="flex gap-3 mb-6">
-            <div className="flex-1 flex items-center gap-3 bg-white dark:bg-surface border border-[#dce1ea] dark:border-hairline rounded-xl px-4 h-13 shadow-[0_1px_2px_rgba(15,31,61,.04)] dark:shadow-none">
+            <div className="flex-1 flex items-center gap-3 bg-white dark:bg-surface border border-[#dce1ea] dark:border-hairline rounded-xl px-4 h-13 shadow-[0_1px_2px_rgba(15,31,61,.04)] dark:shadow-none focus-within:ring-2 focus-within:ring-[#00684A]/20 focus-within:border-[#00684A] dark:focus-within:ring-brand-green/20 dark:focus-within:border-brand-green transition-all">
               <Search size={17} className="text-[#9aa6ba] dark:text-steel shrink-0" />
               <input
                 placeholder="Search publications…"
                 value={search}
                 onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-                className="border-0 outline-none w-full h-full text-[15px] bg-transparent text-[#1a2231] dark:text-white placeholder:text-[#9aa6ba] dark:placeholder:text-steel"
+                className="border-0 outline-none focus:outline-none focus:ring-0 w-full h-full text-[15px] bg-transparent text-[#1a2231] dark:text-white placeholder:text-[#9aa6ba] dark:placeholder:text-steel"
               />
             </div>
             <button
