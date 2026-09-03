@@ -81,7 +81,13 @@ export default async function NewsPage({ searchParams }: PageProps) {
   const posts = paginatedData?.content ?? [];
 
   const featured = posts[0] ?? null;
-  const gridPosts = posts.slice(1);
+  // The hero slot only ever appears on the unfiltered first page (see the
+  // `!activeCategory` guard below), so it's only then that the grid should
+  // skip post[0] — otherwise slicing it off here discards a real post that
+  // is never shown anywhere else. A category with exactly one post used to
+  // render as "No posts found" because of this mismatch.
+  const showFeatured = currentPage === 0 && !activeCategory;
+  const gridPosts = showFeatured ? posts.slice(1) : posts;
   const totalPages = paginatedData?.totalPages ?? 1;
 
   return (
@@ -127,7 +133,7 @@ export default async function NewsPage({ searchParams }: PageProps) {
 
       <div className="container mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 pb-20">
         {/* ── Featured Post ──────────────────────────────────── */}
-        {featured && currentPage === 0 && !activeCategory && (
+        {featured && showFeatured && (
           <Reveal as="section">
           <Link
             href={`/news/${featured.slug}`}
@@ -170,7 +176,7 @@ export default async function NewsPage({ searchParams }: PageProps) {
         {/* ── Post Grid ─────────────────────────────────────── */}
         {gridPosts.length > 0 ? (
           <Reveal className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-14" stagger>
-            {(currentPage === 0 && !activeCategory ? gridPosts : posts).map((post) => (
+            {gridPosts.map((post) => (
               <Card
                 key={post.id}
                 href={`/news/${post.slug}`}
