@@ -18,7 +18,7 @@ const SIZE_CLASSES: Record<ButtonSize, string> = {
 };
 
 const BASE_CLASSES =
-  'group inline-flex items-center justify-center whitespace-nowrap font-semibold rounded-full ' +
+  'group inline-flex items-center justify-center whitespace-nowrap font-semibold rounded-full border border-transparent ' +
   'bg-primary text-on-primary shadow-sm ' +
   'transition-all duration-200 ease-in-out ' +
   'hover:bg-primary-deep hover:shadow-lg hover:shadow-primary/30 hover:-translate-y-0.5 ' +
