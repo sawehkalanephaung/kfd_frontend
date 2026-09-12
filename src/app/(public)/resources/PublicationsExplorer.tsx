@@ -187,7 +187,7 @@ export default function PublicationsExplorer({ publications, categories }: Props
                 placeholder="Search publications…"
                 value={search}
                 onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-                className="border-0 outline-none focus:outline-none focus:ring-0 w-full h-full text-[15px] bg-transparent text-[#1a2231] dark:text-white placeholder:text-[#9aa6ba] dark:placeholder:text-steel"
+                className="border-0 focus:border-transparent outline-none focus:outline-none ring-0 focus:ring-0 !outline-none !ring-0 w-full h-full text-[15px] bg-transparent text-[#1a2231] dark:text-white placeholder:text-[#9aa6ba] dark:placeholder:text-steel"
               />
             </div>
             <button
