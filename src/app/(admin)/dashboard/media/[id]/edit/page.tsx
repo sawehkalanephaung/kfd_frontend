@@ -6,6 +6,8 @@ import { Loader2, Save, ArrowLeft, Image as ImageIcon, Images, Building2, Tag, U
 import Link from 'next/link';
 import api, { getMediaUrl } from '@/lib/api';
 import { CustomSelect } from '@/components/ui/custom-select';
+import { CreatableCombobox } from '@/components/ui/creatable-combobox';
+import { useMediaCategoryOptions } from '@/lib/use-media-category-options';
 import PageHeader from '@/components/page-header';
 import { Button } from '@/components/ui/button';
 
@@ -16,6 +18,7 @@ export default function EditMediaPage() {
   
   const [mediaData, setMediaData] = useState<any>(null);
   const [departments, setDepartments] = useState<any[]>([]);
+  const categoryOptions = useMediaCategoryOptions();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
@@ -233,12 +236,11 @@ export default function EditMediaPage() {
               <div className="space-y-5">
                 <div>
                   <label className="block text-sm font-semibold text-ink mb-2">Category</label>
-                  <input
-                    type="text"
+                  <CreatableCombobox
                     value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                    className="w-full px-4 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"
-                    placeholder="e.g. general, logo, campaign"
+                    onChange={setCategory}
+                    suggestions={categoryOptions}
+                    placeholder="Select an existing category or type a new one"
                   />
                 </div>
 

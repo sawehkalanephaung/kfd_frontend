@@ -10,6 +10,16 @@ import { Button } from '@/components/ui/button';
 import { Pagination } from '@/components/ui/pagination';
 import toast from 'react-hot-toast';
 import { CustomSelect } from '@/components/ui/custom-select';
+import { useMediaCategoryOptions } from '@/lib/use-media-category-options';
+
+const SORT_OPTIONS = [
+  { value: 'createdAt,desc', label: 'Newest first' },
+  { value: 'createdAt,asc', label: 'Oldest first' },
+  { value: 'fileName,asc', label: 'Name (A-Z)' },
+  { value: 'fileName,desc', label: 'Name (Z-A)' },
+  { value: 'fileSizeKb,desc', label: 'Largest file first' },
+  { value: 'fileSizeKb,asc', label: 'Smallest file first' },
+];
 
 interface MediaAsset {
   id: string;
@@ -30,26 +40,13 @@ export default function MediaLibraryPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [sortBy, setSortBy] = useState(SORT_OPTIONS[0].value);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
   const itemsPerPage = 10;
 
-  const [categories, setCategories] = useState<string[]>([]);
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const res = await api.get('/api/v1/admin/cms/categories').catch(() => ({ data: [] }));
-        const data = res.data?.content || res.data?.data?.content || res.data?.data || res.data || [];
-        const cats = Array.isArray(data) ? data.map((c: any) => c.name) : [];
-        setCategories(cats);
-      } catch (err) {
-        console.error('Failed to load categories', err);
-      }
-    };
-    fetchCategories();
-  }, []);
+  const categories = useMediaCategoryOptions();
 
   // Delete Modal State
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -66,11 +63,11 @@ export default function MediaLibraryPage() {
   // Reset to page 1 when filters change
   useEffect(() => {
     setCurrentPage(1);
-  }, [debouncedSearch, selectedCategory]);
+  }, [debouncedSearch, selectedCategory, sortBy]);
 
   useEffect(() => {
     fetchMedia();
-  }, [debouncedSearch, selectedCategory, currentPage]);
+  }, [debouncedSearch, selectedCategory, sortBy, currentPage]);
 
   const fetchMedia = async () => {
     try {
@@ -78,7 +75,7 @@ export default function MediaLibraryPage() {
       const params = new URLSearchParams({
         page: String(currentPage - 1),
         size: String(itemsPerPage),
-        sort: 'createdAt,desc'
+        sort: sortBy
       });
       if (debouncedSearch) params.append('search', debouncedSearch);
       if (selectedCategory) params.append('category', selectedCategory);
@@ -168,16 +165,22 @@ export default function MediaLibraryPage() {
           />
         </div>
 
-        <div className="relative w-full md:w-1/4">
-          <div className="w-full pl-8">
-            <CustomSelect
-              value={selectedCategory}
-              onChange={(val) => setSelectedCategory(val)}
-              placeholder="All Categories"
-              options={categories.map((cat) => ({ value: cat, label: cat }))}
-              clearable
-            />
-          </div>
+        <div className="w-full md:w-1/4">
+          <CustomSelect
+            value={selectedCategory}
+            onChange={(val) => setSelectedCategory(val)}
+            placeholder="All Categories"
+            options={categories.map((cat) => ({ value: cat, label: cat }))}
+            clearable
+          />
+        </div>
+
+        <div className="w-full md:w-1/4">
+          <CustomSelect
+            value={sortBy}
+            onChange={(val) => setSortBy(val || SORT_OPTIONS[0].value)}
+            options={SORT_OPTIONS}
+          />
         </div>
       </div>
 
@@ -246,7 +249,7 @@ export default function MediaLibraryPage() {
                     </td>
                     <td className="px-6 py-4">
                       <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-surface text-steel">
-                        {asset.mediaCategory || 'general'}
+                        {asset.mediaCategory || 'Uncategorized'}
                       </span>
                     </td>
                     <td className="px-6 py-4 text-steel">

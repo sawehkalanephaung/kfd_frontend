@@ -7,6 +7,8 @@ import Link from 'next/link';
 import api from '@/lib/api';
 import toast from 'react-hot-toast';
 import { CustomSelect } from '@/components/ui/custom-select';
+import { CreatableCombobox } from '@/components/ui/creatable-combobox';
+import { useMediaCategoryOptions } from '@/lib/use-media-category-options';
 import PageHeader from '@/components/page-header';
 import { Button } from '@/components/ui/button';
 
@@ -17,29 +19,18 @@ export default function UploadMediaPage() {
 
   // Lookups
   const [departments, setDepartments] = useState<any[]>([]);
+  const categoryOptions = useMediaCategoryOptions();
 
   // Form State
   const [file, setFile] = useState<File | null>(null);
-  const [categories, setCategories] = useState<any[]>([]);
-  const [categoryId, setCategoryId] = useState('');
+  const [category, setCategory] = useState('');
   const [departmentId, setDepartmentId] = useState('');
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     fetchDepartments();
-    fetchCategories();
   }, []);
-
-  const fetchCategories = async () => {
-    try {
-      const res = await api.get('/api/v1/admin/cms/categories').catch(() => ({ data: [] }));
-      const data = res.data?.content || res.data?.data?.content || res.data?.data || res.data || [];
-      setCategories(Array.isArray(data) ? data : []);
-    } catch (err) {
-      console.error('Failed to load categories', err);
-    }
-  };
 
   const fetchDepartments = async () => {
     try {
@@ -95,7 +86,7 @@ export default function UploadMediaPage() {
 
     const formData = new FormData();
     formData.append('file', file);
-    if (categoryId) formData.append('categoryId', categoryId);
+    if (category.trim()) formData.append('category', category.trim());
     if (departmentId) formData.append('departmentId', departmentId);
 
     try {
@@ -203,12 +194,11 @@ export default function UploadMediaPage() {
                     <Tag className="w-4 h-4 text-muted" />
                     Category
                   </label>
-                  <CustomSelect
-                    value={categoryId}
-                    onChange={(val) => setCategoryId(val)}
-                    placeholder="Select a Category"
-                    options={categories.map((cat: any) => ({ value: cat.id.toString(), label: cat.name }))}
-                    clearable
+                  <CreatableCombobox
+                    value={category}
+                    onChange={setCategory}
+                    suggestions={categoryOptions}
+                    placeholder="Select an existing category or type a new one"
                   />
                 </div>
 
