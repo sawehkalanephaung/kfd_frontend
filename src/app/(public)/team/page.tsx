@@ -2,6 +2,7 @@ import { User } from "lucide-react";
 import { getMediaUrl } from "@/lib/api";
 import { PageHero } from "@/components/ui/page-hero";
 import { Card, type CardMetaItem } from "@/components/ui/card";
+import { fetchPublicResource } from "@/lib/public-fetch";
 
 /**
  * This page's whole purpose is the team roster, so a fetch failure throws
@@ -10,19 +11,13 @@ import { Card, type CardMetaItem } from "@/components/ui/card";
  */
 async function getTeamMembers() {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
-  try {
-    const res = await fetch(`${baseUrl}/api/v1/public/team-members`, {
-      cache: 'no-store'
-    });
+  const res = await fetchPublicResource(`${baseUrl}/api/v1/public/team-members`, 'team members', {
+    cache: 'no-store',
+  });
 
-    if (!res.ok) throw new Error(`Failed to load Chairman: ${res.status}`);
-    const data = await res.json();
-    return data?.data || [];
-  } catch (err) {
-    throw new Error(
-      `Failed to load team members: backend server unreachable (${err instanceof Error ? err.message : String(err)})`
-    );
-  }
+  if (!res.ok) throw new Error(`Failed to load Chairman: ${res.status}`);
+  const data = await res.json();
+  return data?.data || [];
 }
 
 function parseI18nField(val: any): string {

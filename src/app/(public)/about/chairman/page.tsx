@@ -4,6 +4,7 @@ import { ChevronRight, User } from "lucide-react";
 import { getMediaUrl } from "@/lib/api";
 import { formatFullDate, formatTenureYears } from "@/lib/date-utils";
 import { Reveal } from "@/components/ui/reveal";
+import { fetchPublicResource } from "@/lib/public-fetch";
 
 export const metadata: Metadata = {
   title: "Chairman - Kawthoolei Forestry Department",
@@ -17,19 +18,13 @@ export const metadata: Metadata = {
  */
 async function getTeamMembers() {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
-  try {
-    const res = await fetch(`${baseUrl}/api/v1/public/team-members`, {
-      cache: 'no-store'
-    });
+  const res = await fetchPublicResource(`${baseUrl}/api/v1/public/team-members`, 'team members', {
+    cache: 'no-store',
+  });
 
-    if (!res.ok) throw new Error(`Failed to load Chairman: ${res.status}`);
-    const data = await res.json();
-    return data?.data || null;
-  } catch (err) {
-    throw new Error(
-      `Failed to load team members: backend server unreachable (${err instanceof Error ? err.message : String(err)})`
-    );
-  }
+  if (!res.ok) throw new Error(`Failed to load Chairman: ${res.status}`);
+  const data = await res.json();
+  return data?.data || null;
 }
 
 function parseI18nField(val: any): string {
@@ -58,14 +53,14 @@ function parseI18nField(val: any): string {
  *  under the same navigation. */
 function Breadcrumb() {
   return (
-    <div className="border-b border-[#e1e5e8] bg-canvas">
+    <div className="border-b border-[#e1e5e8] dark:border-hairline bg-canvas">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center gap-2 py-4 text-sm font-medium text-[#5c6c7a]">
-          <Link href="/" className="transition-colors hover:text-brand-text">Home</Link>
-          <ChevronRight size={14} className="text-[#a8b3bc]" />
-          <Link href="/about" className="transition-colors hover:text-brand-text">About Us</Link>
-          <ChevronRight size={14} className="text-[#a8b3bc]" />
-          <span className="text-brand-text">Chairman</span>
+        <div className="flex items-center gap-2 py-4 text-sm font-medium text-[#5c6c7a] dark:text-steel">
+          <Link href="/" className="transition-colors hover:text-brand-text dark:hover:text-white">Home</Link>
+          <ChevronRight size={14} className="text-[#a8b3bc] dark:text-steel/50" />
+          <Link href="/about" className="transition-colors hover:text-brand-text dark:hover:text-white">About Us</Link>
+          <ChevronRight size={14} className="text-[#a8b3bc] dark:text-steel/50" />
+          <span className="text-brand-text dark:text-white">Chairman</span>
         </div>
       </div>
     </div>
@@ -94,11 +89,11 @@ export default async function ChairmanPage() {
 
   if (!chairman) {
     return (
-      <main className="min-h-screen bg-white">
+      <main className="min-h-screen bg-white dark:bg-canvas">
         <Breadcrumb />
         <div className="container mx-auto px-4 py-32 text-center">
-          <h1 className="mb-4 font-serif text-4xl font-bold text-[#001e2b]">Chairman</h1>
-          <p className="text-[#5c6c7a]">Chairman details will be updated soon.</p>
+          <h1 className="mb-4 font-serif text-4xl font-bold text-[#001e2b] dark:text-white">Chairman</h1>
+          <p className="text-[#5c6c7a] dark:text-steel">Chairman details will be updated soon.</p>
         </div>
       </main>
     );
@@ -112,14 +107,17 @@ export default async function ChairmanPage() {
   const rawImage = data.headshot_url || data.headshotUrl || data.imageUrl || data.avatarUrl;
   const displayImage = rawImage ? getMediaUrl(rawImage) : null;
 
-  /* Colours here are literals rather than theme tokens on purpose. The public
-     site is a light-only design with no theme switch, but ThemeProvider still
-     runs with `enableSystem`, so a visitor whose OS prefers dark gets `.dark`
-     on <html> — which would flip `text-ink` to white against these hard-coded
-     white bands and erase the copy. Pinning the palette keeps the page as
-     designed for every visitor. */
+  /* The hero band below (bg-[#0b1f14] etc.) is a fixed dark surface in both
+     themes on purpose — same as team/[id]'s hero — so its white/light text
+     stays unpaired. Everything outside the band mirrors team/[id]/page.tsx's
+     dark: pairings so this page and its sibling behave the same way for a
+     visitor whose OS prefers dark (ThemeProvider runs with `enableSystem`,
+     so `.dark` can land on <html> even though the public site has no visible
+     toggle). This page used to pin every color to the light palette instead,
+     which was internally consistent but left it the only one of the two that
+     didn't go dark — jarring when navigating between them. */
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-white dark:bg-canvas">
 
       <Breadcrumb />
 
@@ -185,23 +183,23 @@ export default async function ChairmanPage() {
       {/* ── Biography ─────────────────────────────────────────────────
           A single measured column — the reading width is deliberately
           narrower than the hero so long official text stays legible. */}
-      <Reveal as="section" className="bg-white pb-28 pt-24 lg:pb-36 lg:pt-28">
+      <Reveal as="section" className="bg-white dark:bg-canvas pb-28 pt-24 lg:pb-36 lg:pt-28">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-210">
 
-            <h2 className="text-3xl font-bold tracking-tight text-[#001e2b]">Biography</h2>
-            <div className="mt-6 h-px w-full bg-[#e1e5e8]" />
+            <h2 className="text-3xl font-bold tracking-tight text-[#001e2b] dark:text-white">Biography</h2>
+            <div className="mt-6 h-px w-full bg-[#e1e5e8] dark:bg-hairline" />
 
             {bio ? (
               /* `rich-text` contains admin-authored HTML (wide tables, long URLs);
                  the `!bg-transparent`/`!text-inherit` overrides drop the inline
                  colours the editor pastes in, which otherwise fight this page. */
               <div
-                className="rich-text prose prose-slate mt-10 max-w-none text-[#3d4f5b] md:text-justify **:bg-transparent! **:text-inherit!"
+                className="rich-text prose prose-slate dark:prose-invert mt-10 max-w-none text-[#3d4f5b] dark:text-steel md:text-justify **:bg-transparent! **:text-inherit!"
                 dangerouslySetInnerHTML={{ __html: bio }}
               />
             ) : (
-              <p className="mt-10 italic text-[#5c6c7a]">
+              <p className="mt-10 italic text-[#5c6c7a] dark:text-steel">
                 Detailed biography is currently being updated.
               </p>
             )}

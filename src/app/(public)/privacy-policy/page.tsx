@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import { RESERVED_PAGE_SLUGS } from "@/lib/reserved-pages";
+import { fetchPublicResource } from "@/lib/public-fetch";
 
 export const metadata: Metadata = {
   title: "Privacy Policy - Kawthoolei Forestry Department",
@@ -16,20 +17,14 @@ export const metadata: Metadata = {
  */
 async function getPageData(slug: string) {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
-  try {
-    const res = await fetch(`${baseUrl}/api/v1/public/pages/${slug}`, {
-      next: { revalidate: 3600 }
-    });
+  const res = await fetchPublicResource(`${baseUrl}/api/v1/public/pages/${slug}`, `page "${slug}"`, {
+    next: { revalidate: 3600 },
+  });
 
-    if (res.status === 404) return null;
-    if (!res.ok) throw new Error(`Failed to load page "${slug}": ${res.status}`);
-    const data = await res.json();
-    return data?.data || data || null; // fallback to data if not wrapped
-  } catch (err) {
-    throw new Error(
-      `Failed to load page "${slug}": backend server unreachable (${err instanceof Error ? err.message : String(err)})`
-    );
-  }
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`Failed to load page "${slug}": ${res.status}`);
+  const data = await res.json();
+  return data?.data || data || null; // fallback to data if not wrapped
 }
 
 export default async function PrivacyPolicyPage() {

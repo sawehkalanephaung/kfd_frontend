@@ -54,10 +54,20 @@ export default function PublicError({
           </Link>
         </div>
 
-        {error.digest && (
-          <p className="mt-8 text-xs text-steel">
-            Reference: <span className="font-mono">{error.digest}</span>
-          </p>
+        {(error.message || error.digest) && (
+          <div className="mt-8 text-xs text-steel space-y-1">
+            {/* Next.js redacts this to a generic string for Server Component
+                errors in production builds, so this never leaks server
+                internals — it just adds real detail in development, where
+                the per-page fetchers' specific messages (see (public)/*
+                page.tsx data fetchers) are left untouched. */}
+            {error.message && <p>{error.message}</p>}
+            {error.digest && (
+              <p>
+                Reference: <span className="font-mono">{error.digest}</span>
+              </p>
+            )}
+          </div>
         )}
       </div>
     </main>

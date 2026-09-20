@@ -3,6 +3,7 @@ import { User, ChevronRight } from "lucide-react";
 import { getMediaUrl } from "@/lib/api";
 import { formatFullDate, formatTenureYears } from "@/lib/date-utils";
 import { notFound } from "next/navigation";
+import { fetchPublicResource } from "@/lib/public-fetch";
 
 /**
  * Returns null only when the member does not exist (404). Any other failure
@@ -10,21 +11,15 @@ import { notFound } from "next/navigation";
  */
 async function getTeamMember(id: string) {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
-  try {
-    const res = await fetch(`${baseUrl}/api/v1/public/team-members/${id}`, {
-      cache: 'no-store'
-    });
+  const res = await fetchPublicResource(`${baseUrl}/api/v1/public/team-members/${id}`, `team member "${id}"`, {
+    cache: 'no-store',
+  });
 
-    if (res.status === 404) return null;
-    if (!res.ok) throw new Error(`Failed to load Chairman "${id}": ${res.status}`);
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`Failed to load Chairman "${id}": ${res.status}`);
 
-    const data = await res.json();
-    return data?.data || null;
-  } catch (err) {
-    throw new Error(
-      `Failed to load team member "${id}": backend server unreachable (${err instanceof Error ? err.message : String(err)})`
-    );
-  }
+  const data = await res.json();
+  return data?.data || null;
 }
 
 function parseI18nField(val: any): string {

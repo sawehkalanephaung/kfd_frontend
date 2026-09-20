@@ -5,6 +5,7 @@ import { NewsPost, PostCategory, PaginatedPosts } from "./types";
 import { PageHero } from "@/components/ui/page-hero";
 import { Card } from "@/components/ui/card";
 import { Reveal } from "@/components/ui/reveal";
+import { fetchPublicResource } from "@/lib/public-fetch";
 
 export const metadata: Metadata = {
   title: "News & Announcements - Kawthoolei Forestry Department",
@@ -39,16 +40,10 @@ async function getPosts(page: number, categorySlug?: string): Promise<PaginatedP
   if (categorySlug) {
     params.set("categorySlug", categorySlug);
   }
-  try {
-    const res = await fetch(`${API}/api/v1/public/posts?${params}`, { cache: "no-store" });
-    if (!res.ok) throw new Error(`Failed to load posts: ${res.status}`);
-    const json = await res.json();
-    return json.data || null;
-  } catch (err) {
-    throw new Error(
-      `Failed to load posts: backend server unreachable (${err instanceof Error ? err.message : String(err)})`
-    );
-  }
+  const res = await fetchPublicResource(`${API}/api/v1/public/posts?${params}`, 'posts', { cache: "no-store" });
+  if (!res.ok) throw new Error(`Failed to load posts: ${res.status}`);
+  const json = await res.json();
+  return json.data || null;
 }
 
 // ── Helpers ────────────────────────────────────────────────────

@@ -43,7 +43,7 @@ export default function NewsletterForm() {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-3">
       {status === 'success' && (
-        <div role="status" className="flex items-center gap-2 text-sm text-brand-green bg-brand-green-soft p-2.5 rounded-full border border-brand-green/30">
+        <div role="status" className="flex items-center gap-2 text-sm text-brand-green dark:text-brand-green-dark bg-brand-green-soft p-2.5 rounded-full border border-brand-green/30">
           <CheckCircle2 size={16} className="shrink-0" aria-hidden="true" />
           <span className="leading-tight">{message}</span>
         </div>

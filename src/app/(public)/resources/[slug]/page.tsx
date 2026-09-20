@@ -7,6 +7,7 @@ import { PublicationItem } from "../types";
 import { ZoomableImage } from "@/components/ui/zoomable-image";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/ui/reveal";
+import { fetchPublicResource } from "@/lib/public-fetch";
 
 const publicSans = Public_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800"] });
 const sourceSerif = Source_Serif_4({ subsets: ["latin"], weight: ["500", "600", "700"] });
@@ -24,19 +25,15 @@ interface PageProps {
  * any other failure so error.tsx can offer a retry — mirrors (public)/news/[slug].
  */
 async function getPublication(slug: string): Promise<PublicationItem | null> {
-  try {
-    const res = await fetch(`${API}/api/v1/public/publications/${slug}`, { cache: "no-store" });
+  const res = await fetchPublicResource(`${API}/api/v1/public/publications/${slug}`, `publication "${slug}"`, {
+    cache: "no-store",
+  });
 
-    if (res.status === 404) return null;
-    if (!res.ok) throw new Error(`Failed to load publication "${slug}": ${res.status}`);
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`Failed to load publication "${slug}": ${res.status}`);
 
-    const json = await res.json();
-    return json.data || null;
-  } catch (err) {
-    throw new Error(
-      `Failed to load publication "${slug}": backend server unreachable (${err instanceof Error ? err.message : String(err)})`
-    );
-  }
+  const json = await res.json();
+  return json.data || null;
 }
 
 // ── Metadata ───────────────────────────────────────────────────

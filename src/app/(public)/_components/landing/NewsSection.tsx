@@ -192,10 +192,10 @@ export default function NewsSection({
               })}
 
               <div className="mt-auto pt-4 border-t border-hairline-strong/60 flex justify-between gs-notice-item">
-                <Link href="/news/announcements" className="text-xs font-semibold text-[#2a563c] hover:underline">
+                <Link href="/news/announcements" className="text-xs font-semibold text-brand-green-dark hover:underline">
                   All Announcements
                 </Link>
-                <Link href="/news/events" className="text-xs font-semibold text-[#2a563c] hover:underline">
+                <Link href="/news/events" className="text-xs font-semibold text-brand-green-dark hover:underline">
                   All Events
                 </Link>
               </div>

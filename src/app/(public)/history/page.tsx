@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { getMediaUrl } from '@/lib/api';
 import { RESERVED_PAGE_SLUGS } from '@/lib/reserved-pages';
+import { fetchPublicResource } from '@/lib/public-fetch';
 import { PageHero } from '@/components/ui/page-hero';
 
 /**
@@ -13,20 +14,14 @@ import { PageHero } from '@/components/ui/page-hero';
  */
 async function getPageData(slug: string) {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
-  try {
-    const res = await fetch(`${baseUrl}/api/v1/public/pages/${slug}`, {
-      cache: 'no-store'
-    });
+  const res = await fetchPublicResource(`${baseUrl}/api/v1/public/pages/${slug}`, `page "${slug}"`, {
+    cache: 'no-store',
+  });
 
-    if (res.status === 404) return null;
-    if (!res.ok) throw new Error(`Failed to load page "${slug}": ${res.status}`);
-    const data = await res.json();
-    return data?.data || null;
-  } catch (err) {
-    throw new Error(
-      `Failed to load page "${slug}": backend server unreachable (${err instanceof Error ? err.message : String(err)})`
-    );
-  }
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`Failed to load page "${slug}": ${res.status}`);
+  const data = await res.json();
+  return data?.data || null;
 }
 
 export default async function HistoryPage() {
@@ -60,7 +55,7 @@ export default async function HistoryPage() {
             {/* Prose Container */}
             <div className="bg-white dark:bg-surface p-8 md:p-12 lg:p-16 rounded-2xl shadow-xl shadow-black/5 dark:shadow-none border border-black/3 dark:border-white/10">
               <div
-                className="prose prose-lg md:prose-xl dark:prose-invert max-w-none text-[#444] dark:text-steel prose-p:text-[#444] dark:prose-p:text-steel prose-p:leading-relaxed prose-headings:font-serif prose-headings:text-[#111] dark:prose-headings:text-white prose-a:text-forest dark:prose-a:text-brand-green-dark hover:prose-a:text-[#e5a93d] prose-li:marker:text-forest dark:prose-li:marker:text-brand-green-dark prose-ul:list-[square] wrap-break-word whitespace-pre-wrap **:bg-transparent! **:text-inherit!"
+                className="prose prose-lg md:prose-xl dark:prose-invert max-w-none text-[#444] dark:text-steel prose-p:text-[#444] dark:prose-p:text-steel prose-p:leading-relaxed prose-headings:font-serif prose-headings:text-[#111] dark:prose-headings:text-white prose-a:text-forest dark:prose-a:text-brand-green-dark hover:prose-a:text-brand-green dark:hover:prose-a:text-brand-green-dark prose-li:marker:text-forest dark:prose-li:marker:text-brand-green-dark prose-ul:list-[square] wrap-break-word whitespace-pre-wrap **:bg-transparent! **:text-inherit!"
                 dangerouslySetInnerHTML={{ __html: sanitizedContent }}
               />
             </div>

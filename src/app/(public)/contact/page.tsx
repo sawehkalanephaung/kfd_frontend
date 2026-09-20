@@ -6,6 +6,7 @@ import { ContentFallback } from "@/components/content-fallback";
 import { ContactSettings, Faq } from "./types";
 import { PageHero } from "@/components/ui/page-hero";
 import { Reveal } from "@/components/ui/reveal";
+import { fetchPublicResource } from "@/lib/public-fetch";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
@@ -21,17 +22,13 @@ export const metadata: Metadata = {
  * not configured yet is a different, non-error case — handled below.
  */
 async function getContactSettings(): Promise<ContactSettings | null> {
-  try {
-    const res = await fetch(`${API}/api/v1/public/contact-settings`, { cache: "no-store" });
-    if (res.status === 404) return null;
-    if (!res.ok) throw new Error(`Failed to load contact settings: ${res.status}`);
-    const json = await res.json();
-    return json;
-  } catch (err) {
-    throw new Error(
-      `Failed to load contact settings: backend server unreachable (${err instanceof Error ? err.message : String(err)})`
-    );
-  }
+  const res = await fetchPublicResource(`${API}/api/v1/public/contact-settings`, 'contact settings', {
+    cache: "no-store",
+  });
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`Failed to load contact settings: ${res.status}`);
+  const json = await res.json();
+  return json;
 }
 
 async function getFaqs(): Promise<Faq[]> {

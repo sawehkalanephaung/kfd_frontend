@@ -135,7 +135,7 @@ export default function AboutChairmanSection({ chairmanData }: { chairmanData?: 
           <div ref={bioRef} className="lg:col-span-8 flex flex-col justify-center w-full min-w-0">
             <h3 className="text-3xl md:text-4xl font-serif text-[#111] dark:text-white mb-2">{chairman.name}</h3>
             {chairman.title && (
-              <p className="text-xs md:text-sm font-bold text-[#e5a93d] uppercase tracking-wider mb-6">
+              <p className="text-xs md:text-sm font-bold text-forest dark:text-brand-green-dark uppercase tracking-wider mb-6">
                 {chairman.title}
               </p>
             )}
