@@ -3,7 +3,8 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { PlusCircle, UploadCloud, UserPlus, FileText, CheckCircle2, Clock, Loader2, Users, Image as ImageIcon, Building2, LayoutDashboard } from 'lucide-react';
-import DashboardCharts from '@/components/dashboard-charts';
+import { TopPostsChart } from '@/components/admin/dashboard/top-posts-chart';
+import { ContentCalendar } from '@/components/admin/dashboard/content-calendar';
 import CountUp from '@/components/ui/count-up';
 import { StatusDropdown, type StatusOption } from '@/components/ui/status-dropdown';
 import api from '@/lib/api';
@@ -32,7 +33,8 @@ export default function DashboardPage() {
   });
 
   const [recentPosts, setRecentPosts] = useState<any[]>([]);
-  const [topPosts, setTopPosts] = useState<{ name: string, views: number }[]>([]);
+  const [topPosts, setTopPosts] = useState<any[]>([]);
+  const [calendarPosts, setCalendarPosts] = useState<any[]>([]);
 
   useEffect(() => {
     const hour = new Date().getHours();
@@ -82,7 +84,8 @@ export default function DashboardPage() {
           api.get('/api/v1/admin/media?size=1'),
           api.get('/api/v1/admin/departments?size=1'),
           api.get('/api/v1/admin/cms/posts?size=5&sort=updatedAt,desc'),
-          api.get('/api/v1/admin/cms/posts?size=5&sort=viewCount,desc')
+          api.get('/api/v1/admin/cms/posts?size=5&sort=viewCount,desc'),
+          api.get('/api/v1/admin/cms/posts?size=100&sort=updatedAt,desc')
         ]);
 
         const getValue = (index: number) => {
@@ -98,6 +101,7 @@ export default function DashboardPage() {
         const deptRes = getValue(5);
         const recentActivityRes = getValue(6);
         const topPostsRes = getValue(7);
+        const calendarPostsRes = getValue(8);
 
         const getCount = (res: any) => {
           if (!res) return 0;
@@ -123,11 +127,15 @@ export default function DashboardPage() {
         setTopPosts(
           Array.isArray(top)
             ? top.map(p => ({
-              name: p?.title && p.title.length > 20 ? p.title.substring(0, 20) + '...' : (p?.title || 'Untitled'),
+              id: p.id,
+              title: p?.title || 'Untitled',
               views: p?.viewCount || 0
             }))
             : []
         );
+
+        const calPosts = calendarPostsRes?.data?.content || calendarPostsRes?.data?.data || calendarPostsRes?.data || [];
+        setCalendarPosts(Array.isArray(calPosts) ? calPosts : []);
 
       } catch (error: any) {
         // Log as string to prevent Next.js dev overlay from taking over the screen
@@ -167,7 +175,7 @@ export default function DashboardPage() {
 
   return (
     <div>
-      {/* Welcome Card */}
+{/* Welcome Card */}
       <div className="bg-linear-to-r from-brand-green-dark via-brand-green to-teal-deep rounded-xl p-8 shadow-md border border-brand-green overflow-hidden relative animate-gradient-x">
         <div className="relative z-10">
           <h1 className="text-3xl font-bold text-white mb-2 flex items-center gap-3">
@@ -221,14 +229,15 @@ export default function DashboardPage() {
         })}
       </div>
 
-      {/* Charts Section */}
-      <DashboardCharts statusData={statusData} topPosts={topPosts} loading={loading} />
+      {/* Row 4: Charts Section */}
+      <div className="mt-6 grid grid-cols-1 lg:grid-cols-[1.35fr_1fr] gap-5">
+        <TopPostsChart posts={topPosts} />
+        <ContentCalendar posts={calendarPosts} />
+      </div>
 
-      {/* Bottom Section: Recent Activity & Quick Actions */}
-      <div className="mt-6 grid grid-cols-1 xl:grid-cols-3 gap-6">
-
-        {/* Recent Activity */}
-        <div className="xl:col-span-2 bg-canvas rounded-lg p-6 shadow-sm border border-hairline">
+      {/* Row 5: Recent Activity */}
+      <div className="mt-6">
+        <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-lg font-bold text-ink">Recent Activity</h2>
             <Link href="/dashboard/posts" className="text-sm font-medium text-brand-green-dark hover:text-brand-green-dark">
@@ -289,52 +298,6 @@ export default function DashboardPage() {
             </table>
           </div>
         </div>
-
-        {/* Quick Actions */}
-        <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline">
-          <h2 className="text-lg font-bold text-ink mb-6">Quick Actions</h2>
-          <div className="space-y-4">
-            <Link
-              href="/dashboard/posts/create"
-              className="flex items-center gap-4 p-4 rounded-xl border border-hairline hover:border-brand-green/30 hover:bg-brand-green-soft hover:shadow-md hover:-translate-y-1 transition-all group duration-300"
-            >
-              <div className="w-12 h-12 rounded-full bg-brand-green-soft/50 flex items-center justify-center text-brand-green-dark group-hover:bg-brand-green group-hover:text-white transition-colors shadow-sm">
-                <PlusCircle className="w-6 h-6" />
-              </div>
-              <div>
-                <p className="font-bold text-ink group-hover:text-brand-green-dark transition-colors">Create New Post</p>
-                <p className="text-xs text-steel mt-0.5">Draft a new article or page</p>
-              </div>
-            </Link>
-
-            <Link
-              href="/dashboard/media/upload"
-              className="flex items-center gap-4 p-4 rounded-xl border border-hairline hover:border-blue-200 hover:bg-blue-50 hover:shadow-md hover:-translate-y-1 transition-all group duration-300"
-            >
-              <div className="w-12 h-12 rounded-full bg-blue-100/50 flex items-center justify-center text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors shadow-sm">
-                <UploadCloud className="w-6 h-6" />
-              </div>
-              <div>
-                <p className="font-bold text-ink group-hover:text-blue-700 transition-colors">Upload Media</p>
-                <p className="text-xs text-steel mt-0.5">Add photos or documents</p>
-              </div>
-            </Link>
-
-            <Link
-              href="/dashboard/team/create"
-              className="flex items-center gap-4 p-4 rounded-xl border border-hairline hover:border-purple-200 hover:bg-purple-50 hover:shadow-md hover:-translate-y-1 transition-all group duration-300"
-            >
-              <div className="w-12 h-12 rounded-full bg-purple-100/50 flex items-center justify-center text-purple-600 group-hover:bg-purple-600 group-hover:text-white transition-colors shadow-sm">
-                <UserPlus className="w-6 h-6" />
-              </div>
-              <div>
-                <p className="font-bold text-ink group-hover:text-purple-700 transition-colors">Add Chairman</p>
-                <p className="text-xs text-steel mt-0.5">Invite a new system user</p>
-              </div>
-            </Link>
-          </div>
-        </div>
-
       </div>
     </div>
   );
