@@ -9,9 +9,14 @@ import SlideOver from '@/components/slide-over';
 import UserForm from '@/components/user-form';
 import PageHeader from '@/components/page-header';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import { StatusDropdown, type StatusOption } from '@/components/ui/status-dropdown';
 import { CustomSelect } from '@/components/ui/custom-select';
 import toast from 'react-hot-toast';
+
+const USER_STATUS_OPTIONS: StatusOption[] = [
+  { value: 'true', label: 'Active', tone: 'success' },
+  { value: 'false', label: 'Inactive', tone: 'neutral' },
+];
 
 export default function UsersDirectoryPage() {
   const [users, setUsers] = useState<any[]>([]);
@@ -108,6 +113,31 @@ export default function UsersDirectoryPage() {
   const handleDrawerSuccess = () => {
     setDrawerOpen(false);
     fetchUsers();
+  };
+
+  const handleStatusChange = async (user: any, newValue: string) => {
+    const isActive = newValue === 'true';
+    try {
+      // For users we don't need a separate fetch because the user object usually has all required fields,
+      // but let's fetch to be safe just like team members.
+      const res = await api.get(`/api/v1/admin/users/${user.id}`);
+      const fullUser = res.data?.data || res.data;
+      
+      const payload = {
+        firstName: fullUser.firstName,
+        lastName: fullUser.lastName,
+        email: fullUser.email,
+        roleId: fullUser.role?.id || null,
+        dashboardLanguage: fullUser.dashboardLanguage,
+        isActive: isActive,
+      };
+
+      await api.put(`/api/v1/admin/users/${user.id}`, payload);
+      setUsers((prev) => prev.map((u) => (u.id === user.id ? { ...u, isActive } : u)));
+      toast.success(`Status changed to ${isActive ? 'active' : 'inactive'}`);
+    } catch (err: any) {
+      toast.error(err?.response?.data?.message || 'Failed to update status');
+    }
   };
 
   const formatForDisplay = (name: string) => {
@@ -217,9 +247,11 @@ export default function UsersDirectoryPage() {
                       )}
                     </td>
                     <td className="px-6 py-4">
-                      <Badge tone={user.isActive ? 'success' : 'neutral'} icon={user.isActive ? CheckCircle2 : XCircle}>
-                        {user.isActive ? 'Active' : 'Inactive'}
-                      </Badge>
+                      <StatusDropdown
+                        value={user.isActive ? 'true' : 'false'}
+                        options={USER_STATUS_OPTIONS}
+                        onChangeStatus={(v) => handleStatusChange(user, v)}
+                      />
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2">

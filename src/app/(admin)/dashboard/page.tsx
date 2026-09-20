@@ -5,9 +5,16 @@ import Link from 'next/link';
 import { PlusCircle, UploadCloud, UserPlus, FileText, CheckCircle2, Clock, Loader2, Users, Image as ImageIcon, Building2, LayoutDashboard } from 'lucide-react';
 import DashboardCharts from '@/components/dashboard-charts';
 import CountUp from '@/components/ui/count-up';
-import { Badge } from '@/components/ui/badge';
+import { StatusDropdown, type StatusOption } from '@/components/ui/status-dropdown';
 import api from '@/lib/api';
 import { getRandomQuote } from './actions';
+import toast from 'react-hot-toast';
+
+const DASH_STATUS_OPTIONS: StatusOption[] = [
+  { value: 'PUBLISHED', label: 'Published', tone: 'success' },
+  { value: 'DRAFT', label: 'Draft', tone: 'warning' },
+  { value: 'ARCHIVED', label: 'Archived', tone: 'neutral' },
+];
 
 export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
@@ -146,6 +153,18 @@ export default function DashboardPage() {
     { name: 'Archived', value: stats.archived },
   ];
 
+  const handleDashStatusChange = async (item: any, newStatus: string) => {
+    try {
+      const res = await api.get(`/api/v1/admin/cms/posts/${item.id}`);
+      const fullPost = res.data?.data || res.data;
+      await api.put(`/api/v1/admin/cms/posts/${item.id}`, { ...fullPost, status: newStatus });
+      setRecentPosts((prev) => prev.map((p) => (p.id === item.id ? { ...p, status: newStatus } : p)));
+      toast.success(`Status changed to ${newStatus.toLowerCase()}`);
+    } catch (err: any) {
+      toast.error(err?.response?.data?.message || 'Failed to update status');
+    }
+  };
+
   return (
     <div>
       {/* Breadcrumb */}
@@ -261,12 +280,11 @@ export default function DashboardPage() {
                         </div>
                       </td>
                       <td className="py-4">
-                        <Badge
-                          tone={item.status === 'PUBLISHED' ? 'success' : item.status === 'DRAFT' ? 'warning' : 'neutral'}
-                          icon={item.status === 'PUBLISHED' ? CheckCircle2 : Clock}
-                        >
-                          {item.status}
-                        </Badge>
+                        <StatusDropdown
+                          value={item.status}
+                          options={DASH_STATUS_OPTIONS}
+                          onChangeStatus={(v) => handleDashStatusChange(item, v)}
+                        />
                       </td>
                       <td className="py-4 text-muted text-sm">
                         {item.updatedAt ? new Date(item.updatedAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : '-'}

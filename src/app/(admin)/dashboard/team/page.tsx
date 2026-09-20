@@ -9,8 +9,13 @@ import CreateButton from '@/components/create-button';
 import PageHeader from '@/components/page-header';
 import toast from 'react-hot-toast';
 import { formatTenureYears, calculateExactDuration } from '@/lib/date-utils';
-import { Badge } from '@/components/ui/badge';
+import { StatusDropdown, type StatusOption } from '@/components/ui/status-dropdown';
 import { Pagination } from '@/components/ui/pagination';
+
+const TEAM_STATUS_OPTIONS: StatusOption[] = [
+  { value: 'true', label: 'Active', tone: 'success' },
+  { value: 'false', label: 'Inactive', tone: 'neutral' },
+];
 
 export default function TeamDirectoryPage() {
   const [members, setMembers] = useState<any[]>([]);
@@ -68,6 +73,20 @@ export default function TeamDirectoryPage() {
       setDeleteModalOpen(false);
     } catch (error) {
       toast.error('Failed to delete Chairman');
+    }
+  };
+
+  const handleStatusChange = async (member: any, newValue: string) => {
+    const isActive = newValue === 'true';
+    try {
+      // Need full payload, so fetch first
+      const res = await api.get(`/api/v1/admin/team-members/${member.id}`);
+      const fullMember = res.data?.data || res.data;
+      await api.put(`/api/v1/admin/team-members/${member.id}`, { ...fullMember, isActive });
+      setMembers((prev) => prev.map((m) => (m.id === member.id ? { ...m, isActive } : m)));
+      toast.success(`Status changed to ${isActive ? 'active' : 'inactive'}`);
+    } catch (err: any) {
+      toast.error(err?.response?.data?.message || 'Failed to update status');
     }
   };
 
@@ -200,9 +219,12 @@ export default function TeamDirectoryPage() {
                           <div className="mt-1 flex flex-col gap-1 sm:hidden font-normal">
                             <div className="text-xs text-steel">{getTitleString(member.title)}</div>
                             <div className="flex flex-wrap items-center gap-2 mt-1">
-                              <Badge tone={member.isActive ? 'success' : 'neutral'} icon={member.isActive ? CheckCircle2 : XCircle} size="sm">
-                                {member.isActive ? 'Active' : 'Inactive'}
-                              </Badge>
+                              <StatusDropdown
+                                value={member.isActive ? 'true' : 'false'}
+                                options={TEAM_STATUS_OPTIONS}
+                                onChangeStatus={(v) => handleStatusChange(member, v)}
+                                size="sm"
+                              />
                               <span className="text-[11px] text-muted border border-hairline bg-surface px-1.5 py-0.5 rounded">
                                 {member.departmentName || 'No Dept'}
                               </span>
@@ -224,9 +246,11 @@ export default function TeamDirectoryPage() {
                       {member.termStartDate ? calculateExactDuration(member.termStartDate, member.termEndDate) : '-'}
                     </td>
                     <td className="px-6 py-4 hidden sm:table-cell">
-                      <Badge tone={member.isActive ? 'success' : 'neutral'} icon={member.isActive ? CheckCircle2 : XCircle}>
-                        {member.isActive ? 'Active' : 'Inactive'}
-                      </Badge>
+                      <StatusDropdown
+                        value={member.isActive ? 'true' : 'false'}
+                        options={TEAM_STATUS_OPTIONS}
+                        onChangeStatus={(v) => handleStatusChange(member, v)}
+                      />
                     </td>
                     <td className="px-6 py-4 text-steel hidden sm:table-cell">
                       {member.displayOrder || 0}

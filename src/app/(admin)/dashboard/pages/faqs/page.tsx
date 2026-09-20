@@ -7,8 +7,13 @@ import api from '@/lib/api';
 import DeleteModal from '@/components/delete-modal';
 import CreateButton from '@/components/create-button';
 import PageHeader from '@/components/page-header';
-import { Badge } from '@/components/ui/badge';
+import { StatusDropdown, type StatusOption } from '@/components/ui/status-dropdown';
 import toast from 'react-hot-toast';
+
+const FAQ_STATUS_OPTIONS: StatusOption[] = [
+  { value: 'PUBLISHED', label: 'Published', tone: 'success' },
+  { value: 'DRAFT', label: 'Draft', tone: 'warning' },
+];
 
 interface Faq {
   id: string;
@@ -65,6 +70,21 @@ export default function FaqsListPage() {
     } finally {
       setDeleteModalOpen(false);
       setFaqToDelete(null);
+    }
+  };
+
+  const handleStatusChange = async (faq: Faq, newStatus: string) => {
+    try {
+      await api.put(`/api/v1/admin/faqs/${faq.id}`, {
+        question: faq.question,
+        answer: faq.answer,
+        displayOrder: faq.displayOrder,
+        status: newStatus,
+      });
+      setFaqs((prev) => prev.map((f) => (f.id === faq.id ? { ...f, status: newStatus } : f)));
+      toast.success(`Status changed to ${newStatus.toLowerCase()}`);
+    } catch (err: any) {
+      toast.error(err?.response?.data?.message || 'Failed to update status');
     }
   };
 
@@ -127,16 +147,21 @@ export default function FaqsListPage() {
                       <div className="text-xs text-muted font-normal truncate mt-1" title={faq.answer}>{faq.answer}</div>
                       {/* Mobile Data Stack */}
                       <div className="mt-2 flex items-center gap-3 sm:hidden font-normal">
-                        <Badge tone={faq.status === 'PUBLISHED' ? 'success' : 'neutral'} icon={faq.status === 'PUBLISHED' ? Eye : EyeOff} size="sm">
-                          {faq.status}
-                        </Badge>
+                        <StatusDropdown
+                          value={faq.status}
+                          options={FAQ_STATUS_OPTIONS}
+                          onChangeStatus={(v) => handleStatusChange(faq, v)}
+                          size="sm"
+                        />
                         <span className="text-[11px] text-muted">Order: {faq.displayOrder}</span>
                       </div>
                     </td>
                     <td className="px-6 py-4 hidden sm:table-cell">
-                      <Badge tone={faq.status === 'PUBLISHED' ? 'success' : 'neutral'} icon={faq.status === 'PUBLISHED' ? Eye : EyeOff}>
-                        {faq.status}
-                      </Badge>
+                      <StatusDropdown
+                        value={faq.status}
+                        options={FAQ_STATUS_OPTIONS}
+                        onChangeStatus={(v) => handleStatusChange(faq, v)}
+                      />
                     </td>
                     <td className="px-6 py-4 text-steel hidden sm:table-cell">
                       {faq.displayOrder}

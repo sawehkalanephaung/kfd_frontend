@@ -10,11 +10,14 @@ import DeleteModal from '@/components/delete-modal';
 import CreateButton from '@/components/create-button';
 import PageHeader from '@/components/page-header';
 import { CustomSelect } from '@/components/ui/custom-select';
-import { Badge, type BadgeTone } from '@/components/ui/badge';
+import { StatusDropdown, type StatusOption } from '@/components/ui/status-dropdown';
 import { Pagination } from '@/components/ui/pagination';
 
-const STATUS_TONE: Record<string, BadgeTone> = { PUBLISHED: 'success', DRAFT: 'warning', ARCHIVED: 'neutral' };
-const STATUS_ICON = { PUBLISHED: Eye, DRAFT: EyeOff, ARCHIVED: Archive } as const;
+const PUB_STATUS_OPTIONS: StatusOption[] = [
+  { value: 'PUBLISHED', label: 'Published', tone: 'success' },
+  { value: 'DRAFT', label: 'Draft', tone: 'warning' },
+  { value: 'ARCHIVED', label: 'Archived', tone: 'neutral' },
+];
 
 interface Publication {
   id: string;
@@ -97,6 +100,18 @@ export default function PublicationsListPage() {
       setCategories(res.data?.data || res.data || []);
     } catch (err) {
       console.error('Failed to load categories');
+    }
+  };
+
+  const handleStatusChange = async (publication: Publication, newStatus: string) => {
+    try {
+      const res = await api.get(`/api/v1/admin/cms/publications/${publication.id}`);
+      const fullPub = res.data?.data || res.data;
+      await api.put(`/api/v1/admin/cms/publications/${publication.id}`, { ...fullPub, status: newStatus });
+      setPublications((prev) => prev.map((p) => (p.id === publication.id ? { ...p, status: newStatus } : p)));
+      toast.success(`Status changed to ${newStatus.toLowerCase()}`);
+    } catch (err: any) {
+      toast.error(err?.response?.data?.message || 'Failed to update status');
     }
   };
 
@@ -243,9 +258,12 @@ export default function PublicationsListPage() {
                             {publication.category.name}
                           </span>
                         ) : null}
-                        <Badge tone={STATUS_TONE[publication.status]} icon={STATUS_ICON[publication.status as keyof typeof STATUS_ICON]} size="sm">
-                          {publication.status}
-                        </Badge>
+                        <StatusDropdown
+                          value={publication.status}
+                          options={PUB_STATUS_OPTIONS}
+                          onChangeStatus={(v) => handleStatusChange(publication, v)}
+                          size="sm"
+                        />
                       </div>
                     </td>
                     <td className="px-6 py-4 hidden sm:table-cell">
@@ -259,9 +277,11 @@ export default function PublicationsListPage() {
                       )}
                     </td>
                     <td className="px-6 py-4 hidden sm:table-cell">
-                      <Badge tone={STATUS_TONE[publication.status]} icon={STATUS_ICON[publication.status as keyof typeof STATUS_ICON]}>
-                        {publication.status}
-                      </Badge>
+                      <StatusDropdown
+                        value={publication.status}
+                        options={PUB_STATUS_OPTIONS}
+                        onChangeStatus={(v) => handleStatusChange(publication, v)}
+                      />
                     </td>
                     <td className="px-6 py-4 text-steel text-sm hidden md:table-cell">
                       <div className="flex items-center gap-1.5">

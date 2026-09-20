@@ -7,6 +7,20 @@ import toast from 'react-hot-toast';
 import DeleteModal from '@/components/delete-modal';
 import { CustomSelect } from '@/components/ui/custom-select';
 import { Button } from '@/components/ui/button';
+import { StatusDropdown, type StatusOption } from '@/components/ui/status-dropdown';
+
+const SOCIAL_STATUS_OPTIONS: StatusOption[] = [
+  { value: 'true', label: 'Active', tone: 'success' },
+  { value: 'false', label: 'Inactive', tone: 'neutral' },
+];
+
+export interface SocialMediaLink {
+  id: string;
+  platformName: string;
+  url: string;
+  displayOrder: number;
+  isActive: boolean;
+}
 
 const PLATFORMS = ['FACEBOOK', 'TWITTER', 'INSTAGRAM', 'YOUTUBE', 'LINKEDIN', 'TIKTOK', 'OTHER'];
 
@@ -67,6 +81,17 @@ export default function SocialMediaManager() {
     } catch (err) {
       console.error(err);
       toast.error('Failed to delete link.');
+    }
+  };
+
+  const handleStatusChange = async (link: SocialMediaLink, newValue: string) => {
+    const isActive = newValue === 'true';
+    try {
+      await api.put(`/api/v1/admin/social-media/${link.id}`, { ...link, isActive });
+      setLinks((prev) => prev.map((l) => (l.id === link.id ? { ...l, isActive } : l)));
+      toast.success(`Status changed to ${isActive ? 'active' : 'inactive'}`);
+    } catch (err: any) {
+      toast.error(err?.response?.data?.message || 'Failed to update status');
     }
   };
 
@@ -210,15 +235,11 @@ export default function SocialMediaManager() {
                     </td>
                     <td className="px-4 py-4 text-center">{link.displayOrder}</td>
                     <td className="px-4 py-4 text-center">
-                      {link.isActive ? (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-brand-green-soft text-brand-green-dark">
-                          <Check className="w-3 h-3" /> Active
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-surface text-steel">
-                          <X className="w-3 h-3" /> Inactive
-                        </span>
-                      )}
+                      <StatusDropdown
+                        value={link.isActive ? 'true' : 'false'}
+                        options={SOCIAL_STATUS_OPTIONS}
+                        onChangeStatus={(v) => handleStatusChange(link, v)}
+                      />
                     </td>
                     <td className="px-4 py-4 text-right">
                       <button onClick={() => handleEdit(link)} aria-label={`Edit ${link.platformName}`} className="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors mr-1">

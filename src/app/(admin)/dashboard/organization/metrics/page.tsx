@@ -2,13 +2,18 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Plus, Edit, Trash2, BarChart2, Loader2, Eye, EyeOff } from 'lucide-react';
+import { BarChart2, Plus, Edit, Trash2, Loader2, CheckCircle2, XCircle, Eye, EyeOff } from 'lucide-react';
 import api from '@/lib/api';
 import DeleteModal from '@/components/delete-modal';
 import CreateButton from '@/components/create-button';
 import PageHeader from '@/components/page-header';
-import { Badge } from '@/components/ui/badge';
+import { StatusDropdown, type StatusOption } from '@/components/ui/status-dropdown';
 import toast from 'react-hot-toast';
+
+const METRIC_STATUS_OPTIONS: StatusOption[] = [
+  { value: 'true', label: 'Active', tone: 'success' },
+  { value: 'false', label: 'Hidden', tone: 'neutral' },
+];
 
 interface GlobalMetric {
   id: string;
@@ -65,6 +70,19 @@ export default function GlobalMetricsPage() {
     } finally {
       setDeleteModalOpen(false);
       setMetricToDelete(null);
+    }
+  };
+
+  const handleStatusChange = async (metric: any, newValue: string) => {
+    const isActive = newValue === 'true';
+    try {
+      const res = await api.get(`/api/v1/admin/metrics/${metric.id}`);
+      const fullMetric = res.data?.data || res.data;
+      await api.put(`/api/v1/admin/metrics/${metric.id}`, { ...fullMetric, isActive });
+      setMetrics((prev) => prev.map((m) => (m.id === metric.id ? { ...m, isActive } : m)));
+      toast.success(`Status changed to ${isActive ? 'active' : 'hidden'}`);
+    } catch (err: any) {
+      toast.error(err?.response?.data?.message || 'Failed to update status');
     }
   };
 
@@ -129,9 +147,12 @@ export default function GlobalMetricsPage() {
                       {/* Mobile Data Stack */}
                       <div className="mt-1 flex flex-col gap-1.5 sm:hidden font-normal">
                         <div className="flex flex-wrap items-center gap-2">
-                          <Badge tone={metric.isActive ? 'success' : 'neutral'} icon={metric.isActive ? Eye : EyeOff} size="sm">
-                            {metric.isActive ? 'Active' : 'Hidden'}
-                          </Badge>
+                          <StatusDropdown
+                            value={metric.isActive ? 'true' : 'false'}
+                            options={METRIC_STATUS_OPTIONS}
+                            onChangeStatus={(v) => handleStatusChange(metric, v)}
+                            size="sm"
+                          />
                           <span className="text-[11px] text-steel">Order: {metric.displayOrder}</span>
                         </div>
                       </div>
@@ -140,9 +161,11 @@ export default function GlobalMetricsPage() {
                       {metric.metricValue}
                     </td>
                     <td className="px-6 py-4 hidden sm:table-cell">
-                      <Badge tone={metric.isActive ? 'success' : 'neutral'} icon={metric.isActive ? Eye : EyeOff}>
-                        {metric.isActive ? 'Active' : 'Hidden'}
-                      </Badge>
+                      <StatusDropdown
+                        value={metric.isActive ? 'true' : 'false'}
+                        options={METRIC_STATUS_OPTIONS}
+                        onChangeStatus={(v) => handleStatusChange(metric, v)}
+                      />
                     </td>
                     <td className="px-6 py-4 text-steel hidden sm:table-cell">
                       {metric.displayOrder}

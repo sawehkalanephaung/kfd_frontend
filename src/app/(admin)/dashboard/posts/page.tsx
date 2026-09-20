@@ -10,11 +10,14 @@ import DeleteModal from '@/components/delete-modal';
 import CreateButton from '@/components/create-button';
 import PageHeader from '@/components/page-header';
 import { CustomSelect } from '@/components/ui/custom-select';
-import { Badge, type BadgeTone } from '@/components/ui/badge';
+import { StatusDropdown, type StatusOption } from '@/components/ui/status-dropdown';
 import { Pagination } from '@/components/ui/pagination';
 
-const STATUS_TONE: Record<string, BadgeTone> = { PUBLISHED: 'success', DRAFT: 'warning', ARCHIVED: 'neutral' };
-const STATUS_ICON = { PUBLISHED: Eye, DRAFT: EyeOff, ARCHIVED: Archive } as const;
+const POST_STATUS_OPTIONS: StatusOption[] = [
+  { value: 'PUBLISHED', label: 'Published', tone: 'success' },
+  { value: 'DRAFT', label: 'Draft', tone: 'warning' },
+  { value: 'ARCHIVED', label: 'Archived', tone: 'neutral' },
+];
 
 interface Post {
   id: string;
@@ -106,6 +109,18 @@ export default function PostsListPage() {
     } finally {
       setDeleteModalOpen(false);
       setPostToDelete(null);
+    }
+  };
+
+  const handleStatusChange = async (post: Post, newStatus: string) => {
+    try {
+      const res = await api.get(`/api/v1/admin/cms/posts/${post.id}`);
+      const fullPost = res.data?.data || res.data;
+      await api.put(`/api/v1/admin/cms/posts/${post.id}`, { ...fullPost, status: newStatus });
+      setPosts((prev) => prev.map((p) => (p.id === post.id ? { ...p, status: newStatus } : p)));
+      toast.success(`Status changed to ${newStatus.toLowerCase()}`);
+    } catch (err: any) {
+      toast.error(err?.response?.data?.message || 'Failed to update status');
     }
   };
 
@@ -246,9 +261,12 @@ export default function PostsListPage() {
                             {post.category.name}
                           </span>
                         ) : null}
-                        <Badge tone={STATUS_TONE[post.status]} icon={STATUS_ICON[post.status as keyof typeof STATUS_ICON]} size="sm">
-                          {post.status}
-                        </Badge>
+                        <StatusDropdown
+                          value={post.status}
+                          options={POST_STATUS_OPTIONS}
+                          onChangeStatus={(v) => handleStatusChange(post, v)}
+                          size="sm"
+                        />
                       </div>
                     </td>
                     <td className="px-6 py-4 hidden sm:table-cell">
@@ -262,9 +280,11 @@ export default function PostsListPage() {
                       )}
                     </td>
                     <td className="px-6 py-4 hidden sm:table-cell">
-                      <Badge tone={STATUS_TONE[post.status]} icon={STATUS_ICON[post.status as keyof typeof STATUS_ICON]}>
-                        {post.status}
-                      </Badge>
+                      <StatusDropdown
+                        value={post.status}
+                        options={POST_STATUS_OPTIONS}
+                        onChangeStatus={(v) => handleStatusChange(post, v)}
+                      />
                     </td>
                     <td className="px-6 py-4 text-steel text-sm hidden md:table-cell">
                       <div className="flex items-center gap-1.5">

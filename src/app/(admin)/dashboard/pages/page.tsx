@@ -2,13 +2,20 @@
 
 import React, { useEffect, useState, useMemo } from 'react';
 import Link from 'next/link';
-import { Plus, Edit, Trash2, FileText, Search } from 'lucide-react';
+import { Plus, Edit, Trash2, FileText, Search, Eye } from 'lucide-react';
 import api from '@/lib/api';
 import DeleteModal from '@/components/delete-modal';
 import CreateButton from '@/components/create-button';
 import PageHeader from '@/components/page-header';
 import { Pagination } from '@/components/ui/pagination';
+import { StatusDropdown, type StatusOption } from '@/components/ui/status-dropdown';
 import toast from 'react-hot-toast';
+
+const PAGE_STATUS_OPTIONS: StatusOption[] = [
+  { value: 'PUBLISHED', label: 'Published', tone: 'success' },
+  { value: 'DRAFT', label: 'Draft', tone: 'warning' },
+  { value: 'ARCHIVED', label: 'Archived', tone: 'neutral' },
+];
 
 interface Page {
   id: string;
@@ -64,6 +71,18 @@ export default function PagesListPage() {
       setDeleteModalOpen(false);
     } catch (error) {
       toast.error('Failed to delete page');
+    }
+  };
+
+  const handleStatusChange = async (pageItem: Page, newStatus: string) => {
+    try {
+      const res = await api.get(`/api/v1/admin/pages/${pageItem.id}`);
+      const fullPage = res.data?.data || res.data;
+      await api.put(`/api/v1/admin/pages/${pageItem.id}`, { ...fullPage, status: newStatus });
+      setPages((prev) => prev.map((p) => (p.id === pageItem.id ? { ...p, status: newStatus } : p)));
+      toast.success(`Status changed to ${newStatus.toLowerCase()}`);
+    } catch (err: any) {
+      toast.error(err?.response?.data?.message || 'Failed to update status');
     }
   };
 
@@ -169,25 +188,20 @@ export default function PagesListPage() {
                       <div className="text-xs text-muted mt-0.5 hidden sm:block">/{page.slug}</div>
                       {/* Mobile Data Stack */}
                       <div className="mt-2 flex items-center gap-3 sm:hidden">
-                        <span className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium ${page.status === 'PUBLISHED'
-                            ? 'bg-brand-green-soft text-brand-green-dark border border-brand-green/20'
-                            : page.status === 'DRAFT'
-                              ? 'bg-amber-50 text-amber-700 border border-amber-200'
-                              : 'bg-surface text-slate border border-hairline-strong'
-                          }`}>
-                          {page.status}
-                        </span>
+                        <StatusDropdown
+                          value={page.status}
+                          options={PAGE_STATUS_OPTIONS}
+                          onChangeStatus={(v) => handleStatusChange(page, v)}
+                          size="sm"
+                        />
                       </div>
                     </td>
                     <td className="px-6 py-4 hidden sm:table-cell">
-                      <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${page.status === 'PUBLISHED'
-                          ? 'bg-brand-green-soft text-brand-green-dark border border-brand-green/20'
-                          : page.status === 'DRAFT'
-                            ? 'bg-amber-50 text-amber-700 border border-amber-200'
-                            : 'bg-surface text-slate border border-hairline-strong'
-                        }`}>
-                        {page.status}
-                      </span>
+                      <StatusDropdown
+                        value={page.status}
+                        options={PAGE_STATUS_OPTIONS}
+                        onChangeStatus={(v) => handleStatusChange(page, v)}
+                      />
                     </td>
                     <td className="px-6 py-4 text-steel text-sm hidden sm:table-cell">
                       {page.updatedAt ? new Date(page.updatedAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : '-'}
