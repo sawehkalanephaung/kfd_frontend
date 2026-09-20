@@ -19,7 +19,7 @@
      Gov Dark Green (Accessible): #0F8B43
      Charcoal (Light Black):      #1F2937
      Pure White:                  #FFFFFF */
-  --color-brand-green: #01ED65;
+  --color-brand-green: #0F8B43;
   --color-brand-green-dark: #0F8B43;
   --color-brand-green-mid: #0F8B43;
   --color-brand-green-soft: #c3f0d2;
@@ -275,13 +275,14 @@ body {
 /* ─────────────────────────────────────────────
    Global Form Input Focus Animations
    ───────────────────────────────────────────── */
-input:not([type="checkbox"]):not([type="radio"]), 
-textarea, 
+input:not([type="checkbox"]):not([type="radio"]),
+textarea,
 select {
   transition: all 0.3s ease;
 }
-input:not([type="checkbox"]):not([type="radio"]):focus, 
-textarea:focus, 
+
+input:not([type="checkbox"]):not([type="radio"]):focus,
+textarea:focus,
 select:focus {
   box-shadow: 0 0 0 4px rgba(0, 237, 100, 0.15) !important;
   border-color: var(--color-brand-green) !important;
@@ -292,18 +293,34 @@ select:focus {
    Notification dropdown animation
    ───────────────────────────────────────────── */
 @keyframes slideDown {
-  from { opacity: 0; transform: translateY(-8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ─────────────────────────────────────────────
    Gradient Background Animation
    ───────────────────────────────────────────── */
 @keyframes gradient-x {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
+
 .animate-gradient-x {
   animation: gradient-x 15s ease infinite;
   background-size: 200% 200%;
@@ -353,6 +370,7 @@ select {
         opacity: 0.1;
         transform: translateY(60px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
@@ -364,13 +382,13 @@ select {
       opacity: 1;
       transform: none;
       transition: none;
-      
+
       animation: reveal-fade-up auto linear forwards;
       animation-timeline: view(block);
       /* Start when element enters, finish when element is 20% into the viewport */
       animation-range: entry 5% cover 15%;
     }
-    
+
     /* Ensure fallback classes don't break native animations if JS ran before CSS applied */
     .scroll-reveal.reveal-hidden,
     .scroll-reveal.reveal-visible {
@@ -472,15 +490,25 @@ select {
 /* Toolbar glyphs are inline SVG strokes/fills, not text, so they need their own
    mapping to stay visible on the dark toolbar. */
 .ql-snow.ql-snow .ql-stroke,
-.ql-snow.ql-snow .ql-stroke-miter { stroke: var(--color-steel); }
+.ql-snow.ql-snow .ql-stroke-miter {
+  stroke: var(--color-steel);
+}
+
 .ql-snow.ql-snow .ql-fill,
-.ql-snow.ql-snow .ql-stroke.ql-fill { fill: var(--color-steel); }
+.ql-snow.ql-snow .ql-stroke.ql-fill {
+  fill: var(--color-steel);
+}
+
 .ql-snow.ql-snow .ql-picker,
-.ql-snow.ql-snow .ql-picker-label { color: var(--color-steel); }
+.ql-snow.ql-snow .ql-picker-label {
+  color: var(--color-steel);
+}
+
 .ql-snow.ql-snow .ql-picker-options {
   background: var(--color-canvas);
   border-color: var(--color-hairline-strong);
 }
+
 .ql-snow.ql-snow .ql-picker.ql-expanded .ql-picker-label {
   border-color: var(--color-hairline-strong);
 }
@@ -490,14 +518,22 @@ select {
 .ql-snow.ql-snow.ql-toolbar button:focus .ql-stroke,
 .ql-snow.ql-snow.ql-toolbar button.ql-active .ql-stroke,
 .ql-snow.ql-snow.ql-toolbar button:hover .ql-stroke-miter,
-.ql-snow.ql-snow.ql-toolbar button.ql-active .ql-stroke-miter { stroke: var(--color-brand-green-dark); }
+.ql-snow.ql-snow.ql-toolbar button.ql-active .ql-stroke-miter {
+  stroke: var(--color-brand-green-dark);
+}
+
 .ql-snow.ql-snow.ql-toolbar button:hover .ql-fill,
 .ql-snow.ql-snow.ql-toolbar button:focus .ql-fill,
-.ql-snow.ql-snow.ql-toolbar button.ql-active .ql-fill { fill: var(--color-brand-green-dark); }
+.ql-snow.ql-snow.ql-toolbar button.ql-active .ql-fill {
+  fill: var(--color-brand-green-dark);
+}
+
 .ql-snow.ql-snow.ql-toolbar .ql-picker-label:hover,
 .ql-snow.ql-snow.ql-toolbar .ql-picker-label.ql-active,
 .ql-snow.ql-snow.ql-toolbar .ql-picker-item:hover,
-.ql-snow.ql-snow.ql-toolbar .ql-picker-item.ql-selected { color: var(--color-brand-green-dark); }
+.ql-snow.ql-snow.ql-toolbar .ql-picker-item.ql-selected {
+  color: var(--color-brand-green-dark);
+}
 
 /* The link tooltip is its own floating card. */
 .ql-snow.ql-snow .ql-tooltip {
@@ -506,6 +542,7 @@ select {
   color: var(--color-ink);
   box-shadow: var(--shadow-card);
 }
+
 .ql-snow.ql-snow .ql-tooltip input[type=text] {
   background: var(--color-canvas);
   border-color: var(--color-hairline-strong);
@@ -528,9 +565,12 @@ select {
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
 .scrollbar-hide {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 /* ─────────────────────────────────────────────
@@ -543,6 +583,7 @@ select {
   transition: all 200ms ease-in-out;
   text-decoration: none;
 }
+
 .interactive-link:hover,
 .interactive-link:focus-visible {
   color: var(--color-interactive-hover);
@@ -556,6 +597,7 @@ select {
   transition: all 200ms ease-in-out;
   text-decoration: none;
 }
+
 .interactive-link-dark:hover,
 .interactive-link-dark:focus-visible {
   color: #01ED65;
@@ -569,6 +611,7 @@ select {
 .dropdown-row-hover {
   transition: all 200ms ease-in-out;
 }
+
 .dropdown-row-hover:hover {
   background-color: var(--color-dropdown-hover);
 }
