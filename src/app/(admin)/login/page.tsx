@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useId, useState, useEffect } from 'react';
+import React, { useId, useRef, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Mail, Lock, Eye, EyeOff, ShieldCheck, Loader2, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import api, { getMediaUrl } from '@/lib/api';
 import { Button } from '@/components/ui/button';
+import { validateLoginFields, hasLoginFieldErrors, getLoginErrorMessage, type LoginFieldErrors } from '@/lib/auth-validation';
 
 export default function AdminLogin() {
   const router = useRouter();
@@ -15,12 +16,13 @@ export default function AdminLogin() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
+  const [fieldErrors, setFieldErrors] = useState<LoginFieldErrors>({});
   const emailId = useId();
   const passwordId = useId();
   const emailErrorId = useId();
   const passwordErrorId = useId();
+  const emailInputRef = useRef<HTMLInputElement>(null);
+  const passwordInputRef = useRef<HTMLInputElement>(null);
 
   // Identity data from API
   const [identity, setIdentity] = useState<{
@@ -58,48 +60,33 @@ export default function AdminLogin() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    setEmailError('');
-    setPasswordError('');
 
-    let isValid = true;
+    const validationErrors = validateLoginFields({ email, password });
+    setFieldErrors(validationErrors);
 
-    // Client-side Validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!email) {
-      setEmailError('Email address is required.');
-      isValid = false;
-    } else if (!emailRegex.test(email)) {
-      setEmailError('Please enter a valid email address.');
-      isValid = false;
+    if (hasLoginFieldErrors(validationErrors)) {
+      // Move focus to the first invalid field so keyboard/screen-reader
+      // users land directly on what needs fixing instead of re-scanning the form.
+      if (validationErrors.email) {
+        emailInputRef.current?.focus();
+      } else if (validationErrors.password) {
+        passwordInputRef.current?.focus();
+      }
+      return;
     }
-
-    if (!password) {
-      setPasswordError('Password is required.');
-      isValid = false;
-    } else if (password.length < 6) {
-      setPasswordError('Password must be at least 6 characters long.');
-      isValid = false;
-    }
-
-    if (!isValid) return;
 
     setLoading(true);
 
     try {
-      const response = await api.post('/api/v1/auth/login', { email, password });
+      const response = await api.post('/api/v1/auth/login', { email: email.trim(), password });
       const { token, firstName, lastName, roles } = response.data.data;
 
       localStorage.setItem('token', token);
       localStorage.setItem('kfd_user', JSON.stringify({ firstName, lastName, roles }));
       router.push('/dashboard');
-    } catch (err: any) {
-      if (err.code === 'ERR_NETWORK' || !err.response) {
-        setError('Unable to connect to the server. The backend may be down or offline.');
-      } else if (err.response.status >= 500) {
-        setError('The server encountered an internal error. Please try again later.');
-      } else {
-        setError(err.response?.data?.message || 'Invalid email or password.');
-      }
+    } catch (err) {
+      setError(getLoginErrorMessage(err));
+      passwordInputRef.current?.focus();
     } finally {
       setLoading(false);
     }
@@ -171,21 +158,22 @@ export default function AdminLogin() {
               <label htmlFor={emailId} className="block text-sm font-bold text-[#0A1A10]">Email address</label>
               <div className="relative">
                 <input
+                  ref={emailInputRef}
                   id={emailId}
                   type="email"
                   value={email}
                   onChange={(e) => {
                     setEmail(e.target.value);
-                    if (emailError) setEmailError('');
+                    if (fieldErrors.email) setFieldErrors((prev) => ({ ...prev, email: undefined }));
                     if (error) setError('');
                   }}
-                  aria-invalid={!!emailError}
-                  aria-describedby={emailError ? emailErrorId : undefined}
-                  className={`w-full bg-white border rounded-lg px-4 py-3.5 text-ink placeholder:text-[#A3AAA4] focus:outline-none focus:ring-2 focus:ring-[#1F5132]/20 focus:border-[#1F5132] transition-colors ${emailError ? 'border-red-500' : 'border-[#C9CEC8]'}`}
+                  aria-invalid={!!fieldErrors.email}
+                  aria-describedby={fieldErrors.email ? emailErrorId : undefined}
+                  className={`w-full bg-white border rounded-lg px-4 py-3.5 text-ink placeholder:text-[#A3AAA4] focus:outline-none focus:ring-2 focus:ring-[#1F5132]/20 focus:border-[#1F5132] transition-colors ${fieldErrors.email ? 'border-red-500' : 'border-[#C9CEC8]'}`}
                   placeholder="name@kfd.org"
                 />
               </div>
-              {emailError && <p id={emailErrorId} role="alert" className="text-red-600 text-xs font-medium animate-in slide-in-from-top-1">{emailError}</p>}
+              {fieldErrors.email && <p id={emailErrorId} role="alert" className="text-red-600 text-xs font-medium animate-in slide-in-from-top-1">{fieldErrors.email}</p>}
             </div>
 
             {/* Password Field */}
@@ -193,17 +181,18 @@ export default function AdminLogin() {
               <label htmlFor={passwordId} className="block text-sm font-bold text-[#0A1A10]">Password</label>
               <div className="relative">
                 <input
+                  ref={passwordInputRef}
                   id={passwordId}
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => {
                     setPassword(e.target.value);
-                    if (passwordError) setPasswordError('');
+                    if (fieldErrors.password) setFieldErrors((prev) => ({ ...prev, password: undefined }));
                     if (error) setError('');
                   }}
-                  aria-invalid={!!passwordError}
-                  aria-describedby={passwordError ? passwordErrorId : undefined}
-                  className={`w-full bg-white border rounded-lg pl-4 pr-12 py-3.5 text-ink placeholder:text-[#A3AAA4] focus:outline-none focus:ring-2 focus:ring-[#1F5132]/20 focus:border-[#1F5132] transition-colors ${passwordError ? 'border-red-500' : 'border-[#C9CEC8]'}`}
+                  aria-invalid={!!fieldErrors.password}
+                  aria-describedby={fieldErrors.password ? passwordErrorId : undefined}
+                  className={`w-full bg-white border rounded-lg pl-4 pr-12 py-3.5 text-ink placeholder:text-[#A3AAA4] focus:outline-none focus:ring-2 focus:ring-[#1F5132]/20 focus:border-[#1F5132] transition-colors ${fieldErrors.password ? 'border-red-500' : 'border-[#C9CEC8]'}`}
                   placeholder="Enter your password"
                 />
                 <button
@@ -220,7 +209,7 @@ export default function AdminLogin() {
                   )}
                 </button>
               </div>
-              {passwordError && <p id={passwordErrorId} role="alert" className="text-red-600 text-xs font-medium animate-in slide-in-from-top-1">{passwordError}</p>}
+              {fieldErrors.password && <p id={passwordErrorId} role="alert" className="text-red-600 text-xs font-medium animate-in slide-in-from-top-1">{fieldErrors.password}</p>}
             </div>
 
             <div className="flex items-center justify-end pt-1">
