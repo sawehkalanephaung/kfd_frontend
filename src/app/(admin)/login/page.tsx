@@ -1,11 +1,10 @@
 'use client';
 
-import React, { useId, useState } from 'react';
+import React, { useId, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Mail, Lock, Eye, EyeOff, ShieldCheck, Loader2 } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, ShieldCheck, Loader2, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
-import api from '@/lib/api';
-import loginBg from '@/assets/login_bg.png';
+import api, { getMediaUrl } from '@/lib/api';
 import { Button } from '@/components/ui/button';
 
 export default function AdminLogin() {
@@ -22,6 +21,39 @@ export default function AdminLogin() {
   const passwordId = useId();
   const emailErrorId = useId();
   const passwordErrorId = useId();
+
+  // Identity data from API
+  const [identity, setIdentity] = useState<{
+    footerCopyright?: string;
+    organizationName?: string;
+    organizationNameKaren?: string;
+    resolvedLogoUrl?: string;
+  }>({
+    footerCopyright: '© 2026 KFD Organization, All rights reserved, Privacy, Accessibility and Terms of use',
+    organizationName: 'Kawthoolei Forestry Department',
+    organizationNameKaren: 'KAREN NATIONAL UNION',
+    resolvedLogoUrl: '',
+  });
+
+  useEffect(() => {
+    const fetchIdentity = async () => {
+      try {
+        const res = await api.get('/api/v1/public/site-identity');
+        const data = res.data?.data ?? res.data;
+        if (data) {
+          setIdentity(prev => ({
+            footerCopyright: data.footerCopyright || prev.footerCopyright,
+            organizationName: data.organizationName || prev.organizationName,
+            organizationNameKaren: data.organizationNameKaren || prev.organizationNameKaren,
+            resolvedLogoUrl: data.logoUrl ? getMediaUrl(data.logoUrl) : prev.resolvedLogoUrl,
+          }));
+        }
+      } catch (e) {
+        console.error('Failed to load site identity', e);
+      }
+    };
+    fetchIdentity();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -74,50 +106,70 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="relative min-h-screen w-full flex items-center justify-center p-4 overflow-hidden">
-      <style dangerouslySetInnerHTML={{__html: `
-        @keyframes subtle-gradient {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
-        .animate-subtle-gradient {
-          background-size: 400% 400%;
-          animation: subtle-gradient 10s ease infinite;
-        }
-      `}} />
-      <div className="absolute inset-0 z-0 bg-linear-to-r from-green-100 via-teal-50 to-emerald-200 dark:from-forest-900 dark:via-emerald-950 dark:to-[#0a1f16] animate-subtle-gradient" />
-
-      {/* Glassmorphic Login Card */}
-      <div className="relative z-10 w-full max-w-md">
-        <div className="bg-canvas/65 dark:bg-canvas/80 backdrop-blur-2xl border border-white/50 dark:border-white/10 shadow-2xl rounded-2xl p-8 md:p-10">
-
-          <div className="flex flex-col items-center mb-8">
-
-            <h1 className="text-3xl font-bold text-ink dark:text-white tracking-tight font-inter">
-              Login
-            </h1>
-            <p className="text-slate-700 dark:text-slate-300 mt-2 text-center text-sm">
-              Secure access to the administration portal
-            </p>
+    <div className="min-h-screen w-full flex flex-col lg:flex-row overflow-hidden bg-[#F6F7F5]">
+      {/* Left Panel (Dark Green) */}
+      <div className="w-full lg:w-[45%] bg-[#183925] p-6 lg:p-12 xl:p-16 flex flex-col justify-between shrink-0 relative overflow-hidden">
+        {/* Abstract shapes (optional embellishment based on reference) */}
+        <div className="absolute -bottom-[20%] -right-[20%] w-[80%] aspect-square rounded-full border border-white/5 pointer-events-none" />
+        <div className="absolute -bottom-[10%] -right-[10%] w-[60%] aspect-square rounded-full border border-white/5 pointer-events-none" />
+        
+        {/* Top: Logo */}
+        <div className="flex items-center gap-4 relative z-10">
+          <div className="w-12 h-12 rounded-full flex items-center justify-center shrink-0 overflow-hidden">
+            {identity.resolvedLogoUrl ? (
+              <img src={identity.resolvedLogoUrl} alt="Logo" className="w-full h-full object-contain p-1" />
+            ) : (
+             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+               <path d="M4 10L12 4L20 10V20H4V10Z" stroke="#D5B77A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+               <path d="M9 20V12H15V20" stroke="#D5B77A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+             </svg>
+            )}
           </div>
+          <div>
+            <h1 className="text-white font-bold text-lg leading-tight">{identity.organizationName}</h1>
+            <p className="text-[#D5B77A] text-xs font-semibold tracking-wider uppercase">{identity.organizationNameKaren}</p>
+          </div>
+        </div>
+
+        {/* Middle: Title (Hidden on mobile) */}
+        <div className="hidden lg:block relative z-10 mt-20 mb-20">
+          <h2 className="text-4xl xl:text-5xl font-serif text-white leading-tight mb-6">
+            Secure access for<br/>authorized staff
+          </h2>
+          <p className="text-white/80 text-base max-w-sm leading-relaxed">
+            Manage records, services and organizational settings from one protected workspace.
+          </p>
+        </div>
+
+        {/* Bottom: Warning Box (Hidden on mobile) */}
+        <div className="hidden lg:flex relative z-10 p-5 rounded-xl border border-white/20 bg-white/5 items-start gap-4">
+          <ShieldCheck className="w-5 h-5 text-[#D5B77A] shrink-0 mt-0.5" />
+          <p className="text-white/90 text-sm leading-relaxed">
+            This is an official KFD Organization system. Access is restricted to authorized users, and activity may be monitored and logged.
+          </p>
+        </div>
+      </div>
+
+      {/* Right Panel (Light Beige) */}
+      <div className="w-full lg:w-[55%] flex-1 flex flex-col relative px-6 py-12 lg:px-20 lg:py-16">
+        
+        <div className="flex-1 flex flex-col justify-center max-w-[420px] w-full mx-auto lg:mx-0">
+          <h2 className="text-4xl font-serif font-bold text-[#0A1A10] mb-2">Sign in</h2>
+          <p className="text-[#4E5C53] mb-10 text-base">Use your KFD staff account to continue.</p>
 
           {/* Server Error Message */}
           {error && (
-            <div role="alert" className="mb-6 px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-700 text-sm text-center font-medium animate-in fade-in">
+            <div role="alert" className="mb-6 px-4 py-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm font-medium animate-in fade-in">
               {error}
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+          <form onSubmit={handleSubmit} className="space-y-6" noValidate>
 
             {/* Email Field */}
-            <div className="space-y-1.5">
-              <label htmlFor={emailId} className="text-sm font-semibold text-ink dark:text-slate-200 ml-1">Email Address</label>
+            <div className="space-y-2">
+              <label htmlFor={emailId} className="block text-sm font-bold text-[#0A1A10]">Email address</label>
               <div className="relative">
-                <div className="absolute z-10 inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Mail className={`h-5 w-5 ${emailError ? 'text-red-500' : 'text-slate-600 dark:text-slate-400'}`} aria-hidden="true" />
-                </div>
                 <input
                   id={emailId}
                   type="email"
@@ -129,23 +181,17 @@ export default function AdminLogin() {
                   }}
                   aria-invalid={!!emailError}
                   aria-describedby={emailError ? emailErrorId : undefined}
-                  className={`w-full pl-11 pr-4 py-3 bg-canvas/20 border rounded-xl text-ink dark:text-white placeholder:text-slate-500/70 dark:placeholder:text-slate-400/70 focus:outline-none focus:ring-2 focus:border-transparent transition-all backdrop-blur-md ${emailError
-                    ? 'border-red-500/50 focus:ring-red-500'
-                    : 'border-white/40 focus:ring-brand-green'
-                    }`}
-                  placeholder="e.g. name@company.com"
+                  className={`w-full bg-white border rounded-lg px-4 py-3.5 text-ink placeholder:text-[#A3AAA4] focus:outline-none focus:ring-2 focus:ring-[#1F5132]/20 focus:border-[#1F5132] transition-colors ${emailError ? 'border-red-500' : 'border-[#C9CEC8]'}`}
+                  placeholder="name@kfd.org"
                 />
               </div>
-              {emailError && <p id={emailErrorId} role="alert" className="text-red-600 text-xs font-medium ml-1 mt-1 animate-in slide-in-from-top-1">{emailError}</p>}
+              {emailError && <p id={emailErrorId} role="alert" className="text-red-600 text-xs font-medium animate-in slide-in-from-top-1">{emailError}</p>}
             </div>
 
             {/* Password Field */}
-            <div className="space-y-1.5">
-              <label htmlFor={passwordId} className="text-sm font-semibold text-ink dark:text-slate-200 ml-1">Password</label>
+            <div className="space-y-2">
+              <label htmlFor={passwordId} className="block text-sm font-bold text-[#0A1A10]">Password</label>
               <div className="relative">
-                <div className="absolute z-10 inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                  <Lock className={`h-5 w-5 ${passwordError ? 'text-red-500' : 'text-slate-600 dark:text-slate-400'}`} aria-hidden="true" />
-                </div>
                 <input
                   id={passwordId}
                   type={showPassword ? 'text' : 'password'}
@@ -157,10 +203,7 @@ export default function AdminLogin() {
                   }}
                   aria-invalid={!!passwordError}
                   aria-describedby={passwordError ? passwordErrorId : undefined}
-                  className={`w-full pl-11 pr-12 py-3 bg-canvas/20 border rounded-xl text-ink dark:text-white placeholder:text-slate-500/70 dark:placeholder:text-slate-400/70 focus:outline-none focus:ring-2 focus:border-transparent transition-all backdrop-blur-md ${passwordError
-                    ? 'border-red-500/50 focus:ring-red-500'
-                    : 'border-white/40 focus:ring-brand-green'
-                    }`}
+                  className={`w-full bg-white border rounded-lg pl-4 pr-12 py-3.5 text-ink placeholder:text-[#A3AAA4] focus:outline-none focus:ring-2 focus:ring-[#1F5132]/20 focus:border-[#1F5132] transition-colors ${passwordError ? 'border-red-500' : 'border-[#C9CEC8]'}`}
                   placeholder="Enter your password"
                 />
                 <button
@@ -168,7 +211,7 @@ export default function AdminLogin() {
                   onClick={() => setShowPassword(!showPassword)}
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                   aria-pressed={showPassword}
-                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors outline-none focus-visible:ring-2 focus-visible:ring-brand-green rounded"
+                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-[#A3AAA4] hover:text-[#4E5C53] transition-colors outline-none focus-visible:ring-2 focus-visible:ring-brand-green rounded"
                 >
                   {showPassword ? (
                     <EyeOff className="h-5 w-5" aria-hidden="true" />
@@ -177,26 +220,11 @@ export default function AdminLogin() {
                   )}
                 </button>
               </div>
-              {passwordError && <p id={passwordErrorId} role="alert" className="text-red-600 text-xs font-medium ml-1 mt-1 animate-in slide-in-from-top-1">{passwordError}</p>}
+              {passwordError && <p id={passwordErrorId} role="alert" className="text-red-600 text-xs font-medium animate-in slide-in-from-top-1">{passwordError}</p>}
             </div>
 
-            <div className="flex items-center justify-between pt-2">
-              <label className="flex items-center gap-2 cursor-pointer">
-                <div className="relative flex items-center justify-center">
-                  <input
-                    type="checkbox"
-                    className="peer appearance-none w-5 h-5 border border-white/50 rounded-md bg-canvas/20 checked:bg-brand-green checked:border-emerald-500 transition-colors cursor-pointer"
-                  />
-                  <div className="absolute text-white opacity-0 peer-checked:opacity-100 pointer-events-none transition-opacity">
-                    <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  </div>
-                </div>
-                <span className="text-sm text-slate-800 dark:text-slate-200 font-medium select-none">Remember Me</span>
-              </label>
-
-              <a href="/forgot-password" className="text-sm font-semibold text-brand-green-dark dark:text-brand-green hover:text-emerald-900 dark:hover:text-emerald-400 transition-colors">
+            <div className="flex items-center justify-end pt-1">
+              <a href="/forgot-password" className="text-sm font-bold text-[#1F5132] hover:text-[#183925] underline decoration-transparent hover:decoration-[#183925] underline-offset-4 transition-all">
                 Forgot password?
               </a>
             </div>
@@ -204,17 +232,25 @@ export default function AdminLogin() {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full mt-4"
+              className="w-full bg-[#1F5132] hover:bg-[#183925] text-white rounded-lg py-6 text-[15px] font-bold shadow-none transition-colors"
             >
-              {loading && <Loader2 className="w-5 h-5 animate-spin" />}
-              {loading ? 'Signing in...' : 'Sign In to Admin'}
+              {loading && <Loader2 className="w-5 h-5 animate-spin mr-2" />}
+              {loading ? 'Signing in...' : 'Sign in'}
+              {!loading && <ArrowRight className="w-5 h-5 ml-2" />}
             </Button>
           </form>
         </div>
 
-        <div className="mt-6 text-center text-slate-800 dark:text-white/80 text-sm font-medium drop-shadow-md">
-          &copy; {new Date().getFullYear()} KFD Organization. All rights reserved.
+        {/* Footer Area */}
+        <div className="mt-16 border-t border-[#C9CEC8] pt-6 flex flex-col md:flex-row items-center justify-between gap-4 w-full text-[12px] text-[#4E5C53]">
+          <p>{identity.footerCopyright}</p>
+          <div className="flex items-center gap-6 font-medium">
+            <a href="/privacy-policy" className="hover:text-[#183925] underline decoration-transparent hover:decoration-[#183925] underline-offset-2 transition-all">Privacy</a>
+            <a href="/accessibility" className="hover:text-[#183925] underline decoration-transparent hover:decoration-[#183925] underline-offset-2 transition-all">Accessibility</a>
+            <a href="/terms-of-use" className="hover:text-[#183925] underline decoration-transparent hover:decoration-[#183925] underline-offset-2 transition-all">Terms of use</a>
+          </div>
         </div>
+
       </div>
     </div>
   );
