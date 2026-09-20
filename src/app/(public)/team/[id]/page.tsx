@@ -10,15 +10,21 @@ import { notFound } from "next/navigation";
  */
 async function getTeamMember(id: string) {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
-  const res = await fetch(`${baseUrl}/api/v1/public/team-members/${id}`, {
-    cache: 'no-store'
-  });
+  try {
+    const res = await fetch(`${baseUrl}/api/v1/public/team-members/${id}`, {
+      cache: 'no-store'
+    });
 
-  if (res.status === 404) return null;
-  if (!res.ok) throw new Error(`Failed to load Chairman "${id}": ${res.status}`);
+    if (res.status === 404) return null;
+    if (!res.ok) throw new Error(`Failed to load Chairman "${id}": ${res.status}`);
 
-  const data = await res.json();
-  return data?.data || null;
+    const data = await res.json();
+    return data?.data || null;
+  } catch (err) {
+    throw new Error(
+      `Failed to load team member "${id}": backend server unreachable (${err instanceof Error ? err.message : String(err)})`
+    );
+  }
 }
 
 function parseI18nField(val: any): string {

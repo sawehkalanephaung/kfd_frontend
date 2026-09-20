@@ -24,13 +24,19 @@ interface PageProps {
  * any other failure so error.tsx can offer a retry — mirrors (public)/news/[slug].
  */
 async function getPublication(slug: string): Promise<PublicationItem | null> {
-  const res = await fetch(`${API}/api/v1/public/publications/${slug}`, { cache: "no-store" });
+  try {
+    const res = await fetch(`${API}/api/v1/public/publications/${slug}`, { cache: "no-store" });
 
-  if (res.status === 404) return null;
-  if (!res.ok) throw new Error(`Failed to load publication "${slug}": ${res.status}`);
+    if (res.status === 404) return null;
+    if (!res.ok) throw new Error(`Failed to load publication "${slug}": ${res.status}`);
 
-  const json = await res.json();
-  return json.data || null;
+    const json = await res.json();
+    return json.data || null;
+  } catch (err) {
+    throw new Error(
+      `Failed to load publication "${slug}": backend server unreachable (${err instanceof Error ? err.message : String(err)})`
+    );
+  }
 }
 
 // ── Metadata ───────────────────────────────────────────────────

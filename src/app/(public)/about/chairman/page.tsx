@@ -17,13 +17,19 @@ export const metadata: Metadata = {
  */
 async function getTeamMembers() {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
-  const res = await fetch(`${baseUrl}/api/v1/public/team-members`, {
-    cache: 'no-store'
-  });
+  try {
+    const res = await fetch(`${baseUrl}/api/v1/public/team-members`, {
+      cache: 'no-store'
+    });
 
-  if (!res.ok) throw new Error(`Failed to load Chairman: ${res.status}`);
-  const data = await res.json();
-  return data?.data || null;
+    if (!res.ok) throw new Error(`Failed to load Chairman: ${res.status}`);
+    const data = await res.json();
+    return data?.data || null;
+  } catch (err) {
+    throw new Error(
+      `Failed to load team members: backend server unreachable (${err instanceof Error ? err.message : String(err)})`
+    );
+  }
 }
 
 function parseI18nField(val: any): string {

@@ -30,10 +30,16 @@ async function getCategories(): Promise<PublicationCategory[]> {
 
 async function getPublications(): Promise<PublicationItem[]> {
   const params = new URLSearchParams({ page: "0", size: String(FETCH_CEILING) });
-  const res = await fetch(`${API}/api/v1/public/publications?${params}`, { cache: "no-store" });
-  if (!res.ok) throw new Error(`Failed to load publications: ${res.status}`);
-  const json = await res.json();
-  return json.data?.content ?? [];
+  try {
+    const res = await fetch(`${API}/api/v1/public/publications?${params}`, { cache: "no-store" });
+    if (!res.ok) throw new Error(`Failed to load publications: ${res.status}`);
+    const json = await res.json();
+    return json.data?.content ?? [];
+  } catch (err) {
+    throw new Error(
+      `Failed to load publications: backend server unreachable (${err instanceof Error ? err.message : String(err)})`
+    );
+  }
 }
 
 export default async function PublicationsPage() {

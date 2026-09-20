@@ -33,13 +33,19 @@ export const dynamic = "force-dynamic";
  * empty grid that looks identical to "no departments configured."
  */
 async function getDepartments(): Promise<DepartmentData[]> {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"}/api/v1/public/departments`,
-    { cache: "no-store" }
-  );
-  if (!res.ok) throw new Error(`Failed to load departments: ${res.status}`);
-  const json = await res.json();
-  return json.data || [];
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"}/api/v1/public/departments`,
+      { cache: "no-store" }
+    );
+    if (!res.ok) throw new Error(`Failed to load departments: ${res.status}`);
+    const json = await res.json();
+    return json.data || [];
+  } catch (err) {
+    throw new Error(
+      `Failed to load departments: backend server unreachable (${err instanceof Error ? err.message : String(err)})`
+    );
+  }
 }
 
 /** Purely visual theming (icon) by slug — not content, safe to keep static. */

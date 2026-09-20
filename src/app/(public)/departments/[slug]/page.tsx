@@ -40,10 +40,17 @@ export default async function DepartmentPage({ params }: PageProps) {
   // Fetch failures and missing records are different problems and must not be
   // conflated: a network/server error is re-thrown so error.tsx can offer a retry,
   // while a genuinely absent department still renders the 404 page.
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"}/api/v1/public/departments/${slug}`,
-    { cache: "no-store" }
-  );
+  let res: Response;
+  try {
+    res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"}/api/v1/public/departments/${slug}`,
+      { cache: "no-store" }
+    );
+  } catch (err) {
+    throw new Error(
+      `Failed to load department "${slug}": backend server unreachable (${err instanceof Error ? err.message : String(err)})`
+    );
+  }
 
   if (res.status === 404) {
     notFound();

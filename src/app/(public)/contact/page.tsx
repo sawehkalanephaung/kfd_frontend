@@ -21,11 +21,17 @@ export const metadata: Metadata = {
  * not configured yet is a different, non-error case — handled below.
  */
 async function getContactSettings(): Promise<ContactSettings | null> {
-  const res = await fetch(`${API}/api/v1/public/contact-settings`, { cache: "no-store" });
-  if (res.status === 404) return null;
-  if (!res.ok) throw new Error(`Failed to load contact settings: ${res.status}`);
-  const json = await res.json();
-  return json;
+  try {
+    const res = await fetch(`${API}/api/v1/public/contact-settings`, { cache: "no-store" });
+    if (res.status === 404) return null;
+    if (!res.ok) throw new Error(`Failed to load contact settings: ${res.status}`);
+    const json = await res.json();
+    return json;
+  } catch (err) {
+    throw new Error(
+      `Failed to load contact settings: backend server unreachable (${err instanceof Error ? err.message : String(err)})`
+    );
+  }
 }
 
 async function getFaqs(): Promise<Faq[]> {

@@ -39,10 +39,16 @@ async function getPosts(page: number, categorySlug?: string): Promise<PaginatedP
   if (categorySlug) {
     params.set("categorySlug", categorySlug);
   }
-  const res = await fetch(`${API}/api/v1/public/posts?${params}`, { cache: "no-store" });
-  if (!res.ok) throw new Error(`Failed to load posts: ${res.status}`);
-  const json = await res.json();
-  return json.data || null;
+  try {
+    const res = await fetch(`${API}/api/v1/public/posts?${params}`, { cache: "no-store" });
+    if (!res.ok) throw new Error(`Failed to load posts: ${res.status}`);
+    const json = await res.json();
+    return json.data || null;
+  } catch (err) {
+    throw new Error(
+      `Failed to load posts: backend server unreachable (${err instanceof Error ? err.message : String(err)})`
+    );
+  }
 }
 
 // ── Helpers ────────────────────────────────────────────────────

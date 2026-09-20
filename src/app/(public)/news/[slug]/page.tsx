@@ -22,13 +22,19 @@ interface PageProps {
  * tell readers the article was removed when the API was simply unreachable.
  */
 async function getPost(slug: string): Promise<NewsPostDetail | null> {
-  const res = await fetch(`${API}/api/v1/public/posts/${slug}`, { cache: "no-store" });
+  try {
+    const res = await fetch(`${API}/api/v1/public/posts/${slug}`, { cache: "no-store" });
 
-  if (res.status === 404) return null;
-  if (!res.ok) throw new Error(`Failed to load post "${slug}": ${res.status}`);
+    if (res.status === 404) return null;
+    if (!res.ok) throw new Error(`Failed to load post "${slug}": ${res.status}`);
 
-  const json = await res.json();
-  return json.data || null;
+    const json = await res.json();
+    return json.data || null;
+  } catch (err) {
+    throw new Error(
+      `Failed to load post "${slug}": backend server unreachable (${err instanceof Error ? err.message : String(err)})`
+    );
+  }
 }
 
 // ── Metadata ───────────────────────────────────────────────────

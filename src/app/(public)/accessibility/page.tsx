@@ -16,14 +16,20 @@ export const metadata: Metadata = {
  */
 async function getPageData(slug: string) {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
-  const res = await fetch(`${baseUrl}/api/v1/public/pages/${slug}`, {
-    next: { revalidate: 3600 }
-  });
+  try {
+    const res = await fetch(`${baseUrl}/api/v1/public/pages/${slug}`, {
+      next: { revalidate: 3600 }
+    });
 
-  if (res.status === 404) return null;
-  if (!res.ok) throw new Error(`Failed to load page "${slug}": ${res.status}`);
-  const data = await res.json();
-  return data?.data || data || null;
+    if (res.status === 404) return null;
+    if (!res.ok) throw new Error(`Failed to load page "${slug}": ${res.status}`);
+    const data = await res.json();
+    return data?.data || data || null;
+  } catch (err) {
+    throw new Error(
+      `Failed to load page "${slug}": backend server unreachable (${err instanceof Error ? err.message : String(err)})`
+    );
+  }
 }
 
 export default async function AccessibilityPage() {
