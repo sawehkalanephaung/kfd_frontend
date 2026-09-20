@@ -120,13 +120,13 @@ export default function TeamDirectoryPage() {
         <span>&gt;</span>
         <span className="text-steel">Organization</span>
         <span>&gt;</span>
-        <span className="text-ink font-medium">Chairman</span>
+        <span className="text-ink font-medium">Department Head</span>
       </div>
 
       <PageHeader
         icon={Users}
-        title="Chairman"
-        description="Manage KFD's team roster, including the Chairman and department staff profiles."
+        title="Department Head"
+        description="Manage KFD's team roster, including the Department Head and staff profiles."
         action={<CreateButton href="/dashboard/team/create" />}
       />
 
