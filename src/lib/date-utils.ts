@@ -1,47 +1,3 @@
-export function calculateExactDuration(startDate?: string, endDate?: string): string {
-  if (!startDate) return '-';
-
-  const start = new Date(startDate);
-  // If endDate is not provided, use the current date
-  const end = endDate ? new Date(endDate) : new Date();
-
-  if (isNaN(start.getTime()) || isNaN(end.getTime())) {
-    return '-';
-  }
-
-  // Calculate the difference in milliseconds
-  const diff = end.getTime() - start.getTime();
-
-  if (diff < 0) return '-';
-
-  // Constants for time calculations
-  const MS_PER_DAY = 1000 * 60 * 60 * 24;
-  const DAYS_PER_YEAR = 365.25;
-  const DAYS_PER_MONTH = 30.44;
-
-  const totalDays = Math.floor(diff / MS_PER_DAY);
-
-  if (totalDays === 0) return '0 days';
-
-  const years = Math.floor(totalDays / DAYS_PER_YEAR);
-  let remainingDays = totalDays - Math.floor(years * DAYS_PER_YEAR);
-
-  const months = Math.floor(remainingDays / DAYS_PER_MONTH);
-  remainingDays = remainingDays - Math.floor(months * DAYS_PER_MONTH);
-
-  const weeks = Math.floor(remainingDays / 7);
-  const days = remainingDays % 7;
-
-  const parts = [];
-
-  if (years > 0) parts.push(`${years} year${years > 1 ? 's' : ''}`);
-  if (months > 0) parts.push(`${months} month${months > 1 ? 's' : ''}`);
-  if (weeks > 0) parts.push(`${weeks} week${weeks > 1 ? 's' : ''}`);
-  if (days > 0) parts.push(`${days} day${days > 1 ? 's' : ''}`);
-
-  return parts.join(', ') || '-';
-}
-
 export function formatTenureYears(startDate?: string, endDate?: string): string {
   if (!startDate) return '-';
   const start = new Date(startDate);
@@ -58,10 +14,34 @@ export function formatTenureYears(startDate?: string, endDate?: string): string 
   return `${startYear} - ${endYear}`;
 }
 
-// Public-facing long form, e.g. "March 15, 2021" — used for "First Appointed" labels.
-export function formatFullDate(dateStr?: string): string {
+/** Year-only form, e.g. "2021" — used where a full date is more detail than needed. */
+export function formatYear(dateStr?: string): string {
   if (!dateStr) return '-';
   const date = new Date(dateStr);
   if (isNaN(date.getTime())) return '-';
-  return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  return String(date.getFullYear());
+}
+
+/**
+ * Completed years of service between two dates, e.g. "5 years" — defaults
+ * the end date to today for an ongoing tenure. Anniversary-aware: doesn't
+ * count a year until the month/day has actually passed, so Jan 2020 to
+ * Dec 2023 correctly reads "3 years", not "4 years".
+ */
+export function formatYearsOfService(startDate?: string, endDate?: string): string {
+  if (!startDate) return '-';
+  const start = new Date(startDate);
+  if (isNaN(start.getTime())) return '-';
+  const end = endDate ? new Date(endDate) : new Date();
+  if (isNaN(end.getTime())) return '-';
+
+  let years = end.getFullYear() - start.getFullYear();
+  const monthDiff = end.getMonth() - start.getMonth();
+  const dayDiff = end.getDate() - start.getDate();
+  if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+    years -= 1;
+  }
+  years = Math.max(years, 0);
+
+  return `${years} year${years === 1 ? '' : 's'}`;
 }

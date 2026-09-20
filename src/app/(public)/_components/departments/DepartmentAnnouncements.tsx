@@ -3,11 +3,7 @@
 import { DepartmentData } from "../../departments/types";
 import { Calendar, Tag } from "lucide-react";
 import Link from "next/link";
-
-function formatDate(dateStr: string) {
-  if (!dateStr) return "";
-  return new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric" }).format(new Date(dateStr));
-}
+import { formatYear } from "@/lib/date-utils";
 
 export default function DepartmentAnnouncements({ data }: { data: DepartmentData }) {
   // Show only posts in the "Announcement" category and PUBLISHED
@@ -36,7 +32,7 @@ export default function DepartmentAnnouncements({ data }: { data: DepartmentData
             
             <div className="flex items-center gap-2 text-[13px] text-steel font-medium shrink-0 mt-2 sm:mt-0">
               <Calendar size={14} className="text-muted" />
-              {formatDate(post.publishedAt)}
+              {formatYear(post.publishedAt)}
             </div>
           </div>
         ))}

@@ -3,11 +3,7 @@
 import { DepartmentData } from "../../departments/types";
 import { Calendar } from "lucide-react";
 import { getMediaUrl } from "@/lib/api";
-
-function formatDate(dateStr: string) {
-  if (!dateStr) return "";
-  return new Intl.DateTimeFormat("en-US", { month: "long", day: "numeric", year: "numeric" }).format(new Date(dateStr));
-}
+import { formatYear } from "@/lib/date-utils";
 
 export default function DepartmentResources({ data }: { data: DepartmentData }) {
   const resources = data.resources || [];
@@ -37,7 +33,7 @@ export default function DepartmentResources({ data }: { data: DepartmentData }) 
                   
                   <div className="flex items-center gap-2 text-[13px] text-steel font-medium shrink-0 mt-1 sm:mt-0">
                     <Calendar size={14} className="text-muted" />
-                    {formatDate(res.createdAt)}
+                    {formatYear(res.createdAt)}
                   </div>
                 </div>
               ))}

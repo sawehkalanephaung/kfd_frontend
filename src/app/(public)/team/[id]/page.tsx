@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { User, ChevronRight } from "lucide-react";
 import { getMediaUrl } from "@/lib/api";
-import { formatFullDate, formatTenureYears } from "@/lib/date-utils";
+import { formatYear, formatTenureYears } from "@/lib/date-utils";
 import { notFound } from "next/navigation";
 import { fetchPublicResource } from "@/lib/public-fetch";
 
@@ -126,7 +126,7 @@ export default async function TeamMemberProfilePage({ params }: { params: Promis
 
               {member.termStartDate && (
                 <dl className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-6 md:justify-start">
-                  <HeroFact label="First Appointed" value={formatFullDate(member.termStartDate)} />
+                  <HeroFact label="First Appointed" value={formatYear(member.termStartDate)} />
                   <div className="hidden h-10 w-px bg-white/15 sm:block" aria-hidden="true" />
                   <HeroFact
                     label="Tenure Period"

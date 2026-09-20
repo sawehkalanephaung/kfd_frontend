@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { ChevronRight, User } from "lucide-react";
 import { getMediaUrl } from "@/lib/api";
-import { formatFullDate, formatTenureYears } from "@/lib/date-utils";
+import { formatYear, formatYearsOfService } from "@/lib/date-utils";
 import { Reveal } from "@/components/ui/reveal";
 import { fetchPublicResource } from "@/lib/public-fetch";
 
@@ -166,11 +166,11 @@ export default async function ChairmanPage() {
 
               {data.termStartDate && (
                 <dl className="mt-10 flex flex-wrap items-center justify-center gap-x-8 gap-y-6 md:justify-start">
-                  <HeroFact label="First Appointed" value={formatFullDate(data.termStartDate)} />
+                  <HeroFact label="First Appointed" value={formatYear(data.termStartDate)} />
                   <div className="hidden h-10 w-px bg-white/15 sm:block" aria-hidden="true" />
                   <HeroFact
-                    label="Tenure Period"
-                    value={formatTenureYears(data.termStartDate, data.termEndDate)}
+                    label="Years of Service"
+                    value={formatYearsOfService(data.termStartDate, data.termEndDate)}
                   />
                 </dl>
               )}

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { ArrowRight, User } from "lucide-react";
 import { getMediaUrl } from "@/lib/api";
-import { formatFullDate, formatTenureYears } from "@/lib/date-utils";
+import { formatYear, formatTenureYears } from "@/lib/date-utils";
 import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -143,7 +143,7 @@ export default function AboutChairmanSection({ chairmanData }: { chairmanData?: 
               <div className="flex flex-wrap gap-x-8 gap-y-3 mb-6">
                 <div>
                   <span className="block text-[10px] font-bold text-steel uppercase tracking-wider mb-1">First Appointed</span>
-                  <span className="text-sm font-semibold text-[#111] dark:text-white">{formatFullDate(chairman.termStartDate)}</span>
+                  <span className="text-sm font-semibold text-[#111] dark:text-white">{formatYear(chairman.termStartDate)}</span>
                 </div>
                 <div>
                   <span className="block text-[10px] font-bold text-steel uppercase tracking-wider mb-1">Tenure Period</span>

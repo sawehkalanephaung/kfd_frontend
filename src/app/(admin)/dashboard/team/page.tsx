@@ -8,7 +8,7 @@ import DeleteModal from '@/components/delete-modal';
 import CreateButton from '@/components/create-button';
 import PageHeader from '@/components/page-header';
 import toast from 'react-hot-toast';
-import { formatTenureYears, calculateExactDuration } from '@/lib/date-utils';
+import { formatTenureYears, formatYearsOfService } from '@/lib/date-utils';
 import { StatusDropdown, type StatusOption } from '@/components/ui/status-dropdown';
 import { Pagination } from '@/components/ui/pagination';
 
@@ -234,7 +234,7 @@ export default function TeamDirectoryPage() {
                       {member.termStartDate ? formatTenureYears(member.termStartDate, member.termEndDate) : '-'}
                     </td>
                     <td className="px-6 py-4 text-steel hidden sm:table-cell">
-                      {member.termStartDate ? calculateExactDuration(member.termStartDate, member.termEndDate) : '-'}
+                      {member.termStartDate ? formatYearsOfService(member.termStartDate, member.termEndDate) : '-'}
                     </td>
                     <td className="px-6 py-4 hidden sm:table-cell">
                       <StatusDropdown
