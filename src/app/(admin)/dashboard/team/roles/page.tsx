@@ -101,16 +101,7 @@ export default function RolesDirectoryPage() {
 
   return (
     <div>
-      {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm text-muted mb-6">
-        <Link href="/dashboard" className="text-steel hover:text-ink transition-colors">Home</Link>
-        <span>&gt;</span>
-        <Link href="/dashboard/team" className="text-steel hover:text-ink transition-colors">Chairman</Link>
-        <span>&gt;</span>
-        <span className="text-ink font-medium">Roles & Access</span>
-      </div>
-
-      <PageHeader
+<PageHeader
         icon={Shield}
         title="Roles & Access"
         description="Manage system roles, permissions, and access levels."

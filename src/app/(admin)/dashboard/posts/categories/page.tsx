@@ -134,16 +134,7 @@ export default function CategoriesListPage() {
 
   return (
     <div>
-      {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm text-muted mb-6">
-        <Link href="/dashboard" className="text-steel hover:text-ink transition-colors">Home</Link>
-        <span>&gt;</span>
-        <span className="text-steel">Posts &amp; News</span>
-        <span>&gt;</span>
-        <span className="text-ink font-medium">Post Categories</span>
-      </div>
-
-      <PageHeader
+<PageHeader
         icon={FolderTree}
         title="Post Categories"
         description="Organize your posts and news articles into structured topics."

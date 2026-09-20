@@ -110,16 +110,7 @@ export default function PagesListPage() {
 
   return (
     <div>
-      {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm text-muted mb-6">
-        <Link href="/dashboard" className="text-steel hover:text-ink transition-colors">Home</Link>
-        <span>&gt;</span>
-        <span className="text-steel">Pages</span>
-        <span>&gt;</span>
-        <span className="text-ink font-medium">All Pages</span>
-      </div>
-
-      <PageHeader
+<PageHeader
         icon={FileText}
         title="Pages"
         description="Create and edit standalone content pages such as About Us, History, and Legal Policies."

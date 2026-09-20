@@ -127,16 +127,7 @@ export default function PublicationCategoriesListPage() {
 
   return (
     <div>
-      {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm text-muted mb-6">
-        <Link href="/dashboard" className="text-steel hover:text-ink transition-colors">Home</Link>
-        <span>&gt;</span>
-        <span className="text-steel">Publications</span>
-        <span>&gt;</span>
-        <span className="text-ink font-medium">Publication Categories</span>
-      </div>
-
-      <PageHeader
+<PageHeader
         icon={FolderTree}
         title="Publication Categories"
         description="Organize your publications into structured topics."

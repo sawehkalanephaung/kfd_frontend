@@ -167,13 +167,6 @@ export default function DashboardPage() {
 
   return (
     <div>
-      {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm text-muted mb-6">
-        <span className="text-steel">Home</span>
-        <span>&gt;</span>
-        <span className="text-ink font-medium">Dashboard</span>
-      </div>
-
       {/* Welcome Card */}
       <div className="bg-linear-to-r from-brand-green-dark via-brand-green to-teal-deep rounded-xl p-8 shadow-md border border-brand-green overflow-hidden relative animate-gradient-x">
         <div className="relative z-10">

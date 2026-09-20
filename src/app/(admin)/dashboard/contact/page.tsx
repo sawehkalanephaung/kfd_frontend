@@ -36,16 +36,7 @@ export default function ContactSettingsPage() {
 
   return (
     <div>
-      {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm text-muted mb-6">
-        <Link href="/dashboard" className="text-steel hover:text-ink transition-colors">Home</Link>
-        <span>&gt;</span>
-        <span className="text-steel">Organization Management</span>
-        <span>&gt;</span>
-        <span className="text-ink font-medium">Contact Information</span>
-      </div>
-
-      <PageHeader
+<PageHeader
         icon={ContactIcon}
         title="Contact Information"
         description="Manage the organization's physical address, emails, phone numbers, and social media links."

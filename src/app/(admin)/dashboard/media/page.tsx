@@ -134,16 +134,7 @@ export default function MediaLibraryPage() {
 
   return (
     <div>
-      {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm text-muted mb-6">
-        <Link href="/dashboard" className="text-steel hover:text-ink transition-colors">Home</Link>
-        <span>&gt;</span>
-        <span className="text-steel">Media & Resources</span>
-        <span>&gt;</span>
-        <span className="text-ink font-medium">Library</span>
-      </div>
-
-      <PageHeader
+<PageHeader
         icon={Images}
         title="Media Library"
         description="Manage all your uploaded images, videos, and documents."

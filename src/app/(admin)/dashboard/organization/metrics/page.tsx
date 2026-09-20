@@ -88,16 +88,7 @@ export default function GlobalMetricsPage() {
 
   return (
     <div>
-      {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm text-muted mb-6">
-        <Link href="/dashboard" className="text-steel hover:text-ink transition-colors">Home</Link>
-        <span>&gt;</span>
-        <span className="text-steel">Organization</span>
-        <span>&gt;</span>
-        <span className="text-ink font-medium">Statistics Metrics</span>
-      </div>
-
-      <PageHeader
+<PageHeader
         icon={BarChart2}
         title="Statistics Metrics"
         description="Manage the key statistics displayed across your public website."

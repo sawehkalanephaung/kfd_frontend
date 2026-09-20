@@ -137,16 +137,7 @@ export default function PublicationsListPage() {
 
   return (
     <div>
-      {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm text-muted mb-6">
-        <Link href="/dashboard" className="text-steel hover:text-ink transition-colors">Home</Link>
-        <span>&gt;</span>
-        <span className="text-steel">Publications</span>
-        <span>&gt;</span>
-        <span className="text-ink font-medium">All Publications</span>
-      </div>
-
-      <PageHeader
+<PageHeader
         icon={FileText}
         title="Publications"
         description="Manage reports, press releases, and other official publications."
