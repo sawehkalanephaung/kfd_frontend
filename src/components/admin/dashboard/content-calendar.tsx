@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import dayjs from 'dayjs';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Loader2 } from 'lucide-react';
 
 export interface CalendarPost {
   id: string;
@@ -12,9 +12,10 @@ export interface CalendarPost {
 
 interface ContentCalendarProps {
   posts: CalendarPost[];
+  loading?: boolean;
 }
 
-export function ContentCalendar({ posts }: ContentCalendarProps) {
+export function ContentCalendar({ posts, loading = false }: ContentCalendarProps) {
   const [currentDate, setCurrentDate] = useState(dayjs());
   const [selectedDate, setSelectedDate] = useState(dayjs());
 
@@ -72,13 +73,13 @@ export function ContentCalendar({ posts }: ContentCalendarProps) {
   const selectedDayPosts = postsByDate.get(selectedDayKey) || [];
 
   return (
-    <div className="bg-white rounded-xl p-6 shadow-sm border border-hairline-soft flex flex-col h-full min-h-[540px]">
+    <div className="bg-canvas rounded-xl p-6 shadow-sm border border-hairline-soft flex flex-col h-full min-h-[540px]">
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-xl font-bold text-ink">Calendar</h2>
-        <button 
+        <button
           onClick={handleToday}
-          className="px-3 py-1.5 text-sm font-semibold text-[#1F5132] border border-hairline-strong rounded-lg hover:bg-surface-soft transition-colors"
+          className="px-3 py-1.5 text-sm font-semibold text-brand-green-dark border border-hairline-strong rounded-lg hover:bg-surface-soft transition-colors"
         >
           Today
         </button>
@@ -163,7 +164,12 @@ export function ContentCalendar({ posts }: ContentCalendarProps) {
 
       {/* Post List */}
       <div className="flex-1 overflow-y-auto min-h-[100px] scrollbar-hide">
-        {selectedDayPosts.length > 0 && (
+        {loading ? (
+          <div className="flex items-center gap-2 text-sm text-muted">
+            <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
+            Loading activity…
+          </div>
+        ) : selectedDayPosts.length > 0 && (
           <div className="space-y-3">
             {selectedDayPosts.map(post => {
               const postTime = dayjs(post.publishedAt || post.updatedAt).format('h:mm A');

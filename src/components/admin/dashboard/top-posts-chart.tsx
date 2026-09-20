@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { Loader2 } from 'lucide-react';
 
 export interface TopPost {
   id: string;
@@ -9,26 +10,24 @@ export interface TopPost {
 
 interface TopPostsChartProps {
   posts: TopPost[];
+  loading?: boolean;
 }
 
-export function TopPostsChart({ posts }: TopPostsChartProps) {
+export function TopPostsChart({ posts, loading = false }: TopPostsChartProps) {
   const displayPosts = posts.slice(0, 5);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const totalViewsTop5 = displayPosts.reduce((sum, p) => sum + p.views, 0);
   const maxViews = displayPosts.length > 0 ? Math.max(...displayPosts.map((p) => p.views)) : 0;
-  
-  // Calculate Y-axis labels (e.g. 0, max/4, max/2, 3max/4, max)
-  const yAxisTicks = [];
-  const tickCount = 5;
-  if (maxViews <= 4) {
-    for (let i = tickCount - 1; i >= 0; i--) {
-      yAxisTicks.push(i);
-    }
-  } else {
-    for (let i = tickCount - 1; i >= 0; i--) {
-      yAxisTicks.push(Math.round((maxViews / (tickCount - 1)) * i));
-    }
+
+  // Calculate Y-axis labels (e.g. 0, max/4, max/2, 3max/4, max). Below 5
+  // distinct values, use fewer ticks instead of padding the axis past the
+  // real max — that previously showed a fixed "4" ceiling even when the
+  // tallest bar (scaled against the true max) reached 100% at 2 views.
+  const tickCount = maxViews > 0 ? Math.min(5, maxViews + 1) : 1;
+  const yAxisTicks: number[] = [];
+  for (let i = tickCount - 1; i >= 0; i--) {
+    yAxisTicks.push(tickCount === 1 ? 0 : Math.round((maxViews / (tickCount - 1)) * i));
   }
 
   const selectedPost = displayPosts[selectedIndex];
@@ -37,7 +36,7 @@ export function TopPostsChart({ posts }: TopPostsChartProps) {
     : 0;
 
   return (
-    <div className="bg-white rounded-xl p-6 shadow-sm border border-hairline-soft flex flex-col h-full min-h-[540px]">
+    <div className="bg-canvas rounded-xl p-6 shadow-sm border border-hairline-soft flex flex-col h-full min-h-[540px]">
       <div className="flex items-start justify-between mb-8">
         <div>
           <h2 className="text-xl font-bold text-ink">Top viewed posts</h2>
@@ -52,7 +51,12 @@ export function TopPostsChart({ posts }: TopPostsChartProps) {
       </div>
 
       <div className="flex-1 flex flex-col justify-end">
-        {displayPosts.length === 0 ? (
+        {loading ? (
+          <div className="flex-1 flex items-center justify-center text-muted text-sm">
+            <Loader2 className="w-4 h-4 animate-spin mr-2" aria-hidden="true" />
+            Loading views…
+          </div>
+        ) : displayPosts.length === 0 ? (
           <div className="flex-1 flex items-center justify-center text-muted text-sm">
             No views data available.
           </div>
@@ -125,7 +129,7 @@ export function TopPostsChart({ posts }: TopPostsChartProps) {
       </div>
 
       {/* Summary Box */}
-      <div className="mt-16 bg-[#F6F7F5] rounded-[12px] p-4 flex items-center justify-between">
+      <div className="mt-16 bg-surface-soft rounded-[12px] p-4 flex items-center justify-between">
         <div className="font-semibold text-sm text-ink truncate pr-4">
           {selectedPost?.title || 'No post selected'}
         </div>

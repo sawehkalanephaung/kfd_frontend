@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 import { Plus, Edit, Trash2, FileText, Loader2, Eye, EyeOff, Archive, CalendarDays, FolderTree, Search, Filter, Download } from 'lucide-react';
 
 import api from '@/lib/api';
+import { updatePublicationStatus } from '@/lib/cms-status';
 import DeleteModal from '@/components/delete-modal';
 import CreateButton from '@/components/create-button';
 import PageHeader from '@/components/page-header';
@@ -105,9 +106,7 @@ export default function PublicationsListPage() {
 
   const handleStatusChange = async (publication: Publication, newStatus: string) => {
     try {
-      const res = await api.get(`/api/v1/admin/cms/publications/${publication.id}`);
-      const fullPub = res.data?.data || res.data;
-      await api.put(`/api/v1/admin/cms/publications/${publication.id}`, { ...fullPub, status: newStatus });
+      await updatePublicationStatus(publication.id, newStatus);
       setPublications((prev) => prev.map((p) => (p.id === publication.id ? { ...p, status: newStatus } : p)));
       toast.success(`Status changed to ${newStatus.toLowerCase()}`);
     } catch (err: any) {

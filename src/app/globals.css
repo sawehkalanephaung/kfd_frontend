@@ -155,6 +155,11 @@
      identity across both themes (see :root above). */
   --color-brand-green-dark: #01ED65;
   --color-brand-green-mid: #00C250;
+  /* Must stay dark: this pairs with the neon --color-brand-green-dark text
+     above (e.g. selected dropdown rows, avatar initials, tag pills) as a
+     tinted background. Left at the light-mode mint (#c3f0d2), neon-on-mint
+     computes to ~1.3:1 — effectively invisible. */
+  --color-brand-green-soft: #0f3d2a;
 
   /* Interactive text: white → neon green on hover */
   --color-interactive: #FFFFFF;
@@ -284,7 +289,7 @@ select {
 input:not([type="checkbox"]):not([type="radio"]):focus,
 textarea:focus,
 select:focus {
-  box-shadow: 0 0 0 4px rgba(0, 237, 100, 0.15) !important;
+  box-shadow: 0 0 0 4px rgba(15, 139, 67, 0.15) !important;
   border-color: var(--color-brand-green) !important;
   outline: none;
 }

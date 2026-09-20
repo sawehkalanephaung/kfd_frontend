@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 import { Plus, Edit, Trash2, Newspaper, Loader2, Eye, EyeOff, Archive, CalendarDays, FolderTree, Search, Filter } from 'lucide-react';
 
 import api from '@/lib/api';
+import { updatePostStatus } from '@/lib/cms-status';
 import DeleteModal from '@/components/delete-modal';
 import CreateButton from '@/components/create-button';
 import PageHeader from '@/components/page-header';
@@ -114,9 +115,7 @@ export default function PostsListPage() {
 
   const handleStatusChange = async (post: Post, newStatus: string) => {
     try {
-      const res = await api.get(`/api/v1/admin/cms/posts/${post.id}`);
-      const fullPost = res.data?.data || res.data;
-      await api.put(`/api/v1/admin/cms/posts/${post.id}`, { ...fullPost, status: newStatus });
+      await updatePostStatus(post.id, newStatus);
       setPosts((prev) => prev.map((p) => (p.id === post.id ? { ...p, status: newStatus } : p)));
       toast.success(`Status changed to ${newStatus.toLowerCase()}`);
     } catch (err: any) {

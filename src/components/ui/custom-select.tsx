@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState, useRef, useEffect, useId, useCallback } from 'react';
+import React, { useState, useRef, useId, useCallback } from 'react';
 import { ChevronDown, Check, X } from 'lucide-react';
+import { useOutsideClick } from '@/lib/use-outside-click';
 
 export interface SelectOption {
   value: string;
@@ -57,17 +58,7 @@ export function CustomSelect({
     setActiveIndex(selectedIndex >= 0 ? selectedIndex : 0);
   }, [disabled, options.length, selectedIndex]);
 
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        close();
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [close]);
+  useOutsideClick(dropdownRef, close, isOpen);
 
   const commitIndex = (index: number) => {
     const option = options[index];

@@ -1,12 +1,14 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Bell, Menu, Mail, FileText, Check, ShieldAlert, Search } from 'lucide-react';
+import { Bell, Menu, Mail, FileText, Check, ShieldAlert } from 'lucide-react';
 import { useSidebar } from '@/components/sidebar-context';
 import { SidebarToggleIcon } from '@/components/ui/sidebar-toggle-icon';
 import api from '@/lib/api';
+import { useOutsideClick } from '@/lib/use-outside-click';
 import Link from 'next/link';
 import GlobalCreateButton from '@/components/global-create-button';
+import GlobalSearch from '@/components/global-search';
 
 interface NotificationItem {
   id: string;
@@ -73,16 +75,7 @@ export default function Header() {
     }
   }, []);
 
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setShowDropdown(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  useOutsideClick(dropdownRef, () => setShowDropdown(false), showDropdown);
 
   // Poll for notifications
   useEffect(() => {
@@ -253,14 +246,7 @@ export default function Header() {
         </button>
 
         {/* Search Bar */}
-        <div className="hidden md:flex items-center relative w-[320px] max-w-full">
-          <Search className="w-4 h-4 text-muted absolute left-4" />
-          <input
-            type="text"
-            placeholder="Search posts, pages, media..."
-            className="w-full bg-surface-soft border border-hairline-strong rounded-xl pl-10 pr-4 py-2.5 text-[14px] text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green/20 focus:border-brand-green transition-all"
-          />
-        </div>
+        <GlobalSearch />
       </div>
 
       <div className="flex items-center gap-3">

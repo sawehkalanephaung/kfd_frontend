@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect, useId, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { ChevronDown, Check, Loader2 } from 'lucide-react';
+import { useOutsideClick } from '@/lib/use-outside-click';
 
 /* ─── Types ─────────────────────────────────────────────────────────────────── */
 
@@ -38,7 +39,7 @@ const TONE_PILL: Record<string, string> = {
 const TONE_DOT: Record<string, string> = {
   success: 'bg-brand-green',
   warning: 'bg-amber-500',
-  neutral: 'bg-gray-400',
+  neutral: 'bg-gray-500 dark:bg-gray-400',
 };
 
 const SIZE_CLASSES: Record<'sm' | 'md', string> = {
@@ -71,6 +72,7 @@ export function StatusDropdown({
   const [mounted, setMounted] = useState(false);
   const [coords, setCoords] = useState({ top: 0, left: 0, width: 0 });
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const portalRef = useRef<HTMLDivElement>(null);
   const listboxId = useId();
 
   const current = options.find((o) => o.value === value) ?? options[0];
@@ -103,28 +105,23 @@ export function StatusDropdown({
     setActiveIndex(idx >= 0 ? idx : 0);
   }, [loading, options, value, updatePosition]);
 
-  // Close on outside click and update on scroll/resize
+  // wrapperRef (trigger) and portalRef (the portaled panel below, rendered
+  // outside this component's DOM subtree via createPortal) both count as
+  // "inside" — otherwise a click on the panel itself would look like an
+  // outside click and close it before commitIndex handles the selection.
+  useOutsideClick([wrapperRef, portalRef], close, isOpen);
+
+  // Keep the portal's position in sync while open (the trigger can move
+  // under it from page scroll or a viewport resize).
   useEffect(() => {
-    const handleClick = (e: MouseEvent) => {
-      // If clicking inside the portal, don't close here (handled by commitIndex)
-      const isDropdownClick = (e.target as Element).closest(`#${listboxId}-container`);
-      if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node) && !isDropdownClick) {
-        close();
-      }
-    };
-    
-    if (isOpen) {
-      document.addEventListener('mousedown', handleClick);
-      window.addEventListener('scroll', updatePosition, true);
-      window.addEventListener('resize', updatePosition);
-    }
-    
+    if (!isOpen) return;
+    window.addEventListener('scroll', updatePosition, true);
+    window.addEventListener('resize', updatePosition);
     return () => {
-      document.removeEventListener('mousedown', handleClick);
       window.removeEventListener('scroll', updatePosition, true);
       window.removeEventListener('resize', updatePosition);
     };
-  }, [isOpen, close, updatePosition, listboxId]);
+  }, [isOpen, updatePosition]);
 
   const commitIndex = async (index: number) => {
     const option = options[index];
@@ -185,6 +182,7 @@ export function StatusDropdown({
 
   const dropdownContent = (
     <div
+      ref={portalRef}
       id={`${listboxId}-container`}
       style={{
         position: 'absolute',

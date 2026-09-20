@@ -8,6 +8,7 @@ import { ContentCalendar } from '@/components/admin/dashboard/content-calendar';
 import CountUp from '@/components/ui/count-up';
 import { StatusDropdown, type StatusOption } from '@/components/ui/status-dropdown';
 import api from '@/lib/api';
+import { updatePostStatus } from '@/lib/cms-status';
 import { getRandomQuote } from './actions';
 import toast from 'react-hot-toast';
 
@@ -155,17 +156,9 @@ export default function DashboardPage() {
     { label: 'Active Department Branches', value: stats.departments, trend: 'Registered Branches', icon: Building2, color: 'text-amber-700', bg: 'bg-amber-50' },
   ];
 
-  const statusData = [
-    { name: 'Published', value: stats.posts },
-    { name: 'Draft (Pending)', value: stats.drafts },
-    { name: 'Archived', value: stats.archived },
-  ];
-
   const handleDashStatusChange = async (item: any, newStatus: string) => {
     try {
-      const res = await api.get(`/api/v1/admin/cms/posts/${item.id}`);
-      const fullPost = res.data?.data || res.data;
-      await api.put(`/api/v1/admin/cms/posts/${item.id}`, { ...fullPost, status: newStatus });
+      await updatePostStatus(item.id, newStatus);
       setRecentPosts((prev) => prev.map((p) => (p.id === item.id ? { ...p, status: newStatus } : p)));
       toast.success(`Status changed to ${newStatus.toLowerCase()}`);
     } catch (err: any) {
@@ -182,7 +175,7 @@ export default function DashboardPage() {
             <LayoutDashboard className="w-8 h-8 opacity-90" />
             {greeting}, {name}
           </h1>
-          <p className="text-brand-green-soft/90 max-w-xl text-lg">
+          <p className="text-on-dark-muted/90 max-w-xl text-lg">
             {subtitle}
           </p>
         </div>
@@ -231,8 +224,8 @@ export default function DashboardPage() {
 
       {/* Row 4: Charts Section */}
       <div className="mt-6 grid grid-cols-1 lg:grid-cols-[1.35fr_1fr] gap-5">
-        <TopPostsChart posts={topPosts} />
-        <ContentCalendar posts={calendarPosts} />
+        <TopPostsChart posts={topPosts} loading={loading} />
+        <ContentCalendar posts={calendarPosts} loading={loading} />
       </div>
 
       {/* Row 5: Recent Activity */}
