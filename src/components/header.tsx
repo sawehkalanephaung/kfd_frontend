@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Bell, Menu, Mail, FileText, Check, ShieldAlert } from 'lucide-react';
+import { Bell, Menu, Mail, FileText, Check, ShieldAlert, Search } from 'lucide-react';
 import { useSidebar } from '@/components/sidebar-context';
 import { SidebarToggleIcon } from '@/components/ui/sidebar-toggle-icon';
 import api from '@/lib/api';
@@ -241,26 +241,33 @@ export default function Header() {
   };
 
   return (
-    <header className="flex items-center justify-between gap-3 mt-4 mr-4 md:mt-8 md:mr-8 mb-6 md:mb-8">
+    <header className="flex items-center justify-between gap-3 mt-4 mx-4 md:mt-8 md:mx-8 mb-6 md:mb-8">
       <div className="flex items-center gap-3">
         {/* Mobile Menu Button (Hidden on Desktop) */}
         <button
           onClick={() => setIsOpen(true)}
           aria-label="Open sidebar"
-          className="md:hidden w-11 h-11 bg-canvas rounded-xl flex items-center justify-center shadow-subtle border border-hairline text-steel hover:text-brand-green-dark transition-colors outline-none focus-visible:ring-2 focus-visible:ring-brand-green active:scale-95"
+          className="md:hidden w-11 h-11 bg-canvas rounded-xl flex items-center justify-center shadow-subtle border border-hairline text-steel hover:text-brand-green-dark transition-colors outline-none focus-visible:ring-2 focus-visible:ring-brand-green active:scale-95 shrink-0"
         >
           <Menu className="w-5 h-5" aria-hidden="true" />
         </button>
 
-        {/* Global Create Button (Hidden on Mobile for cleaner UI, or could be visible) */}
-        <div className="hidden md:block ml-4 md:ml-8">
-          <GlobalCreateButton userRoles={user?.roles || []} />
+        {/* Search Bar */}
+        <div className="hidden md:flex items-center relative w-[320px] max-w-full">
+          <Search className="w-4 h-4 text-muted absolute left-4" />
+          <input
+            type="text"
+            placeholder="Search posts, pages, media..."
+            className="w-full bg-surface-soft border border-hairline-strong rounded-xl pl-10 pr-4 py-2.5 text-[14px] text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green/20 focus:border-brand-green transition-all"
+          />
         </div>
       </div>
 
       <div className="flex items-center gap-3">
-        {/* Search button removed because we are using individual page search bars */}
-
+        {/* Global Create Button */}
+        <div className="hidden md:block mr-2">
+          <GlobalCreateButton userRoles={user?.roles || []} />
+        </div>
         {/* Notification Button */}
         <div className="relative" ref={dropdownRef}>
           <button
