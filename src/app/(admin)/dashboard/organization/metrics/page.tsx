@@ -2,18 +2,17 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { BarChart2, Plus, Edit, Trash2, Loader2, CheckCircle2, XCircle, Eye, EyeOff } from 'lucide-react';
+import { BarChart2, Plus, Edit, Trash2, Loader2, CheckCircle2, XCircle, Eye, EyeOff, Info } from 'lucide-react';
 import api from '@/lib/api';
 import DeleteModal from '@/components/delete-modal';
 import CreateButton from '@/components/create-button';
 import PageHeader from '@/components/page-header';
-import { StatusDropdown, type StatusOption } from '@/components/ui/status-dropdown';
+import { QuickToggle } from '@/components/ui/quick-toggle';
 import toast from 'react-hot-toast';
 
-const METRIC_STATUS_OPTIONS: StatusOption[] = [
-  { value: 'true', label: 'Active', tone: 'success' },
-  { value: 'false', label: 'Hidden', tone: 'neutral' },
-];
+/** Matches StatsSection.tsx's public-site cap — kept in sync so the "only
+ * the first N appear publicly" note below stays accurate if that changes. */
+const PUBLIC_DISPLAY_LIMIT = 4;
 
 interface GlobalMetric {
   id: string;
@@ -73,8 +72,7 @@ export default function GlobalMetricsPage() {
     }
   };
 
-  const handleStatusChange = async (metric: any, newValue: string) => {
-    const isActive = newValue === 'true';
+  const handleStatusChange = async (metric: GlobalMetric, isActive: boolean) => {
     try {
       const res = await api.get(`/api/v1/admin/metrics/${metric.id}`);
       const fullMetric = res.data?.data || res.data;
@@ -85,6 +83,8 @@ export default function GlobalMetricsPage() {
       toast.error(err?.response?.data?.message || 'Failed to update status');
     }
   };
+
+  const activeCount = metrics.filter((m) => m.isActive).length;
 
   return (
     <div>
@@ -102,6 +102,17 @@ export default function GlobalMetricsPage() {
         </div>
       )}
 
+      {activeCount > PUBLIC_DISPLAY_LIMIT && (
+        <div className="flex items-start gap-2.5 bg-info-bg text-info-text p-4 rounded-xl mb-6 border border-current/10 text-sm">
+          <Info className="w-4 h-4 shrink-0 mt-0.5" aria-hidden="true" />
+          <p>
+            {activeCount} metrics are Active, but the public site only shows the first {PUBLIC_DISPLAY_LIMIT}, sorted by{' '}
+            <span className="font-semibold">Order</span>. Metrics beyond that won&apos;t appear until an earlier one is hidden
+            or its order is changed.
+          </p>
+        </div>
+      )}
+
       {/* Table Section */}
       <div className="bg-canvas rounded-lg shadow-sm border border-hairline-soft overflow-hidden">
         <div className="overflow-x-auto">
@@ -109,9 +120,9 @@ export default function GlobalMetricsPage() {
             <thead className="bg-surface-soft text-steel font-medium border-b border-hairline">
               <tr>
                 <th className="px-6 py-4">Metric Title</th>
-                <th className="px-6 py-4">Value</th>
+                <th className="px-6 py-4 text-center">Value</th>
                 <th className="px-6 py-4 hidden sm:table-cell">Status</th>
-                <th className="px-6 py-4 hidden sm:table-cell">Order</th>
+                <th className="px-6 py-4 hidden sm:table-cell text-center">Order</th>
                 <th className="px-6 py-4 hidden md:table-cell">Last Updated</th>
                 <th className="px-6 py-4 text-right">Actions</th>
               </tr>
@@ -138,27 +149,29 @@ export default function GlobalMetricsPage() {
                       {/* Mobile Data Stack */}
                       <div className="mt-1 flex flex-col gap-1.5 sm:hidden font-normal">
                         <div className="flex flex-wrap items-center gap-2">
-                          <StatusDropdown
-                            value={metric.isActive ? 'true' : 'false'}
-                            options={METRIC_STATUS_OPTIONS}
-                            onChangeStatus={(v) => handleStatusChange(metric, v)}
+                          <QuickToggle
+                            isOn={metric.isActive}
+                            onLabel="Show"
+                            offLabel="Hidden"
+                            onToggle={(next) => handleStatusChange(metric, next)}
                             size="sm"
                           />
                           <span className="text-[11px] text-steel">Order: {metric.displayOrder}</span>
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 font-semibold text-brand-green-dark">
+                    <td className="px-6 py-4 text-center font-semibold text-brand-green-dark">
                       {metric.metricValue}
                     </td>
                     <td className="px-6 py-4 hidden sm:table-cell">
-                      <StatusDropdown
-                        value={metric.isActive ? 'true' : 'false'}
-                        options={METRIC_STATUS_OPTIONS}
-                        onChangeStatus={(v) => handleStatusChange(metric, v)}
+                      <QuickToggle
+                        isOn={metric.isActive}
+                        onLabel="Show"
+                        offLabel="Hidden"
+                        onToggle={(next) => handleStatusChange(metric, next)}
                       />
                     </td>
-                    <td className="px-6 py-4 text-steel hidden sm:table-cell">
+                    <td className="px-6 py-4 text-steel text-center hidden sm:table-cell">
                       {metric.displayOrder}
                     </td>
                     <td className="px-6 py-4 text-steel text-sm hidden md:table-cell">
