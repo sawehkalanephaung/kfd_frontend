@@ -31,7 +31,7 @@ export interface MediaResource {
   fileUrl: string;
   fileType: string;
   fileSizeKb: number;
-  mediaCategory: string;
+  mediaCategory: string | null;
   language: string;
   createdAt: string;
 }

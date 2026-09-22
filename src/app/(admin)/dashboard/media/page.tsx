@@ -27,7 +27,7 @@ interface MediaAsset {
   fileUrl: string;
   fileType: string;
   fileSizeKb: number;
-  mediaCategory: string;
+  mediaCategory: string | null;
   departmentId: string;
   createdAt: string;
 }
