@@ -16,7 +16,16 @@ export function extractPlainExcerpt(
   } catch {
     // bodyContent wasn't JSON — use it as-is
   }
-  const plain = text.replace(/<[^>]*>/gm, ' ').replace(/\s+/g, ' ').trim();
+  const plain = text
+    .replace(/<[^>]*>/gm, ' ')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/\s+/g, ' ')
+    .trim();
   if (!plain) return "";
   return plain.length > maxLength ? `${plain.slice(0, maxLength).trimEnd()}…` : plain;
 }
