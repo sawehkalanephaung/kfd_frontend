@@ -214,7 +214,7 @@ function ResetPasswordForm() {
                     }}
                     aria-invalid={!!passwordError}
                     aria-describedby={passwordError ? passwordErrorId : undefined}
-                    className={`w-full bg-white border rounded-lg px-4 py-3.5 pr-12 text-ink placeholder:text-[#A3AAA4] focus:outline-none focus:ring-2 focus:ring-[#1F5132]/20 focus:border-[#1F5132] transition-colors ${passwordError ? 'border-red-500' : 'border-[#C9CEC8]'}`}
+                    className={`w-full bg-white border rounded-lg px-4 py-3.5 pr-12 text-[#0A1A10] placeholder:text-[#A3AAA4] focus:outline-none focus:ring-2 focus:ring-[#1F5132]/20 focus:border-[#1F5132] transition-colors ${passwordError ? 'border-red-500' : 'border-[#C9CEC8]'}`}
                     placeholder="Enter new password"
                   />
                   <button
@@ -244,7 +244,7 @@ function ResetPasswordForm() {
                     }}
                     aria-invalid={!!confirmPasswordError}
                     aria-describedby={confirmPasswordError ? confirmPasswordErrorId : undefined}
-                    className={`w-full bg-white border rounded-lg px-4 py-3.5 pr-12 text-ink placeholder:text-[#A3AAA4] focus:outline-none focus:ring-2 focus:ring-[#1F5132]/20 focus:border-[#1F5132] transition-colors ${confirmPasswordError ? 'border-red-500' : 'border-[#C9CEC8]'}`}
+                    className={`w-full bg-white border rounded-lg px-4 py-3.5 pr-12 text-[#0A1A10] placeholder:text-[#A3AAA4] focus:outline-none focus:ring-2 focus:ring-[#1F5132]/20 focus:border-[#1F5132] transition-colors ${confirmPasswordError ? 'border-red-500' : 'border-[#C9CEC8]'}`}
                     placeholder="Confirm new password"
                   />
                   <button

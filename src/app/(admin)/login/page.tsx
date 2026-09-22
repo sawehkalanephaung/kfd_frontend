@@ -169,7 +169,7 @@ export default function AdminLogin() {
                   }}
                   aria-invalid={!!fieldErrors.email}
                   aria-describedby={fieldErrors.email ? emailErrorId : undefined}
-                  className={`w-full bg-white border rounded-lg px-4 py-3.5 text-ink placeholder:text-[#A3AAA4] focus:outline-none focus:ring-2 focus:ring-[#1F5132]/20 focus:border-[#1F5132] transition-colors ${fieldErrors.email ? 'border-red-500' : 'border-[#C9CEC8]'}`}
+                  className={`w-full bg-white border rounded-lg px-4 py-3.5 text-[#0A1A10] placeholder:text-[#A3AAA4] focus:outline-none focus:ring-2 focus:ring-[#1F5132]/20 focus:border-[#1F5132] transition-colors ${fieldErrors.email ? 'border-red-500' : 'border-[#C9CEC8]'}`}
                   placeholder="name@kfd.org"
                 />
               </div>
@@ -192,7 +192,7 @@ export default function AdminLogin() {
                   }}
                   aria-invalid={!!fieldErrors.password}
                   aria-describedby={fieldErrors.password ? passwordErrorId : undefined}
-                  className={`w-full bg-white border rounded-lg pl-4 pr-12 py-3.5 text-ink placeholder:text-[#A3AAA4] focus:outline-none focus:ring-2 focus:ring-[#1F5132]/20 focus:border-[#1F5132] transition-colors ${fieldErrors.password ? 'border-red-500' : 'border-[#C9CEC8]'}`}
+                  className={`w-full bg-white border rounded-lg pl-4 pr-12 py-3.5 text-[#0A1A10] placeholder:text-[#A3AAA4] focus:outline-none focus:ring-2 focus:ring-[#1F5132]/20 focus:border-[#1F5132] transition-colors ${fieldErrors.password ? 'border-red-500' : 'border-[#C9CEC8]'}`}
                   placeholder="Enter your password"
                 />
                 <button

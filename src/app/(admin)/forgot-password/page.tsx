@@ -178,7 +178,7 @@ export default function ForgotPassword() {
                     }}
                     aria-invalid={!!emailError}
                     aria-describedby={emailError ? emailErrorId : undefined}
-                    className={`w-full bg-white border rounded-lg px-4 py-3.5 text-ink placeholder:text-[#A3AAA4] focus:outline-none focus:ring-2 focus:ring-[#1F5132]/20 focus:border-[#1F5132] transition-colors ${emailError ? 'border-red-500' : 'border-[#C9CEC8]'}`}
+                    className={`w-full bg-white border rounded-lg px-4 py-3.5 text-[#0A1A10] placeholder:text-[#A3AAA4] focus:outline-none focus:ring-2 focus:ring-[#1F5132]/20 focus:border-[#1F5132] transition-colors ${emailError ? 'border-red-500' : 'border-[#C9CEC8]'}`}
                     placeholder="name@kfd.org"
                   />
                 </div>
