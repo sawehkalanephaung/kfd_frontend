@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   description: "Message and biography of the Chairman of the Kawthoolei Forestry Department.",
 };
 
+export const dynamic = 'force-dynamic';
+
 /**
  * This is the page's only content fetch, so a real backend failure throws
  * (→ `(public)/error.tsx` retry UI) rather than silently rendering the

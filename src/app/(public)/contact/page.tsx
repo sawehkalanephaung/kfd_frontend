@@ -15,6 +15,8 @@ export const metadata: Metadata = {
   description: "Get in touch with the Kawthoolei Forestry Department.",
 };
 
+export const dynamic = 'force-dynamic';
+
 /**
  * This page's whole purpose is showing real contact details, so a fetch
  * failure here throws (→ `(public)/error.tsx` retry UI) rather than

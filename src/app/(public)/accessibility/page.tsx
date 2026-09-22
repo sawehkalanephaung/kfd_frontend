@@ -9,6 +9,8 @@ export const metadata: Metadata = {
   description: "Accessibility statement for the Kawthoolei Forestry Department.",
 };
 
+export const dynamic = 'force-dynamic';
+
 /**
  * Sole content of this page — a real failure throws so error.tsx offers a
  * retry. A 404 means the page just hasn't been created yet (or was

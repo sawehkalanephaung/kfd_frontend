@@ -6,6 +6,8 @@ import { RESERVED_PAGE_SLUGS } from '@/lib/reserved-pages';
 import { fetchPublicResource } from '@/lib/public-fetch';
 import { PageHero } from '@/components/ui/page-hero';
 
+export const dynamic = 'force-dynamic';
+
 /**
  * Sole content of this page — a real failure throws so error.tsx offers a
  * retry. A 404 means the page just hasn't been created yet (or was

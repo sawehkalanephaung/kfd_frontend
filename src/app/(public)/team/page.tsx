@@ -4,6 +4,8 @@ import { PageHero } from "@/components/ui/page-hero";
 import { Card, type CardMetaItem } from "@/components/ui/card";
 import { fetchPublicResource } from "@/lib/public-fetch";
 
+export const dynamic = 'force-dynamic';
+
 /**
  * This page's whole purpose is the team roster, so a fetch failure throws
  * (→ `(public)/error.tsx` retry UI) instead of quietly rendering an empty

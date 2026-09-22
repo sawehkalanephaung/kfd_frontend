@@ -18,6 +18,8 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
+export const dynamic = 'force-dynamic';
+
 // ── Data fetcher ───────────────────────────────────────────────
 
 /**

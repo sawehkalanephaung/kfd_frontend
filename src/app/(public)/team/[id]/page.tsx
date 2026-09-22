@@ -5,6 +5,8 @@ import { formatYear, formatTenureYears } from "@/lib/date-utils";
 import { notFound } from "next/navigation";
 import { fetchPublicResource } from "@/lib/public-fetch";
 
+export const dynamic = 'force-dynamic';
+
 /**
  * Returns null only when the member does not exist (404). Any other failure
  * throws so error.tsx renders a retry instead of a misleading "not found".
