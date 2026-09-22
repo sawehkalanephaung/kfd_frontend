@@ -180,6 +180,15 @@
   --foreground: var(--color-ink);
 }
 
+/* Force pure white text for all rich-text prose in dark mode */
+.dark .prose-invert {
+  --tw-prose-body: #FFFFFF;
+  --tw-prose-p: #FFFFFF;
+  --tw-prose-headings: #FFFFFF;
+  --tw-prose-bold: #FFFFFF;
+  --tw-prose-lists: #FFFFFF;
+}
+
 /* ─────────────────────────────────────────────
    Tailwind v4 Theme Registration
    ───────────────────────────────────────────── */

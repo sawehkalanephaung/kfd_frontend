@@ -177,11 +177,11 @@ export default async function NewsDetailPage({ params }: PageProps) {
 
                 {post.content ? (
                   <div
-                    className="prose dark:prose-invert max-w-none wrap-break-word prose-p:text-charcoal dark:prose-p:text-white/70 prose-headings:text-ink dark:prose-headings:text-white prose-a:text-brand-green-dark dark:prose-a:text-green-400 [&_[style*=background]]:bg-transparent! [&_[style*=background]]:bg-none! **:text-inherit!"
+                    className="prose dark:prose-invert max-w-none wrap-break-word prose-p:text-charcoal dark:prose-p:text-white prose-headings:text-ink dark:prose-headings:text-white prose-a:text-brand-green-dark dark:prose-a:text-green-400 [&_[style*=background]]:bg-transparent! [&_[style*=background]]:bg-none! **:text-inherit!"
                     dangerouslySetInnerHTML={{ __html: post.content }}
                   />
                 ) : (
-                  <p className="text-charcoal dark:text-white/70 leading-relaxed">{post.excerpt}</p>
+                  <p className="text-charcoal dark:text-white leading-relaxed">{post.excerpt}</p>
                 )}
               </div>
             </div>
@@ -302,20 +302,20 @@ export default async function NewsDetailPage({ params }: PageProps) {
         <div className="container mx-auto max-w-3xl">
           {post.content ? (
             <div
-              className="prose prose-lg max-w-none wrap-break-word font-serif
-                prose-p:text-charcoal prose-p:leading-loose
-                prose-headings:text-ink prose-headings:font-serif
-                prose-a:text-brand-green-dark prose-a:underline hover:prose-a:text-emerald-900
-                prose-strong:text-ink prose-strong:font-bold
+              className="prose prose-lg max-w-none wrap-break-word font-serif dark:prose-invert
+                prose-p:text-charcoal dark:prose-p:text-white prose-p:leading-loose
+                prose-headings:text-ink dark:prose-headings:text-white prose-headings:font-serif
+                prose-a:text-brand-green-dark dark:prose-a:text-green-400 prose-a:underline hover:prose-a:text-emerald-900
+                prose-strong:text-ink dark:prose-strong:text-white prose-strong:font-bold
                 prose-blockquote:bg-[#dce9d5] dark:prose-blockquote:bg-surface-soft prose-blockquote:border-none prose-blockquote:px-8 prose-blockquote:py-6 prose-blockquote:rounded-lg prose-blockquote:text-emerald-900 dark:prose-blockquote:text-emerald-400 prose-blockquote:italic prose-blockquote:font-serif prose-blockquote:font-medium
-                prose-li:text-charcoal
+                prose-li:text-charcoal dark:prose-li:text-white
                 first-letter:text-7xl first-letter:font-bold first-letter:text-brand-green-dark first-letter:mr-3 first-letter:float-left first-letter:leading-none
                 [&_[style*=background]]:bg-transparent! [&_[style*=background]]:bg-none! **:text-inherit!"
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
           ) : (
             <div className="space-y-4">
-              <p className="text-charcoal font-serif text-lg leading-loose first-letter:text-7xl first-letter:font-bold first-letter:text-brand-green-dark first-letter:mr-3 first-letter:float-left first-letter:leading-none">
+              <p className="text-charcoal dark:text-white font-serif text-lg leading-loose first-letter:text-7xl first-letter:font-bold first-letter:text-brand-green-dark first-letter:mr-3 first-letter:float-left first-letter:leading-none">
                 {post.excerpt}
               </p>
             </div>
