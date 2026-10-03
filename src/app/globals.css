@@ -253,7 +253,7 @@
   --color-dropdown-hover: var(--color-dropdown-hover);
 
   /* Fonts */
-  --font-sans: var(--font-jakarta);
+  --font-sans: var(--font-jakarta), var(--font-padauk);
   --font-mono: var(--font-source-code);
 
   /* Border Radius */
@@ -281,7 +281,7 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-jakarta), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-jakarta), var(--font-padauk), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
