@@ -254,6 +254,9 @@
 
   /* Fonts */
   --font-sans: var(--font-jakarta), var(--font-padauk);
+  /* Tailwind's default serif stack plus Padauk, so Karen/Burmese text in
+     `font-serif` blocks (news articles, headings) doesn't drop to a system font. */
+  --font-serif: ui-serif, Georgia, Cambria, 'Times New Roman', Times, var(--font-padauk), serif;
   --font-mono: var(--font-source-code);
 
   /* Border Radius */
@@ -478,6 +481,19 @@ select {
   overflow-wrap: anywhere;
 }
 
+/* Karen and Burmese stack marks above and below the base letter, so they need
+   far more leading than Latin text. Prose's defaults (≈1.1 on headings, 1.75
+   on body) let those marks collide with the next line, and get clipped inside
+   `overflow-hidden` / `line-clamp` boxes. Applies to `.prose` too because not
+   every rendered block carries `.rich-text`. */
+:is(.rich-text, .prose) :is(p, li, blockquote, td, th) {
+  line-height: 2;
+}
+
+:is(.rich-text, .prose) :is(h1, h2, h3, h4, h5, h6) {
+  line-height: 1.7;
+}
+
 /* ─────────────────────────────────────────────
    Rich-text editor (ReactQuill / snow theme)
    ─────────────────────────────────────────────
@@ -502,6 +518,12 @@ select {
 
 .ql-snow.ql-snow .ql-editor {
   color: var(--color-ink);
+  /* Match the rendered rich text so tall Karen/Burmese stacks aren't cut. */
+  line-height: 2;
+}
+
+.ql-snow.ql-snow .ql-editor :is(h1, h2, h3, h4, h5, h6) {
+  line-height: 1.7;
 }
 
 .ql-snow.ql-snow .ql-editor.ql-blank::before {
