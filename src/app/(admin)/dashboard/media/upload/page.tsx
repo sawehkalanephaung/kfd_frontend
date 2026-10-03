@@ -164,7 +164,7 @@ export default function UploadMediaPage() {
                     <div className="w-12 h-12 bg-brand-green-soft text-brand-green-dark rounded-full flex items-center justify-center mb-3">
                       <UploadCloud className="w-6 h-6" />
                     </div>
-                    <p className="text-brand-green-dark font-medium text-sm break-all line-clamp-2 px-2">{file.name}</p>
+                    <p className="text-brand-green-dark font-medium text-sm wrap-anywhere line-clamp-2 px-2">{file.name}</p>
                     <p className="text-brand-green-dark/70 text-xs mt-1">
                       {(file.size / 1024 / 1024).toFixed(2)} MB • {file.type || 'Unknown type'}
                     </p>

@@ -189,7 +189,7 @@ export default function EditMediaPage() {
 
               {file ? (
                 <div className="mb-4 bg-brand-green-soft p-3 rounded-full relative">
-                  <h3 className="font-semibold text-emerald-900 text-sm break-all pr-6">{file.name}</h3>
+                  <h3 className="font-semibold text-emerald-900 text-sm wrap-anywhere pr-6">{file.name}</h3>
                   <p className="text-brand-green-dark text-xs mt-1">{(file.size / 1024 / 1024).toFixed(2)} MB (New File)</p>
                   <button 
                     type="button" 
@@ -201,7 +201,7 @@ export default function EditMediaPage() {
                 </div>
               ) : (
                 <>
-                  <h3 className="font-semibold text-ink text-sm break-all">{mediaData.fileName}</h3>
+                  <h3 className="font-semibold text-ink text-sm wrap-anywhere">{mediaData.fileName}</h3>
                   <p className="text-steel text-xs mt-1">{mediaData.fileType} • {mediaData.fileSizeKb > 1024 ? (mediaData.fileSizeKb / 1024).toFixed(2) + ' MB' : mediaData.fileSizeKb + ' KB'}</p>
                 </>
               )}

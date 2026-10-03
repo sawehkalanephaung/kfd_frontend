@@ -86,7 +86,7 @@ export default function DepartmentContactCard({ data }: { data: DepartmentData }
         </div>
         <div className="text-sm font-bold text-muted shrink-0 mr-4">:</div>
         {isLink ? (
-          <a href={href || value} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-blue-600 hover:underline break-all">
+          <a href={href || value} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-blue-600 hover:underline wrap-anywhere">
             {value}
           </a>
         ) : (
