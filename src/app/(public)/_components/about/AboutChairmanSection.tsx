@@ -153,7 +153,7 @@ export default function AboutChairmanSection({ chairmanData }: { chairmanData?: 
             )}
             {chairman.bio && (
               <div
-                className="text-[#555] dark:text-steel mb-8 text-sm md:text-base leading-relaxed line-clamp-6 prose prose-sm max-w-none wrap-break-word whitespace-pre-wrap overflow-hidden **:bg-transparent! **:text-inherit!"
+                className="text-resizable-floor text-[#555] dark:text-steel mb-8 text-sm md:text-base leading-relaxed line-clamp-6 prose prose-sm max-w-none wrap-break-word whitespace-pre-wrap overflow-hidden **:bg-transparent! **:text-inherit!"
                 dangerouslySetInnerHTML={{ __html: toSentenceCaseHTML(chairman.bio) }}
               />
             )}

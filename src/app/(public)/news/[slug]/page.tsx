@@ -9,6 +9,7 @@ import { ZoomableImage } from "@/components/ui/zoomable-image";
 import { Reveal } from "@/components/ui/reveal";
 import { fetchPublicResource } from "@/lib/public-fetch";
 import { normalizeRichTextSpaces } from "@/lib/rich-text";
+import { TextResizer } from "@/components/ui/text-resizer";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
 
@@ -176,13 +177,14 @@ export default async function NewsDetailPage({ params }: PageProps) {
                   {post.title}
                 </h1>
 
+                <TextResizer allowSmaller={false} className="mb-6" />
                 {post.content ? (
                   <div
-                    className="prose dark:prose-invert max-w-none wrap-break-word prose-p:text-charcoal dark:prose-p:text-white prose-headings:text-ink dark:prose-headings:text-white prose-a:text-brand-green-dark dark:prose-a:text-green-400 [&_[style*=background]]:bg-transparent! [&_[style*=background]]:bg-none! **:text-inherit!"
+                    className="text-resizable-floor prose dark:prose-invert max-w-none wrap-break-word prose-p:text-charcoal dark:prose-p:text-white prose-headings:text-ink dark:prose-headings:text-white prose-a:text-brand-green-dark dark:prose-a:text-green-400 [&_[style*=background]]:bg-transparent! [&_[style*=background]]:bg-none! **:text-inherit!"
                     dangerouslySetInnerHTML={{ __html: normalizeRichTextSpaces(post.content) }}
                   />
                 ) : (
-                  <p className="text-charcoal dark:text-white leading-relaxed">{post.excerpt}</p>
+                  <p className="text-resizable-floor text-charcoal dark:text-white leading-relaxed">{post.excerpt}</p>
                 )}
               </div>
             </div>
@@ -226,7 +228,8 @@ export default async function NewsDetailPage({ params }: PageProps) {
             </div>
 
             {/* Memo Content */}
-            <div className="font-serif text-charcoal dark:text-white leading-loose text-lg pb-12 border-b border-gray-300 dark:border-hairline">
+            <TextResizer className="mb-6" />
+            <div className="text-resizable font-serif text-charcoal dark:text-white leading-loose text-lg pb-12 border-b border-gray-300 dark:border-hairline">
               {post.content ? (
                 <div
                   className="prose dark:prose-invert prose-lg max-w-none wrap-break-word font-serif text-charcoal dark:text-white prose-p:leading-loose prose-headings:text-ink dark:prose-headings:text-white prose-a:text-brand-green-dark dark:prose-a:text-green-400 [&_[style*=background]]:bg-transparent! [&_[style*=background]]:bg-none! **:text-inherit!"
@@ -301,9 +304,10 @@ export default async function NewsDetailPage({ params }: PageProps) {
       {/* ── Article Body ─────────────────────────────────────── */}
       <Reveal as="section" className="px-4 sm:px-6 lg:px-8 mb-16">
         <div className="container mx-auto max-w-3xl">
+          <TextResizer className="mb-8" />
           {post.content ? (
             <div
-              className="prose prose-lg max-w-none wrap-break-word font-serif dark:prose-invert
+              className="text-resizable prose prose-lg max-w-none wrap-break-word font-serif dark:prose-invert
                 prose-p:text-charcoal dark:prose-p:text-white prose-p:leading-loose
                 prose-headings:text-ink dark:prose-headings:text-white prose-headings:font-serif
                 prose-a:text-brand-green-dark dark:prose-a:text-green-400 prose-a:underline hover:prose-a:text-emerald-900
@@ -315,7 +319,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
               dangerouslySetInnerHTML={{ __html: normalizeRichTextSpaces(post.content) }}
             />
           ) : (
-            <div className="space-y-4">
+            <div className="text-resizable space-y-4">
               <p className="text-charcoal dark:text-white font-serif text-lg leading-loose first-letter:text-7xl first-letter:font-bold first-letter:text-brand-green-dark first-letter:mr-3 first-letter:float-left first-letter:leading-none">
                 {post.excerpt}
               </p>

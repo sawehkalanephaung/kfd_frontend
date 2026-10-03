@@ -495,6 +495,22 @@ select {
 }
 
 /* ─────────────────────────────────────────────
+   Reader text size (<TextResizer />)
+   ─────────────────────────────────────────────
+   The control sets these two variables on <html>. `zoom` rather than
+   font-size because the reading blocks get their size from different
+   prose/text utilities per page; zoom scales whichever one applies and
+   still reflows inside the column. */
+.text-resizable {
+  zoom: var(--text-scale, 1);
+}
+
+/* For blocks designed at the 16px minimum: grow, but never shrink. */
+.text-resizable-floor {
+  zoom: var(--text-scale-floor, 1);
+}
+
+/* ─────────────────────────────────────────────
    Rich-text editor (ReactQuill / snow theme)
    ─────────────────────────────────────────────
    quill.snow.css hard-codes a light chrome (#444 icons, #ccc borders,

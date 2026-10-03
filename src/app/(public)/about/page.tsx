@@ -3,6 +3,7 @@ import AboutChairmanSection from "../_components/about/AboutChairmanSection";
 import AboutHeroSection from "../_components/about/AboutHeroSection";
 import AboutMissionVisionSection from "../_components/about/AboutMissionVisionSection";
 import { RESERVED_PAGE_SLUGS } from "@/lib/reserved-pages";
+import { TextResizer } from "@/components/ui/text-resizer";
 
 /**
  * `about-us` is this page's primary content (pass throwOnError: true) so a
@@ -130,6 +131,14 @@ export default async function AboutUsPage() {
         tagline={heroData?.content}
         bgImage={heroData?.heroImageUrl || heroData?.sliderImageUrls?.[0]}
       />
+
+      {/* Reader text-size control for the sections below. The About blocks
+          are 16px by design, so they grow but never shrink. */}
+      <div className="bg-white dark:bg-[#051413] pt-8">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <TextResizer allowSmaller={false} />
+        </div>
+      </div>
 
       {/* Section 2: Mission & Vision Cards */}
       <AboutMissionVisionSection

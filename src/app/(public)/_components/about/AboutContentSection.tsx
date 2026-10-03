@@ -117,7 +117,7 @@ export default function AboutContentSection({
                 {title}
               </h2>
               <div
-                className="text-white/90 text-lg leading-relaxed prose prose-invert max-w-none prose-p:mb-4 drop-shadow-md wrap-break-word whitespace-pre-wrap **:bg-transparent! **:text-inherit!"
+                className="text-resizable-floor text-white/90 text-lg leading-relaxed prose prose-invert max-w-none prose-p:mb-4 drop-shadow-md wrap-break-word whitespace-pre-wrap **:bg-transparent! **:text-inherit!"
                 dangerouslySetInnerHTML={{ __html: sanitizedContent }}
               />
             </div>
@@ -156,7 +156,7 @@ export default function AboutContentSection({
         {title}
       </h2>
 
-      <div className="prose prose-lg max-w-none relative">
+      <div className="text-resizable-floor prose prose-lg max-w-none relative">
         <div
           ref={variant === 'text-only' ? textOnlyRef : null}
           className={`text-base md:text-lg leading-relaxed prose-p:mb-4 ${textColor} ${shouldTruncate ? 'line-clamp-6' : ''} [&_img]:hidden wrap-break-word whitespace-pre-wrap **:bg-transparent! **:text-inherit! [&_ul]:list-[square] [&_li::marker]:text-forest [&_li::marker]:text-sm`}

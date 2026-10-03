@@ -6,6 +6,7 @@ import { formatYear, formatYearsOfService } from "@/lib/date-utils";
 import { Reveal } from "@/components/ui/reveal";
 import { fetchPublicResource } from "@/lib/public-fetch";
 import { normalizeRichTextSpaces } from "@/lib/rich-text";
+import { TextResizer } from "@/components/ui/text-resizer";
 
 export const metadata: Metadata = {
   title: "Chairman - Kawthoolei Forestry Department",
@@ -192,13 +193,14 @@ export default async function ChairmanPage() {
 
             <h2 className="text-3xl font-bold tracking-tight text-[#001e2b] dark:text-white">Biography</h2>
             <div className="mt-6 h-px w-full bg-[#e1e5e8] dark:bg-hairline" />
+            <TextResizer allowSmaller={false} className="mt-6" />
 
             {bio ? (
               /* `rich-text` contains admin-authored HTML (wide tables, long URLs);
                  the `!bg-transparent`/`!text-inherit` overrides drop the inline
                  colours the editor pastes in, which otherwise fight this page. */
               <div
-                className="rich-text prose prose-slate dark:prose-invert mt-10 max-w-none text-[#3d4f5b] dark:text-steel md:text-justify **:bg-transparent! **:text-inherit!"
+                className="text-resizable-floor rich-text prose prose-slate dark:prose-invert mt-6 max-w-none text-[#3d4f5b] dark:text-steel md:text-justify **:bg-transparent! **:text-inherit!"
                 dangerouslySetInnerHTML={{ __html: normalizeRichTextSpaces(bio) }}
               />
             ) : (

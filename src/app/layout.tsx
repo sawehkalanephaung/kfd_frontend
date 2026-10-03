@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "react-hot-toast";
 import { getSiteIdentity } from "@/lib/site-identity";
+import { TEXT_SCALE_STORAGE_KEY } from "@/lib/text-scale";
 
 const jakartaSans = Plus_Jakarta_Sans({
   variable: "--font-jakarta",
@@ -73,6 +74,12 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-canvas text-ink transition-colors" suppressHydrationWarning>
+        {/* Apply the reader's saved text size before first paint (see TextResizer). */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var v=parseFloat(localStorage.getItem('${TEXT_SCALE_STORAGE_KEY}'));if(v>=0.9&&v<=1.5){var s=document.documentElement.style;s.setProperty('--text-scale',v);s.setProperty('--text-scale-floor',Math.max(1,v));}}catch(e){}})();`,
+          }}
+        />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

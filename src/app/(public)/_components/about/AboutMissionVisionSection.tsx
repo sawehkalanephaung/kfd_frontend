@@ -50,7 +50,7 @@ export default function AboutMissionVisionSection({ missionData, visionData }: {
             {data?.title || defaultTitle}
           </h3>
           <div
-            className="text-steel-600 dark:text-steel text-sm md:text-base leading-relaxed prose prose-sm max-w-none prose-p:mb-4 wrap-break-word whitespace-pre-wrap overflow-hidden **:bg-transparent! **:text-inherit!"
+            className="text-resizable-floor text-steel-600 dark:text-steel text-sm md:text-base leading-relaxed prose prose-sm max-w-none prose-p:mb-4 wrap-break-word whitespace-pre-wrap overflow-hidden **:bg-transparent! **:text-inherit!"
             dangerouslySetInnerHTML={{ __html: content }}
           />
         </div>

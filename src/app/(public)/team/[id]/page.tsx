@@ -5,6 +5,7 @@ import { formatYear, formatTenureYears } from "@/lib/date-utils";
 import { notFound } from "next/navigation";
 import { fetchPublicResource } from "@/lib/public-fetch";
 import { normalizeRichTextSpaces } from "@/lib/rich-text";
+import { TextResizer } from "@/components/ui/text-resizer";
 
 export const dynamic = 'force-dynamic';
 
@@ -147,10 +148,11 @@ export default async function TeamMemberProfilePage({ params }: { params: Promis
           <div className="mx-auto max-w-210">
             <h2 className="text-3xl font-bold tracking-tight text-[#001e2b] dark:text-white">Biography</h2>
             <div className="mt-6 h-px w-full bg-[#e1e5e8] dark:bg-hairline" />
+            <TextResizer allowSmaller={false} className="mt-6" />
 
             {bio ? (
               <div
-                className="rich-text prose prose-slate dark:prose-invert mt-10 max-w-none text-[#3d4f5b] dark:text-steel md:text-justify **:bg-transparent! **:text-inherit!"
+                className="text-resizable-floor rich-text prose prose-slate dark:prose-invert mt-6 max-w-none text-[#3d4f5b] dark:text-steel md:text-justify **:bg-transparent! **:text-inherit!"
                 dangerouslySetInnerHTML={{ __html: normalizeRichTextSpaces(bio) }}
               />
             ) : (

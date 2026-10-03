@@ -4,6 +4,7 @@ import { ChevronRight } from "lucide-react";
 import { RESERVED_PAGE_SLUGS } from "@/lib/reserved-pages";
 import { fetchPublicResource } from "@/lib/public-fetch";
 import { normalizeRichTextSpaces } from "@/lib/rich-text";
+import { TextResizer } from "@/components/ui/text-resizer";
 
 export const metadata: Metadata = {
   title: "Privacy Policy - Kawthoolei Forestry Department",
@@ -51,7 +52,8 @@ export default async function PrivacyPolicyPage() {
           {!pageData?.content?.includes("<h2>") && !pageData?.content?.includes("<h1>") && (
             <h1 className="text-4xl font-bold text-ink mb-8">{pageData?.title || "Privacy Policy"}</h1>
           )}
-          <div className="rich-text prose prose-lg dark:prose-invert max-w-none text-slate prose-headings:text-ink prose-a:text-brand-green-dark [&_[style*=background]]:bg-transparent! [&_[style*=background]]:bg-none! [&_[style*=color]]:text-inherit!">
+          <TextResizer className="mb-6" />
+          <div className="text-resizable rich-text prose prose-lg dark:prose-invert max-w-none text-slate prose-headings:text-ink prose-a:text-brand-green-dark [&_[style*=background]]:bg-transparent! [&_[style*=background]]:bg-none! [&_[style*=color]]:text-inherit!">
             {pageData?.content ? (
               <div dangerouslySetInnerHTML={{ __html: normalizeRichTextSpaces(pageData.content) }} />
             ) : (
