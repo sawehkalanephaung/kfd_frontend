@@ -36,7 +36,7 @@ export default async function Navbar() {
       href: "/about",
       dropdown: [
         { name: "About Us", href: "/about" },
-        { name: "Our Chairman", href: "/team" },
+        { name: "Department Heads", href: "/team" },
       ]
     },
     {

@@ -180,15 +180,15 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
 
       if (isEdit) {
         await api.put(`/api/v1/admin/team-members/${memberId}`, payload);
-        toast.success('Successfully updated Chairman!');
+        toast.success('Successfully updated Department Head!');
       } else {
         await api.post('/api/v1/admin/team-members', payload);
-        toast.success('Successfully created Chairman!');
+        toast.success('Successfully created Department Head!');
       }
       router.push('/dashboard/team');
     } catch (err: any) {
       console.error(err);
-      const msg = err.response?.data?.message || 'Failed to save Chairman.';
+      const msg = err.response?.data?.message || 'Failed to save Department Head.';
       setError(msg);
     } finally {
       setLoading(false);
@@ -203,7 +203,7 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
           className="inline-flex items-center gap-2 text-sm font-medium text-steel hover:text-ink transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
-          Back to Team
+          Back to Department Heads
         </Link>
         <Button
           type="submit"

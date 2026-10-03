@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic';
 /**
  * This page's whole purpose is the team roster, so a fetch failure throws
  * (→ `(public)/error.tsx` retry UI) instead of quietly rendering an empty
- * grid indistinguishable from "no Chairman added yet."
+ * grid indistinguishable from "no Department Heads added yet."
  */
 async function getTeamMembers() {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
@@ -17,7 +17,7 @@ async function getTeamMembers() {
     cache: 'no-store',
   });
 
-  if (!res.ok) throw new Error(`Failed to load Chairman: ${res.status}`);
+  if (!res.ok) throw new Error(`Failed to load Department Heads: ${res.status}`);
   const data = await res.json();
   return data?.data || [];
 }
@@ -50,8 +50,8 @@ export default async function TeamDirectoryPage() {
   return (
     <main className="flex flex-col min-h-screen">
       <PageHero
-        title="Our Chairman"
-        subtitle="Meet the dedicated leadership and Chairmen."
+        title="Department Heads"
+        subtitle="Meet the dedicated leadership and Department Heads."
       />
 
       {/* Team Grid */}
@@ -59,7 +59,7 @@ export default async function TeamDirectoryPage() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           {members.length === 0 ? (
             <div className="text-center py-20 bg-canvas rounded-2xl shadow-sm border border-hairline">
-              <h3 className="text-xl text-steel font-medium">Chairman will be updated soon.</h3>
+              <h3 className="text-xl text-steel font-medium">Department Heads will be updated soon.</h3>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">

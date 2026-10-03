@@ -163,7 +163,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
       const data = res.data?.content || res.data?.data || res.data || [];
       setTeamMembers(Array.isArray(data) ? data : []);
     } catch (err) {
-      console.error('Failed to load Chairman', err);
+      console.error('Failed to load Department Heads', err);
     } finally {
       setFetchingMembers(false);
     }
@@ -342,7 +342,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
                         {...fieldProps}
                         value={formData.headMemberId}
                         onChange={(val) => setFormData({ ...formData, headMemberId: val })}
-                        placeholder="Select a team member..."
+                        placeholder="Select a department head..."
                         disabled={fetchingMembers}
                         options={teamMembers.map((member: any) => ({
                           value: member.id.toString(),

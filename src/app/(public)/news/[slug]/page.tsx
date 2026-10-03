@@ -360,7 +360,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
               </div>
               <div>
                 <p className="text-xs text-steel uppercase tracking-widest font-bold mb-0.5">Written by</p>
-                <h4 className="text-ink font-bold font-serif text-lg">KFD Editorial Team</h4>
+                <h4 className="text-ink font-bold font-serif text-lg">KFD Editorial Department Heads</h4>
                 <p className="text-sm text-steel mt-0.5">Kawthoolei Forestry Department</p>
               </div>
             </div>

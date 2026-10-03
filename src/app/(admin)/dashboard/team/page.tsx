@@ -43,7 +43,7 @@ export default function TeamDirectoryPage() {
       setMembers(Array.isArray(data) ? data : []);
     } catch (err: any) {
       console.error(err);
-      setError('Failed to load Chairman.');
+      setError('Failed to load Department Heads.');
     } finally {
       setLoading(false);
     }
@@ -69,10 +69,10 @@ export default function TeamDirectoryPage() {
     try {
       await api.delete(`/api/v1/admin/team-members/${memberToDelete.id}`);
       setMembers((prev) => prev.filter((m) => m.id !== memberToDelete.id));
-      toast.success('Chairman deleted successfully');
+      toast.success('Department Head deleted successfully');
       setDeleteModalOpen(false);
     } catch (error) {
-      toast.error('Failed to delete Chairman');
+      toast.error('Failed to delete Department Head');
     }
   };
 
@@ -116,8 +116,8 @@ export default function TeamDirectoryPage() {
     <div>
 <PageHeader
         icon={Users}
-        title="Department Head"
-        description="Manage KFD's team roster, including the Department Head and staff profiles."
+        title="Department Heads"
+        description="Manage KFD's Department Heads and their profiles."
         action={<CreateButton href="/dashboard/team/create" />}
       />
 
@@ -184,7 +184,7 @@ export default function TeamDirectoryPage() {
               ) : filteredMembers.length === 0 ? (
                 <tr>
                   <td colSpan={9} className="px-6 py-12 text-center text-steel">
-                    {searchQuery ? "No members found matching your search." : "No members found. Add your first Chairman to get started."}
+                    {searchQuery ? "No members found matching your search." : "No members found. Add your first Department Head to get started."}
                   </td>
                 </tr>
               ) : (
@@ -293,8 +293,8 @@ export default function TeamDirectoryPage() {
         isOpen={deleteModalOpen}
         onClose={() => setDeleteModalOpen(false)}
         onConfirm={confirmDelete}
-        title="Delete Chairman?"
-        description="This will permanently delete the Chairman's profile and bio. This action cannot be undone."
+        title="Delete Department Head?"
+        description="This will permanently delete the Department Head's profile and bio. This action cannot be undone."
         itemName={`${memberToDelete?.firstName} ${memberToDelete?.lastName}`}
       />
     </div>

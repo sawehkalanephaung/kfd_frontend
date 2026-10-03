@@ -20,7 +20,7 @@ export default function EditTeamMemberPage() {
         setMember(res.data?.data || res.data);
       } catch (err: any) {
         console.error(err);
-        setError('Failed to load Chairman.');
+        setError('Failed to load Department Head.');
       } finally {
         setLoading(false);
       }
@@ -44,7 +44,7 @@ export default function EditTeamMemberPage() {
     return (
       <div className="bg-red-50 text-red-600 p-6 rounded-lg border border-red-100">
         <h2 className="text-lg font-bold mb-2">Error</h2>
-        <p>{error || 'Chairman not found.'}</p>
+        <p>{error || 'Department Head not found.'}</p>
       </div>
     );
   }
@@ -53,7 +53,7 @@ export default function EditTeamMemberPage() {
     <div>
       <PageHeader
         icon={Users}
-        title="Edit Chairman"
+        title="Edit Department Head"
         description={`Update profile information for ${member.firstName} ${member.lastName}.`}
       />
       <TeamMemberForm initialData={member} isEdit={true} memberId={params.id as string} />

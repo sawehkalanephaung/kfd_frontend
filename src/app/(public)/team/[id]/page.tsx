@@ -18,7 +18,7 @@ async function getTeamMember(id: string) {
   });
 
   if (res.status === 404) return null;
-  if (!res.ok) throw new Error(`Failed to load Chairman "${id}": ${res.status}`);
+  if (!res.ok) throw new Error(`Failed to load Department Head "${id}": ${res.status}`);
 
   const data = await res.json();
   return data?.data || null;
@@ -53,7 +53,7 @@ function Breadcrumb({ name }: { name: string }) {
         <div className="flex flex-wrap items-center gap-2 py-4 text-sm font-medium text-[#5c6c7a] dark:text-steel">
           <Link href="/" className="transition-colors hover:text-brand-text dark:hover:text-white">Home</Link>
           <ChevronRight size={14} className="text-[#a8b3bc] dark:text-steel/50" />
-          <Link href="/team" className="transition-colors hover:text-brand-text dark:hover:text-white">Chairman</Link>
+          <Link href="/team" className="transition-colors hover:text-brand-text dark:hover:text-white">Department Heads</Link>
           <ChevronRight size={14} className="text-[#a8b3bc] dark:text-steel/50" />
           <span className="text-brand-text dark:text-white">{name}</span>
         </div>
@@ -83,8 +83,8 @@ export default async function TeamMemberProfilePage({ params }: { params: Promis
 
   const imageUrl = member.headshotUrl || member.headshot_url || member.imageUrl || member.avatarUrl;
   const displayImage = imageUrl ? getMediaUrl(imageUrl) : null;
-  const fullName = `${member.firstName || member.first_name || member.name || ''} ${member.lastName || member.last_name || ''}`.trim() || 'Chairman';
-  const finalTitle = parseI18nField(member.title) || member.role || member.position || 'Chairman';
+  const fullName = `${member.firstName || member.first_name || member.name || ''} ${member.lastName || member.last_name || ''}`.trim() || 'Department Head';
+  const finalTitle = parseI18nField(member.title) || member.role || member.position || 'Department Head';
   const bio = parseI18nField(member.bio || member.description) || '';
 
   return (

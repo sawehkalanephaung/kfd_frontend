@@ -59,7 +59,7 @@ export default function GlobalCreateButton({ userRoles = [], className = '' }: G
       show: canManageContent,
     },
     {
-      label: 'Chairman',
+      label: 'Department Head',
       href: '/dashboard/team/create',
       icon: Users,
       show: canManageUsers,

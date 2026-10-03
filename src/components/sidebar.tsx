@@ -80,7 +80,7 @@ const menuItems: MenuItem[] = [
     subItems: [
       { label: 'Organization Identity', href: '/dashboard/organization/identity', allowedRoles: ['manage_settings', 'ROLE_SUPER_ADMIN'] },
       { label: 'Department Branches', href: '/dashboard/organization/departments', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'] },
-      { label: 'Department Head', href: '/dashboard/team', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'] },
+      { label: 'Department Heads', href: '/dashboard/team', allowedRoles: ['manage_content', 'ROLE_SUPER_ADMIN'] },
       { label: 'Contact', href: '/dashboard/contact', allowedRoles: ['manage_settings', 'ROLE_SUPER_ADMIN'] },
       { label: 'Statistics Metrics', href: '/dashboard/organization/metrics', allowedRoles: ['view_analytics', 'ROLE_SUPER_ADMIN'] },
     ],
