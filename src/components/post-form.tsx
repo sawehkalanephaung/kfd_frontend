@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Loader2, Save, ArrowLeft, FileText, AlignLeft, Settings, ImageIcon, Tag as TagIcon, FolderTree, ChevronDown, X, FolderOpen } from 'lucide-react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
+import { normalizeRichTextSpaces } from '@/lib/rich-text';
 import api, { getMediaUrl } from '@/lib/api';
 import MediaSelector from '@/components/media-selector';
 import ImageUploadField from '@/components/image-upload-field';
@@ -120,6 +121,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
 
     const payload = {
       ...formData,
+      content: normalizeRichTextSpaces(formData.content),
       categoryId: formData.categoryId || null,
       departmentId: formData.departmentId || null,
       featuredImageUrl: formData.featuredImageUrl?.trim() || null,

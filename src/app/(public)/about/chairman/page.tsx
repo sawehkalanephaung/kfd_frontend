@@ -5,6 +5,7 @@ import { getMediaUrl } from "@/lib/api";
 import { formatYear, formatYearsOfService } from "@/lib/date-utils";
 import { Reveal } from "@/components/ui/reveal";
 import { fetchPublicResource } from "@/lib/public-fetch";
+import { normalizeRichTextSpaces } from "@/lib/rich-text";
 
 export const metadata: Metadata = {
   title: "Chairman - Kawthoolei Forestry Department",
@@ -198,7 +199,7 @@ export default async function ChairmanPage() {
                  colours the editor pastes in, which otherwise fight this page. */
               <div
                 className="rich-text prose prose-slate dark:prose-invert mt-10 max-w-none text-[#3d4f5b] dark:text-steel md:text-justify **:bg-transparent! **:text-inherit!"
-                dangerouslySetInnerHTML={{ __html: bio }}
+                dangerouslySetInnerHTML={{ __html: normalizeRichTextSpaces(bio) }}
               />
             ) : (
               <p className="mt-10 italic text-[#5c6c7a] dark:text-steel">

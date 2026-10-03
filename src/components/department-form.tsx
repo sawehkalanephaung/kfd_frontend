@@ -9,6 +9,7 @@ import MediaSelector from '@/components/media-selector';
 import ImageUploadField from '@/components/image-upload-field';
 import toast from 'react-hot-toast';
 import dynamic from 'next/dynamic';
+import { normalizeRichTextSpaces } from '@/lib/rich-text';
 import { CustomSelect } from '@/components/ui/custom-select';
 import { FormField } from '@/components/ui/form-field';
 import { Button } from '@/components/ui/button';
@@ -213,7 +214,7 @@ export default function DepartmentForm({ initialData, isEdit, departmentId }: De
     setLoading(true);
 
     // bodyContent only stores richText now (no contact data)
-    const bodyContentPayload = JSON.stringify({ richText });
+    const bodyContentPayload = JSON.stringify({ richText: normalizeRichTextSpaces(richText) });
 
     const payload = {
       ...formData,

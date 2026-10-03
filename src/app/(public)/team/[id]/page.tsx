@@ -4,6 +4,7 @@ import { getMediaUrl } from "@/lib/api";
 import { formatYear, formatTenureYears } from "@/lib/date-utils";
 import { notFound } from "next/navigation";
 import { fetchPublicResource } from "@/lib/public-fetch";
+import { normalizeRichTextSpaces } from "@/lib/rich-text";
 
 export const dynamic = 'force-dynamic';
 
@@ -150,7 +151,7 @@ export default async function TeamMemberProfilePage({ params }: { params: Promis
             {bio ? (
               <div
                 className="rich-text prose prose-slate dark:prose-invert mt-10 max-w-none text-[#3d4f5b] dark:text-steel md:text-justify **:bg-transparent! **:text-inherit!"
-                dangerouslySetInnerHTML={{ __html: bio }}
+                dangerouslySetInnerHTML={{ __html: normalizeRichTextSpaces(bio) }}
               />
             ) : (
               <p className="mt-10 italic text-[#5c6c7a] dark:text-steel">

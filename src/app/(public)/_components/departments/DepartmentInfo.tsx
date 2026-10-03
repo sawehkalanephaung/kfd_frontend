@@ -1,4 +1,5 @@
 import { DepartmentData } from "../../departments/types";
+import { normalizeRichTextSpaces } from "@/lib/rich-text";
 
 export default function DepartmentInfo({ data }: { data: DepartmentData }) {
   // Parse bodyContent assuming it's a JSON string with an "en" key, as seen in the DB
@@ -24,7 +25,7 @@ export default function DepartmentInfo({ data }: { data: DepartmentData }) {
         <div className="mb-12 min-w-0">
           <div
             className="rich-text text-slate leading-relaxed text-sm prose prose-sm dark:prose-invert max-w-none [&_[style*=background]]:bg-transparent! [&_[style*=background]]:bg-none! [&_[style*=color]]:text-inherit!"
-            dangerouslySetInnerHTML={{ __html: overview }}
+            dangerouslySetInnerHTML={{ __html: normalizeRichTextSpaces(overview) }}
           />
         </div>
       )}

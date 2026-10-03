@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import { RESERVED_PAGE_SLUGS } from "@/lib/reserved-pages";
 import { fetchPublicResource } from "@/lib/public-fetch";
+import { normalizeRichTextSpaces } from "@/lib/rich-text";
 
 export const metadata: Metadata = {
   title: "Privacy Policy - Kawthoolei Forestry Department",
@@ -52,7 +53,7 @@ export default async function PrivacyPolicyPage() {
           )}
           <div className="rich-text prose prose-lg dark:prose-invert max-w-none text-slate prose-headings:text-ink prose-a:text-brand-green-dark [&_[style*=background]]:bg-transparent! [&_[style*=background]]:bg-none! [&_[style*=color]]:text-inherit!">
             {pageData?.content ? (
-              <div dangerouslySetInnerHTML={{ __html: pageData.content }} />
+              <div dangerouslySetInnerHTML={{ __html: normalizeRichTextSpaces(pageData.content) }} />
             ) : (
               <p>Privacy Policy content is currently being updated.</p>
             )}

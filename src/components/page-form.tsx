@@ -14,6 +14,7 @@ import { FormField } from '@/components/ui/form-field';
 import { Button } from '@/components/ui/button';
 import { RESERVED_PAGES } from '@/lib/reserved-pages';
 import { withoutPasteHighlights } from '@/lib/quill-modules';
+import { normalizeRichTextSpaces } from '@/lib/rich-text';
 import 'react-quill-new/dist/quill.snow.css';
 
 /**
@@ -136,6 +137,7 @@ export default function PageForm({ initialData, isEdit, pageId }: PageFormProps)
 
     const payload = {
       ...formData,
+      content: normalizeRichTextSpaces(formData.content),
       heroImageId: formData.heroImageId || null,
       /* The gallery field is hidden for slugs whose layout has no slider. The
          slug can change while the form is open (it auto-follows the title on

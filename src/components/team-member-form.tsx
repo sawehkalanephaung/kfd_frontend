@@ -6,6 +6,7 @@ import { Loader2, Save, ArrowLeft, User, AlignLeft, Settings, Image as ImageIcon
 import Link from 'next/link';
 import api, { getMediaUrl } from '@/lib/api';
 import dynamic from 'next/dynamic';
+import { normalizeRichTextSpaces } from '@/lib/rich-text';
 import MediaSelector from '@/components/media-selector';
 import ImageUploadField from '@/components/image-upload-field';
 import toast from 'react-hot-toast';
@@ -171,7 +172,7 @@ export default function TeamMemberForm({ initialData, isEdit, memberId }: TeamMe
         ...formData,
         headshotUrl: finalHeadshotUrl,
         title: JSON.stringify({ text: formData.title }),
-        bio: JSON.stringify({ richText: formData.bio }),
+        bio: JSON.stringify({ richText: normalizeRichTextSpaces(formData.bio) }),
         departmentId: formData.departmentId || null,
         isKfdChairman: formData.isKfdChairman,
         termStartDate: formData.termStartDate || null,

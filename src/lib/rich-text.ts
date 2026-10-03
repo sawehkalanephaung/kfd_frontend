@@ -29,3 +29,14 @@ export function extractPlainExcerpt(
   if (!plain) return "";
   return plain.length > maxLength ? `${plain.slice(0, maxLength).trimEnd()}…` : plain;
 }
+
+/**
+ * Turns non-breaking spaces in editor HTML back into ordinary spaces.
+ * Text pasted into the rich-text editor arrives with `&nbsp;` between words,
+ * which makes a whole paragraph one unbreakable run — the browser then has to
+ * split it mid-word at the end of each line ("promo" / "te").
+ */
+export function normalizeRichTextSpaces(html: string | null | undefined): string {
+  if (!html) return "";
+  return html.replace(/&nbsp;|\u00a0/gi, ' ');
+}
