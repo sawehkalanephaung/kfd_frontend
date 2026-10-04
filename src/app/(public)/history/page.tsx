@@ -6,6 +6,13 @@ import { RESERVED_PAGE_SLUGS } from '@/lib/reserved-pages';
 import { fetchPublicResource } from '@/lib/public-fetch';
 import { PageHero } from '@/components/ui/page-hero';
 import { TextResizer } from "@/components/ui/text-resizer";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "KFD History",
+  description: "The history of the Kawthoolei Forestry Department.",
+};
+
 
 export const dynamic = 'force-dynamic';
 
@@ -37,7 +44,7 @@ export default async function HistoryPage() {
   const sanitizedContent = content ? content.replace(/&nbsp;/g, ' ') : '';
 
   return (
-    <main className="flex flex-col min-h-screen bg-white dark:bg-canvas">
+    <div className="flex flex-col min-h-screen bg-white dark:bg-canvas">
       <PageHero title={title} titleFont="serif" imageUrl={displayImage} />
 
       {/* Article Content */}
@@ -48,7 +55,7 @@ export default async function HistoryPage() {
             <div className="mb-12">
               <Link
                 href="/about"
-                className="inline-flex items-center gap-2 text-sm font-bold tracking-wider uppercase text-forest dark:text-brand-green-dark hover:text-forest-light dark:hover:text-white transition-colors group"
+                className="inline-flex items-center gap-2 py-1.5 -my-1.5 pointer-coarse:py-3 pointer-coarse:-my-3 text-sm font-bold tracking-wider uppercase text-forest dark:text-brand-green-dark hover:text-forest-light dark:hover:text-white transition-colors group"
               >
                 <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
                 Back
@@ -66,6 +73,6 @@ export default async function HistoryPage() {
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }

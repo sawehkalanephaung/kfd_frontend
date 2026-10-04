@@ -8,6 +8,7 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { usePrefersReducedMotion } from "@/lib/use-reduced-motion";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -58,7 +59,11 @@ export default function AboutChairmanSection({ chairmanData }: { chairmanData?: 
   const portraitRef = useRef<HTMLDivElement>(null);
   const bioRef = useRef<HTMLDivElement>(null);
 
+  const prefersReducedMotion = usePrefersReducedMotion();
+
   useGSAP(() => {
+    // Reduced motion: leave everything at its natural, final state.
+    if (prefersReducedMotion) return;
     if (!sectionRef.current || !portraitRef.current || !bioRef.current) return;
 
     gsap.fromTo(portraitRef.current,
@@ -91,7 +96,7 @@ export default function AboutChairmanSection({ chairmanData }: { chairmanData?: 
         }
       }
     );
-  }, { scope: sectionRef });
+  }, { scope: sectionRef, dependencies: [prefersReducedMotion] });
 
   if (!chairmanData) {
     return (
@@ -142,11 +147,11 @@ export default function AboutChairmanSection({ chairmanData }: { chairmanData?: 
             {chairman.termStartDate && (
               <div className="flex flex-wrap gap-x-8 gap-y-3 mb-6">
                 <div>
-                  <span className="block text-[10px] font-bold text-steel uppercase tracking-wider mb-1">First Appointed</span>
+                  <span className="block text-xs font-bold text-steel uppercase tracking-wider mb-1">First Appointed</span>
                   <span className="text-sm font-semibold text-[#111] dark:text-white">{formatYear(chairman.termStartDate)}</span>
                 </div>
                 <div>
-                  <span className="block text-[10px] font-bold text-steel uppercase tracking-wider mb-1">Tenure Period</span>
+                  <span className="block text-xs font-bold text-steel uppercase tracking-wider mb-1">Tenure Period</span>
                   <span className="text-sm font-semibold text-[#111] dark:text-white">{formatTenureYears(chairman.termStartDate, chairman.termEndDate)}</span>
                 </div>
               </div>

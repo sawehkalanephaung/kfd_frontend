@@ -90,11 +90,11 @@ export default function PublicationsExplorer({ publications, categories }: Props
         // eslint-disable-next-line @next/next/no-img-element
         <img src={getMediaUrl(pub.thumbnailUrl)} alt={pub.title} className="absolute inset-0 w-full h-full object-cover" />
       ) : (
-        <FileText size={28} className="text-[#9aa6ba] dark:text-steel" />
+        <FileText size={28} className="text-muted dark:text-steel" />
       )}
       {pub.category && (
         <div className="absolute top-3 left-3">
-          <span className="text-[11.5px] font-bold text-white bg-[#001E2B] rounded-md px-3 py-1.25 tracking-wide uppercase shadow-[0_2px_6px_rgba(0,0,0,.18)]">
+          <span className="text-xs font-bold text-white bg-[#001E2B] rounded-md px-3 py-1.25 tracking-wide uppercase shadow-[0_2px_6px_rgba(0,0,0,.18)]">
             {pub.category.name}
           </span>
         </div>
@@ -104,13 +104,14 @@ export default function PublicationsExplorer({ publications, categories }: Props
 
   return (
     <div className={`${publicSans.className} bg-[#F9FBFA] dark:bg-canvas text-[#1a2231] dark:text-white`}>
+      <h1 className="sr-only">Publications</h1>
       <Reveal onMount className="max-w-7xl mx-auto px-5 sm:px-7 py-8 pb-16 grid grid-cols-1 lg:grid-cols-[236px_minmax(0,1fr)] gap-8 lg:gap-10 items-start">
 
         {/* sidebar */}
         <aside>
           <div className="flex items-baseline justify-between mb-5">
-            <h2 className="m-0 text-2xl font-extrabold text-[#00684A] dark:text-brand-green tracking-tight">Filters</h2>
-            <button onClick={resetFilters} className="text-[13px] text-[#8290a6] font-medium hover:text-[#00684A] dark:hover:text-brand-green transition-colors">
+            <h2 className="m-0 text-2xl font-extrabold text-[#00684A] dark:text-brand-green-dark tracking-tight">Filters</h2>
+            <button onClick={resetFilters} className="py-1.5 -my-1.5 pointer-coarse:py-3 pointer-coarse:-my-3 text-[13px] text-muted font-medium hover:text-[#00684A] dark:hover:text-brand-green-dark transition-colors">
               Reset filters
             </button>
           </div>
@@ -120,12 +121,12 @@ export default function PublicationsExplorer({ publications, categories }: Props
             <div className="flex items-center justify-between mb-3">
               <span className="text-sm font-bold text-[#023430] dark:text-white tracking-wide">Category</span>
             </div>
-            <label className={`flex items-center gap-2.5 py-1.5 cursor-pointer text-sm ${categorySlug === '' ? 'text-[#00684A] dark:text-brand-green font-semibold' : 'text-[#1a2231] dark:text-white/80 font-medium'}`}>
+            <label className={`flex items-center gap-2.5 py-1.5 cursor-pointer text-sm ${categorySlug === '' ? 'text-[#00684A] dark:text-brand-green-dark font-semibold' : 'text-[#1a2231] dark:text-white/80 font-medium'}`}>
               <input type="radio" name="publication-category" checked={categorySlug === ''} onChange={() => { setCategorySlug(''); setPage(1); }} className="accent-[#00684A] dark:accent-brand-green size-4 shrink-0" />
               All Categories
             </label>
             {categories.map(cat => (
-              <label key={cat.id} className={`flex items-center gap-2.5 py-1.5 cursor-pointer text-sm ${categorySlug === cat.slug ? 'text-[#00684A] dark:text-brand-green font-semibold' : 'text-[#1a2231] dark:text-white/80 font-medium'}`}>
+              <label key={cat.id} className={`flex items-center gap-2.5 py-1.5 cursor-pointer text-sm ${categorySlug === cat.slug ? 'text-[#00684A] dark:text-brand-green-dark font-semibold' : 'text-[#1a2231] dark:text-white/80 font-medium'}`}>
                 <input type="radio" name="publication-category" checked={categorySlug === cat.slug} onChange={() => { setCategorySlug(cat.slug); setPage(1); }} className="accent-[#00684A] dark:accent-brand-green size-4 shrink-0" />
                 {cat.name}
               </label>
@@ -150,7 +151,7 @@ export default function PublicationsExplorer({ publications, categories }: Props
                 </label>
               ))
             ) : (
-              <p className="text-xs text-[#9aa6ba] dark:text-steel">No organizers yet.</p>
+              <p className="text-xs text-muted dark:text-steel">No organizers yet.</p>
             )}
           </div>
 
@@ -172,7 +173,7 @@ export default function PublicationsExplorer({ publications, categories }: Props
                 </label>
               ))
             ) : (
-              <p className="text-xs text-[#9aa6ba] dark:text-steel">No languages yet.</p>
+              <p className="text-xs text-muted dark:text-steel">No languages yet.</p>
             )}
           </div>
         </aside>
@@ -182,12 +183,13 @@ export default function PublicationsExplorer({ publications, categories }: Props
           {/* toolbar */}
           <div className="flex gap-3 mb-6">
             <div className="flex-1 flex items-center gap-3 bg-white dark:bg-surface border border-[#dce1ea] dark:border-hairline rounded-xl px-4 h-13 shadow-[0_1px_2px_rgba(15,31,61,.04)] dark:shadow-none focus-within:ring-2 focus-within:ring-[#00684A]/20 focus-within:border-[#00684A] dark:focus-within:ring-brand-green/20 dark:focus-within:border-brand-green transition-all">
-              <Search size={17} className="text-[#9aa6ba] dark:text-steel shrink-0" />
+              <Search size={17} className="text-muted dark:text-steel shrink-0" />
               <input
+                aria-label="Search publications"
                 placeholder="Search publications…"
                 value={search}
                 onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-                className="border-0 focus:border-transparent outline-none focus:outline-none ring-0 focus:ring-0 !outline-none !ring-0 w-full h-full text-[15px] bg-transparent text-[#1a2231] dark:text-white placeholder:text-[#9aa6ba] dark:placeholder:text-steel"
+                className="border-0 focus:border-transparent outline-none focus:outline-none ring-0 focus:ring-0 !outline-none !ring-0 w-full h-full text-[15px] bg-transparent text-[#1a2231] dark:text-white placeholder:text-muted dark:placeholder:text-steel"
               />
             </div>
             <button
@@ -217,7 +219,7 @@ export default function PublicationsExplorer({ publications, categories }: Props
               />
               {hasActiveFilters && (
                 <p className="text-center pb-8 -mt-2">
-                  <button onClick={resetFilters} className="text-[#00684A] dark:text-brand-green text-sm font-bold hover:underline">
+                  <button onClick={resetFilters} className="py-1.5 text-[#00684A] dark:text-brand-green-dark text-sm font-bold hover:underline">
                     Reset filters
                   </button>
                 </p>
@@ -238,12 +240,12 @@ export default function PublicationsExplorer({ publications, categories }: Props
                     <dl className="mt-auto pt-3.5 border-t border-[#eef1f6] dark:border-hairline grid grid-cols-[auto_1fr] gap-y-1.5 gap-x-3.5">
                       {meta(pub).map(m => (
                         <React.Fragment key={m.label}>
-                          <dt className="text-[11px] font-bold tracking-wide uppercase text-[#8290a6] dark:text-steel self-center">{m.label}</dt>
+                          <dt className="text-xs font-bold tracking-wide uppercase text-muted dark:text-steel self-center">{m.label}</dt>
                           <dd className="m-0 text-[13.5px] font-semibold text-[#1a2231] dark:text-white truncate">{m.value}</dd>
                         </React.Fragment>
                       ))}
                     </dl>
-                    <div className="mt-3.5 text-[13.5px] font-bold text-[#00684A] dark:text-brand-green">Read more →</div>
+                    <div className="mt-3.5 text-[13.5px] font-bold text-[#00684A] dark:text-brand-green-dark">Read more →</div>
                   </div>
                 </Link>
               ))}
@@ -263,12 +265,12 @@ export default function PublicationsExplorer({ publications, categories }: Props
                     <dl className="mt-1.5 pt-3.5 border-t border-[#eef1f6] dark:border-hairline flex gap-8 flex-wrap">
                       {meta(pub).map(m => (
                         <div key={m.label}>
-                          <dt className="text-[11px] font-bold tracking-wide uppercase text-[#8290a6] dark:text-steel">{m.label}</dt>
+                          <dt className="text-xs font-bold tracking-wide uppercase text-muted dark:text-steel">{m.label}</dt>
                           <dd className="m-0 mt-0.5 text-sm font-semibold text-[#1a2231] dark:text-white">{m.value}</dd>
                         </div>
                       ))}
                     </dl>
-                    <div className="mt-1 text-[13.5px] font-bold text-[#00684A] dark:text-brand-green">Read more →</div>
+                    <div className="mt-1 text-[13.5px] font-bold text-[#00684A] dark:text-brand-green-dark">Read more →</div>
                   </div>
                 </Link>
               ))}
@@ -282,7 +284,7 @@ export default function PublicationsExplorer({ publications, categories }: Props
                 onClick={() => setPage(p => Math.max(1, p - 1))}
                 disabled={currentPage === 1}
                 aria-label="Previous page"
-                className="min-w-11 h-11 px-3 rounded-[9px] border border-[#dce1ea] dark:border-hairline bg-white dark:bg-surface text-[#00684A] dark:text-brand-green font-bold flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed"
+                className="min-w-11 h-11 px-3 rounded-[9px] border border-[#dce1ea] dark:border-hairline bg-white dark:bg-surface text-[#00684A] dark:text-brand-green-dark font-bold flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 <ChevronLeft size={16} aria-hidden="true" />
               </button>
@@ -292,7 +294,7 @@ export default function PublicationsExplorer({ publications, categories }: Props
                   onClick={() => setPage(p)}
                   aria-label={`Page ${p}`}
                   aria-current={p === currentPage ? 'page' : undefined}
-                  className={`min-w-11 h-11 px-3.5 rounded-[9px] text-[14.5px] font-bold flex items-center justify-center transition-colors ${p === currentPage ? 'bg-[#00684A] dark:bg-brand-green text-white dark:text-canvas border-0' : 'bg-white dark:bg-surface border border-[#dce1ea] dark:border-hairline text-[#00684A] dark:text-brand-green'}`}
+                  className={`min-w-11 h-11 px-3.5 rounded-[9px] text-[14.5px] font-bold flex items-center justify-center transition-colors ${p === currentPage ? 'bg-[#00684A] dark:bg-brand-green text-white dark:text-canvas border-0' : 'bg-white dark:bg-surface border border-[#dce1ea] dark:border-hairline text-[#00684A] dark:text-brand-green-dark'}`}
                 >
                   {p}
                 </button>
@@ -301,7 +303,7 @@ export default function PublicationsExplorer({ publications, categories }: Props
                 onClick={() => setPage(p => Math.min(totalPages, p + 1))}
                 disabled={currentPage === totalPages}
                 aria-label="Next page"
-                className="min-w-11 h-11 px-3 rounded-[9px] border border-[#dce1ea] dark:border-hairline bg-white dark:bg-surface text-[#00684A] dark:text-brand-green font-bold flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed"
+                className="min-w-11 h-11 px-3 rounded-[9px] border border-[#dce1ea] dark:border-hairline bg-white dark:bg-surface text-[#00684A] dark:text-brand-green-dark font-bold flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 <ChevronRight size={16} aria-hidden="true" />
               </button>

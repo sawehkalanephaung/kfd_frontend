@@ -58,7 +58,7 @@ export default async function DepartmentsPage() {
   const departments = await getDepartments();
 
   return (
-    <main className="min-h-screen bg-surface">
+    <div className="min-h-screen bg-surface">
       <Reveal onMount>
         <PageHero
           title="Our Department Branches"
@@ -109,6 +109,6 @@ export default async function DepartmentsPage() {
       </section>
 
 
-    </main>
+    </div>
   );
 }

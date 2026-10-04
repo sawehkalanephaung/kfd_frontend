@@ -8,6 +8,7 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { usePrefersReducedMotion } from "@/lib/use-reduced-motion";
 import { ContentFallback } from "@/components/content-fallback";
 import { Card } from "@/components/ui/card";
 
@@ -20,7 +21,11 @@ export default function DepartmentsSection({ departments, status }: { department
   const containerRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
 
+  const prefersReducedMotion = usePrefersReducedMotion();
+
   useGSAP(() => {
+    // Reduced motion: leave everything at its natural, final state.
+    if (prefersReducedMotion) return;
     if (status === 'empty' || !containerRef.current || !headerRef.current) return;
 
     // Animate Header
@@ -56,7 +61,7 @@ export default function DepartmentsSection({ departments, status }: { department
         }
       }
     );
-  }, { scope: containerRef });
+  }, { scope: containerRef, dependencies: [prefersReducedMotion] });
 
   if (status === 'empty') return null;
 
@@ -66,10 +71,10 @@ export default function DepartmentsSection({ departments, status }: { department
 
         {/* Section Header */}
         <div ref={headerRef} className="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
-          <h2 className="text-3xl font-bold text-white">Our Department Branches</h2>
+          <h2 className="text-3xl font-bold text-ink">Our Department Branches</h2>
           <Link
             href="/departments"
-            className="text-sm font-semibold text-ink hover:text-brand-green-dark flex items-center gap-1 transition-colors group"
+            className="py-2 text-sm font-semibold text-ink hover:text-brand-green-dark flex items-center gap-1 transition-colors group"
           >
             View All Department Branches
             <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />

@@ -120,13 +120,13 @@ export default function DepartmentContactCard({ data }: { data: DepartmentData }
         <div className="lg:w-1/3 flex flex-col gap-6">
           {socialLinksArray.length > 0 && (
             <div className="bg-green-50/50 dark:bg-surface rounded-lg p-8 border border-green-100 dark:border-hairline relative overflow-hidden">
-              <div className="absolute -top-4 -right-4 opacity-20 rotate-45 text-green-600 dark:text-brand-green pointer-events-none">
+              <div className="absolute -top-4 -right-4 opacity-20 rotate-45 text-green-600 dark:text-brand-green-dark pointer-events-none">
                 <svg width="100" height="100" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M17 8C8 10 5.9 16.19 5.82 16.36a1 1 0 0 0 .15 1.15 1 1 0 0 0 1.12.2c.2-.08 6.45-2.73 10.9-11.71a1 1 0 0 0-1-1zm-6 8a4 4 0 0 1 4-4" />
                 </svg>
               </div>
 
-              <h3 className="text-sm font-bold text-green-700 dark:text-brand-green mb-3 relative z-10">Connect With Us</h3>
+              <h3 className="text-sm font-bold text-green-700 dark:text-brand-green-dark mb-3 relative z-10">Connect With Us</h3>
               <p className="text-xs text-steel leading-relaxed mb-8 relative z-10">
                 Follow our social media channels to stay updated on our latest activities and news.
               </p>
@@ -141,7 +141,7 @@ export default function DepartmentContactCard({ data }: { data: DepartmentData }
                       <div className={`w-10 h-10 rounded-full ${config.color} text-white flex items-center justify-center transform transition-transform group-hover:scale-110 shadow-sm`}>
                         <IconComp />
                       </div>
-                      <span className="text-[10px] text-steel font-medium">{config.label}</span>
+                      <span className="text-xs text-steel font-medium">{config.label}</span>
                     </a>
                   );
                 })}
@@ -149,11 +149,11 @@ export default function DepartmentContactCard({ data }: { data: DepartmentData }
 
               <div className="mt-8 flex items-center gap-4 relative z-10">
                 <div className="w-16 h-16 rounded-full bg-green-100 dark:bg-surface-soft flex items-center justify-center border-2 border-green-200 dark:border-hairline-strong shrink-0">
-                  <Trees size={32} className="text-green-700 dark:text-brand-green" />
+                  <Trees size={32} className="text-green-700 dark:text-brand-green-dark" />
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold text-green-800 dark:text-brand-green mb-1">Together for Our Forests</h4>
-                  <p className="text-[10px] text-steel leading-relaxed">
+                  <h4 className="text-xs font-bold text-green-800 dark:text-brand-green-dark mb-1">Together for Our Forests</h4>
+                  <p className="text-xs text-steel leading-relaxed">
                     Your support and collaboration help us protect and conserve our forests for future generations.
                   </p>
                 </div>

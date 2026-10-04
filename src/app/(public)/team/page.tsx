@@ -3,6 +3,13 @@ import { getMediaUrl } from "@/lib/api";
 import { PageHero } from "@/components/ui/page-hero";
 import { Card, type CardMetaItem } from "@/components/ui/card";
 import { fetchPublicResource } from "@/lib/public-fetch";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Department Heads",
+  description: "Meet the Department Heads and leadership of the Kawthoolei Forestry Department.",
+};
+
 
 export const dynamic = 'force-dynamic';
 
@@ -48,7 +55,7 @@ export default async function TeamDirectoryPage() {
   const members = await getTeamMembers();
 
   return (
-    <main className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen">
       <PageHero
         title="Department Heads"
         subtitle="Meet the dedicated leadership and Department Heads."
@@ -59,7 +66,7 @@ export default async function TeamDirectoryPage() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           {members.length === 0 ? (
             <div className="text-center py-20 bg-canvas rounded-2xl shadow-sm border border-hairline">
-              <h3 className="text-xl text-steel font-medium">Department Heads will be updated soon.</h3>
+              <h2 className="text-xl text-steel font-medium">Department Heads will be updated soon.</h2>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
@@ -75,6 +82,7 @@ export default async function TeamDirectoryPage() {
                 return (
                   <Card
                     key={member.id}
+                    titleAs="h2"
                     href={`/team/${member.id}`}
                     imageUrl={displayImage}
                     imageAlt={name}
@@ -92,6 +100,6 @@ export default async function TeamDirectoryPage() {
           )}
         </div>
       </section>
-    </main>
+    </div>
   );
 }

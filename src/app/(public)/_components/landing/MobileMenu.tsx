@@ -33,7 +33,7 @@ export default function MobileMenu({ navLinks }: MobileMenuProps) {
       {/* Hamburger Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className="p-2 text-interactive hover:text-interactive-hover transition-all duration-200 ease-in-out"
+        className="inline-flex items-center justify-center p-2 pointer-coarse:min-h-11 pointer-coarse:min-w-11 text-interactive hover:text-interactive-hover transition-all duration-200 ease-in-out"
         aria-label="Open menu"
       >
         <Menu className="w-6 h-6" />
@@ -64,7 +64,7 @@ export default function MobileMenu({ navLinks }: MobileMenuProps) {
           <button
             onClick={close}
             aria-label="Close menu"
-            className="p-2 text-steel hover:text-ink rounded-lg bg-surface hover:bg-surface transition-colors outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40"
+            className="inline-flex items-center justify-center p-2 pointer-coarse:min-h-11 pointer-coarse:min-w-11 text-steel hover:text-ink rounded-lg bg-surface hover:bg-surface transition-colors outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40"
           >
             <X className="w-5 h-5" aria-hidden="true" />
           </button>
@@ -95,7 +95,7 @@ export default function MobileMenu({ navLinks }: MobileMenuProps) {
                           key={subLink.name}
                           href={subLink.href}
                           onClick={() => setIsOpen(false)}
-                          className="dropdown-row-hover block px-4 py-2.5 text-sm font-medium text-interactive hover:text-interactive-hover rounded-lg transition-all duration-200 ease-in-out"
+                          className="dropdown-row-hover block px-4 py-2.5 pointer-coarse:py-3 text-sm font-medium text-interactive hover:text-interactive-hover rounded-lg transition-all duration-200 ease-in-out"
                         >
                           {subLink.name}
                         </Link>

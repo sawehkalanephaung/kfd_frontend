@@ -36,11 +36,11 @@ export default function DepartmentTabs({ data }: { data: DepartmentData }) {
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center gap-2 pb-4 px-2 text-[15px] font-semibold transition-all border-b-2 ${
                   isActive 
-                    ? "border-blue-500 text-blue-600" 
+                    ? "border-brand-green-dark text-brand-green-dark" 
                     : "border-transparent text-steel hover:text-ink hover:border-gray-300"
                 }`}
               >
-                <Icon size={18} className={isActive ? "text-blue-500" : "text-steel"} />
+                <Icon size={18} className={isActive ? "text-brand-green-dark" : "text-steel"} />
                 {tab.label}
               </button>
             );

@@ -4,8 +4,9 @@ import { getMediaUrl } from "@/lib/api";
 import { formatYear, formatTenureYears } from "@/lib/date-utils";
 import { notFound } from "next/navigation";
 import { fetchPublicResource } from "@/lib/public-fetch";
-import { normalizeRichTextSpaces } from "@/lib/rich-text";
+import { renderRichText } from "@/lib/rich-text";
 import { TextResizer } from "@/components/ui/text-resizer";
+import type { Metadata } from "next";
 
 export const dynamic = 'force-dynamic';
 
@@ -24,6 +25,15 @@ async function getTeamMember(id: string) {
 
   const data = await res.json();
   return data?.data || null;
+}
+
+/** Tab and search title is the person's name, so each profile is distinguishable. */
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params;
+  const member = await getTeamMember(id).catch(() => null);
+  if (!member) return { title: "Page not found" };
+  const name = `${member.firstName || member.first_name || member.name || ""} ${member.lastName || member.last_name || ""}`.trim();
+  return { title: name || "Department Head" };
 }
 
 function parseI18nField(val: any): string {
@@ -53,9 +63,9 @@ function Breadcrumb({ name }: { name: string }) {
     <div className="border-b border-[#e1e5e8] dark:border-hairline bg-canvas">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-wrap items-center gap-2 py-4 text-sm font-medium text-[#5c6c7a] dark:text-steel">
-          <Link href="/" className="transition-colors hover:text-brand-text dark:hover:text-white">Home</Link>
+          <Link href="/" className="inline-block py-1.5 -my-1.5 pointer-coarse:py-3 pointer-coarse:-my-3 transition-colors hover:text-brand-text dark:hover:text-white">Home</Link>
           <ChevronRight size={14} className="text-[#a8b3bc] dark:text-steel/50" />
-          <Link href="/team" className="transition-colors hover:text-brand-text dark:hover:text-white">Department Heads</Link>
+          <Link href="/team" className="inline-block py-1.5 -my-1.5 pointer-coarse:py-3 pointer-coarse:-my-3 transition-colors hover:text-brand-text dark:hover:text-white">Department Heads</Link>
           <ChevronRight size={14} className="text-[#a8b3bc] dark:text-steel/50" />
           <span className="text-brand-text dark:text-white">{name}</span>
         </div>
@@ -67,7 +77,7 @@ function Breadcrumb({ name }: { name: string }) {
 function HeroFact({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <dt className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#4ade80]">
+      <dt className="text-xs font-bold uppercase tracking-[0.14em] text-[#4ade80]">
         {label}
       </dt>
       <dd className="mt-1.5 text-[15px] font-semibold text-white">{value}</dd>
@@ -90,7 +100,7 @@ export default async function TeamMemberProfilePage({ params }: { params: Promis
   const bio = parseI18nField(member.bio || member.description) || '';
 
   return (
-    <main className="min-h-screen bg-white dark:bg-canvas">
+    <div className="min-h-screen bg-white dark:bg-canvas">
       <Breadcrumb name={fullName} />
 
       <section className="relative overflow-hidden bg-[#0b1f14] pb-14 pt-14 lg:pb-24">
@@ -153,7 +163,7 @@ export default async function TeamMemberProfilePage({ params }: { params: Promis
             {bio ? (
               <div
                 className="text-resizable-floor rich-text prose prose-slate dark:prose-invert mt-6 max-w-none text-[#3d4f5b] dark:text-steel md:text-justify **:bg-transparent! **:text-inherit!"
-                dangerouslySetInnerHTML={{ __html: normalizeRichTextSpaces(bio) }}
+                dangerouslySetInnerHTML={{ __html: renderRichText(bio) }}
               />
             ) : (
               <p className="mt-10 italic text-[#5c6c7a] dark:text-steel">
@@ -163,6 +173,6 @@ export default async function TeamMemberProfilePage({ params }: { params: Promis
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }

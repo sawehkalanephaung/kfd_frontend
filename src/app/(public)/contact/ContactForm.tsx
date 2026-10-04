@@ -59,7 +59,7 @@ export default function ContactForm({ settings }: { settings: ContactSettings | 
     <div className="bg-white dark:bg-[#091810] rounded-xl p-6 sm:p-8 border border-hairline dark:border-[#132d1f] w-full max-w-2xl shadow-sm dark:shadow-none">
       {success ? (
         <div role="status" className="flex flex-col items-center justify-center text-center py-12">
-          <div className="w-16 h-16 bg-green-500/10 text-green-400 rounded-full flex items-center justify-center mb-6">
+          <div className="w-16 h-16 bg-brand-green-soft text-brand-green-dark rounded-full flex items-center justify-center mb-6">
             <CheckCircle2 size={32} aria-hidden="true" />
           </div>
           <h3 ref={successHeadingRef} tabIndex={-1} className="text-2xl font-serif text-ink dark:text-white mb-2 outline-none">
@@ -86,7 +86,7 @@ export default function ContactForm({ settings }: { settings: ContactSettings | 
 
           {/* Route Inquiry To */}
           <div className="space-y-1.5">
-            <label htmlFor="inquiryType" className="text-[10px] font-bold text-steel/80 dark:text-white/50 uppercase tracking-wider block">
+            <label htmlFor="inquiryType" className="text-xs font-bold text-steel dark:text-white/80 uppercase tracking-wider block">
               Route Inquiry To
             </label>
             <div className="relative">
@@ -97,13 +97,13 @@ export default function ContactForm({ settings }: { settings: ContactSettings | 
                 options={inquiryOptions.map((opt) => ({ value: opt, label: opt }))}
               />
             </div>
-            <p className="text-[10px] text-steel/60 dark:text-white/40">Selecting the correct department expedites processing times.</p>
+            <p className="text-xs text-steel dark:text-white/70">Selecting the correct department expedites processing times.</p>
           </div>
 
           {/* Name Row */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label htmlFor="firstName" className="text-[10px] font-bold text-steel/80 dark:text-white/50 uppercase tracking-wider block">
+              <label htmlFor="firstName" className="text-xs font-bold text-steel dark:text-white/80 uppercase tracking-wider block">
                 First Name
               </label>
               <input 
@@ -116,7 +116,7 @@ export default function ContactForm({ settings }: { settings: ContactSettings | 
               />
             </div>
             <div className="space-y-1.5">
-              <label htmlFor="lastName" className="text-[10px] font-bold text-steel/80 dark:text-white/50 uppercase tracking-wider block">
+              <label htmlFor="lastName" className="text-xs font-bold text-steel dark:text-white/80 uppercase tracking-wider block">
                 Last Name
               </label>
               <input 
@@ -132,7 +132,7 @@ export default function ContactForm({ settings }: { settings: ContactSettings | 
 
           {/* Email Row */}
           <div className="space-y-1.5">
-            <label htmlFor="email" className="text-[10px] font-bold text-steel/80 dark:text-white/50 uppercase tracking-wider block">
+            <label htmlFor="email" className="text-xs font-bold text-steel dark:text-white/80 uppercase tracking-wider block">
               Email Address
             </label>
             <input 
@@ -147,7 +147,7 @@ export default function ContactForm({ settings }: { settings: ContactSettings | 
 
           {/* Subject Row */}
           <div className="space-y-1.5">
-            <label htmlFor="subject" className="text-[10px] font-bold text-steel/80 dark:text-white/50 uppercase tracking-wider block">
+            <label htmlFor="subject" className="text-xs font-bold text-steel dark:text-white/80 uppercase tracking-wider block">
               Subject
             </label>
             <input 
@@ -162,7 +162,7 @@ export default function ContactForm({ settings }: { settings: ContactSettings | 
 
           {/* Message Row */}
           <div className="space-y-1.5">
-            <label htmlFor="message" className="text-[10px] font-bold text-steel/80 dark:text-white/50 uppercase tracking-wider block">
+            <label htmlFor="message" className="text-xs font-bold text-steel dark:text-white/80 uppercase tracking-wider block">
               Message
             </label>
             <textarea 
@@ -177,7 +177,7 @@ export default function ContactForm({ settings }: { settings: ContactSettings | 
 
           {/* Footer & Submit */}
           <div className="pt-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <p className="text-[9px] text-steel/60 dark:text-white/40 max-w-50 leading-tight">
+            <p className="text-xs text-steel dark:text-white/70 max-w-50 leading-tight">
               By submitting this form, you acknowledge our Privacy Policy regarding data handling.
             </p>
             <Button

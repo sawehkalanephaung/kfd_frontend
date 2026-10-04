@@ -8,7 +8,7 @@ import { Card } from "@/components/ui/card";
 import { ZoomableImage } from "@/components/ui/zoomable-image";
 import { Reveal } from "@/components/ui/reveal";
 import { fetchPublicResource } from "@/lib/public-fetch";
-import { normalizeRichTextSpaces } from "@/lib/rich-text";
+import { renderRichText } from "@/lib/rich-text";
 import { TextResizer } from "@/components/ui/text-resizer";
 
 const API = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
@@ -47,7 +47,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   // the real error handling.
   try {
     const post = await getPost(slug);
-    if (!post) return { title: "News - KFD" };
+    // A missing post renders the 404 page, so the tab should say so.
+    if (!post) return { title: "Page not found" };
     return {
       title: `${post.title} - KFD`,
       description: post.excerpt || "",
@@ -99,7 +100,7 @@ function RelatedCard({ post }: { post: NewsPost }) {
       imageAlt={post.title}
       badge={post.category?.name}
       title={post.title}
-      titleAs="h4"
+      titleAs="h3"
       description={post.excerpt}
       meta={[{ icon: Calendar, label: formatDate(post.publishedAt) }]}
       metaStyle="inline"
@@ -127,7 +128,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
     const day = eventDate.getDate();
 
     return (
-      <main className="min-h-screen bg-[#f9f7f1] dark:bg-forest-950">
+      <div className="min-h-screen bg-[#f9f7f1] dark:bg-forest-950">
         <Reveal as="section" onMount className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 bg-linear-to-b from-white to-[#f9f7f1] dark:from-forest-800 dark:to-forest-950">
           <div className="container mx-auto max-w-5xl">
             <div className="flex flex-col md:flex-row gap-10 items-start">
@@ -144,16 +145,16 @@ export default async function NewsDetailPage({ params }: PageProps) {
 
                 <div className="bg-white dark:bg-[#153020]/50 rounded-2xl border border-hairline dark:border-white/5 p-6 space-y-5 shadow-sm dark:shadow-none">
                   <div>
-                    <h3 className="text-xs uppercase tracking-wider text-steel/80 dark:text-white/40 mb-1 font-bold">Time</h3>
+                    <h3 className="text-xs uppercase tracking-wider text-steel dark:text-white/70 mb-1 font-bold">Time</h3>
                     <p className="text-ink dark:text-white text-lg font-medium">{metadata.eventTime || 'TBA'}</p>
                   </div>
                   <div>
-                    <h3 className="text-xs uppercase tracking-wider text-steel/80 dark:text-white/40 mb-1 font-bold">Location</h3>
+                    <h3 className="text-xs uppercase tracking-wider text-steel dark:text-white/70 mb-1 font-bold">Location</h3>
                     <p className="text-ink dark:text-white text-lg font-medium">{metadata.eventLocation || 'TBA'}</p>
                   </div>
                   <div>
-                    <h3 className="text-xs uppercase tracking-wider text-steel/80 dark:text-white/40 mb-1 font-bold">Category</h3>
-                    <span className={`inline-block text-[10px] font-bold uppercase tracking-widest border px-3 py-1 rounded-full mt-1 ${getCategoryColor(post.category?.name)}`}>
+                    <h3 className="text-xs uppercase tracking-wider text-steel dark:text-white/70 mb-1 font-bold">Category</h3>
+                    <span className={`inline-block text-xs font-bold uppercase tracking-widest border px-3 py-1 rounded-full mt-1 ${getCategoryColor(post.category?.name)}`}>
                       {post.category?.name}
                     </span>
                   </div>
@@ -181,7 +182,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
                 {post.content ? (
                   <div
                     className="text-resizable-floor prose dark:prose-invert max-w-none wrap-break-word prose-p:text-charcoal dark:prose-p:text-white prose-headings:text-ink dark:prose-headings:text-white prose-a:text-brand-green-dark dark:prose-a:text-green-400 [&_[style*=background]]:bg-transparent! [&_[style*=background]]:bg-none! **:text-inherit!"
-                    dangerouslySetInnerHTML={{ __html: normalizeRichTextSpaces(post.content) }}
+                    dangerouslySetInnerHTML={{ __html: renderRichText(post.content) }}
                   />
                 ) : (
                   <p className="text-resizable-floor text-charcoal dark:text-white leading-relaxed">{post.excerpt}</p>
@@ -190,14 +191,14 @@ export default async function NewsDetailPage({ params }: PageProps) {
             </div>
           </div>
         </Reveal>
-      </main>
+      </div>
     );
   }
 
   // ── Announcement Layout ─────────────────────────────────────────
   if (categorySlug === 'announcement') {
     return (
-      <main className="min-h-screen print:min-h-0 bg-[#f4f1ea] dark:bg-canvas print:bg-transparent py-16 print:py-0 px-4 sm:px-6 lg:px-8 print:px-0">
+      <div className="min-h-screen print:min-h-0 bg-[#f4f1ea] dark:bg-canvas print:bg-transparent py-16 print:py-0 px-4 sm:px-6 lg:px-8 print:px-0">
         <div className="container mx-auto max-w-3xl">
           <Reveal onMount className="p-8 md:p-12 print:p-0 relative overflow-hidden text-ink">
             {/* Memo Header */}
@@ -233,7 +234,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
               {post.content ? (
                 <div
                   className="prose dark:prose-invert prose-lg max-w-none wrap-break-word font-serif text-charcoal dark:text-white prose-p:leading-loose prose-headings:text-ink dark:prose-headings:text-white prose-a:text-brand-green-dark dark:prose-a:text-green-400 [&_[style*=background]]:bg-transparent! [&_[style*=background]]:bg-none! **:text-inherit!"
-                  dangerouslySetInnerHTML={{ __html: normalizeRichTextSpaces(post.content) }}
+                  dangerouslySetInnerHTML={{ __html: renderRichText(post.content) }}
                 />
               ) : (
                 <p>{post.excerpt}</p>
@@ -250,20 +251,20 @@ export default async function NewsDetailPage({ params }: PageProps) {
             </div>
           </Reveal>
         </div>
-      </main>
+      </div>
     );
   }
 
   // ── General Layout ──────────────────────────────────────────────
   return (
-    <main className="min-h-screen bg-[#f9f7f1] dark:bg-canvas">
+    <div className="min-h-screen bg-[#f9f7f1] dark:bg-canvas">
       {/* ── Hero Header ─────────────────────────────────────── */}
       <Reveal as="section" onMount className="pt-20 pb-10 px-4 sm:px-6 lg:px-8">
         <div className="container mx-auto max-w-4xl text-center flex flex-col items-center">
           {/* Category pill */}
           {post.category && (
             <div className="mb-8">
-              <span className="inline-block text-[10px] font-bold uppercase tracking-widest border border-teal-deep/30 text-brand-green-dark px-4 py-1.5 rounded-sm bg-transparent">
+              <span className="inline-block text-xs font-bold uppercase tracking-widest border border-teal-deep/30 text-brand-green-dark px-4 py-1.5 rounded-sm bg-transparent">
                 {post.category.name}
               </span>
             </div>
@@ -316,7 +317,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
                 prose-li:text-charcoal dark:prose-li:text-white
                 first-letter:text-7xl first-letter:font-bold first-letter:text-brand-green-dark first-letter:mr-3 first-letter:float-left first-letter:leading-none
                 [&_[style*=background]]:bg-transparent! [&_[style*=background]]:bg-none! **:text-inherit!"
-              dangerouslySetInnerHTML={{ __html: normalizeRichTextSpaces(post.content) }}
+              dangerouslySetInnerHTML={{ __html: renderRichText(post.content) }}
             />
           ) : (
             <div className="text-resizable space-y-4">
@@ -329,10 +330,10 @@ export default async function NewsDetailPage({ params }: PageProps) {
           {/* ── Optional Gallery ───────────────────────────── */}
           {sliderUrls.length > 0 && (
             <div className="mt-16 border-t border-gray-200 dark:border-hairline pt-10">
-              <h3 className="font-serif font-bold text-ink mb-8 flex items-center gap-2 uppercase tracking-widest text-sm">
+              <h2 className="font-serif font-bold text-ink mb-8 flex items-center gap-2 uppercase tracking-widest text-sm">
                 <ImageIcon className="w-4 h-4 text-steel" />
                 Additional Media
-              </h3>
+              </h2>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 {sliderUrls.map((url: string, idx: number) => {
@@ -365,7 +366,7 @@ export default async function NewsDetailPage({ params }: PageProps) {
               </div>
               <div>
                 <p className="text-xs text-steel uppercase tracking-widest font-bold mb-0.5">Written by</p>
-                <h4 className="text-ink font-bold font-serif text-lg">KFD Editorial Department Heads</h4>
+                <p className="text-ink font-bold font-serif text-lg">KFD Editorial Department Heads</p>
                 <p className="text-sm text-steel mt-0.5">Kawthoolei Forestry Department</p>
               </div>
             </div>
@@ -420,6 +421,6 @@ export default async function NewsDetailPage({ params }: PageProps) {
           </div>
         </section>
       )}
-    </main>
+    </div>
   );
 }

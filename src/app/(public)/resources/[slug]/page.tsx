@@ -44,7 +44,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   try {
     const publication = await getPublication(slug);
-    if (!publication) return { title: "Publications - KFD" };
+    if (!publication) return { title: "Page not found" };
     return {
       title: `${publication.title} - KFD`,
       description: publication.summary || "",
@@ -101,9 +101,9 @@ export default async function PublicationDetailPage({ params }: PageProps) {
         <div className="max-w-310 mx-auto px-5 sm:px-8 pt-10 pb-8 relative">
           <h1 className={`${sourceSerif.className} m-0 font-bold text-[34px] tracking-tight`}>Publications</h1>
           <div className="mt-4 flex items-center gap-2 text-[13px] text-[#b7c5dd] flex-wrap">
-            <Link href="/" className="text-[#b7c5dd] hover:text-white transition-colors">Home</Link>
+            <Link href="/" className="inline-block py-1.5 -my-1.5 pointer-coarse:py-3 pointer-coarse:-my-3 text-[#b7c5dd] hover:text-white transition-colors">Home</Link>
             <span className="opacity-50">/</span>
-            <Link href="/resources" className="text-[#b7c5dd] hover:text-white transition-colors">Publications</Link>
+            <Link href="/resources" className="inline-block py-1.5 -my-1.5 pointer-coarse:py-3 pointer-coarse:-my-3 text-[#b7c5dd] hover:text-white transition-colors">Publications</Link>
             <span className="opacity-50">/</span>
             <span className="text-white font-semibold">{publication.title}</span>
           </div>
@@ -111,7 +111,7 @@ export default async function PublicationDetailPage({ params }: PageProps) {
       </Reveal>
 
       {/* main */}
-      <main className="max-w-310 mx-auto px-5 sm:px-8 pt-11 pb-16">
+      <div className="max-w-310 mx-auto px-5 sm:px-8 pt-11 pb-16">
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,380px)_minmax(0,1fr)] gap-10 lg:gap-13 items-start">
 
           {/* cover column */}
@@ -160,14 +160,14 @@ export default async function PublicationDetailPage({ params }: PageProps) {
               <Button href={`${API}/api/v1/public/publications/${publication.slug}/download`}>
                 <Download size={16} /> Download PDF
                 {fileSize && (
-                  <span className="text-xs font-semibold text-on-primary/80 border-l border-on-primary/30 pl-2.5">{fileSize}</span>
+                  <span className="text-xs font-semibold text-on-primary border-l border-on-primary/40 pl-2.5">{fileSize}</span>
                 )}
               </Button>
             </div>
 
             {/* about */}
             <div className="mt-10">
-              <h3 className="m-0 text-[13px] font-extrabold tracking-[.12em] uppercase text-[#1f3a63] dark:text-brand-green pb-3 border-b-2 border-[#1f3a63] dark:border-brand-green inline-block">
+              <h3 className="m-0 text-[13px] font-extrabold tracking-[.12em] uppercase text-[#1f3a63] dark:text-brand-green-dark pb-3 border-b-2 border-[#1f3a63] dark:border-brand-green inline-block">
                 About this Document
               </h3>
               <p className="mt-5 text-[15.5px] leading-[1.72] text-[#3f4a5c] dark:text-steel max-w-[64ch] text-pretty">
@@ -178,7 +178,7 @@ export default async function PublicationDetailPage({ params }: PageProps) {
                   {tags.map(tag => (
                     <span
                       key={tag}
-                      className="text-[13px] font-semibold text-[#1f3a63] dark:text-brand-green bg-[#e7edf6] dark:bg-surface-soft border border-[#d6dfec] dark:border-brand-green/30 px-3.5 py-1.75 rounded-full"
+                      className="text-[13px] font-semibold text-[#1f3a63] dark:text-brand-green-dark bg-[#e7edf6] dark:bg-surface-soft border border-[#d6dfec] dark:border-brand-green/30 px-3.5 py-1.75 rounded-full"
                     >
                       {tag}
                     </span>
@@ -188,7 +188,7 @@ export default async function PublicationDetailPage({ params }: PageProps) {
             </div>
           </Reveal>
         </div>
-      </main>
+      </div>
     </div>
   );
 }
@@ -196,11 +196,11 @@ export default async function PublicationDetailPage({ params }: PageProps) {
 function MetaRow({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
   return (
     <div className="p-5 border-b border-r border-[#f0f3f8] dark:border-hairline flex gap-3.5 items-start">
-      <div className="w-9.5 h-9.5 flex-none rounded-lg bg-[#eef2f8] dark:bg-surface-soft text-[#1f3a63] dark:text-brand-green flex items-center justify-center">
+      <div className="w-9.5 h-9.5 flex-none rounded-lg bg-[#eef2f8] dark:bg-surface-soft text-[#1f3a63] dark:text-brand-green-dark flex items-center justify-center">
         {icon}
       </div>
       <div className="min-w-0">
-        <div className="text-[11.5px] font-bold tracking-[.09em] uppercase text-[#8290a6] dark:text-steel">{label}</div>
+        <div className="text-xs font-bold tracking-[.09em] uppercase text-muted dark:text-steel">{label}</div>
         <div className="mt-1 text-[15.5px] font-semibold text-[#1a2231] dark:text-white truncate">{value}</div>
       </div>
     </div>

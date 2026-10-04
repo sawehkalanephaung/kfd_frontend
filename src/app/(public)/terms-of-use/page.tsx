@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import { RESERVED_PAGE_SLUGS } from "@/lib/reserved-pages";
 import { fetchPublicResource } from "@/lib/public-fetch";
-import { normalizeRichTextSpaces } from "@/lib/rich-text";
+import { renderRichText } from "@/lib/rich-text";
 import { TextResizer } from "@/components/ui/text-resizer";
 
 export const metadata: Metadata = {
@@ -33,13 +33,16 @@ async function getPageData(slug: string) {
 
 export default async function TermsOfUsePage() {
   const pageData = await getPageData(RESERVED_PAGE_SLUGS.TERMS_OF_USE);
+  const content: string = pageData?.content ?? "";
+  const hasOwnH1 = /<h1[\s>]/i.test(content);
+  const hasOwnHeading = /<h[1-6][\s>]/i.test(content);
 
   return (
-    <main className="min-h-screen bg-canvas pt-20">
+    <div className="min-h-screen bg-canvas pt-20">
       <div className="bg-canvas border-b border-hairline py-4">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-2 text-sm text-steel font-medium">
-            <Link href="/" className="hover:text-teal-deep transition-colors">Home</Link>
+            <Link href="/" className="inline-block py-1.5 -my-1.5 pointer-coarse:py-3 pointer-coarse:-my-3 hover:text-teal-deep transition-colors">Home</Link>
             <ChevronRight size={14} />
             <span className="text-brand-text">Terms of Use</span>
           </div>
@@ -48,20 +51,24 @@ export default async function TermsOfUsePage() {
       
       <section className="py-16 lg:py-24">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
-          {/* Only show title if it's not already in the content */}
-          {!pageData?.content?.includes("<h2>") && !pageData?.content?.includes("<h1>") && (
-            <h1 className="text-4xl font-bold text-ink mb-8">{pageData?.title || "Terms of Use"}</h1>
+          {/* Every page needs exactly one <h1>. When the editor-authored content
+              already opens with its own heading we keep that as the visible
+              title and expose this one to assistive tech only. */}
+          {!hasOwnH1 && (
+            <h1 className={hasOwnHeading ? "sr-only" : "text-4xl font-bold text-ink mb-8"}>
+              {pageData?.title || "Terms of Use"}
+            </h1>
           )}
           <TextResizer className="mb-6" />
           <div className="text-resizable rich-text prose prose-lg dark:prose-invert max-w-none text-slate prose-headings:text-ink prose-a:text-brand-green-dark [&_[style*=background]]:bg-transparent! [&_[style*=background]]:bg-none! [&_[style*=color]]:text-inherit!">
             {pageData?.content ? (
-              <div dangerouslySetInnerHTML={{ __html: normalizeRichTextSpaces(pageData.content) }} />
+              <div dangerouslySetInnerHTML={{ __html: renderRichText(pageData.content) }} />
             ) : (
               <p>Terms of Use content is currently being updated.</p>
             )}
           </div>
         </div>
       </section>
-    </main>
+    </div>
   );
 }

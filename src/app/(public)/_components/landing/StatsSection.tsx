@@ -28,12 +28,23 @@ function AnimatedStat({ valueStr, label, subLabel, delay = 0 }: { valueStr: stri
 
     if (isNaN(num)) return; // Fallback if not a number
 
-    // Reduced motion: show the final value immediately, no counting tween.
+    const decimals = numStr.includes('.') ? 1 : 0;
+    const hasGrouping = match[2].includes(',');
+    const format = (v: number) =>
+      hasGrouping
+        ? v.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals })
+        : v.toFixed(decimals);
+
+    // Reduced motion: keep the real value, no counting tween.
     if (prefersReducedMotion) {
-      const decimals = numStr.includes('.') ? 1 : 0;
-      numberRef.current.innerText = `${prefix}${num.toFixed(decimals)}${suffix}`;
+      numberRef.current.innerText = valueStr;
       return;
     }
+
+    // The server-rendered HTML carries the real figure, so no-JS, print and
+    // slow-JS visitors never see "0+". Only once the script runs do we rewind
+    // to zero and count up to it.
+    numberRef.current.innerText = `${prefix}${format(0)}${suffix}`;
 
     // Create a proxy object to animate
     const proxy = { val: 0 };
@@ -45,17 +56,18 @@ function AnimatedStat({ valueStr, label, subLabel, delay = 0 }: { valueStr: stri
       delay: delay,
       scrollTrigger: {
         trigger: numberRef.current,
-        start: "top 85%", // Trigger when element is 85% down the viewport
+        start: "top bottom", // Count as soon as any of it is on screen, so a visible figure never sits at 0
         once: true
       },
       onUpdate: () => {
         if (numberRef.current) {
-          // Format with commas if it's large, but keep it simple here
-          // If original had decimals, keep 1 decimal place, else 0
-          const decimals = numStr.includes('.') ? 1 : 0;
-          numberRef.current.innerText = `${prefix}${proxy.val.toFixed(decimals)}${suffix}`;
+          numberRef.current.innerText = `${prefix}${format(proxy.val)}${suffix}`;
         }
-      }
+      },
+      // Land on the exact authored string (keeps "200,000+" / "15 M+" as written).
+      onComplete: () => {
+        if (numberRef.current) numberRef.current.innerText = valueStr;
+      },
     });
   }, { scope: numberRef, dependencies: [prefersReducedMotion] });
 
@@ -69,8 +81,7 @@ function AnimatedStat({ valueStr, label, subLabel, delay = 0 }: { valueStr: stri
       aria-label={`${valueStr} ${label}`}
     >
       <span ref={numberRef} aria-hidden="true" className="text-3xl lg:text-4xl font-bold text-on-dark-muted mb-2">
-        {/* Render 0 initially if it's a number, otherwise just render the string */}
-        {match && !isNaN(parseFloat(match[2])) ? `${match[1]}0${match[3]}` : valueStr}
+        {valueStr}
       </span>
       <span aria-hidden="true" className="text-sm font-bold tracking-wider text-green-400 mb-1">{label}</span>
       {subLabel && <span aria-hidden="true" className="text-xs text-on-dark-muted/70">{subLabel}</span>}

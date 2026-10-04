@@ -50,7 +50,7 @@ export default function DepartmentHero({ data }: { data: DepartmentData }) {
           {logoUrl ? (
             <img src={logoUrl} alt={`${data.name} logo`} className="w-full h-auto object-contain" />
           ) : (
-            <div className="flex flex-col items-center justify-center text-center text-[8px] font-bold text-muted">
+            <div className="flex flex-col items-center justify-center text-center text-xs font-bold text-muted">
               <ImageIcon size={24} className="text-gray-300 mb-1" />
               <span>No Logo</span>
             </div>

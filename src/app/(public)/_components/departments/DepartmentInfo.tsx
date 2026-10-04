@@ -1,5 +1,5 @@
 import { DepartmentData } from "../../departments/types";
-import { normalizeRichTextSpaces } from "@/lib/rich-text";
+import { renderRichText } from "@/lib/rich-text";
 import { TextResizer } from "@/components/ui/text-resizer";
 
 export default function DepartmentInfo({ data }: { data: DepartmentData }) {
@@ -27,7 +27,7 @@ export default function DepartmentInfo({ data }: { data: DepartmentData }) {
           <TextResizer allowSmaller={false} className="mb-6" />
           <div
             className="text-resizable-floor rich-text text-slate leading-relaxed prose dark:prose-invert max-w-none [&_[style*=background]]:bg-transparent! [&_[style*=background]]:bg-none! [&_[style*=color]]:text-inherit!"
-            dangerouslySetInnerHTML={{ __html: normalizeRichTextSpaces(overview) }}
+            dangerouslySetInnerHTML={{ __html: renderRichText(overview) }}
           />
         </div>
       )}

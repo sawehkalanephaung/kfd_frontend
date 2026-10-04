@@ -6,6 +6,7 @@ import { ChevronDown, ChevronUp, ImageIcon } from 'lucide-react';
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { usePrefersReducedMotion } from "@/lib/use-reduced-motion";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -51,7 +52,11 @@ export default function AboutContentSection({
   const textContentRef = useRef<HTMLDivElement>(null);
   const textOnlyRef = useRef<HTMLDivElement>(null);
 
+  const prefersReducedMotion = usePrefersReducedMotion();
+
   useGSAP(() => {
+    // Reduced motion: leave everything at its natural, final state.
+    if (prefersReducedMotion) return;
     if (!sectionRef.current) return;
 
     // Split variant pinning
@@ -91,7 +96,7 @@ export default function AboutContentSection({
         }
       );
     }
-  }, { scope: sectionRef });
+  }, { scope: sectionRef, dependencies: [prefersReducedMotion] });
 
 
   // ── Full-bleed variant: image covers entire background, text floats over it ──

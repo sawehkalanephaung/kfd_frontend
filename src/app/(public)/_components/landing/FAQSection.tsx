@@ -6,6 +6,7 @@ import { ArrowRight } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { usePrefersReducedMotion } from "@/lib/use-reduced-motion";
 import { ContentFallback } from "@/components/content-fallback";
 import { Accordion } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
@@ -21,7 +22,11 @@ export default function FAQSection({ faqs, status }: { faqs: any[]; status: 'ok'
   const leftColRef = useRef<HTMLDivElement>(null);
   const rightColRef = useRef<HTMLDivElement>(null);
 
+  const prefersReducedMotion = usePrefersReducedMotion();
+
   useGSAP(() => {
+    // Reduced motion: leave everything at its natural, final state.
+    if (prefersReducedMotion) return;
     if (status === 'empty' || !leftColRef.current || !rightColRef.current || !sectionRef.current) return;
 
     gsap.fromTo(leftColRef.current,
@@ -54,7 +59,7 @@ export default function FAQSection({ faqs, status }: { faqs: any[]; status: 'ok'
         }
       }
     );
-  }, { scope: sectionRef });
+  }, { scope: sectionRef, dependencies: [prefersReducedMotion] });
 
   if (status === 'empty') return null;
 

@@ -5,7 +5,7 @@ import { getMediaUrl } from "@/lib/api";
 import { formatYear, formatYearsOfService } from "@/lib/date-utils";
 import { Reveal } from "@/components/ui/reveal";
 import { fetchPublicResource } from "@/lib/public-fetch";
-import { normalizeRichTextSpaces } from "@/lib/rich-text";
+import { renderRichText } from "@/lib/rich-text";
 import { TextResizer } from "@/components/ui/text-resizer";
 
 export const metadata: Metadata = {
@@ -60,9 +60,9 @@ function Breadcrumb() {
     <div className="border-b border-[#e1e5e8] dark:border-hairline bg-canvas">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-2 py-4 text-sm font-medium text-[#5c6c7a] dark:text-steel">
-          <Link href="/" className="transition-colors hover:text-brand-text dark:hover:text-white">Home</Link>
+          <Link href="/" className="inline-block py-1.5 -my-1.5 pointer-coarse:py-3 pointer-coarse:-my-3 transition-colors hover:text-brand-text dark:hover:text-white">Home</Link>
           <ChevronRight size={14} className="text-[#a8b3bc] dark:text-steel/50" />
-          <Link href="/about" className="transition-colors hover:text-brand-text dark:hover:text-white">About Us</Link>
+          <Link href="/about" className="inline-block py-1.5 -my-1.5 pointer-coarse:py-3 pointer-coarse:-my-3 transition-colors hover:text-brand-text dark:hover:text-white">About Us</Link>
           <ChevronRight size={14} className="text-[#a8b3bc] dark:text-steel/50" />
           <span className="text-brand-text dark:text-white">Chairman</span>
         </div>
@@ -75,7 +75,7 @@ function Breadcrumb() {
 function HeroFact({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <dt className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#4ade80]">
+      <dt className="text-xs font-bold uppercase tracking-[0.14em] text-[#4ade80]">
         {label}
       </dt>
       <dd className="mt-1.5 text-[15px] font-semibold text-white">{value}</dd>
@@ -93,13 +93,13 @@ export default async function ChairmanPage() {
 
   if (!chairman) {
     return (
-      <main className="min-h-screen bg-white dark:bg-canvas">
+      <div className="min-h-screen bg-white dark:bg-canvas">
         <Breadcrumb />
         <div className="container mx-auto px-4 py-32 text-center">
           <h1 className="mb-4 font-serif text-4xl font-bold text-[#001e2b] dark:text-white">Chairman</h1>
           <p className="text-[#5c6c7a] dark:text-steel">Chairman details will be updated soon.</p>
         </div>
-      </main>
+      </div>
     );
   }
 
@@ -121,7 +121,7 @@ export default async function ChairmanPage() {
      which was internally consistent but left it the only one of the two that
      didn't go dark — jarring when navigating between them. */
   return (
-    <main className="min-h-screen bg-white dark:bg-canvas">
+    <div className="min-h-screen bg-white dark:bg-canvas">
 
       <Breadcrumb />
 
@@ -201,7 +201,7 @@ export default async function ChairmanPage() {
                  colours the editor pastes in, which otherwise fight this page. */
               <div
                 className="text-resizable-floor rich-text prose prose-slate dark:prose-invert mt-6 max-w-none text-[#3d4f5b] dark:text-steel md:text-justify **:bg-transparent! **:text-inherit!"
-                dangerouslySetInnerHTML={{ __html: normalizeRichTextSpaces(bio) }}
+                dangerouslySetInnerHTML={{ __html: renderRichText(bio) }}
               />
             ) : (
               <p className="mt-10 italic text-[#5c6c7a] dark:text-steel">
@@ -213,6 +213,6 @@ export default async function ChairmanPage() {
         </div>
       </Reveal>
 
-    </main>
+    </div>
   );
 }

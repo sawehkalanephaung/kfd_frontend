@@ -64,7 +64,7 @@ export function NavDropdown({ name, href, items }: { name: string; href: string;
           aria-controls={menuId}
           aria-label={`Toggle ${name} submenu`}
           onClick={() => setIsOpen((v) => !v)}
-          className="p-1 -m-0.5 rounded text-muted hover:text-interactive-hover transition-all duration-200 ease-in-out outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40"
+          className="flex h-8 w-8 items-center justify-center -m-1.5 rounded text-muted hover:text-interactive-hover transition-all duration-200 ease-in-out outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40"
         >
           <ChevronDown
             size={14}

@@ -24,6 +24,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         };
       }
     }
+    // The page renders the 404 view for an unknown department; say so in the tab.
+    if (res.status === 404) return { title: "Page not found" };
   } catch (error) {
     console.error("Failed to fetch department metadata", error);
   }
@@ -116,13 +118,13 @@ export default async function DepartmentPage({ params }: PageProps) {
   }
 
   return (
-    <main className="min-h-screen bg-surface flex flex-col">
+    <div className="min-h-screen bg-surface flex flex-col">
       <Reveal onMount>
         <DepartmentHero data={enhancedDepartmentData} />
       </Reveal>
       <Reveal>
         <DepartmentTabs data={enhancedDepartmentData} />
       </Reveal>
-    </main>
+    </div>
   );
 }

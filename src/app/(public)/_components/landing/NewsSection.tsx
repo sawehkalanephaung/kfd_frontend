@@ -7,6 +7,7 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { usePrefersReducedMotion } from "@/lib/use-reduced-motion";
 import { ContentFallback } from "@/components/content-fallback";
 import { Card } from "@/components/ui/card";
 
@@ -34,7 +35,11 @@ export default function NewsSection({
   const newsContainerRef = useRef<HTMLDivElement>(null);
   const noticesContainerRef = useRef<HTMLDivElement>(null);
 
+  const prefersReducedMotion = usePrefersReducedMotion();
+
   useGSAP(() => {
+    // Reduced motion: leave everything at its natural, final state.
+    if (prefersReducedMotion) return;
     if ((newsStatus === 'empty' && noticesStatus === 'empty') || !sectionRef.current) return;
 
     // Animate News Cards
@@ -78,7 +83,7 @@ export default function NewsSection({
       );
     }
 
-  }, { scope: sectionRef });
+  }, { scope: sectionRef, dependencies: [prefersReducedMotion] });
 
   // Both columns render independently — one feed failing shouldn't hide the other.
   if (newsStatus === 'empty' && noticesStatus === 'empty') return null;
@@ -95,7 +100,7 @@ export default function NewsSection({
               <h2 className="text-3xl font-bold text-ink">Latest News</h2>
               <Link
                 href="/news"
-                className="text-sm font-semibold text-steel hover:text-teal-deep flex items-center gap-1 transition-colors group"
+                className="py-2 text-sm font-semibold text-steel hover:text-teal-deep flex items-center gap-1 transition-colors group"
               >
                 View All News
                 <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
@@ -177,25 +182,25 @@ export default function NewsSection({
                     </div>
                     <div>
                       <div className="flex items-center gap-2 mb-1">
-                        <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-sm ${(type === "Event" || type?.toLowerCase() === "event") ? "bg-amber-100 text-amber-700" : "bg-blue-100 text-blue-700"
+                        <span className={`text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-sm ${(type === "Event" || type?.toLowerCase() === "event") ? "bg-amber-100 text-amber-700" : "bg-blue-100 text-blue-700"
                           }`}>
                           {type}
                         </span>
                         <span className="text-xs text-steel font-medium">{dateStr}</span>
                       </div>
-                      <h4 className="text-sm font-bold text-ink leading-snug group-hover:text-brand-green-dark transition-colors line-clamp-2">
+                      <h3 className="text-sm font-bold text-ink leading-snug group-hover:text-brand-green-dark transition-colors line-clamp-2">
                         {title}
-                      </h4>
+                      </h3>
                     </div>
                   </Link>
                 );
               })}
 
               <div className="mt-auto pt-4 border-t border-hairline-strong/60 flex justify-between gs-notice-item">
-                <Link href="/news/announcements" className="text-xs font-semibold text-brand-green-dark hover:underline">
+                <Link href="/news/announcements" className="py-2 -my-2 text-xs font-semibold text-brand-green-dark hover:underline">
                   All Announcements
                 </Link>
-                <Link href="/news/events" className="text-xs font-semibold text-brand-green-dark hover:underline">
+                <Link href="/news/events" className="py-2 -my-2 text-xs font-semibold text-brand-green-dark hover:underline">
                   All Events
                 </Link>
               </div>

@@ -92,7 +92,7 @@ export default async function NewsPage({ searchParams }: PageProps) {
   const totalPages = paginatedData?.totalPages ?? 1;
 
   return (
-    <main className="min-h-screen bg-[#f9f7f1] dark:bg-canvas">
+    <div className="min-h-screen bg-[#f9f7f1] dark:bg-canvas">
       <Reveal onMount className="container mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-8 max-w-5xl">
         <h1 className="text-4xl md:text-5xl font-bold font-sans text-ink dark:text-white tracking-tight">
           News & Updates
@@ -108,8 +108,8 @@ export default async function NewsPage({ searchParams }: PageProps) {
             <div className="flex flex-wrap gap-2">
               <Link
                 href="/news"
-                className={`px-4 py-1.5 rounded-full text-xs font-semibold border transition-all ${!activeCategory
-                  ? "bg-green-500 text-white border-green-400"
+                className={`px-4 py-1.5 pointer-coarse:py-3 rounded-full text-xs font-semibold border transition-all ${!activeCategory
+                  ? "bg-primary text-on-primary border-primary"
                   : "bg-surface-soft dark:bg-canvas/5 text-steel dark:text-white/60 border-hairline dark:border-white/10 hover:border-steel dark:hover:border-white/30 hover:text-ink dark:hover:text-white"
                   }`}
               >
@@ -119,8 +119,8 @@ export default async function NewsPage({ searchParams }: PageProps) {
                 <Link
                   key={cat.id}
                   href={`/news?category=${cat.slug}`}
-                  className={`px-4 py-1.5 rounded-full text-xs font-semibold border transition-all ${activeCategory === cat.slug
-                    ? "bg-green-500 text-white border-green-400"
+                  className={`px-4 py-1.5 pointer-coarse:py-3 rounded-full text-xs font-semibold border transition-all ${activeCategory === cat.slug
+                    ? "bg-primary text-on-primary border-primary"
                     : "bg-surface-soft dark:bg-canvas/5 text-steel dark:text-white/60 border-hairline dark:border-white/10 hover:border-steel dark:hover:border-white/30 hover:text-ink dark:hover:text-white"
                     }`}
                 >
@@ -156,7 +156,7 @@ export default async function NewsPage({ searchParams }: PageProps) {
 
             <div className="absolute bottom-0 left-0 right-0 p-8">
               {featured.category && (
-                <span className="inline-block text-[10px] font-bold uppercase tracking-widest border border-white/20 bg-canvas/10 backdrop-blur-sm text-white px-2.5 py-1 rounded-full mb-3">
+                <span className="inline-block text-xs font-bold uppercase tracking-widest border border-white/20 bg-canvas/10 backdrop-blur-sm text-white px-2.5 py-1 rounded-full mb-3">
                   {featured.category.name}
                 </span>
               )}
@@ -166,7 +166,7 @@ export default async function NewsPage({ searchParams }: PageProps) {
               <p className="text-sm text-white/70 leading-relaxed max-w-xl line-clamp-2 mb-3">
                 {featured.excerpt}
               </p>
-              <p className="text-xs text-white/40 font-medium">
+              <p className="text-xs text-white/70 font-medium">
                 {formatDate(featured.publishedAt)} &middot; 5 MIN READ
               </p>
             </div>
@@ -197,58 +197,73 @@ export default async function NewsPage({ searchParams }: PageProps) {
             <div className="w-16 h-16 rounded-full bg-surface dark:bg-canvas/5 flex items-center justify-center mx-auto mb-4">
               <Tag size={24} className="text-steel/30 dark:text-white/30" />
             </div>
-            <p className="text-steel/60 dark:text-white/40 text-sm">No posts found for this category.</p>
-            <Link href="/news" className="text-green-400 hover:text-brand-green text-sm mt-3 inline-block underline">
+            <p className="text-steel dark:text-white/70 text-sm">No posts found for this category.</p>
+            <Link href="/news" className="text-brand-green-dark hover:no-underline text-sm mt-3 inline-block underline">
               View all news →
             </Link>
           </div>
         )}
 
         {/* ── Pagination ────────────────────────────────────── */}
-        <div className="flex items-center justify-center gap-2 mt-8">
-          {/* Prev */}
-          <Link
-            href={currentPage > 0 ? `/news?page=${currentPage - 1}${activeCategory ? `&category=${activeCategory}` : ""}` : "#"}
-            aria-disabled={currentPage === 0}
-            className={`w-9 h-9 rounded-full flex items-center justify-center border transition-all ${currentPage === 0
-              ? "border-hairline dark:border-white/10 text-steel/20 dark:text-white/20 pointer-events-none"
-              : "border-hairline dark:border-white/20 text-steel dark:text-white/60 hover:border-steel dark:hover:border-white/40 hover:text-ink dark:hover:text-white bg-white dark:bg-transparent"
-              }`}
-          >
-            <ChevronLeft size={16} />
-          </Link>
+        <nav aria-label="Pagination" className="flex items-center justify-center gap-2 mt-8">
+          {(() => {
+            const pageHref = (p: number) =>
+              `/news?page=${p}${activeCategory ? `&category=${activeCategory}` : ""}`;
+            const arrowBase = "w-9 h-9 pointer-coarse:w-11 pointer-coarse:h-11 rounded-full flex items-center justify-center border transition-all";
+            const arrowOn =
+              "border-hairline dark:border-white/20 text-steel dark:text-white/60 hover:border-steel dark:hover:border-white/40 hover:text-ink dark:hover:text-white bg-white dark:bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green";
+            const arrowOff = "border-hairline dark:border-white/10 text-steel/20 dark:text-white/20";
+            const hasPrev = currentPage > 0;
+            const hasNext = currentPage < totalPages - 1;
 
-          {/* Pages */}
-          {Array.from({ length: Math.min(totalPages, 7) }, (_, i) => {
-            const p = i;
-            const isActive = p === currentPage;
             return (
-              <Link
-                key={p}
-                href={`/news?page=${p}${activeCategory ? `&category=${activeCategory}` : ""}`}
-                className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium border transition-all ${isActive
-                  ? "bg-green-500 border-green-400 text-white shadow-lg shadow-green-900/40"
-                  : "border-hairline dark:border-white/10 text-steel dark:text-white/50 hover:border-steel dark:hover:border-white/30 hover:text-ink dark:hover:text-white bg-white dark:bg-transparent"
-                  }`}
-              >
-                {p + 1}
-              </Link>
-            );
-          })}
+              <>
+                {/* Prev. When there is no previous page this is a plain, hidden-from-AT
+                    placeholder rather than a link to "#". */}
+                {hasPrev ? (
+                  <Link href={pageHref(currentPage - 1)} aria-label="Previous page" className={`${arrowBase} ${arrowOn}`}>
+                    <ChevronLeft size={16} aria-hidden="true" />
+                  </Link>
+                ) : (
+                  <span aria-hidden="true" className={`${arrowBase} ${arrowOff}`}>
+                    <ChevronLeft size={16} />
+                  </span>
+                )}
 
-          {/* Next */}
-          <Link
-            href={currentPage < totalPages - 1 ? `/news?page=${currentPage + 1}${activeCategory ? `&category=${activeCategory}` : ""}` : "#"}
-            aria-disabled={currentPage >= totalPages - 1}
-            className={`w-9 h-9 rounded-full flex items-center justify-center border transition-all ${currentPage >= totalPages - 1
-              ? "border-hairline dark:border-white/10 text-steel/20 dark:text-white/20 pointer-events-none"
-              : "border-hairline dark:border-white/20 text-steel dark:text-white/60 hover:border-steel dark:hover:border-white/40 hover:text-ink dark:hover:text-white bg-white dark:bg-transparent"
-              }`}
-          >
-            <ChevronRight size={16} />
-          </Link>
-        </div>
+                {/* Pages */}
+                {Array.from({ length: Math.min(totalPages, 7) }, (_, p) => {
+                  const isActive = p === currentPage;
+                  return (
+                    <Link
+                      key={p}
+                      href={pageHref(p)}
+                      aria-label={`Page ${p + 1}`}
+                      aria-current={isActive ? "page" : undefined}
+                      className={`w-9 h-9 pointer-coarse:w-11 pointer-coarse:h-11 rounded-full flex items-center justify-center text-sm font-medium border transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green ${isActive
+                        ? "bg-primary border-primary text-on-primary shadow-lg shadow-green-900/20"
+                        : "border-hairline dark:border-white/10 text-steel dark:text-white/70 hover:border-steel dark:hover:border-white/30 hover:text-ink dark:hover:text-white bg-white dark:bg-transparent"
+                        }`}
+                    >
+                      {p + 1}
+                    </Link>
+                  );
+                })}
+
+                {/* Next */}
+                {hasNext ? (
+                  <Link href={pageHref(currentPage + 1)} aria-label="Next page" className={`${arrowBase} ${arrowOn}`}>
+                    <ChevronRight size={16} aria-hidden="true" />
+                  </Link>
+                ) : (
+                  <span aria-hidden="true" className={`${arrowBase} ${arrowOff}`}>
+                    <ChevronRight size={16} />
+                  </span>
+                )}
+              </>
+            );
+          })()}
+        </nav>
       </div>
-    </main>
+    </div>
   );
 }

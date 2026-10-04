@@ -79,7 +79,7 @@ export default async function Footer() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={`Visit our ${link.platformName} page`}
-                    className="w-8 h-8 rounded-full bg-canvas/10 flex items-center justify-center hover:bg-canvas/20 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-canvas/60"
+                    className="w-8 h-8 pointer-coarse:w-11 pointer-coarse:h-11 rounded-full bg-canvas/10 flex items-center justify-center hover:bg-canvas/20 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-canvas/60"
                   >
                     {renderSocialIcon(link.platformName)}
                   </a>
@@ -123,20 +123,20 @@ export default async function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="font-bold text-lg mb-6">QUICK LINKS</h3>
-            <ul className="space-y-4">
-              <li><Link href="/" className="interactive-link-dark text-sm">Home</Link></li>
-              <li><Link href="/about" className="interactive-link-dark text-sm">About Us</Link></li>
-              <li><Link href="/departments" className="interactive-link-dark text-sm">Department Branches</Link></li>
-              <li><Link href="/news" className="interactive-link-dark text-sm">News & Announcements</Link></li>
-              <li><Link href="/resources" className="interactive-link-dark text-sm">Resources</Link></li>
-              <li><Link href="/contact" className="interactive-link-dark text-sm">Contact Us</Link></li>
+            <h2 className="font-bold text-lg mb-6">QUICK LINKS</h2>
+            <ul className="space-y-1">
+              <li><Link href="/" className="interactive-link-dark inline-block py-2 pointer-coarse:py-3 pointer-coarse:min-w-11 text-sm">Home</Link></li>
+              <li><Link href="/about" className="interactive-link-dark inline-block py-2 pointer-coarse:py-3 pointer-coarse:min-w-11 text-sm">About Us</Link></li>
+              <li><Link href="/departments" className="interactive-link-dark inline-block py-2 pointer-coarse:py-3 pointer-coarse:min-w-11 text-sm">Department Branches</Link></li>
+              <li><Link href="/news" className="interactive-link-dark inline-block py-2 pointer-coarse:py-3 pointer-coarse:min-w-11 text-sm">News & Announcements</Link></li>
+              <li><Link href="/resources" className="interactive-link-dark inline-block py-2 pointer-coarse:py-3 pointer-coarse:min-w-11 text-sm">Resources</Link></li>
+              <li><Link href="/contact" className="interactive-link-dark inline-block py-2 pointer-coarse:py-3 pointer-coarse:min-w-11 text-sm">Contact Us</Link></li>
             </ul>
           </div>
 
           {/* Newsletter */}
           <div>
-            <h3 className="font-bold text-lg mb-6">NEWSLETTER</h3>
+            <h2 className="font-bold text-lg mb-6">NEWSLETTER</h2>
             <p className="text-sm text-on-dark-muted mb-4">
               Stay updated with the latest news, conservation efforts, and reports from KFD.
             </p>
@@ -151,11 +151,11 @@ export default async function Footer() {
             {footerCopyright
               || `Copyright © ${new Date().getFullYear()} ${organizationName}, All rights reserved.`}
           </p>
-          <div className="flex flex-wrap items-center justify-center md:justify-end gap-x-6 gap-y-3">
-            <Link href="/privacy-policy" className="interactive-link-dark text-sm py-2 md:py-0">Privacy Policy</Link>
-            <Link href="/terms-of-use" className="interactive-link-dark text-sm py-2 md:py-0">Terms of Use</Link>
-            <Link href="/accessibility" className="interactive-link-dark text-sm py-2 md:py-0">Accessibility</Link>
-            <Link href="/contact" className="interactive-link-dark text-sm py-2 md:py-0">Contact</Link>
+          <div className="flex flex-wrap items-center justify-center md:justify-end gap-x-6 gap-y-0">
+            <Link href="/privacy-policy" className="interactive-link-dark inline-block text-sm py-2 pointer-coarse:py-3">Privacy Policy</Link>
+            <Link href="/terms-of-use" className="interactive-link-dark inline-block text-sm py-2 pointer-coarse:py-3">Terms of Use</Link>
+            <Link href="/accessibility" className="interactive-link-dark inline-block text-sm py-2 pointer-coarse:py-3">Accessibility</Link>
+            <Link href="/contact" className="interactive-link-dark inline-block text-sm py-2 pointer-coarse:py-3">Contact</Link>
           </div>
         </div>
       </div>

@@ -6,6 +6,7 @@ import { useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
+import { usePrefersReducedMotion } from "@/lib/use-reduced-motion";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -46,9 +47,9 @@ export default function AboutMissionVisionSection({ missionData, visionData }: {
         </div>
         {/* Content */}
         <div className="p-8 md:p-12 flex-1 flex flex-col">
-          <h3 className="text-2xl font-bold text-steel-900 dark:text-white mb-6 font-sans tracking-tight">
+          <h2 className="text-2xl font-bold text-steel-900 dark:text-white mb-6 font-sans tracking-tight">
             {data?.title || defaultTitle}
-          </h3>
+          </h2>
           <div
             className="text-resizable-floor text-steel-600 dark:text-steel text-sm md:text-base leading-relaxed prose prose-sm max-w-none prose-p:mb-4 wrap-break-word whitespace-pre-wrap overflow-hidden **:bg-transparent! **:text-inherit!"
             dangerouslySetInnerHTML={{ __html: content }}
@@ -60,7 +61,17 @@ export default function AboutMissionVisionSection({ missionData, visionData }: {
 
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const prefersReducedMotion = usePrefersReducedMotion();
+
   useGSAP(() => {
+    // Reduced motion: the cards start hidden by CSS class, so reveal them
+    // immediately instead of sliding them in.
+    if (prefersReducedMotion) {
+      containerRef.current
+        ?.querySelectorAll('.gs-card')
+        .forEach((el) => el.classList.remove('opacity-0', 'translate-y-12'));
+      return;
+    }
     if (!containerRef.current) return;
     const cards = gsap.utils.toArray(".gs-card", containerRef.current);
 
@@ -76,7 +87,7 @@ export default function AboutMissionVisionSection({ missionData, visionData }: {
         once: true
       }
     });
-  }, { scope: containerRef });
+  }, { scope: containerRef, dependencies: [prefersReducedMotion] });
 
   return (
     <section className="py-20 lg:py-28 bg-white dark:bg-[#051413]">

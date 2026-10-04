@@ -4,6 +4,13 @@ import AboutHeroSection from "../_components/about/AboutHeroSection";
 import AboutMissionVisionSection from "../_components/about/AboutMissionVisionSection";
 import { RESERVED_PAGE_SLUGS } from "@/lib/reserved-pages";
 import { TextResizer } from "@/components/ui/text-resizer";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "About Us",
+  description: "About the Kawthoolei Forestry Department: our mission, vision, history, objectives and leadership.",
+};
+
 
 /**
  * `about-us` is this page's primary content (pass throwOnError: true) so a
@@ -124,7 +131,7 @@ export default async function AboutUsPage() {
   } : undefined;
 
   return (
-    <main className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen">
       {/* Section 1: KFD Overview — Hero layout */}
       <AboutHeroSection
         title={heroData?.title}
@@ -170,6 +177,6 @@ export default async function AboutUsPage() {
       <AboutChairmanSection
         chairmanData={formattedChairman}
       />
-    </main>
+    </div>
   );
 }

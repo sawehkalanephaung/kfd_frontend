@@ -32,26 +32,26 @@ function EventCard({ post }: { post: NewsPost }) {
       
       {/* Calendar Block (Left) */}
       <div className="bg-surface-soft dark:bg-canvas/5 border-r border-hairline dark:border-white/5 flex flex-col items-center justify-center p-6 md:w-32 shrink-0">
-        <span className="text-green-500 dark:text-green-400 font-bold uppercase tracking-widest text-xs mb-1">{month}</span>
+        <span className="text-brand-green-dark font-bold uppercase tracking-widest text-xs mb-1">{month}</span>
         <span className="text-4xl md:text-5xl font-extrabold text-ink dark:text-white leading-none">{day}</span>
       </div>
 
       {/* Content Block (Middle) */}
       <div className="p-6 md:p-8 flex flex-col flex-1">
-        <h3 className="text-xl md:text-2xl font-bold text-ink dark:text-white mb-2 leading-tight group-hover:text-brand-green-dark dark:group-hover:text-brand-green transition-colors">
+        <h2 className="text-xl md:text-2xl font-bold text-ink dark:text-white mb-2 leading-tight group-hover:text-brand-green-dark dark:group-hover:text-brand-green-dark transition-colors">
           {post.title}
-        </h3>
+        </h2>
         <p className="text-steel dark:text-white/60 text-sm md:text-base leading-relaxed line-clamp-2 mb-4">
           {post.excerpt}
         </p>
         
         {/* Meta Info */}
         <div className="flex flex-wrap items-center gap-4 mt-auto">
-          <div className="flex items-center gap-1.5 text-xs text-steel/80 dark:text-white/40">
+          <div className="flex items-center gap-1.5 text-xs text-steel dark:text-white/70">
             <Calendar size={14} />
             <span>{eventTime}</span>
           </div>
-          <div className="flex items-center gap-1.5 text-xs text-steel/80 dark:text-white/40">
+          <div className="flex items-center gap-1.5 text-xs text-steel dark:text-white/70">
             <MapPin size={14} />
             <span>{eventLocation}</span>
           </div>
@@ -72,11 +72,11 @@ export default async function EventsPage() {
   const posts = data?.content || [];
 
   return (
-    <main className="min-h-screen bg-[#f9f7f1] dark:bg-canvas">
+    <div className="min-h-screen bg-[#f9f7f1] dark:bg-canvas">
       <Reveal onMount className="container mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-8 max-w-5xl">
         <Link
           href="/news"
-          className="inline-flex items-center gap-1.5 text-sm font-bold uppercase tracking-wider text-green-400 hover:text-brand-green transition-colors mb-6 group"
+          className="inline-flex items-center gap-1.5 py-1.5 -my-1.5 pointer-coarse:py-3 pointer-coarse:-my-3 text-sm font-bold uppercase tracking-wider text-brand-green-dark hover:underline transition-colors mb-6 group"
         >
           <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
           Back to News
@@ -98,10 +98,10 @@ export default async function EventsPage() {
           </Reveal>
         ) : (
           <div className="bg-forest-800 border border-white/5 rounded-2xl p-12 text-center">
-            <p className="text-white/40">There are currently no upcoming events scheduled.</p>
+            <p className="text-white/70">There are currently no upcoming events scheduled.</p>
           </div>
         )}
       </div>
-    </main>
+    </div>
   );
 }

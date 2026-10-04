@@ -25,7 +25,7 @@ export default function PublicError({
   }, [error]);
 
   return (
-    <main className="min-h-[70vh] bg-canvas flex items-center justify-center px-4 py-20">
+    <div className="min-h-[70vh] bg-canvas flex items-center justify-center px-4 py-20">
       <div className="max-w-lg w-full text-center">
         <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-full bg-surface-feature">
           <AlertTriangle className="h-7 w-7 text-brand-green-dark" aria-hidden="true" />
@@ -70,6 +70,6 @@ export default function PublicError({
           </div>
         )}
       </div>
-    </main>
+    </div>
   );
 }

@@ -149,21 +149,29 @@ export default function HeroSection({ siteIdentity, homeContent }: { siteIdentit
       {/* Carousel dots + pause control */}
       {images.length > 1 && (
         <div className="absolute bottom-8 right-8 z-10 flex items-center gap-3">
-          <div className="flex gap-2">
+          <div className="flex">
             {images.map((_, idx) => (
+              /* The visible dot stays 10px; the button around it is 24px so it is
+                 easy to hit and meets the WCAG 2.2 minimum target size. */
               <button
                 key={idx}
                 onClick={() => setCurrentIndex(idx)}
-                className={`w-2.5 h-2.5 rounded-full transition-colors ${idx === currentIndex ? 'bg-canvas' : 'bg-canvas/40 hover:bg-canvas/60'}`}
                 aria-label={`Go to slide ${idx + 1}`}
-              />
+                aria-current={idx === currentIndex ? 'true' : undefined}
+                className="group flex h-6 w-6 pointer-coarse:h-11 pointer-coarse:w-11 items-center justify-center rounded-full outline-none focus-visible:ring-2 focus-visible:ring-canvas/60"
+              >
+                <span
+                  aria-hidden="true"
+                  className={`h-2.5 w-2.5 rounded-full transition-colors ${idx === currentIndex ? 'bg-canvas' : 'bg-canvas/40 group-hover:bg-canvas/60'}`}
+                />
+              </button>
             ))}
           </div>
           <button
             onClick={() => setIsPaused((p) => !p)}
             aria-label={isPaused ? 'Play slideshow' : 'Pause slideshow'}
             aria-pressed={isPaused}
-            className="w-6 h-6 flex items-center justify-center rounded-full bg-canvas/10 hover:bg-canvas/20 text-canvas transition-colors outline-none focus-visible:ring-2 focus-visible:ring-canvas/60"
+            className="w-6 h-6 pointer-coarse:w-11 pointer-coarse:h-11 flex items-center justify-center rounded-full bg-canvas/10 hover:bg-canvas/20 text-canvas transition-colors outline-none focus-visible:ring-2 focus-visible:ring-canvas/60"
           >
             {isPaused ? <Play className="w-3 h-3" aria-hidden="true" /> : <Pause className="w-3 h-3" aria-hidden="true" />}
           </button>

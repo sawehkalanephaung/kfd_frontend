@@ -63,7 +63,7 @@ export default async function ContactPage() {
   const hasAnyContactDetail = Boolean(address || phones.length || email || officeHours);
 
   return (
-    <main className="min-h-screen bg-[#f9f7f1] dark:bg-canvas pb-20">
+    <div className="min-h-screen bg-[#f9f7f1] dark:bg-canvas pb-20">
       <Reveal onMount>
         <PageHero
           title="Get in Touch"
@@ -107,7 +107,7 @@ export default async function ContactPage() {
                           <MapPin size={18} />
                         </div>
                         <div>
-                          <h3 className="text-xs font-bold text-steel/80 dark:text-white/50 uppercase tracking-wider mb-1">Headquarters</h3>
+                          <h3 className="text-xs font-bold text-steel dark:text-white/70 uppercase tracking-wider mb-1">Headquarters</h3>
                           <p className="text-sm text-ink dark:text-white/80 whitespace-pre-wrap leading-relaxed">{address}</p>
                         </div>
                       </div>
@@ -120,14 +120,14 @@ export default async function ContactPage() {
                           <Phone size={18} />
                         </div>
                         <div>
-                          <h3 className="text-xs font-bold text-steel/80 dark:text-white/50 uppercase tracking-wider mb-1">
+                          <h3 className="text-xs font-bold text-steel dark:text-white/70 uppercase tracking-wider mb-1">
                             {phones.length > 1 ? 'Direct Lines' : 'Direct Line'}
                           </h3>
                           {phones.map((p, i) => (
                             <a
                               key={i}
                               href={`tel:${p.replace(/[^\d+]/g, '')}`}
-                              className="text-sm font-semibold text-brand-green-dark dark:text-green-400 hover:text-brand-green transition-colors block mt-0.5"
+                              className="text-sm font-semibold text-brand-green-dark dark:text-green-400 hover:text-brand-green transition-colors block py-1"
                             >
                               {p}
                             </a>
@@ -143,9 +143,9 @@ export default async function ContactPage() {
                           <Mail size={18} />
                         </div>
                         <div>
-                          <h3 className="text-xs font-bold text-steel/80 dark:text-white/50 uppercase tracking-wider mb-1">Electronic Mail</h3>
+                          <h3 className="text-xs font-bold text-steel dark:text-white/70 uppercase tracking-wider mb-1">Electronic Mail</h3>
                           <p className="text-sm text-ink dark:text-white/80">General Inquiries</p>
-                          <a href={`mailto:${email}`} className="text-sm font-semibold text-brand-green-dark dark:text-green-400 hover:text-brand-green transition-colors block mt-0.5">
+                          <a href={`mailto:${email}`} className="text-sm font-semibold text-brand-green-dark dark:text-green-400 hover:text-brand-green transition-colors block py-1">
                             {email}
                           </a>
                         </div>
@@ -169,6 +169,6 @@ export default async function ContactPage() {
         <FaqAccordion faqs={faqs} />
       </Reveal>
 
-    </main>
+    </div>
   );
 }

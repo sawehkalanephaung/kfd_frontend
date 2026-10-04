@@ -45,7 +45,7 @@ export function LanguageSwitcher() {
         aria-controls={menuId}
         aria-label="Change language"
         onClick={() => setIsOpen((v) => !v)}
-        className="flex items-center gap-1 py-4 text-brand-text hover:opacity-80 transition-opacity outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40 rounded"
+        className="flex items-center justify-center gap-1 px-2 -mx-2 py-4 pointer-coarse:min-w-11 text-brand-text hover:opacity-80 transition-opacity outline-none focus-visible:ring-2 focus-visible:ring-brand-green/40 rounded"
       >
         <Globe className="w-5 h-5" aria-hidden="true" />
       </button>
@@ -73,7 +73,7 @@ export function LanguageSwitcher() {
             className="flex w-full items-center justify-between text-left px-4 py-2 text-sm text-muted transition-colors cursor-not-allowed"
           >
             ကညီ (Karen)
-            <span className="text-[10px] uppercase tracking-wide text-muted">Soon</span>
+            <span className="text-xs uppercase tracking-wide text-muted">Soon</span>
           </button>
           <button
             type="button"
@@ -82,7 +82,7 @@ export function LanguageSwitcher() {
             className="flex w-full items-center justify-between text-left px-4 py-2 text-sm text-muted transition-colors cursor-not-allowed"
           >
             မြန်မာ (Burmese)
-            <span className="text-[10px] uppercase tracking-wide text-muted">Soon</span>
+            <span className="text-xs uppercase tracking-wide text-muted">Soon</span>
           </button>
         </div>
       </div>
