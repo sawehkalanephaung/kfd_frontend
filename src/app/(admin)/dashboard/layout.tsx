@@ -3,6 +3,14 @@ import Header from '@/components/header';
 import { SidebarProvider } from '@/components/sidebar-context';
 import DashboardLayoutWrapper from '@/components/dashboard-layout-wrapper';
 import { getSiteIdentity } from '@/lib/site-identity';
+import type { Metadata } from 'next';
+
+// Generic fallback until a page sets its own title (see useDocumentTitle), and
+// keeps the whole staff area out of search results.
+export const metadata: Metadata = {
+  title: { absolute: 'Admin Dashboard' },
+  robots: { index: false, follow: false },
+};
 
 /**
  * Fetches site identity server-side (same source and FALLBACK-on-failure

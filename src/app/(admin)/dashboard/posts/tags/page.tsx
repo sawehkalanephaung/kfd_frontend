@@ -89,7 +89,7 @@ export default function TagsListPage() {
       setEditingTag(res.data?.data || res.data);
     } catch (err) {
       console.error(err);
-      alert('Failed to load tag details');
+      toast.error('Failed to load tag details');
       setDrawerOpen(false);
     } finally {
       setFetchingDetails(false);

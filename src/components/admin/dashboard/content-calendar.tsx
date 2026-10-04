@@ -79,7 +79,7 @@ export function ContentCalendar({ posts, loading = false }: ContentCalendarProps
         <h2 className="text-xl font-bold text-ink">Calendar</h2>
         <button
           onClick={handleToday}
-          className="px-3 py-1.5 text-sm font-semibold text-brand-green-dark border border-hairline-strong rounded-lg hover:bg-surface-soft transition-colors"
+          className="px-3 py-1.5 pointer-coarse:min-h-11 text-sm font-semibold text-brand-green-dark border border-hairline-strong rounded-lg hover:bg-surface-soft transition-colors"
         >
           Today
         </button>
@@ -90,7 +90,7 @@ export function ContentCalendar({ posts, loading = false }: ContentCalendarProps
         <button 
           onClick={handlePrevMonth}
           aria-label="Previous month"
-          className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-surface-soft text-steel transition-colors"
+          className="w-8 h-8 pointer-coarse:w-11 pointer-coarse:h-11 flex items-center justify-center rounded-full hover:bg-surface-soft text-steel transition-colors"
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
@@ -100,7 +100,7 @@ export function ContentCalendar({ posts, loading = false }: ContentCalendarProps
         <button 
           onClick={handleNextMonth}
           aria-label="Next month"
-          className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-surface-soft text-steel transition-colors"
+          className="w-8 h-8 pointer-coarse:w-11 pointer-coarse:h-11 flex items-center justify-center rounded-full hover:bg-surface-soft text-steel transition-colors"
         >
           <ChevronRight className="w-5 h-5" />
         </button>
@@ -125,7 +125,7 @@ export function ContentCalendar({ posts, loading = false }: ContentCalendarProps
           const hasPosts = postsByDate.has(dayKey) && postsByDate.get(dayKey)!.length > 0;
 
           // Determine styles
-          let btnClass = "w-full h-[38px] rounded-[10px] flex flex-col items-center justify-center relative transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-brand-green ";
+          let btnClass = "w-full h-[38px] pointer-coarse:h-11 rounded-[10px] flex flex-col items-center justify-center relative transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-1 focus-visible:ring-brand-green ";
           let textClass = "text-sm ";
           let dotColor = "bg-brand-green";
 
@@ -138,7 +138,7 @@ export function ContentCalendar({ posts, loading = false }: ContentCalendarProps
             textClass += "text-[#1F5132] font-bold";
           } else if (!isCurrentMonth) {
             btnClass += "hover:bg-surface-soft";
-            textClass += "text-[#A3AAA4]";
+            textClass += "text-muted";
           } else {
             btnClass += "hover:bg-surface-soft";
             textClass += "text-ink font-medium";
@@ -175,7 +175,7 @@ export function ContentCalendar({ posts, loading = false }: ContentCalendarProps
               const postTime = dayjs(post.publishedAt || post.updatedAt).format('h:mm A');
               
               // Status formatting
-              let statusClasses = "px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ";
+              let statusClasses = "px-2 py-0.5 rounded-full text-xs font-bold uppercase ";
               if (post.status === 'PUBLISHED') {
                 statusClasses += "bg-brand-green-soft text-brand-green-dark";
               } else if (post.status === 'DRAFT') {
@@ -190,7 +190,7 @@ export function ContentCalendar({ posts, loading = false }: ContentCalendarProps
                     <span className="text-[13px] font-semibold text-ink line-clamp-1">
                       {post.title}
                     </span>
-                    <span className="text-[11px] text-steel mt-0.5">
+                    <span className="text-xs text-steel mt-0.5">
                       {postTime}
                     </span>
                   </div>

@@ -103,7 +103,7 @@ export default function UsersDirectoryPage() {
       setEditingUser(res.data?.data || res.data);
     } catch (err) {
       console.error(err);
-      alert('Failed to load user details');
+      toast.error('Failed to load user details');
       setDrawerOpen(false);
     } finally {
       setFetchingDetails(false);

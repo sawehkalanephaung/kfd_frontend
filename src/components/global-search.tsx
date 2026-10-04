@@ -77,7 +77,7 @@ export default function GlobalSearch() {
   const resultsId = useId();
 
   return (
-    <div className="hidden md:flex items-center relative w-[320px] max-w-full" ref={containerRef}>
+    <div className="hidden md:flex items-center relative w-full" ref={containerRef}>
       <Search className="w-4 h-4 text-muted absolute left-4 z-10 pointer-events-none" aria-hidden="true" />
       <input
         type="text"
@@ -121,7 +121,7 @@ export default function GlobalSearch() {
             <div className="py-2">
               {posts.length > 0 && (
                 <div className="px-2">
-                  <p className="px-2 py-1 text-[11px] font-bold uppercase tracking-wider text-muted">Posts</p>
+                  <p className="px-2 py-1 text-xs font-bold uppercase tracking-wider text-muted">Posts</p>
                   {posts.map((post) => (
                     <Link
                       key={post.id}
@@ -140,7 +140,7 @@ export default function GlobalSearch() {
 
               {media.length > 0 && (
                 <div className="px-2 mt-1">
-                  <p className="px-2 py-1 text-[11px] font-bold uppercase tracking-wider text-muted">Media</p>
+                  <p className="px-2 py-1 text-xs font-bold uppercase tracking-wider text-muted">Media</p>
                   {media.map((asset) => (
                     <Link
                       key={asset.id}

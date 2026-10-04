@@ -91,7 +91,7 @@ export default function CategoriesListPage() {
       setEditingCategory(res.data?.data || res.data);
     } catch (err) {
       console.error(err);
-      alert('Failed to load category details');
+      toast.error('Failed to load category details');
       setDrawerOpen(false);
     } finally {
       setFetchingDetails(false);

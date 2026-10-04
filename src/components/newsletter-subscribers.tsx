@@ -162,6 +162,7 @@ export default function NewsletterSubscribers() {
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
+              aria-label="Search subscribers by email"
               placeholder="Search by email..."
               className="w-full pl-9 pr-9 py-2.5 bg-canvas border border-hairline-strong rounded-lg text-sm text-ink placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition-all"
             />
@@ -213,9 +214,9 @@ export default function NewsletterSubscribers() {
             <div className="w-14 h-14 bg-surface rounded-lg flex items-center justify-center mb-4">
               <Mail className="w-7 h-7 text-muted" />
             </div>
-            <h3 className="text-base font-semibold text-slate mb-1">
+            <h2 className="text-base font-semibold text-slate mb-1">
               {search || filterStatus !== 'all' ? 'No matching subscribers' : 'No subscribers yet'}
-            </h3>
+            </h2>
             <p className="text-sm text-muted">
               {search || filterStatus !== 'all'
                 ? 'Try adjusting your search or filter.'

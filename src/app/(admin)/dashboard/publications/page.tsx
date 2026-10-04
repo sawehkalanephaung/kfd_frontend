@@ -158,6 +158,7 @@ export default function PublicationsListPage() {
           </div>
           <input
             type="text"
+            aria-label="Search publications"
             placeholder="Search publications..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -243,7 +244,7 @@ export default function PublicationsListPage() {
                       <div className="text-xs text-muted font-normal mt-0.5 hidden sm:block">/{publication.slug}</div>
                       <div className="mt-2 flex flex-wrap items-center gap-2 sm:hidden font-normal">
                         {publication.category ? (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-surface rounded text-[10px] font-medium text-slate">
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-surface rounded text-xs font-medium text-slate">
                             <FolderTree className="w-3 h-3" />
                             {publication.category.name}
                           </span>

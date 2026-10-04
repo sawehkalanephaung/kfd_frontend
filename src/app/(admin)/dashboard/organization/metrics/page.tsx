@@ -156,7 +156,7 @@ export default function GlobalMetricsPage() {
                             onToggle={(next) => handleStatusChange(metric, next)}
                             size="sm"
                           />
-                          <span className="text-[11px] text-steel">Order: {metric.displayOrder}</span>
+                          <span className="text-xs text-steel">Order: {metric.displayOrder}</span>
                         </div>
                       </div>
                     </td>

@@ -137,6 +137,7 @@ export default function TeamDirectoryPage() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted" />
             <input
               type="text"
+              aria-label="Search Department Heads by name or title"
               placeholder="Search by name or title..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -216,7 +217,7 @@ export default function TeamDirectoryPage() {
                                 onChangeStatus={(v) => handleStatusChange(member, v)}
                                 size="sm"
                               />
-                              <span className="text-[11px] text-muted border border-hairline bg-surface px-1.5 py-0.5 rounded">
+                              <span className="text-xs text-muted border border-hairline bg-surface px-1.5 py-0.5 rounded">
                                 {member.departmentName || 'No Dept'}
                               </span>
                             </div>

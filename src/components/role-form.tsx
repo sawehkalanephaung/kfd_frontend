@@ -109,7 +109,7 @@ export default function RoleForm({ initialData, isEdit, roleId, isSlideOver, onS
         {!isSlideOver ? (
           <Link
             href="/dashboard/team/roles"
-            className="inline-flex items-center gap-2 text-sm font-medium text-steel hover:text-ink transition-colors"
+            className="inline-flex items-center gap-2 py-1.5 -my-1.5 pointer-coarse:py-3 pointer-coarse:-my-3 text-sm font-medium text-steel hover:text-ink transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Roles
@@ -118,7 +118,7 @@ export default function RoleForm({ initialData, isEdit, roleId, isSlideOver, onS
           <button
             type="button"
             onClick={onCancel}
-            className="inline-flex items-center gap-2 text-sm font-medium text-steel hover:text-ink transition-colors"
+            className="inline-flex items-center gap-2 py-1.5 -my-1.5 pointer-coarse:py-3 pointer-coarse:-my-3 text-sm font-medium text-steel hover:text-ink transition-colors"
           >
             Cancel
           </button>

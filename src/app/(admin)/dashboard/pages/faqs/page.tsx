@@ -144,7 +144,7 @@ export default function FaqsListPage() {
                           onChangeStatus={(v) => handleStatusChange(faq, v)}
                           size="sm"
                         />
-                        <span className="text-[11px] text-muted">Order: {faq.displayOrder}</span>
+                        <span className="text-xs text-muted">Order: {faq.displayOrder}</span>
                       </div>
                     </td>
                     <td className="px-6 py-4 hidden sm:table-cell">

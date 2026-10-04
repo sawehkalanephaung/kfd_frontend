@@ -235,7 +235,8 @@ export default function Header() {
 
   return (
     <header className="flex items-center justify-between gap-3 mt-4 mx-4 md:mt-8 md:mx-8 mb-6 md:mb-8">
-      <div className="flex items-center gap-3">
+      {/* flex-1 + min-w-0 lets the search bar take all the space the right-hand controls leave. */}
+      <div className="flex flex-1 min-w-0 items-center gap-3">
         {/* Mobile Menu Button (Hidden on Desktop) */}
         <button
           onClick={() => setIsOpen(true)}
@@ -249,7 +250,7 @@ export default function Header() {
         <GlobalSearch />
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex shrink-0 items-center gap-3">
         {/* Global Create Button */}
         <div className="hidden md:block mr-2">
           <GlobalCreateButton userRoles={user?.roles || []} />
@@ -266,7 +267,7 @@ export default function Header() {
             <Bell className="w-5 h-5" aria-hidden="true" />
             {hasUnread && (
               <span aria-hidden="true" className="absolute -top-1 -right-1 min-w-4.5 h-4.5 px-1 bg-accent-orange border-2 border-canvas rounded-full flex items-center justify-center">
-                <span className="text-[10px] font-bold text-white leading-none">
+                <span className="text-xs font-bold text-white leading-none">
                   {notifications.length > 9 ? '9+' : notifications.length}
                 </span>
               </span>
@@ -280,7 +281,7 @@ export default function Header() {
                 <div className="flex items-center gap-2">
                   <h3 className="font-bold text-ink">Notifications</h3>
                   {notifications.length > 0 && (
-                    <span className="text-[11px] font-semibold text-on-dark bg-accent-orange rounded-full px-1.5 py-0.5 leading-none">
+                    <span className="text-xs font-semibold text-on-dark bg-accent-orange rounded-full px-1.5 py-0.5 leading-none">
                       {notifications.length}
                     </span>
                   )}
@@ -322,7 +323,7 @@ export default function Header() {
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center justify-between gap-2">
                               <p className="text-sm font-semibold text-ink">{notif.title}</p>
-                              <span className="text-[11px] text-muted shrink-0">{timeAgo(notif.date)}</span>
+                              <span className="text-xs text-muted shrink-0">{timeAgo(notif.date)}</span>
                             </div>
                             <p className="text-sm text-steel line-clamp-1 mt-0.5">{notif.subtitle}</p>
                           </div>

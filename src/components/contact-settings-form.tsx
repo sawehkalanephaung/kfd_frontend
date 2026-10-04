@@ -63,6 +63,18 @@ export default function ContactSettingsForm({ initialData }: ContactSettingsForm
       return;
     }
 
+    // Digits plus the usual separators only. A stray letter ("…09876tre") or a
+    // too-short value would otherwise be published in the public footer and
+    // on the Contact page as a real number.
+    const invalidPhone = cleanPhoneNumbers.find(
+      (p) => !/^\+?[\d\s().-]+$/.test(p) || p.replace(/\D/g, '').length < 6 || p.replace(/\D/g, '').length > 15
+    );
+    if (invalidPhone) {
+      setError(`"${invalidPhone}" is not a valid phone number. Use digits only (spaces, +, -, ( ) are allowed), 6 to 15 digits.`);
+      setLoading(false);
+      return;
+    }
+
     const payload = {
       ...formData,
       inquiryTypes: cleanInquiryTypes,
@@ -219,7 +231,9 @@ export default function ContactSettingsForm({ initialData }: ContactSettingsForm
               {phoneNumbers.map((phone, idx) => (
                 <div key={idx} className="flex items-center gap-2">
                   <input
-                    type="text"
+                    type="tel"
+                    inputMode="tel"
+                    aria-label={`Phone number ${idx + 1}`}
                     value={phone}
                     onChange={(e) => handleFieldChange(idx, e.target.value, setPhoneNumbers)}
                     className="flex-1 px-4 py-2.5 bg-surface border border-hairline-strong rounded-lg text-ink focus:outline-none focus:ring-2 focus:ring-brand-green transition-all"

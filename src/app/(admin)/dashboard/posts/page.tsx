@@ -160,6 +160,7 @@ export default function PostsListPage() {
           </div>
           <input
             type="text"
+            aria-label="Search posts"
             placeholder="Search posts..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -246,7 +247,7 @@ export default function PostsListPage() {
                       {/* Mobile Data Stack */}
                       <div className="mt-2 flex flex-wrap items-center gap-2 sm:hidden font-normal">
                         {post.category ? (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-surface rounded text-[10px] font-medium text-slate">
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-surface rounded text-xs font-medium text-slate">
                             <FolderTree className="w-3 h-3" />
                             {post.category.name}
                           </span>

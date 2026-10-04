@@ -8,8 +8,8 @@ import { ContentCalendar } from '@/components/admin/dashboard/content-calendar';
 import CountUp from '@/components/ui/count-up';
 import { StatusDropdown, type StatusOption } from '@/components/ui/status-dropdown';
 import api from '@/lib/api';
+import { useDocumentTitle } from '@/lib/use-document-title';
 import { updatePostStatus } from '@/lib/cms-status';
-import { getRandomQuote } from './actions';
 import toast from 'react-hot-toast';
 
 const DASH_STATUS_OPTIONS: StatusOption[] = [
@@ -19,10 +19,11 @@ const DASH_STATUS_OPTIONS: StatusOption[] = [
 ];
 
 export default function DashboardPage() {
+  useDocumentTitle('Dashboard');
   const [loading, setLoading] = useState(true);
   const [name, setName] = useState('Admin');
   const [greeting, setGreeting] = useState('Welcome');
-  const [subtitle, setSubtitle] = useState('Welcome to your KFD command center. Here is your overview for today.');
+  const [today, setToday] = useState('');
 
   const [stats, setStats] = useState({
     posts: 0,
@@ -43,18 +44,11 @@ export default function DashboardPage() {
     else if (hour < 18) setGreeting('Good afternoon');
     else setGreeting('Good evening');
 
-    const fetchQuote = async () => {
-      try {
-        const data = await getRandomQuote();
-        if (data && data.quote) {
-          setSubtitle(`${data.quote} by ${data.author}`);
-        }
-      } catch (error) {
-        // Silently catch the error. Using console.error triggers Next.js error overlays.
-        console.warn('Quote API unreachable, using default subtitle.');
-      }
-    };
-    fetchQuote();
+    // Set on the client so the server-rendered HTML can't disagree with the
+    // reader's local date.
+    setToday(
+      new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })
+    );
 
     try {
       const stored = localStorage.getItem('kfd_user');
@@ -150,10 +144,10 @@ export default function DashboardPage() {
   }, []);
 
   const kpiData = [
-    { label: 'Total Published Posts', value: stats.posts, trend: 'Live from Database', icon: FileText, color: 'text-brand-green-dark', bg: 'bg-brand-green-soft' },
-    { label: 'Total Department Heads', value: stats.teamMembers, trend: 'Active in System', icon: Users, color: 'text-blue-700', bg: 'bg-blue-50' },
-    { label: 'Total Media Assets', value: stats.media, trend: 'Images & Documents', icon: ImageIcon, color: 'text-purple-700', bg: 'bg-purple-50' },
-    { label: 'Active Department Branches', value: stats.departments, trend: 'Registered Branches', icon: Building2, color: 'text-amber-700', bg: 'bg-amber-50' },
+    { label: 'Total Published Posts', href: '/dashboard/posts', value: stats.posts, trend: `${stats.drafts} ${stats.drafts === 1 ? 'draft' : 'drafts'} · ${stats.archived} archived`, icon: FileText, color: 'text-brand-green-dark', bg: 'bg-brand-green-soft' },
+    { label: 'Total Department Heads', href: '/dashboard/team', value: stats.teamMembers, trend: 'Profiles on the public site', icon: Users, color: 'text-blue-700', bg: 'bg-blue-50' },
+    { label: 'Total Media Assets', href: '/dashboard/media', value: stats.media, trend: 'Images and documents', icon: ImageIcon, color: 'text-purple-700', bg: 'bg-purple-50' },
+    { label: 'Active Department Branches', href: '/dashboard/organization/departments', value: stats.departments, trend: 'Listed on the public site', icon: Building2, color: 'text-amber-700', bg: 'bg-amber-50' },
   ];
 
   const handleDashStatusChange = async (item: any, newStatus: string) => {
@@ -169,15 +163,14 @@ export default function DashboardPage() {
   return (
     <div>
 {/* Welcome Card */}
-      <div className="bg-linear-to-r from-brand-green-dark via-brand-green to-teal-deep rounded-xl p-8 shadow-md border border-brand-green overflow-hidden relative animate-gradient-x">
+      <div className="bg-linear-to-r from-brand-green to-teal-deep rounded-xl px-6 py-5 sm:px-8 sm:py-6 shadow-md border border-brand-green overflow-hidden relative">
         <div className="relative z-10">
-          <h1 className="text-3xl font-bold text-white mb-2 flex items-center gap-3">
-            <LayoutDashboard className="w-8 h-8 opacity-90" />
+          <h1 className="text-2xl sm:text-3xl font-bold text-white flex items-center gap-3">
+            <LayoutDashboard className="w-7 h-7 sm:w-8 sm:h-8 shrink-0 opacity-90" aria-hidden="true" />
             {greeting}, {name}
           </h1>
-          <p className="text-on-dark-muted/90 max-w-xl text-lg">
-            {subtitle}
-          </p>
+          {/* min-h reserves the line so the banner doesn't jump when the date fills in */}
+          <p className="mt-1 min-h-6 text-base text-white/85">{today}</p>
         </div>
         {/* Decorative elements */}
         <div className="absolute right-0 top-0 bottom-0 w-1/3 bg-linear-to-l from-white/10 to-transparent pointer-events-none"></div>
@@ -189,17 +182,18 @@ export default function DashboardPage() {
         {kpiData.map((kpi) => {
           const Icon = kpi.icon;
           return (
-            <div
+            <Link
               key={kpi.label}
-              className="bg-canvas rounded-xl p-6 shadow-sm border border-hairline hover:-translate-y-1 hover:scale-[1.02] hover:shadow-lg hover:border-brand-green/30 transition-all duration-300 ease-out flex flex-col justify-between relative overflow-hidden group"
+              href={kpi.href}
+              className="bg-canvas rounded-xl p-6 shadow-sm border border-hairline hover:shadow-md hover:border-brand-green/40 transition-[box-shadow,border-color] duration-200 flex flex-col justify-between group outline-none focus-visible:ring-2 focus-visible:ring-brand-green"
             >
-              <div className="flex items-start justify-between mb-4 relative z-10">
-                <p className="text-sm font-semibold text-steel group-hover:text-ink transition-colors duration-300">{kpi.label}</p>
-                <div className={`w-10 h-10 rounded-full ${kpi.bg} flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-300`}>
-                  <Icon className={`w-5 h-5 ${kpi.color}`} />
+              <div className="flex items-start justify-between mb-4">
+                <p className="text-sm font-semibold text-steel group-hover:text-ink transition-colors duration-200">{kpi.label}</p>
+                <div className={`w-10 h-10 rounded-full ${kpi.bg} flex items-center justify-center shrink-0`}>
+                  <Icon className={`w-5 h-5 ${kpi.color}`} aria-hidden="true" />
                 </div>
               </div>
-              <div className="relative z-10">
+              <div>
                 {loading ? (
                   <Loader2 className="w-6 h-6 animate-spin text-brand-green" />
                 ) : (
@@ -211,13 +205,7 @@ export default function DashboardPage() {
                   </>
                 )}
               </div>
-
-              {/* Modern Glass/Shine Reflection Effect */}
-              <div className="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_ease-in-out] bg-linear-to-r from-transparent via-white/40 to-transparent skew-x-[-20deg] pointer-events-none z-20"></div>
-
-              {/* Subtle background glow on hover */}
-              <div className={`absolute -bottom-6 -right-6 w-32 h-32 rounded-full ${kpi.bg} opacity-0 group-hover:opacity-60 transition-opacity duration-500 blur-2xl pointer-events-none z-0`}></div>
-            </div>
+            </Link>
           );
         })}
       </div>
@@ -233,7 +221,7 @@ export default function DashboardPage() {
         <div className="bg-canvas rounded-lg p-6 shadow-sm border border-hairline">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-lg font-bold text-ink">Recent Activity</h2>
-            <Link href="/dashboard/posts" className="text-sm font-medium text-brand-green-dark hover:text-brand-green-dark">
+            <Link href="/dashboard/posts" className="inline-block py-1.5 -my-1.5 pointer-coarse:py-3 pointer-coarse:-my-3 text-sm font-medium text-brand-green-dark hover:underline">
               View All Posts
             </Link>
           </div>

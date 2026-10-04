@@ -81,7 +81,7 @@ export default function RolesDirectoryPage() {
       setEditingRole(res.data?.data || res.data);
     } catch (err) {
       console.error(err);
-      alert('Failed to load role details');
+      toast.error('Failed to load role details');
       setDrawerOpen(false);
     } finally {
       setFetchingDetails(false);

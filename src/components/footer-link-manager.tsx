@@ -422,7 +422,7 @@ function SectionCard({
               <h3 className="text-sm font-bold text-ink flex items-center gap-2">
                 {section.title}
                 {!section.isActive && (
-                  <span className="text-[10px] font-medium text-muted bg-surface px-2 py-0.5 rounded-full">
+                  <span className="text-xs font-medium text-muted bg-surface px-2 py-0.5 rounded-full">
                     Hidden
                   </span>
                 )}

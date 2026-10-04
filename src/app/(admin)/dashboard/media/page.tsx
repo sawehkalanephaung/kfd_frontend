@@ -158,6 +158,7 @@ export default function MediaLibraryPage() {
           </div>
           <input
             type="text"
+            aria-label="Search media files"
             placeholder="Search media files..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}

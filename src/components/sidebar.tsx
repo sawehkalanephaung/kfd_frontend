@@ -246,9 +246,9 @@ export default function Sidebar({ initialOrgIdentity }: { initialOrgIdentity?: S
       href={sub.href}
       onClick={() => setIsOpen(false)}
       className={
-        `block px-3 py-2 rounded-lg text-[13px] font-medium truncate ${flyout ? 'my-0.5 transition-colors' : 'transition-all duration-300'} ` +
+        `block px-3 py-2 pointer-coarse:py-3 rounded-lg text-[13px] font-medium truncate ${flyout ? 'my-0.5 transition-colors' : 'transition-all duration-300'} ` +
         (pathname === sub.href
-          ? "text-brand-green bg-canvas/10 font-semibold"
+          ? "text-green-400 bg-canvas/10 font-semibold"
           : `text-on-dark-muted hover:text-on-dark hover:bg-canvas/5${flyout ? '' : ' hover:translate-x-1'}`)
       }
     >
@@ -357,7 +357,7 @@ export default function Sidebar({ initialOrgIdentity }: { initialOrgIdentity?: S
                   {displayName}
                 </p>
                 {displayNameKaren && (
-                  <span lang="ksw" className="text-[11px] text-on-dark-muted font-medium mt-0.5 truncate">
+                  <span lang="ksw" className="text-xs text-on-dark-muted font-medium mt-0.5 truncate">
                     {displayNameKaren}
                   </span>
                 )}
@@ -380,7 +380,7 @@ export default function Sidebar({ initialOrgIdentity }: { initialOrgIdentity?: S
             <button
               onClick={() => setIsOpen(false)}
               aria-label="Close menu"
-              className="md:hidden p-2 -mr-2 text-on-dark-muted hover:text-on-dark rounded-lg transition-colors shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-brand-green"
+              className="md:hidden p-2 -mr-2 pointer-coarse:min-h-11 pointer-coarse:min-w-11 inline-flex items-center justify-center text-on-dark-muted hover:text-on-dark rounded-lg transition-colors shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-brand-green"
             >
               <X className="w-5 h-5" aria-hidden="true" />
             </button>
@@ -403,8 +403,8 @@ export default function Sidebar({ initialOrgIdentity }: { initialOrgIdentity?: S
                     className={
                       `flex items-center transition-all duration-200 min-w-0 ` +
                       (isCollapsed
-                        ? `w-11 h-11 mx-auto justify-center rounded-xl ${active ? 'bg-brand-green/15 text-brand-green shadow-sm' : 'text-on-dark-muted hover:bg-canvas/10 hover:text-on-dark'}`
-                        : `w-full gap-3 py-3 px-4 justify-between rounded-lg text-sm font-medium ${active ? 'bg-brand-green text-white shadow-lg shadow-brand-green/20' : 'text-on-dark-muted hover:bg-canvas/8 hover:text-on-dark'}`)
+                        ? `w-11 h-11 mx-auto justify-center rounded-xl ${active ? 'bg-brand-green/15 text-green-400 shadow-sm' : 'text-on-dark-muted hover:bg-canvas/10 hover:text-on-dark'}`
+                        : `w-full gap-3 py-3 pointer-coarse:min-h-11 px-4 justify-between rounded-lg text-sm font-medium ${active ? 'bg-primary text-on-primary shadow-lg shadow-primary/20' : 'text-on-dark-muted hover:bg-canvas/8 hover:text-on-dark'}`)
                     }
                     title={isCollapsed ? item.label : undefined}
                   >
@@ -425,8 +425,8 @@ export default function Sidebar({ initialOrgIdentity }: { initialOrgIdentity?: S
                     className={
                       `flex items-center transition-all duration-200 min-w-0 ` +
                       (isCollapsed
-                        ? `w-11 h-11 mx-auto justify-center rounded-xl ${active ? 'bg-brand-green/15 text-brand-green shadow-sm' : 'text-on-dark-muted hover:bg-canvas/10 hover:text-on-dark'}`
-                        : `w-full gap-3 py-3 px-4 justify-start rounded-lg text-sm font-medium ${active ? 'bg-brand-green text-white shadow-lg shadow-brand-green/20' : 'text-on-dark-muted hover:bg-canvas/8 hover:text-on-dark'}`)
+                        ? `w-11 h-11 mx-auto justify-center rounded-xl ${active ? 'bg-brand-green/15 text-green-400 shadow-sm' : 'text-on-dark-muted hover:bg-canvas/10 hover:text-on-dark'}`
+                        : `w-full gap-3 py-3 pointer-coarse:min-h-11 px-4 justify-start rounded-lg text-sm font-medium ${active ? 'bg-primary text-on-primary shadow-lg shadow-primary/20' : 'text-on-dark-muted hover:bg-canvas/8 hover:text-on-dark'}`)
                     }
                     title={isCollapsed ? item.label : undefined}
                   >
@@ -498,7 +498,7 @@ export default function Sidebar({ initialOrgIdentity }: { initialOrgIdentity?: S
                           // than one ungrouped run, and those share a null label.
                           <div key={subGroup.label ?? `_${groupIndex}`}>
                             {subGroup.label && (
-                              <div className="px-3 pt-3 pb-1 text-[10px] font-semibold uppercase tracking-wider text-on-dark-muted/60">
+                              <div className="px-3 pt-3 pb-1 text-xs font-semibold uppercase tracking-wider text-on-dark-muted/60">
                                 {subGroup.label}
                               </div>
                             )}

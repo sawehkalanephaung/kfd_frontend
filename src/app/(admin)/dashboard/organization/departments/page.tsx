@@ -126,15 +126,15 @@ export default function DepartmentsPage() {
                       {/* Mobile Data Stack */}
                       <div className="mt-2 flex flex-col gap-1.5 sm:hidden font-normal">
                         <div className="flex flex-wrap items-center gap-2">
-                          <span className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-medium ${dept.status === 'ACTIVE'
+                          <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${dept.status === 'ACTIVE'
                             ? 'bg-brand-green-soft text-brand-green-dark border border-brand-green/20'
                             : 'bg-surface text-slate border border-hairline-strong'
                             }`}>
                             {dept.status || 'ACTIVE'}
                           </span>
-                          <span className="text-[11px] text-steel">Order: {dept.orderIndex}</span>
+                          <span className="text-xs text-steel">Order: {dept.orderIndex}</span>
                         </div>
-                        <div className="text-[11px] text-steel flex items-center gap-1">
+                        <div className="text-xs text-steel flex items-center gap-1">
                           {dept.headMember ? (
                              <span>Head: {dept.headMember.name || dept.headMember.first_name || 'Assigned'}</span>
                           ) : (

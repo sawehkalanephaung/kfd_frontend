@@ -169,7 +169,7 @@ export default function PostForm({ initialData, isEdit, postId }: PostFormProps)
       <div className="flex items-center justify-between">
         <Link
           href="/dashboard/posts"
-          className="inline-flex items-center gap-2 text-sm font-medium text-steel hover:text-ink transition-colors"
+          className="inline-flex items-center gap-2 py-1.5 -my-1.5 pointer-coarse:py-3 pointer-coarse:-my-3 text-sm font-medium text-steel hover:text-ink transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Posts

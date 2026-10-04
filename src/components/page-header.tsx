@@ -1,4 +1,5 @@
 import type { LucideIcon } from 'lucide-react';
+import PageTitle from '@/components/page-title';
 
 /**
  * Shared header for every admin page — icon + Title + Subheading, with an
@@ -22,6 +23,8 @@ export default function PageHeader({
 }) {
   return (
     <div className="bg-canvas rounded-lg p-8 shadow-sm border border-hairline-soft flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+      {/* The page heading is also the page's title in the browser tab. */}
+      <PageTitle title={title} />
       <div>
         <h1 className="text-2xl font-bold text-ink flex items-center gap-3">
           <Icon className="w-6 h-6 text-brand-green" aria-hidden="true" />

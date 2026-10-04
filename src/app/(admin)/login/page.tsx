@@ -93,16 +93,26 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="min-h-screen w-full flex flex-col lg:flex-row overflow-hidden bg-[#F6F7F5]">
+    <div className="min-h-dvh w-full flex flex-col lg:flex-row overflow-hidden bg-[#F6F7F5]">
       {/* Left Panel (Dark Green) */}
-      <div className="w-full lg:w-[45%] bg-[#183925] p-6 lg:p-12 xl:p-16 flex flex-col justify-between shrink-0 relative overflow-hidden">
+      <div className="w-full lg:w-[45%] bg-[#183925] px-6 py-3 lg:px-12 lg:py-[clamp(1.25rem,5vh,3rem)] xl:px-16 xl:py-[clamp(1.25rem,5vh,4rem)] flex flex-col justify-between shrink-0 relative overflow-hidden">
+        {/* Static backdrop: a soft green glow with a faint dot grid that fades
+            toward the edges. Decorative only, and deliberately not animated. */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_90%_60%_at_15%_0%,rgba(74,222,128,0.20),transparent_65%),radial-gradient(ellipse_70%_50%_at_100%_100%,rgba(45,212,191,0.14),transparent_60%)]"
+        />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 pointer-events-none bg-[radial-gradient(rgba(255,255,255,0.16)_1px,transparent_1px)] bg-size-[22px_22px] [mask-image:radial-gradient(ellipse_at_30%_30%,black,transparent_75%)]"
+        />
         {/* Abstract shapes (optional embellishment based on reference) */}
         <div className="absolute -bottom-[20%] -right-[20%] w-[80%] aspect-square rounded-full border border-white/5 pointer-events-none" />
         <div className="absolute -bottom-[10%] -right-[10%] w-[60%] aspect-square rounded-full border border-white/5 pointer-events-none" />
         
         {/* Top: Logo */}
         <div className="flex items-center gap-4 relative z-10">
-          <div className="w-12 h-12 rounded-full flex items-center justify-center shrink-0 overflow-hidden">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center shrink-0 overflow-hidden">
             {identity.resolvedLogoUrl ? (
               <img src={identity.resolvedLogoUrl} alt="Logo" className="w-full h-full object-contain p-1" />
             ) : (
@@ -113,23 +123,23 @@ export default function AdminLogin() {
             )}
           </div>
           <div>
-            <h1 className="text-white font-bold text-lg leading-tight">{identity.organizationName}</h1>
+            <p className="text-white font-bold text-lg leading-tight">{identity.organizationName}</p>
             <p className="text-[#D5B77A] text-xs font-semibold tracking-wider uppercase">{identity.organizationNameKaren}</p>
           </div>
         </div>
 
         {/* Middle: Title (Hidden on mobile) */}
-        <div className="hidden lg:block relative z-10 mt-20 mb-20">
-          <h2 className="text-4xl xl:text-5xl font-serif text-white leading-tight mb-6">
+        <div className="hidden lg:block relative z-10 my-[clamp(1rem,6vh,5rem)]">
+          <p className="text-[clamp(1.75rem,4.5vh,2.25rem)] xl:text-[clamp(2rem,5.5vh,3rem)] font-serif text-white leading-tight mb-[clamp(0.5rem,2vh,1.5rem)]">
             Secure access for<br/>authorized staff
-          </h2>
+          </p>
           <p className="text-white/80 text-base max-w-sm leading-relaxed">
             Manage records, services and organizational settings from one protected workspace.
           </p>
         </div>
 
         {/* Bottom: Warning Box (Hidden on mobile) */}
-        <div className="hidden lg:flex relative z-10 p-5 rounded-xl border border-white/20 bg-white/5 items-start gap-4">
+        <div className="hidden lg:flex relative z-10 p-[clamp(0.75rem,2.5vh,1.25rem)] rounded-xl border border-white/20 bg-white/5 items-start gap-4">
           <ShieldCheck className="w-5 h-5 text-[#D5B77A] shrink-0 mt-0.5" />
           <p className="text-white/90 text-sm leading-relaxed">
             This is an official KFD Organization system. Access is restricted to authorized users, and activity may be monitored and logged.
@@ -138,11 +148,14 @@ export default function AdminLogin() {
       </div>
 
       {/* Right Panel (Light Beige) */}
-      <div className="w-full lg:w-[55%] flex-1 flex flex-col relative px-6 py-12 lg:px-20 lg:py-16">
+      <div className="w-full lg:w-[55%] flex-1 grid grid-rows-[1fr_auto_1fr] relative px-6 py-[clamp(0.75rem,5vh,3rem)] lg:px-[clamp(2rem,5vw,5rem)] lg:py-[clamp(1rem,5vh,4rem)]">
+        {/* Equal 1fr rows above and below keep the form in the true middle of
+            the panel; the footer sits at the bottom of the lower row. */}
+        <div aria-hidden="true" />
         
-        <div className="flex-1 flex flex-col justify-center max-w-[420px] w-full mx-auto lg:mx-0">
-          <h2 className="text-4xl font-serif font-bold text-[#0A1A10] mb-2">Sign in</h2>
-          <p className="text-[#4E5C53] mb-10 text-base">Use your KFD staff account to continue.</p>
+        <main id="main-content" className="max-w-[420px] w-full mx-auto">
+          <h1 className="text-[clamp(1.5rem,4.2vh,2.25rem)] font-serif font-bold text-[#0A1A10] mb-2">Sign in</h1>
+          <p className="text-[#4E5C53] mb-[clamp(1rem,3.5vh,2.5rem)] text-sm sm:text-base">Use your KFD staff account to continue.</p>
 
           {/* Server Error Message */}
           {error && (
@@ -151,7 +164,7 @@ export default function AdminLogin() {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-6" noValidate>
+          <form onSubmit={handleSubmit} className="space-y-[clamp(0.75rem,2.4vh,1.5rem)]" noValidate>
 
             {/* Email Field */}
             <div className="space-y-2">
@@ -169,7 +182,7 @@ export default function AdminLogin() {
                   }}
                   aria-invalid={!!fieldErrors.email}
                   aria-describedby={fieldErrors.email ? emailErrorId : undefined}
-                  className={`w-full bg-white border rounded-lg px-4 py-3.5 text-[#0A1A10] placeholder:text-[#A3AAA4] focus:outline-none focus:ring-2 focus:ring-[#1F5132]/20 focus:border-[#1F5132] transition-colors ${fieldErrors.email ? 'border-red-500' : 'border-[#C9CEC8]'}`}
+                  className={`w-full bg-white border rounded-lg px-4 h-[clamp(2.75rem,6vh,3rem)] text-[#0A1A10] placeholder:text-[#667069] focus:outline-none focus:ring-2 focus:ring-[#1F5132]/20 focus:border-[#1F5132] transition-colors ${fieldErrors.email ? 'border-red-500' : 'border-[#C9CEC8]'}`}
                   placeholder="name@kfd.org"
                 />
               </div>
@@ -192,7 +205,7 @@ export default function AdminLogin() {
                   }}
                   aria-invalid={!!fieldErrors.password}
                   aria-describedby={fieldErrors.password ? passwordErrorId : undefined}
-                  className={`w-full bg-white border rounded-lg pl-4 pr-12 py-3.5 text-[#0A1A10] placeholder:text-[#A3AAA4] focus:outline-none focus:ring-2 focus:ring-[#1F5132]/20 focus:border-[#1F5132] transition-colors ${fieldErrors.password ? 'border-red-500' : 'border-[#C9CEC8]'}`}
+                  className={`w-full bg-white border rounded-lg pl-4 pr-12 h-[clamp(2.75rem,6vh,3rem)] text-[#0A1A10] placeholder:text-[#667069] focus:outline-none focus:ring-2 focus:ring-[#1F5132]/20 focus:border-[#1F5132] transition-colors ${fieldErrors.password ? 'border-red-500' : 'border-[#C9CEC8]'}`}
                   placeholder="Enter your password"
                 />
                 <button
@@ -200,7 +213,7 @@ export default function AdminLogin() {
                   onClick={() => setShowPassword(!showPassword)}
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                   aria-pressed={showPassword}
-                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-[#A3AAA4] hover:text-[#4E5C53] transition-colors outline-none focus-visible:ring-2 focus-visible:ring-brand-green rounded"
+                  className="absolute inset-y-0 right-0 pr-4 pointer-coarse:min-w-12 flex items-center justify-end text-[#667069] hover:text-[#4E5C53] transition-colors outline-none focus-visible:ring-2 focus-visible:ring-brand-green rounded"
                 >
                   {showPassword ? (
                     <EyeOff className="h-5 w-5" aria-hidden="true" />
@@ -213,7 +226,7 @@ export default function AdminLogin() {
             </div>
 
             <div className="flex items-center justify-end pt-1">
-              <a href="/forgot-password" className="text-sm font-bold text-[#1F5132] hover:text-[#183925] underline decoration-transparent hover:decoration-[#183925] underline-offset-4 transition-all">
+              <a href="/forgot-password" className="inline-block py-1.5 -my-1.5 pointer-coarse:py-3.5 pointer-coarse:-my-3.5 text-sm font-bold text-[#1F5132] hover:text-[#183925] underline decoration-transparent hover:decoration-[#183925] underline-offset-4 transition-all">
                 Forgot password?
               </a>
             </div>
@@ -221,22 +234,23 @@ export default function AdminLogin() {
             <Button
               type="submit"
               disabled={loading}
-              className="w-full bg-[#1F5132] hover:bg-[#183925] text-white rounded-lg py-6 text-[15px] font-bold shadow-none transition-colors"
+              size="lg"
+              className="w-full"
             >
-              {loading && <Loader2 className="w-5 h-5 animate-spin mr-2" />}
+              {loading && <Loader2 className="w-5 h-5 animate-spin" aria-hidden="true" />}
               {loading ? 'Signing in...' : 'Sign in'}
-              {!loading && <ArrowRight className="w-5 h-5 ml-2" />}
+              {!loading && <ArrowRight className="w-5 h-5" aria-hidden="true" />}
             </Button>
           </form>
-        </div>
+        </main>
 
         {/* Footer Area */}
-        <div className="mt-16 border-t border-[#C9CEC8] pt-6 flex flex-col md:flex-row items-center justify-between gap-4 w-full text-[12px] text-[#4E5C53]">
-          <p>{identity.footerCopyright}</p>
+        <div className="self-end mt-[clamp(0.75rem,4vh,4rem)] border-t border-[#C9CEC8] pt-[clamp(0.5rem,2vh,1.5rem)] flex flex-col md:flex-row items-center justify-between gap-2 md:gap-4 w-full text-[12px] text-[#4E5C53]">
+          <p className="[@media(max-height:800px)_and_(max-width:480px)]:hidden">{identity.footerCopyright}</p>
           <div className="flex items-center gap-6 font-medium">
-            <a href="/privacy-policy" className="hover:text-[#183925] underline decoration-transparent hover:decoration-[#183925] underline-offset-2 transition-all">Privacy</a>
-            <a href="/accessibility" className="hover:text-[#183925] underline decoration-transparent hover:decoration-[#183925] underline-offset-2 transition-all">Accessibility</a>
-            <a href="/terms-of-use" className="hover:text-[#183925] underline decoration-transparent hover:decoration-[#183925] underline-offset-2 transition-all">Terms of use</a>
+            <a href="/privacy-policy" className="inline-block py-1.5 -my-1.5 pointer-coarse:py-3.5 pointer-coarse:-my-3.5 hover:text-[#183925] underline decoration-transparent hover:decoration-[#183925] underline-offset-2 transition-all">Privacy</a>
+            <a href="/accessibility" className="inline-block py-1.5 -my-1.5 pointer-coarse:py-3.5 pointer-coarse:-my-3.5 hover:text-[#183925] underline decoration-transparent hover:decoration-[#183925] underline-offset-2 transition-all">Accessibility</a>
+            <a href="/terms-of-use" className="inline-block py-1.5 -my-1.5 pointer-coarse:py-3.5 pointer-coarse:-my-3.5 hover:text-[#183925] underline decoration-transparent hover:decoration-[#183925] underline-offset-2 transition-all">Terms of use</a>
           </div>
         </div>
 
