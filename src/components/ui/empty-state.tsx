@@ -24,7 +24,7 @@ export default function EmptyState({
       <div className="w-16 h-16 bg-surface-soft rounded-full flex items-center justify-center mb-4 border border-hairline-soft shadow-sm">
         <Icon className="w-8 h-8 text-muted" />
       </div>
-      <h3 className="text-lg font-bold text-ink mb-2">{title}</h3>
+      <h2 className="text-lg font-bold text-ink mb-2">{title}</h2>
       <p className="text-steel text-sm max-w-sm mb-6">{description}</p>
       
       {actionLabel && (

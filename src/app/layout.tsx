@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "react-hot-toast";
 import { getSiteIdentity } from "@/lib/site-identity";
 import { TEXT_SCALE_STORAGE_KEY } from "@/lib/text-scale";
+import { SITE_URL } from "@/lib/site-url";
 
 const jakartaSans = Plus_Jakarta_Sans({
   variable: "--font-jakarta",
@@ -38,6 +39,8 @@ export async function generateMetadata(): Promise<Metadata> {
   const { organizationName, resolvedLogoUrl } = await getSiteIdentity();
 
   return {
+    // Lets relative social-card and icon URLs resolve to absolute ones.
+    metadataBase: new URL(SITE_URL),
     title: {
       default: organizationName,
       template: `%s | ${organizationName}`,
@@ -49,7 +52,7 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       title: organizationName,
       description: "Safeguarding biodiversity and communities through conservation, enforcement, and community partnership.",
-      url: "https://kfd-kawthoolei.org",
+      url: SITE_URL,
       siteName: organizationName,
       locale: "en_US",
       type: "website",

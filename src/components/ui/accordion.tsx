@@ -68,7 +68,7 @@ export function Accordion({ items, variant = 'light', defaultOpenIndex = null, c
                 <ChevronDown
                   size={20}
                   aria-hidden="true"
-                  className={`text-steel dark:text-white/40 shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+                  className={`text-steel dark:text-white/60 shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
                 />
               ) : (
                 <span className="text-brand-text shrink-0" aria-hidden="true">

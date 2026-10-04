@@ -43,7 +43,7 @@ const TONE_DOT: Record<string, string> = {
 };
 
 const SIZE_CLASSES: Record<'sm' | 'md', string> = {
-  sm: 'gap-1.5 px-2 py-0.5 text-[11px]',
+  sm: 'gap-1.5 px-2 py-0.5 text-xs',
   md: 'gap-1.5 px-2.5 py-1 text-xs',
 };
 

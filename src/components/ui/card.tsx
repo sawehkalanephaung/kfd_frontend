@@ -104,7 +104,7 @@ export function Card({
         />
         {badge && (
           <span
-            className={`absolute top-3 left-3 text-[11px] font-bold uppercase tracking-wide px-2.5 py-1 rounded-full ${
+            className={`absolute top-3 left-3 text-xs font-bold uppercase tracking-wide px-2.5 py-1 rounded-full ${
               isDark ? 'bg-canvas/10 text-white backdrop-blur-sm border border-white/20' : 'bg-canvas/90 text-brand-text backdrop-blur-sm shadow-sm'
             }`}
           >
@@ -131,7 +131,7 @@ export function Card({
               const MetaIcon = item.icon;
               if (metaStyle === 'inline') {
                 return (
-                  <span key={i} className={`inline-flex items-center gap-1.5 text-xs ${isDark ? 'text-white/50' : 'text-steel'}`}>
+                  <span key={i} className={`inline-flex items-center gap-1.5 text-xs ${isDark ? 'text-white/70' : 'text-steel'}`}>
                     {MetaIcon && <MetaIcon className="w-3.5 h-3.5" aria-hidden="true" />}
                     {item.label}
                   </span>

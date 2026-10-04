@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 
-type ButtonSize = 'sm' | 'md';
+type ButtonSize = 'sm' | 'md' | 'lg';
 
 type ButtonProps = {
   size?: ButtonSize;
@@ -13,6 +13,9 @@ type ButtonProps = {
 );
 
 const SIZE_CLASSES: Record<ButtonSize, string> = {
+  // 48px tall. For focused single-task screens (sign in, password reset),
+  // not for the denser dashboard forms.
+  lg: 'px-6 py-3 text-base gap-2',
   md: 'px-6 py-2.5 text-sm gap-2',
   sm: 'px-4 py-2 text-sm gap-1.5',
 };
@@ -23,7 +26,7 @@ const BASE_CLASSES =
   'transition-all duration-200 ease-in-out ' +
   'hover:bg-primary-deep hover:shadow-lg hover:shadow-primary/30 hover:-translate-y-0.5 ' +
   'active:scale-95 active:translate-y-0 ' +
-  'disabled:opacity-70 disabled:cursor-not-allowed disabled:pointer-events-none disabled:hover:translate-y-0 disabled:hover:shadow-sm ' +
+  'pointer-coarse:min-h-11 disabled:opacity-70 disabled:cursor-not-allowed disabled:pointer-events-none disabled:hover:translate-y-0 disabled:hover:shadow-sm ' +
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-canvas';
 
 /**

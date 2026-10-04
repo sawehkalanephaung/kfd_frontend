@@ -19,18 +19,25 @@
      Gov Dark Green (Accessible): #0F8B43
      Charcoal (Light Black):      #1F2937
      Pure White:                  #FFFFFF */
-  --color-brand-green: #0F8B43;
-  --color-brand-green-dark: #0F8B43;
-  --color-brand-green-mid: #0F8B43;
+  /* Light-mode brand green. #0D7F3C is 5.1:1 against white; the previous
+     #0F8B43 was 4.38:1, which fails WCAG AA (4.5:1) for white text on
+     buttons and for green link text on white. */
+  --color-brand-green: #0D7F3C;
+  /* Green used as TEXT/links on light surfaces (it is never a fill). Darker
+     than the button green so it clears 4.5:1 on the cream page backgrounds
+     too (5.6:1 on #f4f1ea) and on the soft-green chips (4.8:1). */
+  --color-brand-green-dark: #0B6E34;
+  --color-brand-green-mid: #0D7F3C;
   --color-brand-green-soft: #c3f0d2;
 
   /* Primary button — fixed brand identity, same in light AND dark mode
      (see the ".dark" block below, which intentionally does not
      re-declare these four). Default is the accessible gov dark green;
-     hover is a lighter tint of that same green, not a darker one. */
-  --color-primary: #0F8B43;
-  --color-primary-deep: #109849;
-  --color-primary-pressed: #109849;
+     hover is a lighter tint of that same green, not a darker one, and
+     still clears 4.5:1 with white text (4.78:1; default is 5.1:1). */
+  --color-primary: #0D7F3C;
+  --color-primary-deep: #0E843F;
+  --color-primary-pressed: #0E843F;
   --color-on-primary: #FFFFFF;
   --color-teal-deep: #081F1E;
   --color-teal: #0d2e2c;
@@ -153,6 +160,9 @@
   /* --color-primary / -deep / -pressed / -on-primary intentionally NOT
      redeclared here — the primary button keeps one fixed dark-green
      identity across both themes (see :root above). */
+  /* Dark mode keeps the original mid green: it is used as text on the dark
+     canvas, where the darker light-mode value would lose contrast. */
+  --color-brand-green: #0F8B43;
   --color-brand-green-dark: #01ED65;
   --color-brand-green-mid: #00C250;
   /* Must stay dark: this pairs with the neon --color-brand-green-dark text
@@ -327,28 +337,6 @@ input:-webkit-autofill:active {
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-/* ─────────────────────────────────────────────
-   Gradient Background Animation
-   ───────────────────────────────────────────── */
-@keyframes gradient-x {
-  0% {
-    background-position: 0% 50%;
-  }
-
-  50% {
-    background-position: 100% 50%;
-  }
-
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-.animate-gradient-x {
-  animation: gradient-x 15s ease infinite;
-  background-size: 200% 200%;
 }
 
 @keyframes shimmer {
@@ -689,4 +677,64 @@ select {
 
 .animate-dropdown {
   animation: dropdownEnter 150ms ease-out forwards;
+}
+/* ─────────────────────────────────────────────
+   Touch targets
+   ─────────────────────────────────────────────
+   On touch screens (coarse pointer) interactive controls are brought up to
+   44px, the comfortable minimum for a finger (WCAG 2.2 only requires 24px;
+   44px is Apple's guideline and avoids mis-taps). Desktop sizing is
+   untouched. Components add `pointer-coarse:` utilities for their own
+   buttons and links; the rules below cover form fields and the Quill
+   editor toolbar, whose markup we don't control. */
+@media (pointer: coarse) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="hidden"]):not([type="file"]):not([type="color"]),
+  select {
+    min-height: 44px;
+  }
+
+  .ql-toolbar.ql-snow button {
+    width: 44px;
+    height: 44px;
+  }
+
+  .ql-toolbar.ql-snow .ql-picker {
+    height: 44px;
+  }
+
+  .ql-toolbar.ql-snow .ql-picker-label {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   Reduced motion
+   ─────────────────────────────────────────────
+   People who ask their device to reduce motion (vestibular disorders,
+   motion sickness, distraction) get no sliding, fading or hover movement.
+   The GSAP components check this themselves (usePrefersReducedMotion);
+   this is the net for CSS transitions, keyframe animations and smooth
+   scrolling. Loading spinners and skeleton pulses are kept: they are the
+   only sign that work is in progress, which WCAG treats as essential. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .animate-spin {
+    animation-duration: 1s !important;
+    animation-iteration-count: infinite !important;
+  }
+
+  .animate-pulse {
+    animation-duration: 2s !important;
+    animation-iteration-count: infinite !important;
+  }
 }

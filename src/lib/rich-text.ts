@@ -40,3 +40,17 @@ export function normalizeRichTextSpaces(html: string | null | undefined): string
   if (!html) return "";
   return html.replace(/&nbsp;|\u00a0/gi, ' ');
 }
+
+/**
+ * Prepares editor-authored HTML for display: ordinary spaces (see
+ * `normalizeRichTextSpaces`) and a guaranteed `alt` on every image.
+ *
+ * The editor does not prompt for alt text, so images arrive without it and
+ * screen readers fall back to reading the file name (or a base64 string).
+ * An empty alt marks the image as decorative, which is the correct default
+ * until an author supplies a description. Use this for rendering only;
+ * saving uses `normalizeRichTextSpaces`, so no empty alt is ever persisted.
+ */
+export function renderRichText(html: string | null | undefined): string {
+  return normalizeRichTextSpaces(html).replace(/<img\b(?![^>]*\balt\s*=)/gi, '<img alt=""');
+}

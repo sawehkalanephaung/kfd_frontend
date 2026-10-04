@@ -68,7 +68,12 @@ export function Reveal({
         return;
       }
 
-      const { x, y } = OFFSET[direction];
+      // 'left'/'right' describe one side of a two-column split. Below the lg
+      // breakpoint those splits stack into a single column, and a sideways
+      // start offset would push the block ~40px past the screen edge and make
+      // the page scroll horizontally until it is revealed. Slide up there.
+      const stacked = !window.matchMedia('(min-width: 1024px)').matches;
+      const { x, y } = direction !== 'up' && stacked ? OFFSET.up : OFFSET[direction];
       gsap.fromTo(
         targets,
         { opacity: 0, x, y },
